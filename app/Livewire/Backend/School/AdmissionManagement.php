@@ -102,6 +102,11 @@ class AdmissionManagement extends Component
     {
         $this->unions = Union::where('upazila_id', $this->district)->get();
     }
+    public function formPreview()
+    {
+        $class = SchoolClass::findBySchool($this->class_id);
+        $section = SchoolClassSection::findBySchool($this->section_id);
+    }
     public function render()
     {
         $divisions = Division::all();

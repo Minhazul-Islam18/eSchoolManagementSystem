@@ -521,23 +521,11 @@
                                             </div>
                                         </div>
                                         <table class="table-auto w-full border rounded my-4">
-                                            <thead class="border-b">
-                                                <tr class="bg-gray-100">
-                                                    <th class="text-left p-4 font-medium">
-                                                        Name
-                                                    </th>
-                                                    <th class="text-left p-4 font-medium">
-                                                        Email
-                                                    </th>
-                                                    <th class="text-left p-4 font-medium">
-                                                        Role
-                                                    </th>
-                                                </tr>
-                                            </thead>
                                             <tbody>
                                                 <tr class="border-b hover:bg-gray-50">
                                                     <td class="p-4">
-                                                        Prof. Lucie Waters
+                                                        শ্রেণিঃ
+                                                        {{-- {{ $this->class }} --}}
                                                     </td>
                                                     <td class="p-4">
                                                         basic@example.com
