@@ -30,7 +30,7 @@ class SchoolClass extends Model
      */
     public function classSections(): HasMany
     {
-        return $this->hasMany(classSections::class);
+        return $this->hasMany(SchoolClassSection::class);
     }
 
     /**

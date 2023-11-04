@@ -127,12 +127,12 @@
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div class="">
                                             <label for="" class="form-label">নাম (বাংলা)</label>
-                                            <input type="text" name="" id=""
+                                            <input type="text" name="" id="" wire:model='name_bn'
                                                 placeholder="নাম (বাংলা) " class="form-input rounded">
                                         </div>
                                         <div class="">
                                             <label for="" class="form-label">নাম (English)</label>
-                                            <input type="text" name="" id=""
+                                            <input type="text" name="" id="" wire:model='name_en'
                                                 placeholder="নাম (English)" class="form-input rounded">
                                         </div>
                                         <div class="">
@@ -232,7 +232,7 @@
                                             <select wire:model.blur='student_quota_id' x-model="freedomFighter"
                                                 class="form-select rounded" id="">
                                                 <option value="">নির্বাচন করুন</option>
-                                                @forelse ($sc as $item)
+                                                @forelse ($sq as $item)
                                                     <option value="{{ $item->id }}"
                                                         {{ $item->id == $this->student_quota_id ? 'selected' : '' }}>
                                                         {{ $item->name }}</option>
@@ -244,7 +244,7 @@
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <div class="" x-show="freedomFighter == 3">
+                                        <div class="" x-show="freedomFighter == 1">
                                             <label for="" class="form-label">মুক্তিযোদ্ধার সনদ নং</label>
                                             <input type="text" wire:model.blur="freedom_fighter_id" id=""
                                                 placeholder="মুক্তিযোদ্ধার সনদ নং" class="form-input rounded">
@@ -306,7 +306,7 @@
                                         <div x-show="isSiblingStudying">
                                             <label for="" class="form-label">অধ্যয়নরত ভাই/বোনের
                                                 শ্রেণি</label>
-                                            <select wire:model.blur='class_of_studying_siblings'
+                                            <select wire:model.blur='class_id_of_studying_siblings'
                                                 class="form-select rounded" id="">
                                                 <option value="">শ্রেণি নির্বাচন করুন</option>
                                                 @foreach ($classes as $item)
@@ -314,7 +314,7 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            @error('class_of_studying_siblings')
+                                            @error('class_id_of_studying_siblings')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -329,7 +329,7 @@
                                         </div>
                                         <div class="">
                                             <label for="" class="form-label">বিভাগ</label>
-                                            <select wire:model.blur='division' class="form-select rounded"
+                                            <select wire:model.blur='division_id' class="form-select rounded"
                                                 wire:change='checkDivision' id="">
                                                 <option value="">নির্বাচন করুন</option>
                                                 @foreach ($divisions as $item)
@@ -337,13 +337,13 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            @error('division')
+                                            @error('division_id')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="">
                                             <label for="" class="form-label">জেলা</label>
-                                            <select wire:model.blur='district' class="form-select rounded"
+                                            <select wire:model.blur='district_id' class="form-select rounded"
                                                 wire:change='checkUpazilla' id="">
                                                 <option value="">নির্বাচন করুন</option>
                                                 @foreach ($districts as $item)
@@ -351,13 +351,13 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            @error('district')
+                                            @error('district_id')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="">
                                             <label for="" class="form-label">উপজেলা/থানা</label>
-                                            <select wire:model.blur='upazila_or_thana' class="form-select rounded"
+                                            <select wire:model.blur='upazila_id' class="form-select rounded"
                                                 wire:change='checkUnion' id="">
                                                 <option value="">নির্বাচন করুন</option>
                                                 @foreach ($upazilas as $item)
@@ -365,13 +365,13 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            @error('upadistricts_or_thana')
+                                            @error('upazilla_id')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="">
                                             <label for="" class="form-label">ইউনিয়ন</label>
-                                            <select wire:model.blur='union' class="form-select rounded"
+                                            <select wire:model.blur='union_id' class="form-select rounded"
                                                 id="">
                                                 <option value="">নির্বাচন করুন</option>
                                                 @foreach ($unions as $item)
@@ -379,7 +379,7 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            @error('union')
+                                            @error('union_id')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -398,6 +398,15 @@
                                                 wire:model.blur='village' placeholder="গ্রাম" name=""
                                                 id="">
                                             @error('village')
+                                                <span class="text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div>
+                                            <label for="" class="form-label">মোবাইল নাম্বার</label>
+                                            <input type="text" class="form-input rounded"
+                                                wire:model.blur='mobile_number' placeholder="মোবাইল নাম্বার"
+                                                name="" id="">
+                                            @error('mobile_number')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -525,24 +534,224 @@
                                                 <tr class="border-b hover:bg-gray-50">
                                                     <td class="p-4">
                                                         শ্রেণিঃ
-                                                        {{-- {{ $this->class }} --}}
+                                                        {{ $this->class->class_name ?? '' }}
                                                     </td>
                                                     <td class="p-4">
-                                                        basic@example.com
+                                                        গ্রুপঃ {{ $this->section->section_name ?? '' }}
                                                     </td>
                                                     <td class="p-4">
-                                                        Administrator
+                                                        ধর্মঃ {{ $this->religion ?? '' }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        লিঙ্গঃ {{ $this->gender ?? '' }}
                                                     </td>
                                                 </tr>
                                                 <tr class="border-b hover:bg-gray-50">
                                                     <td class="p-4">
-                                                        Anahi Bashirian (You)
+                                                        শিক্ষার্থীর নাম (বাংলা)
                                                     </td>
                                                     <td class="p-4">
-                                                        admin@example.com
+                                                        শিক্ষার্থীর নাম (English)
                                                     </td>
                                                     <td class="p-4">
-                                                        Super Administrator
+                                                        শিক্ষার্থীর জন্ম তারিখ
+                                                    </td>
+                                                    <td class="p-4">
+                                                        শিক্ষার্থীর জন্ম নিবন্ধন নং
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        {{ $this->name_bn }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->name_en }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->dob }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->birth_certificate_no }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        {{ 'পিতার নাম (বাংলা)' }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ 'পিতার নাম (English)' }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ 'পিতার জাতীয় পরিচয়পত্র নং' }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ 'পিতার জন্ম নিবন্ধন নং' }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        {{ $this->fathers_name_bn }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->fathers_name_en }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->fathers_nid_no }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->fathers_bc_no }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        {{ 'মাতার নাম (বাংলা)' }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ 'মাতার নাম (English)' }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ 'মাতার জাতীয় পরিচয়পত্র নং' }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ 'মাতার জন্ম নিবন্ধন নং' }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        {{ $this->mothers_name_bn }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->mothers_name_en }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->mothers_nid_no }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->mothers_bc_no }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        পিতা/মাতা জীবিত না থাকলে অভিভাবকের নাম (বাংলা)
+                                                    </td>
+                                                    <td class="p-4">
+                                                        অভিভাবকের নাম (English)
+                                                    </td>
+                                                    <td class="p-4">
+                                                        অভিভাবকের জাতীয় পরিচয়পত্র নং
+                                                    </td>
+                                                    <td class="p-4">
+                                                        অভিভাবকের সাথে শিক্ষার্থীর সম্পর্ক
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        {{ $this->gurdian_in_absence_of_parent_bn }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->gurdian_in_absence_of_parent_en }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->gurdian_nid_no }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->relation_with_gurdian }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        অভিভাবকের পেশা
+                                                    </td>
+                                                    <td class="p-4" colspan="3">
+                                                        {{ $this->gurdians_occupation }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        অভিভাবকের মাসিক আয়
+                                                    </td>
+                                                    <td class="p-4" colspan="3">
+                                                        {{ $this->gurdians_monthly_income }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        মোবাইল নাম্বার
+                                                    </td>
+                                                    <td class="p-4" colspan="3">
+                                                        {{ $this->mobile_number }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4" colspan="2">
+                                                        শিক্ষার্থীর ধরন
+                                                    </td>
+                                                    <td class="p-4" colspan="2">
+                                                        শিক্ষার্থীর কোটা
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4" colspan="2">
+                                                        {{ $this->student_category->name ?? '' }}
+                                                    </td>
+                                                    <td class="p-4" colspan="2">
+                                                        {{ $this->student_quota->name ?? '' }}
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4" colspan="2">
+                                                        পূর্বে অধ্যায়নরত স্কুল এর নাম
+                                                    </td>
+                                                    <td class="p-4" colspan="2">
+                                                        পূর্বে অধ্যায়নরত শ্রেণি
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4" colspan="2">
+                                                        {{ $this->previous_institute }}
+                                                    </td>
+                                                    <td class="p-4" colspan="2">
+                                                        {{ $this->previous_study_class }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        কোন ভাই/বোন অত্র প্রতিষ্ঠানে অধ্যয়নরত কি না
+                                                    </td>
+                                                    <td class="p-4">
+                                                        অধ্যয়নরত ভাই/বোনের নাম
+                                                    </td>
+                                                    <td class="p-4">
+                                                        অধ্যয়নরত ভাই/বোনের শ্রেণি
+                                                    </td>
+                                                    <td class="p-4">
+                                                        অধ্যয়নরত ভাই/বোনের রোল
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        {{ $this->have_siblings_studying ? 'হ্যাঁ' : 'না' }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->name_of_studying_siblings }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->class_of_studying_siblings }}
+                                                    </td>
+                                                    <td class="p-4">
+                                                        {{ $this->roll_of_studying_siblings }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="p-4">
+                                                        ঠিকানা
+                                                    </td>
+                                                    <td class="p-4" colspan="3">
+                                                        বিভাগঃ- {{ $this->division }},
+                                                        জেলাঃ- {{ $this->district }},
+                                                        উপজেলাঃ- {{ $this->upazila }},
+                                                        ইউনিয়নঃ- {{ $this->union }},
+                                                        পোস্ট অফিসঃ- {{ $this->postoffice }},
+                                                        গ্রামঃ- {{ $this->village }}
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -564,8 +773,10 @@
                                 </div>
 
                                 <div class="w-1/2 text-right">
-                                    <button x-show="step < 3" @click="step++"
-                                        class="w-32 focus:outline-none border border-transparent py-2 px-5 rounded-lg shadow-sm text-center text-white bg-blue-500 hover:bg-blue-600 font-medium">Next</button>
+                                    <button x-show="step < 3" wire:click="formPreview" @click="step++"
+                                        class="w-32 focus:outline-none border border-transparent py-2 px-5 rounded-lg shadow-sm text-center text-white bg-blue-500 hover:bg-blue-600 font-medium">
+                                        Next
+                                    </button>
 
                                     <button @click="step = 'complete'" x-show="step === 3"
                                         class="w-32 focus:outline-none border border-transparent py-2 px-5 rounded-lg shadow-sm text-center text-white bg-blue-500 hover:bg-blue-600 font-medium">Complete</button>

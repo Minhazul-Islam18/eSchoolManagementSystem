@@ -44,7 +44,7 @@ class AdmissionManagement extends Component
         $previous_institute,
         $previous_study_class,
         $district,
-        $upazila_or_thana,
+        $upazila,
         $union,
         $postoffice,
         $village,
@@ -66,14 +66,23 @@ class AdmissionManagement extends Component
         $gurdians_occupation,
         $sections = [],
         $class_id,
+        $class_id_of_studying_siblings,
         $division,
+        $division_id,
+        $district_id,
+        $upazila_id,
+        $union_id,
         $districts = [],
         $upazilas = [],
         $unions = [],
         $section_id,
         $openCEmodal = false,
         $checkImageDimension = true,
-        $editable_item;
+        $editable_item,
+        $class,
+        $section,
+        $student_quota,
+        $student_category;
     #[On('image-dimensions-valid')]
     public function imageDimensionsValid()
     {
@@ -92,20 +101,31 @@ class AdmissionManagement extends Component
     }
     public function checkDivision()
     {
-        $this->districts = District::where('division_id', $this->division)->get();
+        $this->districts = District::where('division_id', $this->division_id)->get();
     }
     public function checkUpazilla()
     {
-        $this->upazilas = Upazila::where('district_id', $this->district)->get();
+        $this->upazilas = Upazila::where('district_id', $this->district_id)->get();
     }
     public function checkUnion()
     {
-        $this->unions = Union::where('upazila_id', $this->district)->get();
+        $this->unions = Union::where('upazila_id', $this->upazila_id)->get();
     }
     public function formPreview()
     {
-        $class = SchoolClass::findBySchool($this->class_id);
-        $section = SchoolClassSection::findBySchool($this->section_id);
+        $this->student_category = StudentCategory::findOrFail($this->student_category_id);
+        $this->student_quota = StudentQuota::findOrFail($this->student_quota_id);
+        $this->class = SchoolClass::findBySchool($this->class_id);
+        if ($this->class_id_of_studying_siblings != null) {
+            $this->class_of_studying_siblings = SchoolClass::findBySchool($this->class_id_of_studying_siblings)->class_name;
+        }
+        $this->section = $this->class->classSections->find($this->section_id);
+        $this->student_quota = StudentQuota::findOrFail($this->student_quota_id);
+        $this->student_category = StudentCategory::findOrFail($this->student_category_id);
+        $this->division = Division::findOrFail($this->division_id)->bn_name;
+        $this->district = District::findOrFail($this->district_id)->bn_name;
+        $this->upazila = Upazila::findOrFail($this->upazila_id)->bn_name;
+        $this->union = Union::findOrFail($this->union_id)->bn_name;
     }
     public function render()
     {
