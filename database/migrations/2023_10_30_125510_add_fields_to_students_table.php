@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('name_bn')->nullable();
             $table->string('name_en')->nullable();
             $table->foreignId('school_class_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('school_class_section_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('roll')->nullable();
             $table->enum('group', ['Science', 'Commerce', 'Humanities'])->nullable();
             $table->string('ssc_roll')->nullable();
-            $table->foreignId('gender')->nullable();
-            $table->foreignId('religion')->nullable();
+            $table->enum('gender', ['Male', 'Female'])->nullable();
+            $table->enum('religion', ['Islam', 'Hindu', 'Others'])->nullable();
             $table->string('birth_certificate_no')->nullable();
             $table->timestamp('dob')->nullable();
             $table->boolean('has_stipend')->default(false);
@@ -31,7 +32,7 @@ return new class extends Migration
             $table->foreignId('student_quota_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name_of_siblings_studying')->nullable();
             $table->string('roll_of_siblings_studying')->nullable();
-            $table->foreignId('class_of_siblings_studying')->nullable()->constrained('school_classes', 'id')->cascadeOnDelete();
+            $table->string('class_of_siblings_studying')->nullable();
             $table->string('freedomfighter_certificate_no')->nullable();
             $table->string('previous_institute')->nullable();
             $table->string('previous_study_class')->nullable();

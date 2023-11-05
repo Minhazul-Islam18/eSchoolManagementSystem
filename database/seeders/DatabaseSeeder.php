@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\PermissionSeeder;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,5 +31,6 @@ class DatabaseSeeder extends Seeder
         $this->call(StudentCategorySeeder::class);
         $this->call(StudentQuotaSeeder::class);
         $this->call(GurdianOccupationSeeder::class);
+        Artisan::call('BangladeshGeocode:setup');
     }
 }
