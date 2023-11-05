@@ -872,10 +872,9 @@
                     <tbody>
                         @foreach ($applications as $key => $item)
                             <tr wire:key='{{ $item->id }}' class="border-b">
-                                <td>#{{ $item->addmission_id }}</td>
+                                <td>#{{ $item->admission_id }}</td>
                                 <td>
                                     <div class="flex items-center gap-2 flex-wrap">
-                                        <img src="" alt="">
                                         <div class="flex flex-col gap-2">
                                             {{ 'শ্রেণী: ' . $item->school_class->class_name }},<br />
                                             {{ 'শাখা: ' . $item->school_class_section->section_name }}
@@ -884,17 +883,20 @@
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-2 flex-wrap">
-                                        {{ 'নাম: ' . $item->name_bn }}</br>
-                                        {{ 'বাবার নাম: ' . $item->fathers_name_bn }}</br>
-                                        {{ 'মায়ের নাম: ' . $item->mothers_name_bn }}
+                                        <img width="100px" src="/storage/{{ $item->student_image }}"
+                                            alt="">
+                                        <div>
+                                            {{ 'নাম: ' . $item->name_bn }}</br>
+                                            {{ 'বাবার নাম: ' . $item->fathers_name_bn }}</br>
+                                            {{ 'মায়ের নাম: ' . $item->mothers_name_bn }}
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="p-3 al flex justify-end items-center gap-1.5 flex-wrap">
-                                    <span
-                                        class="px-2 py-1 rounded-sm bg-emerald-500 cursor-pointer flex w-max align-center justify-center"
-                                        wire:click='show({{ $item->id }})'>
-                                        <i data-lucide="eye" class="w-4 me-1"></i> Edit
-                                    </span>
+                                    <a href="{{ route('school.admissions.show', ['admission_id' => $item->admission_id]) }}"
+                                        class="px-2 py-1 rounded-sm bg-emerald-500 cursor-pointer flex w-max align-center justify-center">
+                                        <i data-lucide="eye" class="w-4 me-1"></i> View
+                                    </a>
                                     <span
                                         class="px-2 py-1 rounded-sm bg-yellow-300 cursor-pointer flex w-max align-center justify-center"
                                         wire:click='edit({{ $item->id }})' @click="openCEmodal = true"

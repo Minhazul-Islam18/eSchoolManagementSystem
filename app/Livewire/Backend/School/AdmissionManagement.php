@@ -20,6 +20,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Devfaysal\BangladeshGeocode\Models\Upazila;
 use Devfaysal\BangladeshGeocode\Models\District;
 use Devfaysal\BangladeshGeocode\Models\Division;
+use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
 
 class AdmissionManagement extends Component
@@ -171,8 +172,6 @@ class AdmissionManagement extends Component
     }
     public function store()
     {
-        // $this->checkPD();
-        // $this->formPreview();
         $u = User::create([
             'student_id' => date('y') . rand(101, 10000),
             'name' => $this->name_en,
@@ -185,7 +184,7 @@ class AdmissionManagement extends Component
             'user_id' => $u->id,
             'student_id' => $u->student_id,
             'school_id' => school()->id,
-            'addmission_id' => date('d') . date('m') . date('y') . Str::random(5),
+            'admission_id' => date('d') . date('m') . date('y') . Str::random(5),
             'student_image' => $this->student_image,
             'name_bn' => $this->name_bn,
             'name_en' => $this->name_en,
@@ -233,10 +232,12 @@ class AdmissionManagement extends Component
         ]);
         $this->alert('success', 'Student admission created');
     }
+    public function show($admission_id)
+    {
+    }
     public function render()
     {
-        $applications = Student::where('school_id', school()->id)->whereNotNull('addmission_id')->get();
-        // $applications->load();
+        $applications = Student::where('school_id', school()->id)->whereNotNull('admission_id')->get();
         $divisions = Division::all();
         $GurdianOccupation = GurdianOccupation::all();
         $sc = StudentCategory::all();
