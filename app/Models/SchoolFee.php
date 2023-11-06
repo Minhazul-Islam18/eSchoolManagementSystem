@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class SchoolFee extends Model
 {
@@ -50,5 +51,15 @@ class SchoolFee extends Model
     public static function findBySchool($id)
     {
         return self::where('school_id', school()->id)->findOrFail($id);
+    }
+
+    /**
+     * The students that belong to the SchoolFee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function students(): BelongsToMany
+    {
+        return $this->belongsToMany(Student::class);
     }
 }

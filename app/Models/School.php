@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class School extends Model
 {
@@ -25,5 +26,15 @@ class School extends Model
     public static function allInformations(): School
     {
         return self::where('user_id', auth()->user()->id)->first();
+    }
+
+    /**
+     * The fees that belong to the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function fees(): BelongsToMany
+    {
+        return $this->belongsToMany(SchoolFee::class);
     }
 }

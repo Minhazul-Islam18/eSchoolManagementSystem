@@ -155,8 +155,8 @@
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
                             <th class="text-white">Section</th>
-                            <th class="text-white">Exam name</th>
-                            <th class="text-white">Exam date</th>
+                            <th class="text-white">Fee name</th>
+                            <th class="text-white">Amount</th>
                             <th class="text-white text-right">Actions</th>
                         </tr>
                     </tfoot>

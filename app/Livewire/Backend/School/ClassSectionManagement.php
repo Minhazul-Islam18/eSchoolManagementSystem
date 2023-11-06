@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Backend\School;
 
-use App\Models\SchoolClass;
-use App\Models\SchoolClassSection;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
-use Livewire\Attributes\Title;
 use Livewire\Component;
+use App\Models\SchoolClass;
+use Livewire\Attributes\Title;
+use App\Models\SchoolClassSection;
+use App\Rules\CheckUniqueAsClassID;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ClassSectionManagement extends Component
 {
@@ -16,12 +17,16 @@ class ClassSectionManagement extends Component
     public $section_name;
     public $class_id;
     #[Title('Class Sections')]
+    public function rules()
+    {
+        return [
+            'class_id' => 'required',
+            'section_name' => ['required', new CheckUniqueAsClassID($this->class_id, 'school_class_sections', 'section_name')],
+        ];
+    }
     public function store()
     {
-        $this->validate([
-            'class_id' => 'required',
-            'section_name' => 'required|min:1|max:50|unique:school_class_sections'
-        ]);
+        $this->validate();
         SchoolClassSection::create([
             'school_class_id' => $this->class_id,
             'section_name' => $this->section_name,
@@ -40,10 +45,7 @@ class ClassSectionManagement extends Component
     }
     public function update()
     {
-        $this->validate([
-            'class_id' => 'required',
-            'section_name' => 'required|min:1|max:50|unique:school_class_sections,section_name,' . $this->editable_item->id,
-        ]);
+        $this->validate();
         $e = SchoolClassSection::findBySchool($this->editable_item->id);
         $e->update([
             'school_class_id' => $this->class_id,
@@ -67,6 +69,7 @@ class ClassSectionManagement extends Component
         $this->section_name = null;
         $this->class_id = null;
         $this->openCEmodal = false;
+        $this->dispatch('closeModal');
     }
     public function render()
     {

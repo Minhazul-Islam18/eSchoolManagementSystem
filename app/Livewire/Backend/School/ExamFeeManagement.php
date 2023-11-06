@@ -9,6 +9,7 @@ use App\Models\SchoolExam;
 use App\Models\SchoolClass;
 use Livewire\Attributes\Title;
 use App\Models\SchoolClassSection;
+use App\Rules\CheckUniqueAsClassID;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ExamFeeManagement extends Component
@@ -22,6 +23,12 @@ class ExamFeeManagement extends Component
     public $fee_name;
     public $amount;
     public $openCEmodal = false;
+    public function rules()
+    {
+        return [
+            'fee_name' => ['required', new CheckUniqueAsClassID($this->class_id, 'school_fees', 'fee_name')],
+        ];
+    }
     public function getSection()
     {
         if (null != $this->class_id) {
@@ -30,11 +37,12 @@ class ExamFeeManagement extends Component
     }
     public function store()
     {
+        $this->validate();
         $this->validate([
             'class_id' => 'required',
             'amount' => 'required',
             'section_id' => 'required',
-            'fee_name' => 'required|min:1|max:50|unique:school_fees'
+            'fee_name' => 'required|min:1|max:50'
         ]);
         SchoolFee::create([
             'school_class_id' => $this->class_id,
@@ -60,11 +68,12 @@ class ExamFeeManagement extends Component
     }
     public function update()
     {
+        $this->validate();
         $this->validate([
             'class_id' => 'required',
             'section_id' => 'required',
             'amount' => 'required',
-            'fee_name' => 'required|min:1|max:50|unique:school_fees,fee_name,' . $this->editable_item->id,
+            'fee_name' => 'required|min:1|max:50',
         ]);
         $e = SchoolFee::findBySchool($this->editable_item->id);
         $e->update([

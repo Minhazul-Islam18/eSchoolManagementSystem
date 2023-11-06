@@ -6,6 +6,7 @@ use App\Models\School;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Student extends Model
 {
@@ -38,5 +39,15 @@ class Student extends Model
     public function school_class_section(): BelongsTo
     {
         return $this->belongsTo(SchoolClassSection::class);
+    }
+
+    /**
+     * The fees that belong to the Student
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function fees(): BelongsToMany
+    {
+        return $this->belongsToMany(SchoolFee::class);
     }
 }
