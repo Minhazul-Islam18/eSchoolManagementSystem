@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -21,6 +22,15 @@ class School extends Model
     public function students()
     {
         return $this->hasMany(Student::class);
+    }
+    /**
+     * Get all of the classes for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function classes(): HasMany
+    {
+        return $this->hasMany(SchoolClass::class);
     }
 
     public static function allInformations(): School

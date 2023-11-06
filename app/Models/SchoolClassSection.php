@@ -51,4 +51,9 @@ class SchoolClassSection extends Model
     {
         return $this->hasMany(SchoolClassSubject::class);
     }
+
+    public static function students($section_id)
+    {
+        return Student::where('school_class_section_id', $section_id)->get();
+    }
 }

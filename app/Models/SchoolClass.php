@@ -23,6 +23,17 @@ class SchoolClass extends Model
     {
         return self::where('school_id', school()->id)->findOrFail($id);
     }
+
+    /**
+     * Get all of the students for the SchoolClass
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class);
+    }
+
     /**
      * Get all of the classSections for the SchoolClass
      *
@@ -41,5 +52,10 @@ class SchoolClass extends Model
     public function school(): BelongsTo
     {
         return $this->belongsTo(School::class);
+    }
+
+    public static function allStudents()
+    {
+        return self::with('students')->get();
     }
 }

@@ -100,6 +100,7 @@ class ExamResultManagement extends Component
     }
     public function render()
     {
+        // dd(SchoolClassSection::students(1));
         $results = SchoolExamResult::allResults();
         $classes = SchoolClass::allClasses();
         return view('livewire.backend.school.exam-result-management')->with([
