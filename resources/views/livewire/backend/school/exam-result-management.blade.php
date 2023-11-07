@@ -16,7 +16,7 @@
                 </div>
             </header>
 
-            <div id="CEmodal" tabindex="-1" aria-hidden="true" x-show="openCEmodal"
+            {{-- <div id="CEmodal" tabindex="-1" aria-hidden="true" x-show="openCEmodal"
                 class="fixed top-0 left-0 right-0 z-50 w-full p-4 md:inset-0 h- max-h-full justify-center items-center flex">
                 <!-- Modal content -->
                 <div
@@ -104,16 +104,153 @@
                         </div>
                     </form>
                 </div>
+            </div> --}}
+
+            <div x-show="openCEmodal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
+                role="dialog" aria-modal="true">
+                <div
+                    class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
+                    <div x-cloak @click="openCEmodal = false" x-show="openCEmodal"
+                        x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-200 transform"
+                        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                        class="fixed inset-0 transition-opacity bg-slate-950 bg-opacity-60" aria-hidden="true">
+                    </div>
+
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" x-cloak
+                        x-show="openCEmodal" x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                        x-transition:leave="transition ease-in duration-200 transform"
+                        x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                        x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        class="max-h-[90vh] overflow-y-scroll inline-block w-full max-w-[80vw] p-8 overflow-hidden text-left transition-all transform bg-white dark:bg-slate-800 rounded-lg shadow-xl 2xl:max-w-2xl">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between space-x-4">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                {{ $this->editable_item ? 'Edit' : 'Create' }} Exam result
+                            </h3>
+                            <button @click="openCEmodal = false" wire:click='resetFields'
+                                class="text-gray-600 focus:outline-none hover:text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <!-- Modal content-->
+                        <div class="px-4 py-2">
+                            <div>
+                                <!-- Step Content -->
+                                <div class="py-0">
+                                    <form class="h-full flex flex-col justify-between" action=""
+                                        wire:submit='{{ $this->editable_item ? 'update' : 'store' }}'>
+                                        <!-- Modal body -->
+                                        <div class="p-6 space-y-6 h-full">
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                <div class="">
+                                                    <label for="" class="form-label">Class</label>
+                                                    <select wire:model.blur='class_id' wire:click.change='getSection'
+                                                        class="form-select rounded" id="">
+                                                        <option value="">Select class</option>
+                                                        @foreach ($classes as $item)
+                                                            <option value="{{ $item->id }}">{{ $item->class_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('class_id')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="">
+                                                    <label for="" class="form-label">Section</label>
+                                                    <select wire:model.blur='section_id' class="form-select rounded"
+                                                        wire:change='getStudents' id="">
+                                                        <option value="">Select section</option>
+                                                        @forelse ($sections as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                {{ $item->id == $this->section_id ? 'selected' : '' }}>
+                                                                {{ $item->section_name }}</option>
+                                                        @empty
+                                                            <option value="" disabled>No section found</option>
+                                                        @endforelse
+                                                    </select>
+                                                    @error('section_id')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="">
+                                                    <label for="" class="form-label">Exams</label>
+                                                    <select wire:model.blur='school_exam_id' class="form-select rounded"
+                                                        wire:change='getStudents' id="">
+                                                        <option value="">Select exam</option>
+                                                        @forelse ($this->exams as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                {{ $item->id == $this->school_exam_id ? 'selected' : '' }}>
+                                                                {{ $item->exam_name }}</option>
+                                                        @empty
+                                                            <option value="" disabled>No section found</option>
+                                                        @endforelse
+                                                    </select>
+                                                    @error('school_exam_id')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="">
+                                                    <label for="" class="form-label">Student</label>
+                                                    <select wire:model.blur='student_id' class="form-control"
+                                                        id="select2">
+                                                        <option value="">Select Option</option>
+                                                        @foreach ($this->students as $item)
+                                                            <option value="{{ $item->id }}">
+                                                                {{ $item->name_bn }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('student_id')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="">
+                                                    <label for="" class="form-label">Obtained marks</label>
+                                                    <input wire:model.blur='obtained_marks' type="number"
+                                                        class="form-input rounded" id="">
+                                                    @error('obtained_marks')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal footer -->
+                                        <div
+                                            class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                            <button type="submit"
+                                                class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50">
+                                                {{ $this->editable_item ? 'Update' : 'Save' }}</button>
+                                            @if ($this->editable_item)
+                                                <button type="button" wire:click='resetFields'
+                                                    class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-red-400 dark:focus:ring-red-200/50">
+                                                    {{ 'Cancel' }}</button>
+                                            @endif
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- / Step Content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div wire:ignore>
                 <table id="example" class="display" style="width: 100%">
                     <thead class="bg-blue-500 border-none">
                         <tr>
                             <th class="text-white">ID</th>
-                            <th class="text-white">Class</th>
-                            <th class="text-white">Section</th>
-                            <th class="text-white">Fee name</th>
-                            <th class="text-white">Amount</th>
+                            <th class="text-white">Exam</th>
+                            <th class="text-white">Student</th>
                             <th class="text-white text-right">Actions</th>
                         </tr>
                     </thead>
@@ -122,16 +259,10 @@
                             <tr wire:key='{{ $item->id }}' class="border-b">
                                 <td>{{ $key + 1 }}</td>
                                 <td>
-                                    {{ $item->class->class_name }}
+                                    {{ $item->exam->exam_name }}
                                 </td>
                                 <td>
-                                    {{ $item->section->section_name }}
-                                </td>
-                                <td>
-                                    {{ $item->fee_name }}
-                                </td>
-                                <td>
-                                    {{ $item->amount }}
+                                    {{ $item->mark_obtained }}
                                 </td>
                                 <td class="p-3 al flex justify-end items-center gap-1.5 flex-wrap">
                                     <span
@@ -153,10 +284,8 @@
                     <tfoot class="bg-blue-500">
                         <tr>
                             <th class="text-white">ID</th>
-                            <th class="text-white">Class</th>
-                            <th class="text-white">Section</th>
-                            <th class="text-white">Exam name</th>
-                            <th class="text-white">Exam date</th>
+                            <th class="text-white">Exam</th>
+                            <th class="text-white">Student</th>
                             <th class="text-white text-right">Actions</th>
                         </tr>
                     </tfoot>
@@ -166,14 +295,23 @@
         </div>
     </main>
 </div>
-
+@push('page-style')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css">
+@endpush
 @push('page-script')
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.tailwindcss.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://unpkg.com/@nextapps-be/livewire-sortablejs@0.3.5/dist/livewire-sortable.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@1.8.1/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
+        document.addEventListener('mounted', function() {
+            console.log('mounted');
+            $('#select2').select2();
+
+            $('#select2').on('change', function(e) {
+                @this.set('student_id', e.target.value);
+            });
+        });
         new DataTable('#example', {
             responsive: true,
             retrieve: true,

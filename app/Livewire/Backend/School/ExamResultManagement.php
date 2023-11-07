@@ -7,6 +7,7 @@ use App\Models\SchoolClass;
 use Livewire\Attributes\Title;
 use App\Models\SchoolExamResult;
 use App\Models\SchoolClassSection;
+use App\Models\SchoolExam;
 use App\Models\Student;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -17,9 +18,12 @@ class ExamResultManagement extends Component
     public $editable_item;
     public $class_id;
     public $section_id;
+    public $student_id;
+    public $school_exam_id;
     public $sections = [];
-    public $fee_name;
-    public $amount;
+    public $students = [];
+    public $obtained_marks;
+    public $exams = [];
     public $openCEmodal = false;
     public function getSection()
     {
@@ -30,25 +34,37 @@ class ExamResultManagement extends Component
     public function getStudents()
     {
         if (null != $this->class_id && null != $this->section_id) {
-            $this->sections = Student::where('school_id', $this->class_id)->where('school_id', school()->id)->get();
+            $this->students = SchoolClassSection::students($this->section_id);
+        }
+        $this->getExams();
+    }
+    public function getExams()
+    {
+        // dd('o');
+        if (null != $this->class_id && null != $this->section_id) {
+            $this->exams = SchoolExam::where('school_id', school()->id)
+                ->where('school_class_id', $this->class_id)
+                ->where('school_class_section_id', $this->section_id)
+                ->get();
         }
     }
     public function store()
     {
         $this->validate([
             'class_id' => 'required',
-            'amount' => 'required',
+            'student_id' => 'required',
+            'school_exam_id' => 'required',
             'section_id' => 'required',
-            'fee_name' => 'required|min:1|max:50|unique:school_fees'
+            'mark_obtained' => 'required|min:1'
         ]);
         SchoolExamResult::create([
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
-            'fee_name' => $this->fee_name,
-            'amount' => $this->amount,
+            'school_exam_id' => $this->school_exam_id,
+            'student_id' => $this->student_id,
+            'mark_obtained' => $this->obtained_marks,
             'school_id' => school()->id
         ]);
-        $this->dispatch('closeModal');
         $this->resetFields();
         $this->alert('success', 'Exam fee created.');
     }
@@ -59,8 +75,6 @@ class ExamResultManagement extends Component
         $this->editable_item = $schoolExamResult;
         $this->class_id = $schoolExamResult->school_class_id;
         $this->section_id = $schoolExamResult->school_class_section_id;
-        $this->fee_name = $schoolExamResult->fee_name;
-        $this->amount = $schoolExamResult->amount;
         $this->getSection();
     }
     public function update()
@@ -93,14 +107,12 @@ class ExamResultManagement extends Component
     public function resetFields()
     {
         $this->editable_item = null;
-        $this->amount = null;
-        $this->fee_name = null;
         $this->class_id = null;
         $this->openCEmodal = false;
     }
     public function render()
     {
-        // dd(SchoolClassSection::students(1));
+        $this->dispatch('mounted');
         $results = SchoolExamResult::allResults();
         $classes = SchoolClass::allClasses();
         return view('livewire.backend.school.exam-result-management')->with([

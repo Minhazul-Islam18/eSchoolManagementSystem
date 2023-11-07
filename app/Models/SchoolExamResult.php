@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class SchoolExamResult extends Model
 {
@@ -29,7 +30,15 @@ class SchoolExamResult extends Model
     {
         return $this->belongsTo(SchoolClass::class, 'school_class_id');
     }
-
+    /**
+     * The exams that belong to the SchoolExamResult
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function exam(): BelongsTo
+    {
+        return $this->belongsTo(SchoolExam::class, 'school_exam_id');
+    }
     /**
      * Get the section that owns the SchoolExam
      *
