@@ -16,96 +16,6 @@
                 </div>
             </header>
 
-            {{-- <div id="CEmodal" tabindex="-1" aria-hidden="true" x-show="openCEmodal"
-                class="fixed top-0 left-0 right-0 z-50 w-full p-4 md:inset-0 h- max-h-full justify-center items-center flex">
-                <!-- Modal content -->
-                <div
-                    class="relative overflow-y-scroll bg-white rounded-lg shadow dark:bg-gray-700 w-2/3 h-[calc(100%-2vh)]">
-                    <form class="h-full flex flex-col justify-between" action=""
-                        wire:submit='{{ $this->editable_item ? 'update' : 'store' }}'>
-                        <!-- Modal header -->
-                        <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                {{ $this->editable_item ? 'Edit' : 'Create' }} Exam result
-                            </h3>
-                            <button type="button" @click="openCEmodal = false" wire:click='resetFields'
-                                class="text-gray-400 bg-transparent hover:bg-red-500/50 hover:text-red-500 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-red-600"
-                                data-modal-hide="CEmodal">
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                </svg>
-                                <span class="sr-only">Close modal</span>
-                            </button>
-                        </div>
-                        <!-- Modal body -->
-                        <div class="p-6 space-y-6 h-full">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div class="">
-                                    <label for="" class="form-label">Class</label>
-                                    <select wire:model.blur='class_id' wire:click.change='getSection'
-                                        class="form-select rounded" id="">
-                                        <option value="">Select class</option>
-                                        @foreach ($classes as $item)
-                                            <option value="{{ $item->id }}">{{ $item->class_name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('class_id')
-                                        <span class="text-sm text-red-500">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="">
-                                    <label for="" class="form-label">Section</label>
-                                    <select wire:model.blur='section_id' class="form-select rounded" id="">
-                                        <option value="">Select section</option>
-                                        @forelse ($sections as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ $item->id == $this->section_id ? 'selected' : '' }}>
-                                                {{ $item->section_name }}</option>
-                                        @empty
-                                            <option value="" disabled>No section found</option>
-                                        @endforelse
-                                    </select>
-                                    @error('section_id')
-                                        <span class="text-sm text-red-500">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="">
-                                    <label for="" class="form-label">Fee name</label>
-                                    <input wire:model.blur='fee_name' type="text" class="form-input rounded"
-                                        id="">
-                                    @error('fee_name')
-                                        <span class="text-sm text-red-500">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="">
-                                    <label for="" class="form-label">Amount</label>
-                                    <input wire:model.blur='amount' type="number" class="form-input rounded"
-                                        id="">
-                                    @error('amount')
-                                        <span class="text-sm text-red-500">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Modal footer -->
-                        <div
-                            class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                            <button type="submit"
-                                class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50">
-                                {{ $this->editable_item ? 'Update' : 'Save' }}</button>
-                            @if ($this->editable_item)
-                                <button type="button" wire:click='resetFields'
-                                    class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-red-400 dark:focus:ring-red-200/50">
-                                    {{ 'Cancel' }}</button>
-                            @endif
-                        </div>
-                    </form>
-                </div>
-            </div> --}}
-
             <div x-show="openCEmodal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
                 role="dialog" aria-modal="true">
                 <div
@@ -248,7 +158,52 @@
                     </div>
                 </div>
             </div>
-            <div wire:ignore>
+
+            <div class="grid grid-cols-5 gap-4 my-4">
+                <div class="">
+                    <label for="" class="form-label">Class</label>
+                    <select wire:model.blur='filter_class_id' class="form-select rounded"
+                        wire:change='getSectionRefresh' id="">
+                        <option value="">Select class</option>
+                        @foreach ($classes as $item)
+                            <option value="{{ $item->id }}"
+                                {{ $item->id == $this->filter_class_id ? 'selected' : '' }}>
+                                {{ $item->class_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="">
+                    <label for="" class="form-label">Section</label>
+                    <select wire:model.blur='filter_section_id' wire:change='getExamRefresh'
+                        class="form-select rounded" id="">
+                        <option value="">Select section</option>
+                        @forelse ($sections as $item)
+                            <option value="{{ $item->id }}"
+                                {{ $item->id == $this->filter_section_id ? 'selected' : '' }}>
+                                {{ $item->section_name }}</option>
+                        @empty
+                            <option value="" disabled>No section found</option>
+                        @endforelse
+                    </select>
+                </div>
+                <div class="">
+                    <label for="" class="form-label">Exams</label>
+                    <select wire:model.blur='filter_exam_id' class="form-select rounded" id=""
+                        wire:change='refresh'>
+                        <option value="">Select exam</option>
+                        @forelse ($this->exams as $item)
+                            <option value="{{ $item->id }}"
+                                {{ $item->id == $this->filter_exam_id ? 'selected' : '' }}>
+                                {{ $item->exam_name }}</option>
+                        @empty
+                            <option value="" disabled>No exam found</option>
+                        @endforelse
+                    </select>
+                </div>
+            </div>
+            <div>
                 <table id="example" class="display" style="width: 100%">
                     <thead class="bg-blue-500 border-none">
                         <tr>
@@ -271,8 +226,7 @@
                                 <td class="p-3 al flex justify-end items-center gap-1.5 flex-wrap">
                                     <span
                                         class="px-2 py-1 rounded-sm bg-yellow-300 cursor-pointer flex w-max align-center justify-center"
-                                        wire:click='edit({{ $item->id }})' @click="openCEmodal = true"
-                                        data-modal-target="CEmodal" data-modal-toggle="CEmodal">
+                                        wire:click='edit({{ $item->id }})' @click="openCEmodal = true">
                                         <i data-lucide="pen-square" class="w-4 me-1"></i> Edit
                                     </span>
                                     <button

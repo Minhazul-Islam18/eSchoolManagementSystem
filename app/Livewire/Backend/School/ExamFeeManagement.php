@@ -15,7 +15,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 class ExamFeeManagement extends Component
 {
     use LivewireAlert;
-    #[Title('Exam fee management')]
+    #[Title('Fee management')]
     public $editable_item;
     public $class_id;
     public $section_id;

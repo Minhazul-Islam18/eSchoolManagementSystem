@@ -14,7 +14,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 class ExamResultManagement extends Component
 {
     use LivewireAlert;
-    #[Title('Exam result management incomplete')]
+    #[Title('Exam result management')]
     public $editable_item;
     public $class_id;
     public $section_id;
@@ -25,10 +25,15 @@ class ExamResultManagement extends Component
     public $obtained_marks;
     public $exams = [];
     public $openCEmodal = false;
+    public $filter_class_id;
+    public $filter_section_id;
+    public $filter_exam_id;
     public function getSection()
     {
-        if (null != $this->class_id) {
-            $this->sections = SchoolClassSection::where('school_class_id', $this->class_id)->where('school_id', school()->id)->get();
+        if (null != $this->class_id || null != $this->filter_class_id) {
+            $this->sections = SchoolClassSection::where('school_class_id', $this->class_id ??  $this->filter_class_id)
+                ->where('school_id', school()->id)
+                ->get();
         }
     }
     public function getStudents()
@@ -40,10 +45,10 @@ class ExamResultManagement extends Component
     }
     public function getExams()
     {
-        if (null != $this->class_id && null != $this->section_id) {
+        if (null != $this->filter_section_id && null != $this->filter_class_id || null != $this->class_id && null != $this->section_id) {
             $this->exams = SchoolExam::where('school_id', school()->id)
-                ->where('school_class_id', $this->class_id)
-                ->where('school_class_section_id', $this->section_id)
+                ->where('school_class_id', $this->class_id ?? $this->filter_class_id)
+                ->where('school_class_section_id', $this->section_id ?? $this->filter_section_id)
                 ->get();
         }
     }
@@ -121,10 +126,32 @@ class ExamResultManagement extends Component
         $this->obtained_marks = null;
         $this->openCEmodal = false;
     }
+    public function getSectionRefresh()
+    {
+        $this->getSection();
+        $this->render();
+    }
+    public function getExamRefresh()
+    {
+        $this->getExams();
+        $this->render();
+    }
+    public function refresh()
+    {
+        $this->render();
+    }
     public function render()
     {
         $this->dispatch('mounted');
-        $results = SchoolExamResult::allResults();
+
+        if ($this->filter_class_id != null && $this->filter_section_id && $this->filter_exam_id) {
+            $results = SchoolExamResult::where('school_class_id', $this->filter_class_id)
+                ->where('school_class_section_id', $this->filter_section_id)
+                ->where('school_exam_id', $this->filter_exam_id)
+                ->get();
+        } else {
+            $results = SchoolExamResult::allResults();
+        }
         $classes = SchoolClass::allClasses();
         return view('livewire.backend.school.exam-result-management')->with([
             'results' => $results,

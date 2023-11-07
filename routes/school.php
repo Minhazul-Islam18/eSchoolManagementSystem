@@ -19,7 +19,7 @@ Route::get('/classes', ClassManagement::class)->name('classes');
 Route::get('/sections', ClassSectionManagement::class)->name('sections');
 Route::get('/subjects', ClassSectionSubjectManagement::class)->name('subjects');
 Route::get('/exams', ExamManagement::class)->name('exams');
-Route::get('/exam-fees', ExamFeeManagement::class)->name('exam-fees');
+Route::get('/all-fees', ExamFeeManagement::class)->name('all-fees');
 Route::get('/exam-results', ExamResultManagement::class)->name('exam-results');
 Route::get('/admissions', AdmissionManagement::class)->name('admissions');
 Route::get('/admissions/{admission_id}', AdmissionFormPreview::class)->name('admissions.show');
