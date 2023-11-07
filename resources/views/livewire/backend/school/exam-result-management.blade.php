@@ -156,7 +156,9 @@
                                                         class="form-select rounded" id="">
                                                         <option value="">Select class</option>
                                                         @foreach ($classes as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->class_name }}
+                                                            <option value="{{ $item->id }}"
+                                                                {{ $item->id == $this->class_id ? 'selected' : '' }}>
+                                                                {{ $item->class_name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -201,11 +203,13 @@
                                                 </div>
                                                 <div class="">
                                                     <label for="" class="form-label">Student</label>
-                                                    <select wire:model.blur='student_id' class="form-control"
+                                                    <select wire:model.blur='student_id'
+                                                        class="form-control rounded dark:!text-indigo-950 w-full"
                                                         id="select2">
                                                         <option value="">Select Option</option>
                                                         @foreach ($this->students as $item)
-                                                            <option value="{{ $item->id }}">
+                                                            <option value="{{ $item->id }}"
+                                                                {{ $item->id == $this->student_id ? 'selected' : '' }}>
                                                                 {{ $item->name_bn }}
                                                             </option>
                                                         @endforeach

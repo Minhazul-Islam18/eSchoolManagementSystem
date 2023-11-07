@@ -40,7 +40,6 @@ class ExamResultManagement extends Component
     }
     public function getExams()
     {
-        // dd('o');
         if (null != $this->class_id && null != $this->section_id) {
             $this->exams = SchoolExam::where('school_id', school()->id)
                 ->where('school_class_id', $this->class_id)
@@ -50,12 +49,13 @@ class ExamResultManagement extends Component
     }
     public function store()
     {
+        abort_action(school()->user_id);
         $this->validate([
             'class_id' => 'required',
             'student_id' => 'required',
             'school_exam_id' => 'required',
             'section_id' => 'required',
-            'mark_obtained' => 'required|min:1'
+            'obtained_marks' => 'required|min:1'
         ]);
         SchoolExamResult::create([
             'school_class_id' => $this->class_id,
@@ -66,35 +66,42 @@ class ExamResultManagement extends Component
             'school_id' => school()->id
         ]);
         $this->resetFields();
-        $this->alert('success', 'Exam fee created.');
+        $this->alert('success', 'Exam result created.');
     }
     public function edit(SchoolExamResult $schoolExamResult)
     {
         abort_action($schoolExamResult->school->user_id);
-
         $this->editable_item = $schoolExamResult;
         $this->class_id = $schoolExamResult->school_class_id;
+        $this->student_id = $schoolExamResult->student_id;
+        $this->school_exam_id = $schoolExamResult->school_exam_id;
         $this->section_id = $schoolExamResult->school_class_section_id;
+        $this->obtained_marks = $schoolExamResult->mark_obtained;
         $this->getSection();
+        $this->getExams();
+        $this->getStudents();
     }
     public function update()
     {
+        abort_action(school()->user_id);
         $this->validate([
             'class_id' => 'required',
+            'student_id' => 'required',
+            'school_exam_id' => 'required',
             'section_id' => 'required',
-            'amount' => 'required',
-            'fee_name' => 'required|min:1|max:50|unique:school_fees,fee_name,' . $this->editable_item->id,
+            'obtained_marks' => 'required|min:1'
         ]);
         $e = SchoolExamResult::findBySchool($this->editable_item->id);
         $e->update([
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
-            'fee_name' => $this->fee_name,
-            'amount' => $this->amount,
+            'school_exam_id' => $this->school_exam_id,
+            'student_id' => $this->student_id,
+            'mark_obtained' => $this->obtained_marks,
             'school_id' => school()->id
         ]);
         $this->dispatch('closeModal');
-        $this->alert('success', 'Exam fee updated');
+        $this->alert('success', 'Exam result updated');
         $this->resetFields();
     }
     public function destroy(SchoolExamResult $schoolExamResult)
@@ -108,6 +115,10 @@ class ExamResultManagement extends Component
     {
         $this->editable_item = null;
         $this->class_id = null;
+        $this->section_id = null;
+        $this->school_exam_id = null;
+        $this->student_id = null;
+        $this->obtained_marks = null;
         $this->openCEmodal = false;
     }
     public function render()

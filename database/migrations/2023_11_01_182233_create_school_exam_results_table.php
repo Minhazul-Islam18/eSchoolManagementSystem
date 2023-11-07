@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('school_exam_results', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('school_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('student_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('school_exam_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('school_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('student_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('school_exam_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('school_class_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('school_class_section_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('mark_obtained');
             $table->timestamps();
         });
