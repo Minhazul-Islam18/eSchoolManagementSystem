@@ -41,7 +41,7 @@ class SchoolFee extends Model
         return $this->belongsTo(SchoolClassSection::class, 'school_class_section_id');
     }
 
-    // This function will return all exams by school
+    // This function will return all fees by school
     public static function allFees()
     {
         return self::where('school_id', school()->id)->get() ?? abort(404);

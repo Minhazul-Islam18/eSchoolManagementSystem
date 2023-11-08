@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('school_fee_categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('school_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('category_name');
             $table->string('category_slug');
             $table->timestamps();

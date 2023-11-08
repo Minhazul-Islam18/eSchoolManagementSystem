@@ -1,17 +1,18 @@
 <?php
 
-use App\Livewire\Backend\School\AdmissionManagement;
-use App\Livewire\Backend\School\ClassManagement;
-use App\Livewire\Backend\School\ClassSectionManagement;
-use App\Livewire\Backend\School\ClassSectionSubjectManagement;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Backend\School\Dashboard;
-use App\Livewire\Backend\School\ExamFeeManagement;
 use App\Livewire\Backend\School\ExamManagement;
-use App\Livewire\Backend\School\ExamResultManagement;
-use App\Livewire\Backend\School\GeneralInformation;
+use App\Livewire\Backend\School\ClassManagement;
 use App\Livewire\Backend\School\StaffManagement;
-use App\Livewire\School\AdmissionFormPreview;
+use App\Livewire\Backend\School\ExamFeeManagement;
+use App\Livewire\Backend\School\GeneralInformation;
+use App\Livewire\Backend\School\AdmissionManagement;
+use App\Livewire\Backend\School\AdmissionFormPreview;
+use App\Livewire\Backend\School\ExamResultManagement;
+use App\Livewire\Backend\School\ClassSectionManagement;
+use App\Livewire\Backend\School\ClassSectionSubjectManagement;
+use App\Livewire\Backend\School\FeeCategoryManagement;
 
 Route::get('/dashboard', Dashboard::class)->name('index');
 Route::get('/staffs', StaffManagement::class)->name('staffs');
@@ -19,6 +20,7 @@ Route::get('/classes', ClassManagement::class)->name('classes');
 Route::get('/sections', ClassSectionManagement::class)->name('sections');
 Route::get('/subjects', ClassSectionSubjectManagement::class)->name('subjects');
 Route::get('/exams', ExamManagement::class)->name('exams');
+Route::get('/fee-categories', FeeCategoryManagement::class)->name('fee-categories');
 Route::get('/all-fees', ExamFeeManagement::class)->name('all-fees');
 Route::get('/exam-results', ExamResultManagement::class)->name('exam-results');
 Route::get('/admissions', AdmissionManagement::class)->name('admissions');
