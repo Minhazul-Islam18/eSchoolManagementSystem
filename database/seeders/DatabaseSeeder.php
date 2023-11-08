@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StudentCategorySeeder::class);
         $this->call(StudentQuotaSeeder::class);
         $this->call(GurdianOccupationSeeder::class);
+        $this->call(SchoolFeeCategorySeeder::class);
         Artisan::call('BangladeshGeocode:setup');
     }
 }

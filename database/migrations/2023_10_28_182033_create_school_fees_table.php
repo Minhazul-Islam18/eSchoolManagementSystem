@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('school_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('school_class_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('school_class_section_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('school_fee_category_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('fee_name');
             $table->string('amount');
             $table->timestamps();
