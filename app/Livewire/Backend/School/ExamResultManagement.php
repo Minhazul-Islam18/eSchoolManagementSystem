@@ -31,7 +31,7 @@ class ExamResultManagement extends Component
     public function getSection()
     {
         if (null != $this->class_id || null != $this->filter_class_id) {
-            $this->sections = SchoolClassSection::where('school_class_id', $this->class_id ??  $this->filter_class_id)
+            $this->sections = SchoolClassSection::where('school_class_id', $this->section_id ??  $this->filter_class_id)
                 ->where('school_id', school()->id)
                 ->get();
         }

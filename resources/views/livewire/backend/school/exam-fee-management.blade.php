@@ -41,7 +41,7 @@
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                                 {{ $this->editable_item ? 'Edit' : 'Create' }} Exam fee
                             </h3>
-                            <button @click="openCEmodal = false"
+                            <button @click="openCEmodal = false" wire:click='resetFields'
                                 class="text-gray-600 focus:outline-none hover:text-gray-700">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -52,80 +52,95 @@
                         </div>
                         <!-- Modal content-->
                         <div class="px-4 py-2">
-                            <div>
-                                <!-- Step Content -->
-                                <div class="py-0">
-                                    <form class="h-full flex flex-col justify-between" action=""
-                                        wire:submit='{{ $this->editable_item ? 'update' : 'store' }}'>
-                                        <!-- Modal body -->
-                                        <div class="p-6 space-y-6 h-full">
-                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                <div class="">
-                                                    <label for="" class="form-label">Class</label>
-                                                    <select wire:model.blur='class_id' wire:click.change='getSection'
-                                                        class="form-select rounded" id="">
-                                                        <option value="">Select class</option>
-                                                        @foreach ($classes as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->class_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('class_id')
-                                                        <span class="text-sm text-red-500">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
+                            <!-- Step Content -->
+                            <div class="py-0">
+                                <form class="h-full flex flex-col justify-between" action=""
+                                    wire:submit='{{ $this->editable_item ? 'update' : 'store' }}'>
+                                    <!-- Modal body -->
+                                    <div class="p-6 space-y-6 h-full">
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div class="">
+                                                <label for="" class="form-label">Class</label>
+                                                <select wire:model.blur='class_id' wire:click.change='getSection'
+                                                    class="form-select rounded" id="">
+                                                    <option value="">Select class</option>
+                                                    @foreach ($classes as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->class_name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('class_id')
+                                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                                @enderror
+                                            </div>
 
-                                                <div class="">
-                                                    <label for="" class="form-label">Section</label>
-                                                    <select wire:model.blur='section_id' class="form-select rounded"
-                                                        id="">
-                                                        <option value="">Select section</option>
-                                                        @forelse ($sections as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ $item->id == $this->section_id ? 'selected' : '' }}>
-                                                                {{ $item->section_name }}</option>
-                                                        @empty
-                                                            <option value="" disabled>No section found</option>
-                                                        @endforelse
-                                                    </select>
-                                                    @error('section_id')
-                                                        <span class="text-sm text-red-500">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                                <div class="">
-                                                    <label for="" class="form-label">Fee name</label>
-                                                    <input wire:model.blur='fee_name' type="text"
-                                                        class="form-input rounded" id="">
-                                                    @error('fee_name')
-                                                        <span class="text-sm text-red-500">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                                <div class="">
-                                                    <label for="" class="form-label">Amount</label>
-                                                    <input wire:model.blur='amount' type="number"
-                                                        class="form-input rounded" id="">
-                                                    @error('amount')
-                                                        <span class="text-sm text-red-500">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
+                                            <div class="">
+                                                <label for="" class="form-label">Section</label>
+                                                <select wire:model.blur='section_id' class="form-select rounded"
+                                                    id="">
+                                                    <option value="">Select section</option>
+                                                    @forelse ($sections as $item)
+                                                        <option value="{{ $item->id }}"
+                                                            {{ $item->id == $this->section_id ? 'selected' : '' }}>
+                                                            {{ $item->section_name }}</option>
+                                                    @empty
+                                                        <option value="" disabled>No section found</option>
+                                                    @endforelse
+                                                </select>
+                                                @error('section_id')
+                                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="">
+                                                <label for="" class="form-label">Category</label>
+                                                <select wire:model.blur='category_id' class="form-select rounded"
+                                                    id="">
+                                                    <option value="">Select category</option>
+                                                    @forelse ($categories as $item)
+                                                        <option value="{{ $item->id }}"
+                                                            {{ $item->id == $this->category_id ? 'selected' : '' }}>
+                                                            {{ $item->category_name }}</option>
+                                                    @empty
+                                                        <option value="" disabled>No category found</option>
+                                                    @endforelse
+                                                </select>
+                                                @error('category_id')
+                                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="">
+                                                <label for="" class="form-label">Fee name</label>
+                                                <input wire:model.blur='fee_name' type="text"
+                                                    class="form-input rounded" id="">
+                                                @error('fee_name')
+                                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="">
+                                                <label for="" class="form-label">Amount</label>
+                                                <input wire:model.blur='amount' type="number"
+                                                    class="form-input rounded" id="">
+                                                @error('amount')
+                                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
-                                        <!-- Modal footer -->
-                                        <div
-                                            class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                            <button type="submit"
-                                                class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50">
-                                                {{ $this->editable_item ? 'Update' : 'Save' }}</button>
-                                            @if ($this->editable_item)
-                                                <button type="button" wire:click='resetFields'
-                                                    class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-red-400 dark:focus:ring-red-200/50">
-                                                    {{ 'Cancel' }}</button>
-                                            @endif
-                                        </div>
-                                    </form>
-                                </div>
-                                <!-- / Step Content -->
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div
+                                        class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                        <button type="submit"
+                                            class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50">
+                                            {{ $this->editable_item ? 'Update' : 'Save' }}</button>
+                                        @if ($this->editable_item)
+                                            <button type="button" wire:click='resetFields'
+                                                class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-red-400 dark:focus:ring-red-200/50">
+                                                {{ 'Cancel' }}</button>
+                                        @endif
+                                    </div>
+                                </form>
                             </div>
+                            <!-- / Step Content -->
                         </div>
                     </div>
                 </div>
@@ -137,6 +152,7 @@
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
                             <th class="text-white">Section</th>
+                            <th class="text-white">Category</th>
                             <th class="text-white">Fee name</th>
                             <th class="text-white">Amount</th>
                             <th class="text-white text-right">Actions</th>
@@ -151,6 +167,9 @@
                                 </td>
                                 <td>
                                     {{ $item->section->section_name }}
+                                </td>
+                                <td>
+                                    {{ $item->category->category_name }}
                                 </td>
                                 <td>
                                     {{ $item->fee_name }}
@@ -180,6 +199,7 @@
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
                             <th class="text-white">Section</th>
+                            <th class="text-white">Category</th>
                             <th class="text-white">Fee name</th>
                             <th class="text-white">Amount</th>
                             <th class="text-white text-right">Actions</th>

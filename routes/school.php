@@ -13,6 +13,8 @@ use App\Livewire\Backend\School\ExamResultManagement;
 use App\Livewire\Backend\School\ClassSectionManagement;
 use App\Livewire\Backend\School\ClassSectionSubjectManagement;
 use App\Livewire\Backend\School\FeeCategoryManagement;
+use App\Livewire\Backend\School\GradingManagement;
+use App\Livewire\Backend\School\GradingRuleManagement;
 
 Route::get('/dashboard', Dashboard::class)->name('index');
 Route::get('/staffs', StaffManagement::class)->name('staffs');
@@ -24,6 +26,8 @@ Route::get('/fee-categories', FeeCategoryManagement::class)->name('fee-categorie
 Route::get('/all-fees', ExamFeeManagement::class)->name('all-fees');
 Route::get('/exam-results', ExamResultManagement::class)->name('exam-results');
 Route::get('/admissions', AdmissionManagement::class)->name('admissions');
+Route::get('/grading', GradingManagement::class)->name('grading');
+Route::get('/grading-rule/{id}', GradingRuleManagement::class)->name('grading-rule');
 Route::get('/admissions/{admission_id}', AdmissionFormPreview::class)->name('admissions.show');
 Route::get('/general-information', GeneralInformation::class)->name('general-information');
 // Route::group(['as' => 'student'], function () {

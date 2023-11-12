@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class SchoolFee extends Model
+class Grade extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
@@ -40,35 +40,26 @@ class SchoolFee extends Model
     {
         return $this->belongsTo(SchoolClassSection::class, 'school_class_section_id');
     }
-
-    /**
-     * Get the category that owns the SchoolFee
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(SchoolFeeCategory::class, 'school_fee_category_id');
-    }
-    // This function will return all fees by school
-    public static function allFees()
+    // This function will return all grades by school
+    public static function allGrades()
     {
         return self::where('school_id', school()->id)->get() ?? abort(404);
     }
-
-    // This function will return exam by it's id by school
+    // This function will return result by it's id by school
     public static function findBySchool($id)
     {
         return self::where('school_id', school()->id)->findOrFail($id);
     }
 
+    // This will return all grade rules associated with a grade.
+    //
     /**
-     * The students that belong to the SchoolFee
+     * Get all of the gradingRules for the Grade
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function students(): BelongsToMany
+    public function gradingRules(): HasMany
     {
-        return $this->belongsToMany(Student::class);
+        return $this->hasMany(GradingRule::class, 'grade_id');
     }
 }
