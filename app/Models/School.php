@@ -35,7 +35,9 @@ class School extends Model
 
     public static function allInformations(): School
     {
-        return self::where('user_id', auth()->user()->id)->first();
+        return self::where('user_id', auth()->user()->id)
+            // ->with('classes.classSections')
+            ->first();
     }
 
     /**
@@ -46,5 +48,23 @@ class School extends Model
     public function fees(): BelongsToMany
     {
         return $this->belongsToMany(SchoolFee::class);
+    }
+
+    //grading
+    // public static function gradingRule(School $school, $section_id)
+    // {
+    //     return $school->classes->flatMap->classSections->flatMap->grading($section_id);
+    // }
+    /**
+     * Grading rule for a specific section.
+     *
+     * @param  int  $section_id
+     * @return \Illuminate\Support\Collection
+     */
+    public static function gradingRule($school, $section_id)
+    {
+        return Grade::whereHas('section', function ($query) use ($section_id) {
+            $query->where('id', $section_id);
+        })->where('school_id', $school->id)->latest()->first();
     }
 }

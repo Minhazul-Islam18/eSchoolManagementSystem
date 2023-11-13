@@ -94,6 +94,25 @@
                                                         <span class="text-sm text-red-500">{{ $message }}</span>
                                                     @enderror
                                                 </div>
+
+                                                <div class="">
+                                                    <label for="" class="form-label">Subject</label>
+                                                    <select wire:model.blur='subject_id' class="form-select rounded"
+                                                        wire:change='getStudents' id="">
+                                                        <option value="">Select subject</option>
+                                                        @forelse ($this->subjects as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                {{ $item->id == $this->subject_id ? 'selected' : '' }}>
+                                                                {{ $item->subject_name }}</option>
+                                                        @empty
+                                                            <option value="" disabled>No subject found</option>
+                                                        @endforelse
+                                                    </select>
+                                                    @error('subject_id')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
                                                 <div class="">
                                                     <label for="" class="form-label">Exams</label>
                                                     <select wire:model.blur='school_exam_id' class="form-select rounded"
@@ -120,7 +139,7 @@
                                                         @foreach ($this->students as $item)
                                                             <option value="{{ $item->id }}"
                                                                 {{ $item->id == $this->student_id ? 'selected' : '' }}>
-                                                                {{ $item->name_bn }}
+                                                                {{ $item->name_bn . ' [ID -' . $item->student_id . ']' }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -128,11 +147,36 @@
                                                         <span class="text-sm text-red-500">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-                                                <div class="">
-                                                    <label for="" class="form-label">Obtained marks</label>
-                                                    <input wire:model.blur='obtained_marks' type="number"
+                                            </div>
+
+                                            <div
+                                                class="pt-6 relative border border-gray-600 dark:border-gray-400 px-2 pb-3 rounded-sm grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                                <span for=""
+                                                    class=" bg-white px-2 py-1 dark:bg-gray-600 top-[-15px] border border-gray-600 dark:border-gray-400 absolute left-3">Obtained
+                                                    marks</span>
+                                                <div>
+                                                    <label for="" class="form-label">Theory</label>
+                                                    <input wire:model.blur='theory' type="number"
                                                         class="form-input rounded" id="">
-                                                    @error('obtained_marks')
+                                                    @error('theory')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
+                                                <div>
+                                                    <label for="" class="form-label">MCQ</label>
+                                                    <input wire:model.blur='mcq' type="number"
+                                                        class="form-input rounded" id="">
+                                                    @error('mcq')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
+                                                <div>
+                                                    <label for="" class="form-label">Practical</label>
+                                                    <input wire:model.blur='practical' type="number"
+                                                        class="form-input rounded" id="">
+                                                    @error('practical')
                                                         <span class="text-sm text-red-500">{{ $message }}</span>
                                                     @enderror
                                                 </div>
@@ -140,7 +184,7 @@
                                         </div>
                                         <!-- Modal footer -->
                                         <div
-                                            class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                            class="flex items-center px-6 pt-4 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                                             <button type="submit"
                                                 class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50">
                                                 {{ $this->editable_item ? 'Update' : 'Save' }}</button>
@@ -158,7 +202,7 @@
                     </div>
                 </div>
             </div>
-
+            {{-- Filter options --}}
             <div class="grid grid-cols-5 gap-4 my-4">
                 <div class="">
                     <label for="" class="form-label">Class</label>
@@ -188,10 +232,11 @@
                         @endforelse
                     </select>
                 </div>
+
                 <div class="">
                     <label for="" class="form-label">Exams</label>
                     <select wire:model.blur='filter_exam_id' class="form-select rounded" id=""
-                        wire:change='refresh'>
+                        wire:change='getSubjectRefresh'>
                         <option value="">Select exam</option>
                         @forelse ($this->exams as $item)
                             <option value="{{ $item->id }}"
@@ -202,6 +247,22 @@
                         @endforelse
                     </select>
                 </div>
+
+                <div class="">
+                    <label for="" class="form-label">Subjects</label>
+                    <select wire:model.blur='filter_subject_id' class="form-select rounded" id=""
+                        wire:change='refresh'>
+                        <option value="">Select subject</option>
+                        @forelse ($this->subjects as $item)
+                            <option value="{{ $item->id }}"
+                                {{ $item->id == $this->filter_subject_id ? 'selected' : '' }}>
+                                {{ $item->subject_name }}</option>
+                        @empty
+                            <option value="" disabled>No subject found</option>
+                        @endforelse
+                    </select>
+                </div>
+
             </div>
             <div>
                 <table id="example" class="display" style="width: 100%">
@@ -210,6 +271,7 @@
                             <th class="text-white">ID</th>
                             <th class="text-white">Exam</th>
                             <th class="text-white">Student</th>
+                            <th class="text-white">Marks</th>
                             <th class="text-white text-right">Actions</th>
                         </tr>
                     </thead>
@@ -221,9 +283,16 @@
                                     {{ $item->exam->exam_name }}
                                 </td>
                                 <td>
-                                    {{ $item->mark_obtained }}
+                                    {{ $item->student->name_bn }}
                                 </td>
-                                <td class="p-3 al flex justify-end items-center gap-1.5 flex-wrap">
+                                <td>
+                                    {{ 'Theory: ' . $item->theory }}</br>
+                                    {{ 'MCQ: ' . $item->mcq }}</br>
+                                    {{ 'Practical: ' . $item->practical }}</br>
+                                    <hr>
+                                    {{ 'Total: ' . $item->total }}
+                                </td>
+                                <td class="p-3 al flex justify-end items-center gap-1.5 flex-wrap" wire:ignore>
                                     <span
                                         class="px-2 py-1 rounded-sm bg-yellow-300 cursor-pointer flex w-max align-center justify-center"
                                         wire:click='edit({{ $item->id }})' @click="openCEmodal = true">
@@ -244,6 +313,7 @@
                             <th class="text-white">ID</th>
                             <th class="text-white">Exam</th>
                             <th class="text-white">Student</th>
+                            <th class="text-white">Marks</th>
                             <th class="text-white text-right">Actions</th>
                         </tr>
                     </tfoot>

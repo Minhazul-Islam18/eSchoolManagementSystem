@@ -20,6 +20,7 @@
         "spatie/laravel-backup": "^8.3"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.9",
         "fakerphp/faker": "*",
         "laravel/pint": "*",
         "laravel/sail": "^1.18",

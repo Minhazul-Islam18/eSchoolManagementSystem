@@ -56,4 +56,9 @@ class SchoolClassSection extends Model
     {
         return Student::where('school_class_section_id', $section_id)->get();
     }
+
+    public function grading($section_id)
+    {
+        return Grade::where('school_class_section_id', $section_id)->first();
+    }
 }

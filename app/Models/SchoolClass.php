@@ -41,7 +41,7 @@ class SchoolClass extends Model
      */
     public function classSections(): HasMany
     {
-        return $this->hasMany(SchoolClassSection::class);
+        return $this->hasMany(SchoolClassSection::class, 'school_class_id');
     }
 
     /**

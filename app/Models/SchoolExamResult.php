@@ -12,6 +12,15 @@ class SchoolExamResult extends Model
     use HasFactory;
     protected $guarded = ['id'];
     /**
+     * Get the student that owns the SchoolExamResult
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(student::class);
+    }
+    /**
      * Get the school that owns the SchoolExam
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

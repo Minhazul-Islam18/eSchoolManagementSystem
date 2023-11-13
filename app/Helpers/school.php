@@ -12,6 +12,6 @@ if (!function_exists('school')) {
      */
     function school(): School
     {
-        return  School::where('user_id', auth()->user()->id)->first();
+        return  School::where('user_id', auth()->user()->id)->firstOrFail();
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('school_exam_id')->nullable()->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('school_class_id')->nullable()->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('school_class_section_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('school_class_subject_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('theory');
             $table->string('mcq');
             $table->string('practical');
