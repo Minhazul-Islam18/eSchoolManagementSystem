@@ -18,23 +18,23 @@ class SchoolClassSeeder extends Seeder
         $e = School::first();
         SchoolClass::updateOrCreate([
             'school_id' => $e->id,
-            'class_name' => 'One',
+            'class_name' => 'Six',
         ]);
         SchoolClass::updateOrCreate([
             'school_id' => $e->id,
-            'class_name' => 'Two',
+            'class_name' => 'Seven',
         ]);
         SchoolClass::updateOrCreate([
             'school_id' => $e->id,
-            'class_name' => 'Three',
+            'class_name' => 'Eight',
         ]);
         SchoolClass::updateOrCreate([
             'school_id' => $e->id,
-            'class_name' => 'Four',
+            'class_name' => 'Nine',
         ]);
         SchoolClass::updateOrCreate([
             'school_id' => $e->id,
-            'class_name' => 'Five',
+            'class_name' => 'Ten',
         ]);
     }
 }

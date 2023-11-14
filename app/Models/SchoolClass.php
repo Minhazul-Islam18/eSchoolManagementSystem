@@ -45,6 +45,16 @@ class SchoolClass extends Model
     }
 
     /**
+     * Get all of the groups for the SchoolClass
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function groups(): HasMany
+    {
+        return $this->hasMany(classGroup::class, 'school_class_id');
+    }
+
+    /**
      * Get the school that owns the SchoolClass
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

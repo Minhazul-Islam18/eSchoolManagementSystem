@@ -1,4 +1,4 @@
-<div x-data="{ openCEmodal: @entangle('openCEmodal'), openViewModal: false }">
+<div x-data="{ openCEmodal: @entangle('openCEmodal') }">
     <main>
         <div class="container px-10 py-5">
             <header class="flex items-center flex-wrap mb-4" wire:ignore>
@@ -21,12 +21,12 @@
                 <!-- Modal content -->
                 <div
                     class="relative overflow-y-scroll bg-white rounded-lg shadow dark:bg-gray-700 w-2/3 h-[calc(100%-2vh)]">
-                    <form class="flex flex-col justify-between h-full" action=""
+                    <form class="h-full flex flex-col justify-between" action=""
                         wire:submit='{{ $this->editable_item ? 'update' : 'store' }}'>
                         <!-- Modal header -->
                         <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                {{ $this->editable_item ? 'Edit' : 'Create' }} class
+                                {{ $this->editable_item ? 'Edit' : 'Create' }} Section
                             </h3>
                             <button type="button" @click="openCEmodal = false"
                                 class="text-gray-400 bg-transparent hover:bg-red-500/50 hover:text-red-500 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-red-600"
@@ -41,13 +41,27 @@
                         </div>
                         <!-- Modal body -->
                         <div class="p-6 space-y-6 h-full">
-                            <div class="grid grid-cols-1">
-                                <label for="" class="form-label">Class name</label>
-                                <input wire:model.blur='class_name' type="text" class="form-input rounded"
-                                    id="">
-                                @error('class_name')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="">
+                                    <label for="" class="form-label">Name</label>
+                                    <input wire:model.blur='group_name' type="text" class="form-input rounded"
+                                        id="">
+                                    @error('group_name')
+                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="">
+                                    <label for="" class="form-label">Class</label>
+                                    <select wire:model.blur='class_id' class="form-select rounded" id="">
+                                        <option value="">Select class</option>
+                                        @foreach ($classes as $item)
+                                            <option value="{{ $item->id }}">{{ $item->class_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('class_id')
+                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                         <!-- Modal footer -->
@@ -65,18 +79,17 @@
                     </form>
                 </div>
             </div>
-
             <div wire:ignore>
                 <table id="example" class="display" style="width: 100%">
                     <thead class="bg-blue-500 border-none">
                         <tr>
                             <th class="text-white">ID</th>
-                            <th class="text-white">Name</th>
-                            <th class="text-white text-right">Actions</th>
+                            <th class="text-white">Class</th>
+                            <th class="text-white">Section</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($classes as $key => $item)
+                        @foreach ($groups as $key => $item)
                             <tr wire:key='{{ $item->id }}' class="border-b">
                                 <td>{{ $key + 1 }}</td>
                                 <td>
@@ -84,18 +97,27 @@
                                         {{ $item->class_name }}
                                     </div>
                                 </td>
-                                <td class="p-3 al flex justify-end items-center gap-1.5 flex-wrap">
-                                    <span
-                                        class="px-2 py-1 rounded-sm bg-yellow-300 cursor-pointer flex w-max align-center justify-center"
-                                        wire:click='edit({{ $item->id }})' @click="openCEmodal = true">
-                                        <i data-lucide="pen-square" class="w-4 me-1"></i> Edit
-                                    </span>
-                                    <button
-                                        class="px-2 py-1 rounded-sm bg-red-500 cursor-pointer flex w-max align-center justify-center"
-                                        wire:confirm="Are you sure?" wire:click="destroy({{ $item->id }})"><i
-                                            data-lucide="trash-2" class="w-4 me-1"></i>
-                                        Delete
-                                    </button>
+                                <td>
+                                    <div class="flex flex-col gap-2 flex-wrap">
+                                        @foreach ($item->groups as $group)
+                                            <div wire:key='{{ $group->id }}' class="flex flex-row gap-3">
+                                                {{ $group->group_name }}
+                                                <span
+                                                    class="px-2 py-1 rounded-sm bg-yellow-300 cursor-pointer flex w-max align-center justify-center"
+                                                    wire:click='edit({{ $group->id }})' @click="openCEmodal = true"
+                                                    data-modal-target="CEmodal" data-modal-toggle="CEmodal">
+                                                    <i data-lucide="pen-square" class="w-4 me-1"></i> Edit
+                                                </span>
+                                                <button
+                                                    class="px-2 py-1 rounded-sm bg-red-500 cursor-pointer flex w-max align-center justify-center"
+                                                    wire:confirm="Are you sure?"
+                                                    wire:click="destroy({{ $group->id }})"><i data-lucide="trash-2"
+                                                        class="w-4 me-1"></i>
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -103,8 +125,8 @@
                     <tfoot class="bg-blue-500">
                         <tr>
                             <th class="text-white">ID</th>
-                            <th class="text-white">Name</th>
-                            <th class="text-white">Actions</th>
+                            <th class="text-white">Class</th>
+                            <th class="text-white">Group</th>
                         </tr>
                     </tfoot>
                 </table>
