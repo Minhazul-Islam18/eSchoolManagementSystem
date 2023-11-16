@@ -110,6 +110,7 @@ class UserManagement extends Component
     }
     public function ResetFields()
     {
+        $this->editable_user = null;
         $this->user = [
             'id' => '',
             'name' => '',

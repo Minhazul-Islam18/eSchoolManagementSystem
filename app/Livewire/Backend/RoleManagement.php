@@ -53,9 +53,9 @@ class RoleManagement extends Component
         //dispatch an event
         $this->dispatch('table-updated');
     }
-    public function EditRole(User $user, $id)
+    public function EditRole($id)
     {
-        $this->authorize('app.roles.edit', $user);
+        $this->authorize('app.roles.edit', auth()->user());
         //set to empty
         $this->permissions = [];
         //get the role which gonna be edit and set those data fields.

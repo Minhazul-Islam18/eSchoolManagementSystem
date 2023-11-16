@@ -26,7 +26,6 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $key => $item)
-                        {{-- @dd($item) --}}
                         <tr wire:key='{{ $item->id }}' class="border-b">
                             <td>{{ $key + 1 }}</td>
                             <td>
@@ -89,7 +88,7 @@
         <div x-show="OpenEditModal" class="modal w-full h-screen bg-gray-900 bg-opacity-80 top-0 fixed sticky-0">
             <div class="2xl:container h-full  2xl:mx-auto flex justify-center items-center">
                 <div style="height: 50vh; min-width: 50vw; max-width:90vw"
-                    class="px-12 overflow-y-scroll py-5 w-100 md:w-100 mx-0 my-auto dark:bg-gray-800 relative p-3">
+                    class="px-12 overflow-y-scroll py-5 w-100 md:w-100 mx-0 my-auto bg-white dark:bg-gray-800 relative p-3">
                     <span class="text-center block text-xl pb-2 border-b mb-2">
                         @if ($this->editable_user)
                             {{ __('Edit User') }}
@@ -97,7 +96,6 @@
                             {{ __('Create User') }}
                         @endif
                     </span>
-                    {{-- @dd($this->user) --}}
                     <form action="" wire:submit='{{ $this->editable_user ? 'update' : 'store' }}'>
                         <div class="flex flex-row flex-wrap">
                             <div class="w-full sm:w-full md:w-1/2 md:pr-1 py-1">
@@ -205,7 +203,7 @@
         <div x-show="OpenViewModal" class="modal w-full h-screen bg-gray-900 bg-opacity-80 top-0 fixed sticky-0">
             <div class="2xl:container h-full  2xl:mx-auto flex justify-center items-center">
                 <div style="height: 50vh; min-width: 50vw; max-width:90vw"
-                    class="px-12 overflow-y-scroll py-5 w-100 md:w-100 mx-0 my-auto dark:bg-gray-800 relative p-3">
+                    class="px-12 overflow-y-scroll py-5 w-100 md:w-100 mx-0 my-auto bg-white dark:bg-gray-800 relative p-3">
                     <h4 class="pb-2 border-b border-slate-600 text-xl">Preview User</h4>
                     @isset($this->preview_user)
                         <div class="w-full flex flex-wrap py-2">
@@ -235,7 +233,7 @@
                                 <span>{{ ':' }}</span>
                             </div>
                             <div class="w-3/4 py-2 border-b border-slate-600"> <span
-                                    class="py-1 px-2 rounded-sm bg-slate-500 text-white">{{ $this->preview_user['status'] ? 'Active' : 'Inactive' }}</span>
+                                    class="py-1 px-2 rounded-sm {{ $this->preview_user['status'] == 'Inactive' ? 'bg-emerald-500' : 'bg-slate-600' }} text-white">{{ $this->preview_user['status'] ? 'Active' : 'Inactive' }}</span>
                             </div>
                         </div>
                     @endisset

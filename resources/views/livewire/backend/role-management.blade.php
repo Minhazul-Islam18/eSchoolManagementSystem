@@ -76,7 +76,7 @@
         <div x-show="OpenEditModal" class="modal w-full h-screen bg-gray-900 bg-opacity-80 top-0 fixed sticky-0">
             <div class="2xl:container h-full  2xl:mx-auto flex justify-center items-center">
                 <div style="height: 50vh; min-width: 50vw; max-width:90vw"
-                    class="px-12 overflow-y-scroll py-5 w-100 md:w-100 mx-0 my-auto dark:bg-gray-800 relative p-3">
+                    class="px-12 overflow-y-scroll py-5 w-100 md:w-100 mx-0 my-auto bg-white dark:bg-gray-800 relative p-3">
                     <span class="text-center block text-xl pb-2 border-b mb-2">
                         @if (!empty($this->editable_role))
                             {{ __('Edit Role') }}
@@ -158,7 +158,7 @@
         <div x-show="OpenDeleteModal" class="modal w-full h-screen bg-gray-900 bg-opacity-80 top-0 fixed sticky-0">
             <div class="2xl:container h-full  2xl:mx-auto flex justify-center">
                 <div style="height: 50vh; min-width: 50vw; max-width:90vw"
-                    class="px-12 overflow-y-scroll py-5 w-100 md:w-100 mx-0 my-auto dark:bg-gray-800 relative p-3">
+                    class="px-12 overflow-y-scroll py-5 w-100 md:w-100 mx-0 my-auto bg-white dark:bg-gray-800 relative p-3">
                     <div class=" flex flex-col items-center justify-center gap-3 h-full">
                         <span class="inline-block text-2xl font-medium">
                             Are You want to delete this? This action will be irreverseable!
