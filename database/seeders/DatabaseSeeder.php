@@ -17,22 +17,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call(PermissionSeeder::class);
-        // $this->call(RoleSeeder::class);
-        // $this->call(UserSeeder::class);
-        // $this->call(FrontendPageSeeder::class);
-        // $this->call(MenuSeeder::class);
-        // $this->call(SchoolSeeder::class);
-        // $this->call(SchoolStaffSeeder::class);
+        $this->call(PermissionSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(FrontendPageSeeder::class);
+        $this->call(MenuSeeder::class);
+        $this->call(SchoolSeeder::class);
+        $this->call(SchoolStaffSeeder::class);
         $this->call(SchoolClassSeeder::class);
         $this->call(ClassGroupSeeder::class);
-        // $this->call(SchoolClassSectionSeeder::class);
-        // $this->call(SchoolClassSubjectSeeder::class);
-        // $this->call(StudentSeeder::class);
-        // $this->call(StudentCategorySeeder::class);
-        // $this->call(StudentQuotaSeeder::class);
-        // $this->call(GurdianOccupationSeeder::class);
-        // $this->call(SchoolFeeCategorySeeder::class);
-        // Artisan::call('BangladeshGeocode:setup');
+        $this->call(SchoolClassSectionSeeder::class);
+        $this->call(SchoolClassSubjectSeeder::class);
+        $this->call(StudentSeeder::class);
+        $this->call(StudentCategorySeeder::class);
+        $this->call(StudentQuotaSeeder::class);
+        $this->call(GurdianOccupationSeeder::class);
+        $this->call(SchoolFeeCategorySeeder::class);
+        Artisan::call('BangladeshGeocode:setup');
     }
 }

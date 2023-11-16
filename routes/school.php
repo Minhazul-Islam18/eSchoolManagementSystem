@@ -16,6 +16,8 @@ use App\Livewire\Backend\School\ClassSectionSubjectManagement;
 use App\Livewire\Backend\School\FeeCategoryManagement;
 use App\Livewire\Backend\School\GradingManagement;
 use App\Livewire\Backend\School\GradingRuleManagement;
+use App\Livewire\Backend\School\NoticeEdit;
+use App\Livewire\Backend\School\NoticeManagement;
 
 Route::get('/dashboard', Dashboard::class)->name('index');
 Route::get('/staffs', StaffManagement::class)->name('staffs');
@@ -24,6 +26,8 @@ Route::get('/groups', ClassGroupManagement::class)->name('groups');
 Route::get('/sections', ClassSectionManagement::class)->name('sections');
 Route::get('/subjects', ClassSectionSubjectManagement::class)->name('subjects');
 Route::get('/exams', ExamManagement::class)->name('exams');
+Route::get('/notices', NoticeManagement::class)->name('notices');
+Route::get('/notice/{slug}', NoticeEdit::class)->name('notice.slug');
 Route::get('/fee-categories', FeeCategoryManagement::class)->name('fee-categories');
 Route::get('/all-fees', ExamFeeManagement::class)->name('all-fees');
 Route::get('/exam-results', ExamResultManagement::class)->name('exam-results');

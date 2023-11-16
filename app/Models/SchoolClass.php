@@ -68,4 +68,9 @@ class SchoolClass extends Model
     {
         return self::with('students')->get();
     }
+
+    public function notices()
+    {
+        return $this->belongsToMany(SchoolNotice::class, 'notice_school_class', 'school_class_id', 'notice_id');
+    }
 }

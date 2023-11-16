@@ -67,4 +67,14 @@ class School extends Model
             $query->where('id', $section_id);
         })->where('school_id', $school->id)->latest()->first();
     }
+
+    /**
+     * Get all of the notices for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notices(): HasMany
+    {
+        return $this->hasMany(SchoolNotice::class);
+    }
 }
