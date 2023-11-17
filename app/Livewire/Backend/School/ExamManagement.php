@@ -34,7 +34,7 @@ class ExamManagement extends Component
             'class_id' => 'required',
             'exam_date' => 'required',
             'section_id' => 'required',
-            'exam_name' => 'required|min:1|max:50|unique:school_exams'
+            'exam_name' => 'required|min:1|max:50'
         ]);
         SchoolExam::create([
             'school_class_id' => $this->class_id,
@@ -64,7 +64,7 @@ class ExamManagement extends Component
             'class_id' => 'required',
             'section_id' => 'required',
             'exam_date' => 'required',
-            'exam_name' => 'required|min:1|max:50|unique:school_exams,exam_name,' . $this->editable_item->id,
+            'exam_name' => 'required|min:1|max:50',
         ]);
         $e = SchoolExam::findBySchool($this->editable_item->id);
         $e->update([

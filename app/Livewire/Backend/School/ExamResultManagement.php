@@ -36,6 +36,13 @@ class ExamResultManagement extends Component
     public $theory;
     public $mcq;
     public $practical;
+    public function checkGrading()
+    {
+        if (School::gradingRule(school(), $this->section_id) !== null) {
+            return true;
+        }
+        return false;
+    }
     public function getSection()
     {
         if (null != $this->class_id || null != $this->filter_class_id) {

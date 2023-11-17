@@ -8,11 +8,23 @@
                     </span>
                 </div>
                 <div class="w-1/2 flex justify-end items-center gap-3">
-                    <button @click="openCEmodal = true" data-modal-target="CEmodal" data-modal-toggle="CEmodal"
-                        class="bg-green-500 bg-opacity-25 border border-green-500 rounded flex items-center px-4 py-2 shahow-md hover:bg-opacity-100 transition fade gap-2">
-                        <i data-lucide="plus-circle" class="w-4"></i>
-                        Add
-                    </button>
+                    @if ($this->checkGrading())
+                        <button @click="openCEmodal = true" data-modal-target="CEmodal" data-modal-toggle="CEmodal"
+                            class="bg-green-500 bg-opacity-25 border border-green-500 rounded flex items-center px-4 py-2 shahow-md hover:bg-opacity-100 transition fade gap-2">
+                            <i data-lucide="plus-circle" class="w-4"></i>
+                            Add
+                        </button>
+                    @else
+                        <div class="pl-2 pr-4 py-1 bg-red-600/20 border-l-4 border-red-600" role="alert">
+                            <h4 class=" text-md uppercase font-semibold">Heads up!</h4>
+                            <hr>
+                            <p class="mb-0">Please setup your <a class="text-blue-500 underline-offset-4 underline"
+                                    href="{{ route('school.grading') }}">grading system
+                                </a> first for
+                                publishing result</p>
+                        </div>
+                    @endif
+
                 </div>
             </header>
 
@@ -115,8 +127,9 @@
 
                                                 <div class="">
                                                     <label for="" class="form-label">Exams</label>
-                                                    <select wire:model.blur='school_exam_id' class="form-select rounded"
-                                                        wire:change='getStudents' id="">
+                                                    <select wire:model.blur='school_exam_id'
+                                                        class="form-select rounded" wire:change='getStudents'
+                                                        id="">
                                                         <option value="">Select exam</option>
                                                         @forelse ($this->exams as $item)
                                                             <option value="{{ $item->id }}"

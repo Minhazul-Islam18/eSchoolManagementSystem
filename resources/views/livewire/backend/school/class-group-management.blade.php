@@ -85,7 +85,7 @@
                         <tr>
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
-                            <th class="text-white">Section</th>
+                            <th class="text-white">Group</th>
                         </tr>
                     </thead>
                     <tbody>
