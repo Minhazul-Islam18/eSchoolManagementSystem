@@ -13,6 +13,8 @@ class School extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+
     // Relationships
     public function administrator()
     {
@@ -23,6 +25,7 @@ class School extends Model
     {
         return $this->hasMany(Student::class);
     }
+
     /**
      * Get all of the classes for the School
      *
@@ -31,6 +34,16 @@ class School extends Model
     public function classes(): HasMany
     {
         return $this->hasMany(SchoolClass::class);
+    }
+
+    /**
+     * Get all of the staffs for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function staffs(): HasMany
+    {
+        return $this->hasMany(SchoolStaff::class);
     }
 
     public static function allInformations(): School
@@ -50,11 +63,6 @@ class School extends Model
         return $this->belongsToMany(SchoolFee::class);
     }
 
-    //grading
-    // public static function gradingRule(School $school, $section_id)
-    // {
-    //     return $school->classes->flatMap->classSections->flatMap->grading($section_id);
-    // }
     /**
      * Grading rule for a specific section.
      *

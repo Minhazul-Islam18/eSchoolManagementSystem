@@ -52,8 +52,7 @@ class StaffManagement extends Component
         if ($this->image != null) {
             $this->image = $this->image->storeAs('school-staffs', $this->image->hashName(), 'public');
         }
-        SchoolStaff::create([
-            'school_id' => auth()->user()->id,
+        school()->staffs()->create([
             'others_info' => json_encode($others_info),
             'type' => $this->type,
             'image' => $this->image,
@@ -72,6 +71,7 @@ class StaffManagement extends Component
     }
     public function view(SchoolStaff $schoolStaff)
     {
+        abort_action($schoolStaff->school->user_id);
         $schoolStaff->others_info = json_decode($schoolStaff->others_info);
         $this->name = $schoolStaff->name;
         $this->status = $schoolStaff->status;
@@ -90,12 +90,14 @@ class StaffManagement extends Component
     }
     public function edit(SchoolStaff $schoolStaff)
     {
+        abort_action($schoolStaff->school->user_id);
         $this->editable_item = $schoolStaff;
         $this->selectedStatus = $schoolStaff->status;
         $this->view($this->editable_item);
     }
     public function delete(SchoolStaff $schoolStaff)
     {
+        abort_action($schoolStaff->school->user_id);
         if ($schoolStaff->image != null) {
             Storage::disk('public')->delete($schoolStaff->image);
         }
@@ -122,9 +124,8 @@ class StaffManagement extends Component
             Storage::disk('public')->delete($this->preview_image);
             $this->image = $this->image->storeAs(auth()->user()->id . '/school-staffs', $this->image->hashName(), 'public');
         }
-        $e = SchoolStaff::findSchoolStaff($this->editable_item->id);
-        $e->update([
-            'school_id' => auth()->user()->id,
+
+        $this->editable_item->update([
             'others_info' => json_encode($others_info),
             'type' => $this->type,
             'image' => $this->image ?? $this->preview_image,
