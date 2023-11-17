@@ -47,13 +47,12 @@ class ExamFeeManagement extends Component
             'category_id' => 'required',
             'fee_name' => 'required|min:1|max:50'
         ]);
-        SchoolFee::create([
+        school()->fees()->create([
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
             'school_fee_category_id' => $this->category_id,
             'fee_name' => $this->fee_name,
             'amount' => $this->amount,
-            'school_id' => school()->id
         ]);
         $this->dispatch('closeModal');
         $this->resetFields();
@@ -81,14 +80,12 @@ class ExamFeeManagement extends Component
             'amount' => 'required',
             'fee_name' => 'required|min:1|max:50',
         ]);
-        $e = SchoolFee::findBySchool($this->editable_item->id);
-        $e->update([
+        $this->editable_item->update([
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
             'school_fee_category_id' => $this->category_id,
             'fee_name' => $this->fee_name,
             'amount' => $this->amount,
-            'school_id' => school()->id
         ]);
         $this->dispatch('closeModal');
         $this->alert('success', 'Exam fee updated');
