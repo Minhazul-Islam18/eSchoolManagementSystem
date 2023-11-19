@@ -12,6 +12,16 @@ class ClassRoutine extends Model
     protected $guarded = ['id'];
 
     /**
+     * Get the school that owns the ClassRoutine
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function school(): BelongsTo
+    {
+        return $this->belongsTo(School::class);
+    }
+
+    /**
      * Get the class that owns the ClassRoutine
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -39,5 +49,10 @@ class ClassRoutine extends Model
     public function subject(): BelongsTo
     {
         return $this->belongsTo(SchoolClassSubject::class);
+    }
+
+    public static function allRoutine()
+    {
+        return self::where('school_id', school()->id)->get();
     }
 }

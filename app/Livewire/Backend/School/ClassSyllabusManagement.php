@@ -68,10 +68,6 @@ class ClassSyllabusManagement extends Component
     public function destroy(ClassSyllabus $classSyllabus)
     {
         abort_action($classSyllabus->school->user_id);
-<<<<<<< HEAD
-=======
-        // dd(json_decode($classSyllabus->files));
->>>>>>> 2250ee8a19956c51082358b4ca189be322077b05
         if (null != $classSyllabus->files) {
             Storage::disk('public')->delete(json_decode($classSyllabus->files));
         }

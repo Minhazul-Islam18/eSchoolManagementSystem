@@ -60,7 +60,7 @@ class SchoolClassSection extends Model
      */
     public function routines(): HasMany
     {
-        return $this->hasMany(ClassRoutine::class);
+        return $this->hasMany(ClassRoutine::class, 'section_id');
     }
 
     /**
