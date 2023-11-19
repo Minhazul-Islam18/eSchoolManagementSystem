@@ -85,4 +85,24 @@ class School extends Model
     {
         return $this->hasMany(SchoolNotice::class);
     }
+
+    /**
+     * Get all of the routines for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function routines(): HasMany
+    {
+        return $this->hasMany(ClassRoutine::class);
+    }
+
+    /**
+     * Get all of the syllabuses for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function syllabuses(): HasMany
+    {
+        return $this->hasMany(ClassSyllabus::class);
+    }
 }

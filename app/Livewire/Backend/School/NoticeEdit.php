@@ -31,7 +31,7 @@ class NoticeEdit extends Component
     {
         $fs = [];
         if (null !== $this->files) {
-            Storage::delete($this->editable_item->files);
+            Storage::disk('public')->delete(json_decode($this->editable_item->files));
             foreach ($this->files as $file) {
                 $name = $file->hashName();
                 $fs[] = $file->storeAs(school()->id . '/notice', $name, 'public');

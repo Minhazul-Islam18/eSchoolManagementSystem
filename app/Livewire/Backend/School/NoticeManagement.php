@@ -42,25 +42,12 @@ class NoticeManagement extends Component
         $this->resetFields();
     }
 
-    // public function edit(SchoolNotice $schoolNotice)
-    // {
-    //     abort_action($schoolNotice->school->user_id);
-    //     $this->editable_item = $schoolNotice;
-    //     $this->title = $schoolNotice->title;
-    //     $this->description = $schoolNotice->description;
-
-    //     foreach ($schoolNotice->schoolClasses as $class) {
-    //         $this->class[] = $class->id;
-    //     }
-    //     $this->dispatch('changed', $this->description);
-    // }
-
     public function destroy(SchoolNotice $schoolNotice)
     {
         abort_action($schoolNotice->school->user_id);
 
         if (null !== $schoolNotice->files) {
-            Storage::delete($schoolNotice->files);
+            Storage::disk('public')->delete(json_decode($schoolNotice->files));
         }
         $schoolNotice->delete();
         $this->alert('success', 'Notice deleted');
