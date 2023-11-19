@@ -52,6 +52,27 @@ class SchoolClassSection extends Model
         return $this->hasMany(SchoolClassSubject::class);
     }
 
+
+    /**
+     * Get all of the routines for the SchoolClassSection
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function routines(): HasMany
+    {
+        return $this->hasMany(ClassRoutine::class);
+    }
+
+    /**
+     * Get all of the syllabuses for the SchoolClassSection
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function syllabuses(): HasMany
+    {
+        return $this->hasMany(ClassSyllabus::class);
+    }
+
     public static function students($section_id)
     {
         return Student::where('school_class_section_id', $section_id)->get();

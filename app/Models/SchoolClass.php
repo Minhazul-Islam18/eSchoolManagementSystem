@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ClassSyllabus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -72,5 +73,25 @@ class SchoolClass extends Model
     public function notices()
     {
         return $this->belongsToMany(SchoolNotice::class, 'notice_school_class', 'school_class_id', 'notice_id');
+    }
+
+    /**
+     * Get all of the routines for the SchoolClass
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function routines(): HasMany
+    {
+        return $this->hasMany(ClassRoutine::class);
+    }
+
+    /**
+     * Get all of the syllabuses for the SchoolClassSection
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function syllabuses(): HasMany
+    {
+        return $this->hasMany(ClassSyllabus::class, 'class_id');
     }
 }

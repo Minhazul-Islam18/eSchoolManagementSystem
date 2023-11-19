@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -49,5 +50,15 @@ class SchoolClassSubject extends Model
     public function school_class(): BelongsTo
     {
         return $this->belongsTo(SchoolClass::class);
+    }
+
+    /**
+     * Get all of the routines for the SchoolClassSubject
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function routines(): HasMany
+    {
+        return $this->hasMany(ClassRoutine::class);
     }
 }

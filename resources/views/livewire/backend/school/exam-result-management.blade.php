@@ -18,7 +18,8 @@
                         <div class="pl-2 pr-4 py-1 bg-red-600/20 border-l-4 border-red-600" role="alert">
                             <h4 class=" text-md uppercase font-semibold">Heads up!</h4>
                             <hr>
-                            <p class="mb-0">Please setup your <a class="text-blue-500 underline-offset-4 underline"
+                            <p class="mb-0">Please setup your <a
+                                    class="text-blue-500 transition duration-0 hover:duration-300 ease-in-out underline-offset-4 hover:underline"
                                     href="{{ route('school.grading') }}">grading system
                                 </a> first for
                                 publishing result</p>
