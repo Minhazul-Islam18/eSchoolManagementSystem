@@ -1,4 +1,4 @@
-<div x-data="{ openCEmodal: @entangle('openCEmodal') }">
+<div x-data="{ openCEmodal: @entangle('openCEmodal'), showRoutine: @entangle('showRoutine') }">
     <main>
         <div class="container px-10 py-5">
             <header class="flex items-center flex-wrap mb-4" wire:ignore>
@@ -79,6 +79,57 @@
                     </form>
                 </div>
             </div>
+
+
+            <div x-show="showRoutine" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
+                role="dialog" aria-modal="true">
+                <div
+                    class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
+                    <div x-cloak @click="showRoutine = false" x-show="showRoutine"
+                        x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-200 transform"
+                        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                        class="fixed inset-0 transition-opacity bg-slate-950 bg-opacity-60" aria-hidden="true">
+                    </div>
+
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" x-cloak
+                        x-show="showRoutine" x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                        x-transition:leave="transition ease-in duration-200 transform"
+                        x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                        x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        class="max-h-[90vh] overflow-y-scroll inline-block w-full max-w-[80vw] p-8 overflow-hidden text-left transition-all transform bg-white dark:bg-slate-800 rounded-lg shadow-xl 2xl:max-w-2xl">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between space-x-4">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                {{ $this->editable_item ? 'Edit' : 'Create' }} syllabus
+                            </h3>
+                            <button @click="showRoutine = false"
+                                class="text-gray-600 focus:outline-none hover:text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <!-- Modal content-->
+                        <div class="px-4 py-2">
+                            <div>
+                                <!-- Step Content -->
+                                <div class="py-0">
+                                    @foreach ($this->routine_sets as $item)
+                                        {{ $item }}
+                                    @endforeach
+                                </div>
+                                <!-- / Step Content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div wire:ignore>
                 <table id="example" class="display" style="width: 100%">
                     <thead class="bg-blue-500 border-none">
@@ -90,7 +141,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($sections as $key => $item)
+                        @foreach ($allSections as $key => $item)
                             <tr wire:key='{{ $item->id }}' class="border-b">
                                 <td>{{ $key + 1 }}</td>
                                 <td>
@@ -131,6 +182,52 @@
                 </table>
             </div>
 
+            <!-- Generate routine -->
+            <div class="rounded my-6">
+                <form action="" wire:submit='generateRoutine'>
+                    <div class="mb-4 flex gap-4 flex-wrap flex-col md:flex-row items-center">
+                        <div class="">
+                            <label for="">Generate routine for class</label>
+                            <select wire:model.blur='filter_class_id' class="form-select rounded" name=""
+                                id="" wire:change='getSection'>
+                                <option value="">Select class</option>
+                                @foreach ($classes as $class)
+                                    <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="">
+                            <label for="">Section</label>
+                            <select wire:model.blur='filter_section_id' class="form-select rounded" name=""
+                                id="">
+                                <option value="">Select section</option>
+                                @foreach ($this->sections as $section)
+                                    <option value="{{ $section->id }}">{{ $section->section_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit"
+                            class="rounded bg-emerald-500 hover:bg-emerald-600 transition ease-in-out duration-300 px-6 py-3">Generate</button>
+                    </div>
+                </form>
+
+
+                <ul>
+                    @if ($publishedRoutines != null)
+                        @foreach ($publishedRoutines as $item)
+                            <li class="py-3 border-b flex justify-between items-center">
+                                {{ $item->section_name }}
+                                <button @click='showRoutine = true'
+                                    wire:click='showFullRoutine({{ $item->id }})'>Show</button>
+                            </li>
+                        @endforeach
+                    @else
+                        <li>Currently no published routine. </br> Please select any class & section to generate routine.
+                        </li>
+                    @endif
+
+                </ul>
+            </div>
         </div>
     </main>
 </div>

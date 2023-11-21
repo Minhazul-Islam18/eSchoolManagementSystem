@@ -13,16 +13,39 @@ class ClassSectionManagement extends Component
 {
     use LivewireAlert;
     public $openCEmodal = false;
+    public $showRoutine = false;
     public $editable_item;
     public $section_name;
     public $class_id;
+    public $filter_class_id;
+    public $filter_section_id;
+    public $sections = [];
+    public $routine_sets = [];
+
+
+
     #[Title('Class Sections')]
+
     public function rules()
     {
         return [
             'class_id' => 'required',
             'section_name' => ['required', new CheckUniqueAsClassID($this->class_id, 'school_class_sections', 'section_name')],
         ];
+    }
+    public function getSection()
+    {
+        $this->sections = school()->classes()->findOrFail($this->filter_class_id)->classSections;
+    }
+
+    //Generate routine
+    public function generateRoutine()
+    {
+
+        $e = school()->classes()->findOrFail($this->filter_class_id)->classSections()->findOrFail($this->filter_section_id);
+        $this->routine_sets =  $e->routines;
+        $e->update(['routine_published' => true]);
+        $this->alert('success', 'Routine generated.');
     }
     public function store()
     {
@@ -71,13 +94,27 @@ class ClassSectionManagement extends Component
         $this->openCEmodal = false;
         $this->dispatch('closeModal');
     }
+    public function showFullRoutine($id)
+    {
+        // Initialize an array to store routines
+        $section = SchoolClassSection::findBySchool($id);
+
+        // Loop through each published section and retrieve its routines
+        $this->routine_sets = $section->routines;
+    }
     public function render()
     {
-        $sections = SchoolClassSection::allSections();
-        $classes = SchoolClass::allClasses();
+        $e = school();
+        $allSections = school()->sections;
+        $classes = $e->classes;
+
+
+        // Get sections with routine_published set to true
+        $publishedRoutines = SchoolClassSection::where('routine_published', true)->get();
         return view('livewire.backend.school.class-section-management')->with([
-            'sections' => $sections,
+            'allSections' => $allSections,
             'classes' => $classes,
+            'publishedRoutines' => $publishedRoutines,
         ]);
     }
 }

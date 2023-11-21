@@ -10,14 +10,14 @@ class CheckUniqueAsClassID implements ValidationRule
 {
     private $table;
     private $column;
-    private $section_id;
+    private $class_id;
     private $id;
 
-    public function __construct($section_id, $table, $column, $id = null)
+    public function __construct($class_id, $table, $column, $id = null)
     {
         $this->table = $table;
         $this->column = $column;
-        $this->section_id = $section_id;
+        $this->class_id = $class_id;
         $this->id = $id;
     }
     /**
@@ -29,7 +29,7 @@ class CheckUniqueAsClassID implements ValidationRule
     {
         // Check if the title is unique within the given class_id
         $exists = DB::table($this->table)
-            ->where('school_class_section_id', $this->section_id)
+            ->where('school_class_id', $this->class_id)
             ->where($this->column, $value)
             ->where('id', '!=', $this->id)
             ->doesntExist();

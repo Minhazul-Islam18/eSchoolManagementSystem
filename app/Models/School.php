@@ -105,4 +105,14 @@ class School extends Model
     {
         return $this->hasMany(ClassSyllabus::class);
     }
+
+    /**
+     * Get all of the sections for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sections(): HasMany
+    {
+        return $this->hasMany(SchoolClassSection::class);
+    }
 }
