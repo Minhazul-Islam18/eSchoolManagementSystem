@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\Middleware\AdminLayoutMiddleware;
 use App\Http\Middleware\CheckActivatedSchool;
+use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\FrontendLayoutMiddleware;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -43,6 +44,14 @@ class RouteServiceProvider extends ServiceProvider
                 ->name('app.')
                 ->group(base_path('routes/backend.php'));
             Route::middleware(['web', 'auth:sanctum', AdminLayoutMiddleware::class, CheckActivatedSchool::class])
+                // ->middleware(function ($request, $next) {
+                //     if (auth()->check()) {
+                //         dd(auth()->user()); // Debugging statement
+                //         return $next($request);
+                //     }
+                //     abort(403, 'Unauthorized.');
+                // })
+                // ->middleware('role:school')
                 ->prefix('school')
                 ->name('school.')
                 ->group(base_path('routes/school.php'));

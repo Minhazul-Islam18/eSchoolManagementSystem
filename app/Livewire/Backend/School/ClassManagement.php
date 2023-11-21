@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Backend\School;
 
-use App\Models\SchoolClass;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
-use Livewire\Attributes\Title;
 use Livewire\Component;
+use App\Models\SchoolClass;
+use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Storage;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ClassManagement extends Component
 {
@@ -14,6 +15,18 @@ class ClassManagement extends Component
     public $editable_item;
     public $class_name;
     public $openCEmodal = false;
+    public $classSelectedForShowData;
+    public $glance = [
+        'sections' => [],
+        'groups' => [],
+        'syllabi' => [],
+    ];
+    public function showInTab()
+    {
+        $this->glance['sections'] = school()->classes()->findOrFail($this->classSelectedForShowData)->classSections;
+        $this->glance['groups'] = school()->classes()->findOrFail($this->classSelectedForShowData)->groups;
+        $this->glance['syllabi'] = school()->classes()->findOrFail($this->classSelectedForShowData)->syllabuses;
+    }
     public function store()
     {
         $this->validate(['class_name' => 'required|unique:school_classes,class_name']);
@@ -49,6 +62,12 @@ class ClassManagement extends Component
         $schoolClass->delete();
         $this->alert('success', 'Class deleted');
         $this->resetFields();
+    }
+    public function downloadFile($f)
+    {
+        if (Storage::disk('public')->exists($f)) {
+            return Storage::disk('public')->download($f);
+        }
     }
     public function resetFields()
     {

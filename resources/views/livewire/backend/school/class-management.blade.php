@@ -110,6 +110,70 @@
                 </table>
             </div>
 
+            <div x-data="{ currentTab: '' }">
+                <h4 class="text-xl border-b pb-2 mb-2 mt-12 border-b-gray-400">At a glance</h4>
+                <select class="form-select rounded" wire:model.blur="classSelectedForShowData" wire:change='showInTab'
+                    id="">
+                    <option value="">Select class</option>
+                    @foreach ($classes as $item)
+                        <option value="{{ $item->id }}">{{ $item->class_name }}</option>
+                    @endforeach
+                </select>
+                <nav class="flex gap-2 flex-col sm:flex-row flex-wrap my-3">
+                    <button class=" px-4 py-2 rounded bg-gradient-to-r from-cyan-500 to-blue-500"
+                        @click="currentTab = 'sections'">Sections</button>
+                    <button class=" px-4 py-2 rounded bg-gradient-to-r from-cyan-500 to-blue-500"
+                        @click="currentTab = 'groups'">Groups</button>
+                    <button class=" px-4 py-2 rounded bg-gradient-to-r from-cyan-500 to-blue-500"
+                        @click="currentTab = 'syllabus'">Syllabus</button>
+                </nav>
+
+                <div
+                    class="tab-body px-4 py-8 border border-gray-400 dark:border-gray-600 rounded bg-gray-300 dark:bg-gray-800">
+                    <div x-show="currentTab == ''">
+                        <span>{{ __('Please a select a class first!') }}</span>
+                    </div>
+
+                    <div x-show="currentTab == 'sections'">
+                        <ul>
+                            @forelse ($this->glance['sections'] as $item)
+                                <li class="border-b pb-2">{{ $item->section_name }}</li>
+                            @empty
+                                <li>{{ __('Nothing found (-_-)') }}</li>
+                            @endforelse
+                        </ul>
+                    </div>
+
+                    <div x-show="currentTab == 'groups'">
+                        <ul>
+                            @forelse ($this->glance['groups'] as $item)
+                                <li class="border-b pb-2">{{ $item->group_name }}</li>
+                            @empty
+                                <li>{{ __('Nothing found (-_-)') }}</li>
+                            @endforelse
+                        </ul>
+                    </div>
+
+                    <div x-show="currentTab == 'syllabus'">
+                        <ul>
+                            @forelse ($this->glance['syllabi'] as $item)
+                                <li class="flex justify-between border-b pb-2">
+                                    <span>{{ $item->syllabus_name }}</span>
+                                    @if (null != $item->files)
+                                        @foreach (json_decode($item->files) as $file)
+                                            <button class="px-2 py-1 rounded bg-yellow-400"
+                                                wire:click="downloadFile('{{ $file }}')">Download</button>
+                                        @endforeach
+                                    @endif
+                                </li>
+                            @empty
+                                <li>{{ __('Nothing found (-_-)') }}</li>
+                            @endforelse
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 </div>

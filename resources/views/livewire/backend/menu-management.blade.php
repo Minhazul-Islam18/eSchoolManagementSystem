@@ -97,7 +97,7 @@
         <div x-show="OpenEditModal" class="modal w-full h-screen bg-gray-900 bg-opacity-80 top-0 fixed sticky-0">
             <div class="2xl:container h-full  2xl:mx-auto flex justify-center items-center">
                 <div style="height: 50vh; min-width: 50vw; max-width:90vw"
-                    class="px-12 overflow-y-scroll py-5 w-100 md:w-100 mx-0 my-auto dark:bg-gray-800 relative p-3">
+                    class="px-12 overflow-y-scroll py-5 w-100 md:w-100 mx-0 my-auto bg-white dark:bg-gray-800 relative p-3">
                     <span class="text-center block text-xl pb-2 border-b mb-2">
                         @if ($this->editable_menu)
                             {{ __('Edit menu') }}

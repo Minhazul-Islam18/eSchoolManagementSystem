@@ -12,14 +12,14 @@ use App\Livewire\FrontendPageComponent;
 Route::get('/admin-login', function () {
     $e = Auth::loginUsingId(1, $remember = true);
     if ($e) {
-        return redirect('/admin/dashboard');
+        return redirect('/app/dashboard');
     }
 });
 Route::get('/school-login', function () {
     Auth::logout();
     $e = Auth::loginUsingId(4, $remember = true);
     if ($e) {
-        return redirect('/');
+        return redirect('/school/dashboard');
     }
 });
 

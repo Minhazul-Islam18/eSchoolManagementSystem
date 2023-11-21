@@ -70,5 +70,9 @@
                 </button>
             </a>
         </div>
+        <div class="flex justify-center gap-3">
+            <a href="/admin-login" class="px-3 py-2 border-1 rounded shadow-md bg-emerald-500">Super admin</a>
+            <a href="/school-login" class="px-3 py-2 border-1 rounded shadow-md bg-yellow-300">School</a>
+        </div>
     </x-authentication-card>
 </x-guest-layout>

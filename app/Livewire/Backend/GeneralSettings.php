@@ -39,35 +39,19 @@ class GeneralSettings extends Component
     {
         Gate::authorize('app.settings.update');
         $this->validate([
-            'site_title' => 'required|string|min:5|max:255',
-            'site_description' => 'sometimes|string|min:5|max:255',
-            'address' => 'sometimes|string|min:5|max:255',
+            'site_title' => 'nullable|string|min:5|max:255',
+            'site_description' => 'nullable|string|min:5|max:255',
+            'address' => 'nullable|string|min:5|max:255',
         ]);
         SiteSetting::updateOrCreate(['key' => 'site_title'], ['value' => $this->site_title]);
         SiteSetting::updateOrCreate(['key' => 'site_description'], ['value' => $this->site_description]);
         SiteSetting::updateOrCreate(['key' => 'address'], ['value' => $this->address]);
 
 
-        $key = 'APP_NAME';
-        $value = $this->site_title;
-        // Load the .env file
-        $envFilePath = base_path('.env');
-        $envContent = file_get_contents($envFilePath);
-
-        // Search for the specific variable line and update it
-        $envLines = explode("\n", $envContent);
-        $updatedEnvLines = [];
-        foreach ($envLines as $line) {
-            if (str_starts_with($line, $key . '=')) {
-                $updatedEnvLines[] = $key . '="' . $value . '"';
-            } else {
-                $updatedEnvLines[] = $line;
-            }
-        }
-        $updatedEnvContent = implode("\n", $updatedEnvLines);
-
-        // Save the changes to the .env file
-        file_put_contents($envFilePath, $updatedEnvContent);
+        $env = new DotenvEditor();
+        $env->changeEnv([
+            'APP_NAME' => '"' . $this->site_title . '"',
+        ]);
 
         $this->alert('success', 'Settings updated.');
     }

@@ -34,7 +34,7 @@ class ClassRoutineManagement extends Component
             'ends_at' => $this->ends_at,
         ]);
         $this->alert('success', 'Routine created');
-        // $this->resetFields();
+        $this->resetFields();
     }
 
     public function getSection()

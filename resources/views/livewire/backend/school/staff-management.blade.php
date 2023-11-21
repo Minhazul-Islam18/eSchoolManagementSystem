@@ -27,7 +27,7 @@
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                                 {{ $this->editable_item ? 'Edit' : 'Create' }} Staff
                             </h3>
-                            <button type="button" @click="openCEmodal = false"
+                            <button type="button" @click="openCEmodal = false" wire:click='resetFields'
                                 class="text-gray-400 bg-transparent hover:bg-red-500/50 hover:text-red-500 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-red-600"
                                 data-modal-hide="CEmodal">
                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -42,8 +42,13 @@
                         <div class="p-6 space-y-6" x-data="{ selectedStatus: @entangle('selectedStatus') }">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="">
-                                    <img src="{{ $this->image != null ? $this->image->temporaryUrl() : '' }}"
-                                        alt="">
+                                    @if ($this->image)
+                                        <img src="{{ $this->image != null ? $this->image->temporaryUrl() : '' }}"
+                                            alt="">
+                                    @elseif ($this->preview_image)
+                                        <img src="{{ '/storage/' . $this->preview_image }}" alt="">
+                                    @endif
+
                                     <label for="" class="form-label">Image</label>
                                     <input wire:model.blur='image' type="file" class="rounded" id="">
                                 </div>

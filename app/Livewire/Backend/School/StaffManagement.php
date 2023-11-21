@@ -83,7 +83,7 @@ class StaffManagement extends Component
             Carbon::parse($schoolStaff->joined_at)->format('Y-m-d');
         $this->resigned_at = Carbon::parse($schoolStaff->resigned_at)->format('Y-m-d');
         $this->type = $schoolStaff->type;
-        $this->facebook = $schoolStaff->others_info->facebook;
+        $this->facebook = $schoolStaff->others_info->facebook ?? '';
         $this->email = $schoolStaff->others_info->email ?? '';
         $this->phone = $schoolStaff->others_info->phone ?? '';
         $this->website = $schoolStaff->others_info->website ?? '';

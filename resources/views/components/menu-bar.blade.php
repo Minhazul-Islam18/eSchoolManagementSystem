@@ -79,9 +79,12 @@
             </a>
         </li>
         <li class="menu-item">
-            <i data-lucide="graduation-cap"></i>
-            Academic
-            <i class="mdi mdi-chevron-down"></i>
+            <span class="flex gap-1 mt-3">
+                <i data-lucide="graduation-cap"></i>
+                Academic
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
+
             <ul class="sub-menu hidden">
                 <li class="menu-item">
                     <a href="{{ route('school.classes') }}" data-fc-type="collapse" class="menu-link"
@@ -110,9 +113,11 @@
             </ul>
         </li>
         <li class="menu-item">
-            <i data-lucide="book-open-check"></i>
-            Exam
-            <i class="mdi mdi-chevron-down"></i>
+            <span class="flex gap-1 mt-3">
+                <i data-lucide="book-open-check"></i>
+                Exam
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
             <ul class="sub-menu hidden">
                 <li class="menu-item">
                     <a href="{{ route('school.exams') }}" data-fc-type="collapse" class="menu-link"

@@ -130,19 +130,31 @@
                                                     @enderror
                                                 </div>
 
-                                                <div>
-                                                    <label for="" class="form-label">Starts at</label>
-                                                    <input type="text" wire:model.blur='starts_at' name=""
-                                                        class="form-input rounded" id="">
+                                                <div wire:ignore>
+                                                    <div class="relative" data-te-timepicker-init
+                                                        data-te-input-wrapper-init>
+                                                        <input type="text"
+                                                            class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                                                            wire:model.blur='starts_at' id="form1" />
+                                                        <label for="form1"
+                                                            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">Starts
+                                                            at</label>
+                                                    </div>
                                                     @error('starts_at')
                                                         <span class="text-sm text-red-500">{{ $message }}</span>
                                                     @enderror
                                                 </div>
 
-                                                <div>
-                                                    <label for="" class="form-label">Ends at</label>
-                                                    <input type="text" wire:model.blur='ends_at' name=""
-                                                        class="form-input rounded" id="">
+                                                <div wire:ignore>
+                                                    <div class="relative" data-te-timepicker-init
+                                                        data-te-input-wrapper-init>
+                                                        <input type="text"
+                                                            class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                                                            wire:model.blur='ends_at' id="form1" />
+                                                        <label for="form1"
+                                                            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">Ends
+                                                            at</label>
+                                                    </div>
                                                     @error('ends_at')
                                                         <span class="text-sm text-red-500">{{ $message }}</span>
                                                     @enderror
@@ -177,6 +189,9 @@
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
                             <th class="text-white">Section</th>
+                            <th class="text-white">Subject</th>
+                            <th class="text-white">Starts at</th>
+                            <th class="text-white">Ends at</th>
                             <th class="text-white text-right">Actions</th>
                         </tr>
                     </thead>
@@ -189,6 +204,15 @@
                                 </td>
                                 <td>
                                     {{ $item->section->section_name }}
+                                </td>
+                                <td>
+                                    {{ $item->subject->subject_name }}
+                                </td>
+                                <td>
+                                    {{ $item->starts_at }}
+                                </td>
+                                <td>
+                                    {{ $item->ends_at }}
                                 </td>
                                 <td class="p-3 al flex justify-end items-center gap-1.5 flex-wrap" wire:ignore>
                                     <span
@@ -211,6 +235,9 @@
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
                             <th class="text-white">Section</th>
+                            <th class="text-white">Subject</th>
+                            <th class="text-white">Starts at</th>
+                            <th class="text-white">Ends at</th>
                             <th class="text-white text-right">Actions</th>
                         </tr>
                     </tfoot>
@@ -220,7 +247,9 @@
         </div>
     </main>
 </div>
+
 @push('page-script')
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.tailwindcss.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>

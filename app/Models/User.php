@@ -86,6 +86,12 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id');
     }
 
+
+    public function hasRole($role)
+    {
+        // dd($role);
+        return $this->role->slug === $role;
+    }
     public function hasPermission($permission): bool
     {
         if ($this->role != null) {
