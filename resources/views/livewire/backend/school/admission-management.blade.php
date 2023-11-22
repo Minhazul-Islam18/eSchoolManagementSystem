@@ -17,7 +17,7 @@
                     x-transition:leave="transition ease-in duration-200 transform"
                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    class="h-[100vh] overflow-y-scroll inline-block w-full max-w-[80vw] p-8 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-2xl">
+                    class="h-[100vh] overflow-y-scroll inline-block w-full max-w-[80vw] p-8 overflow-hidden text-left transition-all transform bg-white dark:bg-slate-700/90 backdrop-blur-2xl dark:text-white rounded-lg shadow-xl 2xl:max-w-2xl">
                     <!-- Modal header -->
                     <div class="flex items-center justify-between space-x-4">
                         <div class="border-b-2 py-4 w-full">
@@ -26,17 +26,20 @@
                             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                                 <div class="flex-1">
                                     <div x-show="step === 1">
-                                        <div class="text-lg font-bold text-gray-700 leading-tight">ছাত্র-ছাত্রীর তথ্য
+                                        <div class="text-lg font-bold text-gray-700 dark:text-white leading-tight">
+                                            ছাত্র-ছাত্রীর তথ্য
                                         </div>
                                     </div>
 
                                     <div x-show="step === 2">
-                                        <div class="text-lg font-bold text-gray-700 leading-tight">অভিভাবকের তথ্য
+                                        <div class="text-lg font-bold text-gray-700 leading-tight dark:text-white">
+                                            অভিভাবকের তথ্য
                                         </div>
                                     </div>
 
                                     <div x-show="step === 3">
-                                        <div class="text-lg font-bold text-gray-700 leading-tight">তথ্য যাচাই</div>
+                                        <div class="text-lg font-bold text-gray-700 leading-tight dark:text-white">তথ্য
+                                            যাচাই</div>
                                     </div>
                                 </div>
 
@@ -45,13 +48,14 @@
                                         <div class="rounded-full bg-green-500 text-xs leading-none h-2 text-center text-white"
                                             :style="'width: ' + parseInt(step / 3 * 100) + '%'"></div>
                                     </div>
-                                    <div class="text-xs w-10 text-gray-600" x-text="parseInt(step / 3 * 100) +'%'">
+                                    <div class="text-xs w-10 text-gray-600 dark:text-white"
+                                        x-text="parseInt(step / 3 * 100) +'%'">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <button @click="openCEmodal = false"
-                            class="text-gray-600 focus:outline-none hover:text-gray-700">
+                            class="text-gray-600 dark:text-white focus:outline-none hover:text-gray-700 dark:hover:text-gray-300">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -125,16 +129,18 @@
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div class="">
                                             <label for="" class="form-label">নাম (বাংলা)</label>
-                                            <input type="text" name="" id="" wire:model='name_bn'
-                                                placeholder="নাম (বাংলা) " class="form-input rounded">
+                                            <input type="text" name="" id=""
+                                                wire:model.blur='name_bn' placeholder="নাম (বাংলা) " required
+                                                class="form-input rounded after:[*] after:text-red-600">
                                             @error('name_bn')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="">
                                             <label for="" class="form-label">নাম (English)</label>
-                                            <input type="text" name="" id="" wire:model='name_en'
-                                                placeholder="নাম (English)" class="form-input rounded">
+                                            <input type="text" name="" id=""
+                                                wire:model.blur='name_en' placeholder="নাম (English)"
+                                                class="form-input rounded">
                                             @error('name_en')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
@@ -142,7 +148,7 @@
                                         <div class="">
                                             <label for="" class="form-label">যে শ্রেণিতে ভর্তি হতে
                                                 ইচ্ছুক</label>
-                                            <select wire:model.blur='school_class_id' wire:click.change='getSection'
+                                            <select wire:model.blur='school_class_id' wire:change='getSection'
                                                 class="form-select rounded" id="">
                                                 <option value="">শ্রেণি নির্বাচন করুন</option>
                                                 @foreach ($classes as $item)
@@ -154,23 +160,44 @@
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <div class="">
-                                            <label for="" class="form-label">Section</label>
-                                            <select wire:model.blur='section_id' class="form-select rounded"
-                                                id="">
-                                                <option value="">নির্বাচন করুন</option>
-                                                @forelse ($sections as $item)
-                                                    <option value="{{ $item->id }}"
-                                                        {{ $item->id == $this->section_id ? 'selected' : '' }}>
-                                                        {{ $item->section_name }}</option>
-                                                @empty
-                                                    <option value="" disabled>No section found</option>
-                                                @endforelse
-                                            </select>
-                                            @error('section_id')
-                                                <span class="text-sm text-red-500">{{ $message }}</span>
-                                            @enderror
-                                        </div>
+                                        @if ($this->groups != null)
+                                            <div class="">
+                                                <label for="" class="form-label">Groups</label>
+                                                <select wire:model.blur='group_id' class="form-select rounded"
+                                                    id="">
+                                                    <option value="">নির্বাচন করুন</option>
+                                                    @forelse ($this->groups as $item)
+                                                        <option value="{{ $item->id }}"
+                                                            {{ $item->id == $this->group_id ? 'selected' : '' }}>
+                                                            {{ $item->group_name }}</option>
+                                                    @empty
+                                                        <option value="" disabled>No group found</option>
+                                                    @endforelse
+                                                </select>
+                                                @error('group_id')
+                                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        @else
+                                            <div class="">
+                                                <label for="" class="form-label">Section</label>
+                                                <select wire:model.blur='section_id' class="form-select rounded"
+                                                    id="">
+                                                    <option value="">নির্বাচন করুন</option>
+                                                    @forelse ($sections as $item)
+                                                        <option value="{{ $item->id }}"
+                                                            {{ $item->id == $this->section_id ? 'selected' : '' }}>
+                                                            {{ $item->section_name }}</option>
+                                                    @empty
+                                                        <option value="" disabled>No section found</option>
+                                                    @endforelse
+                                                </select>
+                                                @error('section_id')
+                                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        @endif
+
                                         <div class="">
                                             <label for="" class="form-label">লিঙ্গ</label>
                                             <select wire:model.blur='gender' class="form-select rounded"
@@ -573,13 +600,17 @@
                                         </div>
                                         <table class="table-auto w-full border rounded my-4">
                                             <tbody>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         শ্রেণিঃ
                                                         {{ $this->class->class_name ?? '' }}
                                                     </td>
                                                     <td class="p-4">
-                                                        গ্রুপঃ {{ $this->section->section_name ?? '' }}
+                                                        @if ($this->group)
+                                                            গ্রুপঃ {{ $this->group->group_name ?? '' }}
+                                                        @else
+                                                            সেকশন: {{ $this->section->section_name ?? '' }}
+                                                        @endif
                                                     </td>
                                                     <td class="p-4">
                                                         ধর্মঃ {{ $this->religion ?? '' }}
@@ -588,7 +619,7 @@
                                                         লিঙ্গঃ {{ $this->gender ?? '' }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         শিক্ষার্থীর নাম (বাংলা)
                                                     </td>
@@ -602,7 +633,7 @@
                                                         শিক্ষার্থীর জন্ম নিবন্ধন নং
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         {{ $this->name_bn }}
                                                     </td>
@@ -616,7 +647,7 @@
                                                         {{ $this->birth_certificate_no }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         {{ 'পিতার নাম (বাংলা)' }}
                                                     </td>
@@ -630,7 +661,7 @@
                                                         {{ 'পিতার জন্ম নিবন্ধন নং' }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         {{ $this->fathers_name_bn }}
                                                     </td>
@@ -644,7 +675,7 @@
                                                         {{ $this->fathers_bc_no }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         {{ 'মাতার নাম (বাংলা)' }}
                                                     </td>
@@ -658,7 +689,7 @@
                                                         {{ 'মাতার জন্ম নিবন্ধন নং' }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         {{ $this->mothers_name_bn }}
                                                     </td>
@@ -672,7 +703,7 @@
                                                         {{ $this->mothers_bc_no }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         পিতা/মাতা জীবিত না থাকলে অভিভাবকের নাম (বাংলা)
                                                     </td>
@@ -686,7 +717,7 @@
                                                         অভিভাবকের সাথে শিক্ষার্থীর সম্পর্ক
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         {{ $this->gurdian_in_absence_of_parent_bn }}
                                                     </td>
@@ -700,7 +731,7 @@
                                                         {{ $this->relation_with_gurdian }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         অভিভাবকের পেশা
                                                     </td>
@@ -708,7 +739,7 @@
                                                         {{ $this->gurdians_occupation }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         অভিভাবকের মাসিক আয়
                                                     </td>
@@ -716,7 +747,7 @@
                                                         {{ $this->gurdians_monthly_income }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         মোবাইল নাম্বার
                                                     </td>
@@ -724,7 +755,7 @@
                                                         {{ $this->mobile_number }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4" colspan="2">
                                                         শিক্ষার্থীর ধরন
                                                     </td>
@@ -732,14 +763,14 @@
                                                         শিক্ষার্থীর কোটা
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4" colspan="2">
                                                         {{ $this->student_category->name ?? '' }}
                                                     </td>
                                                     <td class="p-4" colspan="2">
                                                         {{ $this->student_quota->name ?? '' }}
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4" colspan="2">
                                                         পূর্বে অধ্যায়নরত স্কুল এর নাম
                                                     </td>
@@ -747,7 +778,7 @@
                                                         পূর্বে অধ্যায়নরত শ্রেণি
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4" colspan="2">
                                                         {{ $this->previous_institute }}
                                                     </td>
@@ -755,7 +786,7 @@
                                                         {{ $this->previous_study_class }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         কোন ভাই/বোন অত্র প্রতিষ্ঠানে অধ্যয়নরত কি না
                                                     </td>
@@ -769,7 +800,7 @@
                                                         অধ্যয়নরত ভাই/বোনের রোল
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         {{ $this->have_siblings_studying ? 'হ্যাঁ' : 'না' }}
                                                     </td>
@@ -783,7 +814,7 @@
                                                         {{ $this->roll_of_studying_siblings }}
                                                     </td>
                                                 </tr>
-                                                <tr class="border-b hover:bg-gray-50">
+                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
                                                     <td class="p-4">
                                                         ঠিকানা
                                                     </td>
@@ -806,7 +837,8 @@
                     </div>
 
                     <!-- Bottom Navigation -->
-                    <div class="sticky bottom-0 left-0 right-0 py-5 bg-white shadow-md" x-show="step != 'complete'">
+                    <div class="sticky bottom-0 left-0 right-0 py-5 bg-white shadow-md dark:bg-slate-700 dark:backdrop-blur-2xl"
+                        x-show="step != 'complete'">
                         <div class="max-w-3xl mx-auto px-4">
                             <div class="flex justify-between">
                                 <div class="w-1/2">

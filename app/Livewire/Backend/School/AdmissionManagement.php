@@ -72,7 +72,9 @@ class AdmissionManagement extends Component
         $fathers_occupation,
         $gurdians_occupation,
         $sections = [],
+        $groups = [],
         $class_id,
+        $group_id,
         $class_id_of_studying_siblings,
         $division,
         $division_id,
@@ -88,6 +90,7 @@ class AdmissionManagement extends Component
         $editable_item,
         $class,
         $section,
+        $group,
         $student_quota,
         $student_category;
     #[On('image-dimensions-valid')]
@@ -104,6 +107,19 @@ class AdmissionManagement extends Component
     {
         if (null != $this->school_class_id) {
             $this->sections = SchoolClassSection::where('school_class_id', $this->school_class_id)->where('school_id', school()->id)->get();
+        }
+        //If class had no sections, then get all groups.
+        if (!sizeof($this->sections)) {
+            $this->getGroups();
+        } else {
+            $this->groups = [];
+        }
+    }
+
+    public function getGroups()
+    {
+        if (null != $this->school_class_id) {
+            $this->groups = school()->classes()->findOrFail($this->school_class_id)->groups;
         }
     }
     public function checkDivision()
@@ -149,6 +165,8 @@ class AdmissionManagement extends Component
             $this->class_of_studying_siblings = SchoolClass::findBySchool($this->class_id_of_studying_siblings)->class_name;
         }
         $this->section = $this->class->classSections->find($this->section_id);
+        $this->group = $this->class->groups->find($this->group_id);
+        // dd($this->group);
         $this->student_quota = StudentQuota::findOrFail($this->student_quota_id);
         $this->student_category = StudentCategory::findOrFail($this->student_category_id);
         $this->division = Division::findOrFail($this->division_id)->bn_name;
@@ -191,6 +209,7 @@ class AdmissionManagement extends Component
             'school_class_id' => $this->school_class_id,
             'roll' => $this->roll,
             'school_class_section_id' => $this->section_id,
+            'class_group_id' => $this->group,
             'ssc_roll' => $this->ssc_roll,
             'gender' => $this->gender,
             'religion' => $this->religion,
@@ -232,9 +251,7 @@ class AdmissionManagement extends Component
         ]);
         $this->alert('success', 'Student admission created');
     }
-    public function show($admission_id)
-    {
-    }
+
     public function render()
     {
         $applications = Student::where('school_id', school()->id)->whereNotNull('admission_id')->get();
