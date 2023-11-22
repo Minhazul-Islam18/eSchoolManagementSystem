@@ -110,6 +110,18 @@
                         <span class="menu-text"> {{ __('Subjects') }} </span>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.routines') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Routines') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.syllabuses') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Syllabi') }} </span>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="menu-item">
