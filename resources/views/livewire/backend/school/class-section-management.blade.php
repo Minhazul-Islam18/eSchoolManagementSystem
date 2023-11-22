@@ -104,9 +104,10 @@
                         <!-- Modal header -->
                         <div class="flex items-center justify-between space-x-4">
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                {{ $this->editable_item ? 'Edit' : 'Create' }} syllabus
+                                Class: {{ $this->routine_for['class'] ?? 'Loading...' }}</br>
+                                Section: {{ $this->routine_for['section'] ?? 'Loading...' }}
                             </h3>
-                            <button @click="showRoutine = false"
+                            <button @click="showRoutine = false" wire:click='resetFields'
                                 class="text-gray-600 focus:outline-none hover:text-gray-700">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -120,9 +121,59 @@
                             <div>
                                 <!-- Step Content -->
                                 <div class="py-0">
-                                    @foreach ($this->routine_sets as $item)
+                                    <div class="flex flex-col">
+                                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                            <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                                                <div class="overflow-hidden">
+                                                    @php
+                                                        $cnt = [];
+                                                    @endphp
+                                                    <table
+                                                        class="min-w-full text-left text-sm font-light border rounded border-gray-400">
+                                                        <thead class="border-b font-medium dark:border-gray-400">
+                                                            <tr>
+                                                                <th scope="col"
+                                                                    class="px-6 py-4 border-r border-gray-400"></th>
+                                                                <th scope="col" class="px-6 py-4 text-center"
+                                                                    colspan="{{ $cnt != null ? max($cnt) : null }}">
+                                                                    Schedules</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @forelse ($this->routine_sets as $weekday => $items)
+                                                                @php
+                                                                    $cnt[] = count($items);
+                                                                @endphp
+                                                                <tr class="border-b dark:border-gray-400">
+                                                                    <td
+                                                                        class="whitespace-nowrap px-6 py-4 font-medium border-r border-gray-400">
+                                                                        {{ $weekday }}</td>
+                                                                    @foreach ($items as $item)
+                                                                        <td
+                                                                            class="border-r border-gray-400 last:border-none text-center">
+                                                                            {{ $item->subject->subject_name }}</br>
+                                                                            {{ $item->starts_at . ' - ' . $item->ends_at }}
+                                                                        </td>
+                                                                    @endforeach
+                                                                </tr>
+                                                            @empty
+                                                                <tr>
+                                                                    <td>
+                                                                        <span wire:loading
+                                                                            wire:target="showFullRoutine"
+                                                                            class=" block text-center py-3 text-md">Loading...</span>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforelse
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- @foreach ($this->routine_sets as $item)
                                         {{ $item }}
-                                    @endforeach
+                                    @endforeach --}}
                                 </div>
                                 <!-- / Step Content -->
                             </div>

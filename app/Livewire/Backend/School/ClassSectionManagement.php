@@ -21,7 +21,7 @@ class ClassSectionManagement extends Component
     public $filter_section_id;
     public $sections = [];
     public $routine_sets = [];
-
+    public $routine_for = [];
 
 
     #[Title('Class Sections')]
@@ -93,14 +93,26 @@ class ClassSectionManagement extends Component
         $this->class_id = null;
         $this->openCEmodal = false;
         $this->dispatch('closeModal');
+        $this->routine_sets = [];
+        $this->routine_for = [];
     }
     public function showFullRoutine($id)
     {
         // Initialize an array to store routines
         $section = SchoolClassSection::findBySchool($id);
+        $this->routine_for['class'] = $section->school_class->class_name;
+        $this->routine_for['section'] = $section->section_name;
+        foreach ($section->routines as $result) {
+            $weekday = $result['weekday'];
 
-        // Loop through each published section and retrieve its routines
-        $this->routine_sets = $section->routines;
+            // Initialize the weekday group if not exists
+            if (!isset($this->routine_sets[$weekday])) {
+                $this->routine_sets[$weekday] = [];
+            }
+
+            // Add the result to the corresponding weekday group
+            $this->routine_sets[$weekday][] = $result;
+        }
     }
     public function render()
     {
