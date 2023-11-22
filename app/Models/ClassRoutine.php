@@ -51,6 +51,15 @@ class ClassRoutine extends Model
         return $this->belongsTo(SchoolClassSubject::class);
     }
 
+    /**
+     * Get the group that owns the ClassRoutine
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(classGroup::class);
+    }
     public static function allRoutine()
     {
         return self::where('school_id', school()->id)->get();

@@ -16,6 +16,7 @@ class ClassRoutineManagement extends Component
     public $editable_item,
         $class_id,
         $section_id,
+        $group_id,
         $subject_id,
         $weekday,
         $starts_at,
@@ -23,12 +24,48 @@ class ClassRoutineManagement extends Component
         $openCEmodal = false,
         $sections = [],
         $subjects = [];
+    public $groups = [];
+
+    public function getSection()
+    {
+        if ($this->editable_item == null) {
+            $this->section_id = null;
+            $this->group_id = null;
+        }
+
+        if (null != $this->class_id) {
+            $this->sections = SchoolClassSection::where('school_class_id', $this->class_id)->where('school_id', school()->id)->get();
+        }
+        //If class had no sections, then get all groups.
+        if (!sizeof($this->sections)) {
+            $this->getGroups();
+        } else {
+            $this->groups = [];
+        }
+    }
+
+    public function getGroups()
+    {
+        if (null != $this->class_id) {
+            $this->groups = school()->classes()->findOrFail($this->class_id)->groups;
+        }
+    }
+
+
     public function store()
     {
-        school()->classes()->findOrFail($this->class_id)->classSections()->findOrFail($this->section_id)->routines()->create([
+        $e = school()->classes()->findOrFail($this->class_id);
+        if ($this->section_id) {
+            $insertable =  $e->classSections()->findOrFail($this->section_id);
+        } elseif ($this->group_id) {
+            $insertable =  $e->groups()->findOrFail($this->group_id);
+        }
+
+        $insertable->routines()->create([
             'school_id' => school()->id,
             'class_id' => $this->class_id,
             'subject_id' => $this->subject_id,
+            'group_id' => $this->group_id,
             'weekday' => $this->weekday,
             'starts_at' => $this->starts_at,
             'ends_at' => $this->ends_at,
@@ -37,15 +74,14 @@ class ClassRoutineManagement extends Component
         $this->resetFields();
     }
 
-    public function getSection()
-    {
-        $this->sections = SchoolClassSection::where('school_class_id', $this->class_id)->get();
-        $this->getSubject();
-    }
 
     public function getSubject()
     {
-        $this->subjects = SchoolClassSubject::where('school_class_id', $this->class_id)->get();
+        if ($this->section_id !== null) {
+            $this->subjects = school()->classes()->findOrFail($this->class_id)->classSections()->findOrFail($this->section_id)->subjects;
+        } elseif ($this->group_id !== null) {
+            $this->subjects = school()->classes()->findOrFail($this->class_id)->groups()->findOrFail($this->group_id)->subjects;
+        }
     }
 
     public function edit(ClassRoutine $classRoutine)
@@ -56,6 +92,7 @@ class ClassRoutineManagement extends Component
         $this->class_id = $classRoutine->class_id;
         $this->section_id = $classRoutine->section_id;
         $this->subject_id = $classRoutine->subject_id;
+        $this->group_id = $classRoutine->group_id;
         $this->getSection();
         $this->weekday = $classRoutine->weekday;
         $this->starts_at = $classRoutine->starts_at;
@@ -70,6 +107,7 @@ class ClassRoutineManagement extends Component
             'school_id' => school()->id,
             'class_id' => $this->class_id,
             'section_id' => $this->section_id,
+            'group_id' => $this->group_id,
             'subject_id' => $this->subject_id,
             'weekday' => $this->weekday,
             'starts_at' => $this->starts_at,
@@ -94,12 +132,14 @@ class ClassRoutineManagement extends Component
         $this->class_id = null;
         $this->section_id = null;
         $this->subject_id = null;
+        $this->group_id = null;
         $this->weekday = null;
         $this->starts_at = null;
         $this->ends_at = null;
         $this->openCEmodal = false;
         $this->sections = [];
         $this->subjects = [];
+        $this->groups = [];
     }
 
 

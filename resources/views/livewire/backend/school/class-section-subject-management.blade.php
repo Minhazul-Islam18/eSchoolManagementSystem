@@ -125,7 +125,7 @@
                         <tr>
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
-                            <th class="text-white">Section</th>
+                            <th class="text-white">Section or group</th>
                             <th class="text-white">Name</th>
                             <th class="text-white text-right">Actions</th>
                         </tr>
@@ -170,7 +170,7 @@
                         <tr>
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
-                            <th class="text-white">Section</th>
+                            <th class="text-white">Section or group</th>
                             <th class="text-white">Subject</th>
                             <th class="text-white">Actions</th>
                         </tr>
