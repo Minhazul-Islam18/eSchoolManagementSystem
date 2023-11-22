@@ -116,7 +116,7 @@
             </div>
 
             <div>
-                <table id="example" class="display" style="width: 100%">
+                <table wire:ignore id="example" class="display" style="width: 100%">
                     <thead class="bg-blue-500 border-none">
                         <tr>
                             <th class="text-white">ID</th>
