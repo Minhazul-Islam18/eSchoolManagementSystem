@@ -61,4 +61,14 @@ class SchoolClassSubject extends Model
     {
         return $this->hasMany(ClassRoutine::class);
     }
+
+    /**
+     * Get the groups that owns the SchoolClassSubject
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function groups(): BelongsTo
+    {
+        return $this->belongsTo(classGroup::class, 'class_group_id');
+    }
 }

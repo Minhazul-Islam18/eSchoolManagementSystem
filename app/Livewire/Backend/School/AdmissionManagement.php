@@ -22,12 +22,14 @@ use Devfaysal\BangladeshGeocode\Models\District;
 use Devfaysal\BangladeshGeocode\Models\Division;
 use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Validate;
 
 class AdmissionManagement extends Component
 {
     use LivewireAlert, WithFileUploads;
     #[Title('Admission management')]
 
+    #[Validate]
     public
         $student_image,
         $name_bn,
