@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('class_routines', function (Blueprint $table) {
-            $table->after('section_id', function (Blueprint $table) {
-                $table->foreignId('group_id')->nullable()->constrained('class_groups')->cascadeOnDelete();
+        if (!Schema::hasColumn('class_routines', 'group_id')) {
+            Schema::table('class_routines', function (Blueprint $table) {
+                $table->after('section_id', function (Blueprint $table) {
+                    $table->foreignId('group_id')->nullable()->constrained('class_groups')->cascadeOnDelete();
+                });
             });
-        });
+        }
     }
 
     /**
