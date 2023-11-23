@@ -38,15 +38,7 @@ class ClassSectionManagement extends Component
         $this->sections = school()->classes()->findOrFail($this->filter_class_id)->classSections;
     }
 
-    //Generate routine
-    public function generateRoutine()
-    {
 
-        $e = school()->classes()->findOrFail($this->filter_class_id)->classSections()->findOrFail($this->filter_section_id);
-        $this->routine_sets =  $e->routines;
-        $e->update(['routine_published' => true]);
-        $this->alert('success', 'Routine generated.');
-    }
     public function store()
     {
         $this->validate();
@@ -96,6 +88,18 @@ class ClassSectionManagement extends Component
         $this->routine_sets = [];
         $this->routine_for = [];
     }
+
+
+    //Generate routine
+    public function generateRoutine()
+    {
+        $e = school()->classes()->findOrFail($this->filter_class_id)->classSections()->findOrFail($this->filter_section_id);
+        $this->routine_sets =  $e->routines;
+        $e->update(['routine_published' => true]);
+        $this->alert('success', 'Routine generated.');
+    }
+
+    //Show routine
     public function showFullRoutine($id)
     {
         // Initialize an array to store routines
@@ -114,6 +118,8 @@ class ClassSectionManagement extends Component
             $this->routine_sets[$weekday][] = $result;
         }
     }
+
+
     public function render()
     {
         $e = school();

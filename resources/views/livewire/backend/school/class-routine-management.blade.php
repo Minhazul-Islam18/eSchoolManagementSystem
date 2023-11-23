@@ -215,9 +215,8 @@
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
                             <th class="text-white">Section or group</th>
-                            <th class="text-white">Subject</th>
-                            <th class="text-white">Starts at</th>
-                            <th class="text-white">Ends at</th>
+                            <th class="text-white">Weekday</th>
+                            <th class="text-white"></th>
                             <th class="text-white text-right">Actions</th>
                         </tr>
                     </thead>
@@ -232,13 +231,11 @@
                                     {{ $item->section->section_name ?? $item->group->group_name }}
                                 </td>
                                 <td>
-                                    {{ $item->subject->subject_name }}
+                                    {{ $item->weekday }}
                                 </td>
-                                <td>
-                                    {{ $item->starts_at }}
-                                </td>
-                                <td>
-                                    {{ $item->ends_at }}
+                                <td class="text-center">
+                                    {{ $item->subject->subject_name }}</br>
+                                    {{ $item->starts_at . ' - ' . $item->ends_at }}
                                 </td>
                                 <td class="p-3 al flex justify-end items-center gap-1.5 flex-wrap" wire:ignore>
                                     <span
@@ -261,9 +258,8 @@
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
                             <th class="text-white">Section or group</th>
-                            <th class="text-white">Subject</th>
-                            <th class="text-white">Starts at</th>
-                            <th class="text-white">Ends at</th>
+                            <th class="text-white">Weekday</th>
+                            <th class="text-white"></th>
                             <th class="text-white text-right">Actions</th>
                         </tr>
                     </tfoot>

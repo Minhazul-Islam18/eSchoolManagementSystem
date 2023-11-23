@@ -235,7 +235,7 @@
             <!-- Generate routine -->
             <div class="rounded my-6 flex justify-between flex-col sm:flex-row">
                 <ul
-                    class=" bg-slate-600 border border-slate-900 shadow-md rounded w-full sm:w-3/4 px-6 py-8 backdrop-blur-md">
+                    class=" dark:bg-slate-800 bg-gray-200 border border-gray-300 dark:border-slate-900 shadow-md rounded w-full sm:w-8/12 px-6 py-8 backdrop-blur-md">
                     <li class="text-lg text-center py-2 mt-2 border-b">Generated routines</li>
                     @if ($publishedRoutines != null)
                         @foreach ($publishedRoutines as $item)
@@ -254,8 +254,9 @@
                     @endif
 
                 </ul>
+                <div class="w-full sm:w-1/12"></div>
                 <form action="" wire:submit='generateRoutine'
-                    class="bg-slate-600 border border-slate-900 shadow-md rounded w-full sm:w-1/4 px-6 py-8 backdrop-blur-md">
+                    class="dark:bg-slate-800 bg-gray-200 border border-gray-300 dark:border-slate-900 shadow-md rounded w-full sm:w-3/12 px-6 py-8 backdrop-blur-md">
                     <div class="mb-4 flex gap-4 flex-wrap flex-col">
                         <div class="">
                             <label for="">Generate routine for class</label>

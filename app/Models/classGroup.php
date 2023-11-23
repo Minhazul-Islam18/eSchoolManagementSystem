@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class classGroup extends Model
 {
     use HasFactory;
-    protected $fillable = ['group_name'];
+    protected $guarded = ['id'];
     /**
      * Get all of the subjects for the classGroup
      *
@@ -50,5 +50,11 @@ class classGroup extends Model
             return $class->groups->isNotEmpty();
         });
         return $filteredClasses ?? abort(404);
+    }
+
+    // This function will return class by it's id by school
+    public static function findBySchool($id)
+    {
+        return self::where('school_id', school()->id)->findOrFail($id);
     }
 }

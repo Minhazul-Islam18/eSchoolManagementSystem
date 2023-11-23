@@ -12,24 +12,36 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 class ClassGroupManagement extends Component
 {
     use LivewireAlert;
+    public $showRoutine = false;
     public $openCEmodal = false;
     public $editable_item;
     public $group_name;
     public $class_id;
+    public $filter_class_id;
+    public $filter_group_id;
+    public $routine_for;
+    public $routine_sets = [];
+    public $groups = [];
     #[Title('Class Sections')]
     public function rules()
     {
         return [
             'class_id' => 'required',
             'group_name' => 'required',
-            // 'group_name' => ['required', new CheckUniqueAsClassID($this->class_id, 'school_classs', 'group_name')],
         ];
     }
+
+    public function getGroup()
+    {
+        $this->groups = school()->classes()->findOrFail($this->filter_class_id)->groups;
+    }
+
     public function store()
     {
         $this->validate();
         $e = SchoolClass::findBySchool($this->class_id);
         $e->groups()->create([
+            'school_id' => school()->id,
             'group_name' => $this->group_name,
         ]);
         $this->dispatch('closeModal');
@@ -42,7 +54,6 @@ class ClassGroupManagement extends Component
         $this->editable_item = $classGroup;
         $this->group_name = $classGroup->group_name;
         $this->class_id = $classGroup->school_class_id;
-        // dd($this->editable_item);
     }
     // public function update()
     // {
@@ -69,16 +80,58 @@ class ClassGroupManagement extends Component
         $this->editable_item = null;
         $this->group_name = null;
         $this->class_id = null;
+        $this->filter_class_id = null;
+        $this->filter_group_id = null;
+        $this->routine_for = null;
+        $this->routine_sets = [];
+        $this->groups = [];
         $this->openCEmodal = false;
         $this->dispatch('closeModal');
     }
+
+
+    //Generate routine
+    public function generateRoutine()
+    {
+        $e = school()->classes()->findOrFail($this->filter_class_id)->groups()->findOrFail($this->filter_group_id);
+        $this->routine_sets =  $e->routines;
+        $e->update(['routine_published' => true]);
+        $this->alert('success', 'Routine generated.');
+    }
+
+    //Show routine
+    public function showFullRoutine($id)
+    {
+        // Initialize an array to store routines
+        $group = classGroup::findBySchool($id);
+        $this->routine_for['class'] = $group->class->class_name;
+        $this->routine_for['group'] = $group->group_name;
+        foreach ($group->routines as $result) {
+            $weekday = $result['weekday'];
+
+            // Initialize the weekday group if not exists
+            if (!isset($this->routine_sets[$weekday])) {
+                $this->routine_sets[$weekday] = [];
+            }
+
+            // Add the result to the corresponding weekday group
+            $this->routine_sets[$weekday][] = $result;
+        }
+    }
+
+
+
     public function render()
     {
         $groups = classGroup::allGroups();
         $classes = SchoolClass::allClasses();
+
+        // Get sections with routine_published set to true
+        $publishedRoutines = classGroup::where('routine_published', true)->get();
         return view('livewire.backend.school.class-group-management')->with([
             'groups' => $groups,
             'classes' => $classes,
+            'publishedRoutines' => $publishedRoutines,
         ]);
     }
 }
