@@ -17,28 +17,50 @@ class ExamManagement extends Component
     #[Title('Exam management')]
     public $editable_item;
     public $class_id;
+    public $group_id;
     public $section_id;
     public $sections = [];
+    public $groups = [];
     public $exam_name;
     public $exam_date;
     public $openCEmodal = false;
+
     public function getSection()
     {
+        if ($this->editable_item == null) {
+            $this->section_id = null;
+            $this->group_id = null;
+        }
+
         if (null != $this->class_id) {
             $this->sections = SchoolClassSection::where('school_class_id', $this->class_id)->where('school_id', school()->id)->get();
         }
+        //If class had no sections, then get all groups.
+        if (!sizeof($this->sections)) {
+            $this->getGroups();
+        } else {
+            $this->groups = [];
+        }
     }
+
+    public function getGroups()
+    {
+        if (null != $this->class_id) {
+            $this->groups = school()->classes()->findOrFail($this->class_id)->groups;
+        }
+    }
+
     public function store()
     {
         $this->validate([
             'class_id' => 'required',
             'exam_date' => 'required',
-            'section_id' => 'required',
             'exam_name' => 'required|min:1|max:50'
         ]);
         SchoolExam::create([
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
+            'group_id' => $this->group_id,
             'exam_name' => $this->exam_name,
             'exam_date' => $this->exam_date,
             'school_id' => school()->id
@@ -47,6 +69,7 @@ class ExamManagement extends Component
         $this->resetFields();
         $this->alert('success', 'Class exam created.');
     }
+
     public function edit(SchoolExam $schoolExam)
     {
         abort_action($schoolExam->school->user_id);
@@ -54,6 +77,7 @@ class ExamManagement extends Component
         $this->editable_item = $schoolExam;
         $this->class_id = $schoolExam->school_class_id;
         $this->section_id = $schoolExam->school_class_section_id;
+        $this->group_id = $schoolExam->group_id;
         $this->exam_name = $schoolExam->exam_name;
         $this->exam_date = Carbon::parse($schoolExam->exam_date)->format('Y-m-d');
         $this->getSection();
@@ -62,7 +86,6 @@ class ExamManagement extends Component
     {
         $this->validate([
             'class_id' => 'required',
-            'section_id' => 'required',
             'exam_date' => 'required',
             'exam_name' => 'required|min:1|max:50',
         ]);
@@ -70,6 +93,7 @@ class ExamManagement extends Component
         $e->update([
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
+            'group_id' => $this->group_id,
             'exam_name' => $this->exam_name,
             'exam_date' => $this->exam_date,
             'school_id' => school()->id
@@ -91,6 +115,9 @@ class ExamManagement extends Component
         $this->exam_date = null;
         $this->exam_name = null;
         $this->class_id = null;
+        $this->group_id = null;
+        $this->sections = [];
+        $this->groups = [];
         $this->openCEmodal = false;
     }
     public function render()
