@@ -40,6 +40,17 @@ class Grade extends Model
     {
         return $this->belongsTo(SchoolClassSection::class, 'school_class_section_id');
     }
+
+    /**
+     * Get the group that owns the Exam
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(classGroup::class);
+    }
+
     // This function will return all grades by school
     public static function allGrades()
     {

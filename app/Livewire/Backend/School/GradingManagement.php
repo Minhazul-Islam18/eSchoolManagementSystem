@@ -17,8 +17,10 @@ class GradingManagement extends Component
     public $openCEmodal = false,
         $editable_item,
         $sections = [],
+        $groups = [],
         $class_id,
         $section_id,
+        $group_id,
         $grade_name;
     public function rules()
     {
@@ -29,8 +31,26 @@ class GradingManagement extends Component
 
     public function getSection()
     {
+        if ($this->editable_item == null) {
+            $this->section_id = null;
+            $this->group_id = null;
+        }
+
         if (null != $this->class_id) {
             $this->sections = SchoolClassSection::where('school_class_id', $this->class_id)->where('school_id', school()->id)->get();
+        }
+        //If class had no sections, then get all groups.
+        if (!sizeof($this->sections)) {
+            $this->getGroups();
+        } else {
+            $this->groups = [];
+        }
+    }
+
+    public function getGroups()
+    {
+        if (null != $this->class_id) {
+            $this->groups = school()->classes()->findOrFail($this->class_id)->groups;
         }
     }
 
@@ -41,6 +61,7 @@ class GradingManagement extends Component
             'school_id' => school()->id,
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
+            'group_id' => $this->group_id,
             'grade_name' => $this->grade_name,
         ]);
         $this->alert('success', 'Grade created.');
@@ -52,6 +73,7 @@ class GradingManagement extends Component
         $this->editable_item = $grade;
         $this->class_id = $grade->school_class_id;
         $this->section_id = $grade->school_class_section_id;
+        $this->group_id = $grade->group_id;
         $this->grade_name = $grade->grade_name;
     }
 
@@ -62,6 +84,7 @@ class GradingManagement extends Component
             'school_id' => school()->id,
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
+            'group_id' => $this->group_id,
             'grade_name' => $this->grade_name,
         ]);
         $this->alert('success', 'Grade updated.');
@@ -79,9 +102,11 @@ class GradingManagement extends Component
         $this->editable_item = null;
         $this->class_id = null;
         $this->section_id = null;
+        $this->group_id = null;
         $this->grade_name = null;
         $this->openCEmodal = false;
         $this->sections = [];
+        $this->groups = [];
     }
     public function render()
     {
