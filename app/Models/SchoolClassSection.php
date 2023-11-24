@@ -12,6 +12,17 @@ class SchoolClassSection extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+
+    /**
+     * Get all of the grades for the classSection
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function grades(): HasMany
+    {
+        return $this->hasMany(Grade::class, 'group_id');
+    }
+
     // This function will return all sections by school
     public static function allSections()
     {

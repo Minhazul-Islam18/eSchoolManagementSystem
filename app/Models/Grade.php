@@ -48,7 +48,7 @@ class Grade extends Model
      */
     public function group(): BelongsTo
     {
-        return $this->belongsTo(classGroup::class);
+        return $this->belongsTo(classGroup::class, 'group_id');
     }
 
     // This function will return all grades by school

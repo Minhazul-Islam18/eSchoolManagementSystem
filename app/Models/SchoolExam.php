@@ -53,7 +53,7 @@ class SchoolExam extends Model
     }
 
     /**
-     * Get the group that owns the ClassRoutine
+     * Get the group that owns the Exam
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

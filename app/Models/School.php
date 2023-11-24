@@ -66,14 +66,20 @@ class School extends Model
     /**
      * Grading rule for a specific section.
      *
-     * @param  int  $section_id
+     * @param  int  $id
      * @return \Illuminate\Support\Collection
      */
-    public static function gradingRule($school, $section_id)
+    public static function gradingRule($school, $id, $section_or_group)
     {
-        return Grade::whereHas('section', function ($query) use ($section_id) {
-            $query->where('id', $section_id);
-        })->where('school_id', $school->id)->latest()->first();
+        if ($section_or_group === 'section') {
+            return Grade::whereHas('section', function ($query) use ($id) {
+                $query->where('school_class_section_id', $id);
+            })->where('school_id', $school->id)->latest()->first();
+        } else {
+            return Grade::whereHas('group', function ($query) use ($id) {
+                $query->where('group_id', $id);
+            })->where('school_id', $school->id)->latest()->first();
+        }
     }
 
     /**

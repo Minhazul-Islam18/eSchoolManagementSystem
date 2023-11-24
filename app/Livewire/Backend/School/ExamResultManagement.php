@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Backend\School;
 
+use App\Models\classGroup;
 use App\Models\School;
 use Livewire\Component;
 use App\Models\SchoolClass;
@@ -11,6 +12,7 @@ use App\Models\SchoolClassSection;
 use App\Models\SchoolClassSubject;
 use App\Models\SchoolExam;
 use App\Models\Student;
+use Exception;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ExamResultManagement extends Component
@@ -20,6 +22,7 @@ class ExamResultManagement extends Component
     public $editable_item;
     public $class_id;
     public $section_id;
+    public $group_id;
     public $subject_id;
     public $student_id;
     public $school_exam_id;
@@ -27,6 +30,7 @@ class ExamResultManagement extends Component
     public $subjects = [];
     public $students = [];
     public $obtained_marks;
+    public $groups = [];
     public $exams = [];
     public $openCEmodal = false;
     public $filter_class_id;
@@ -36,38 +40,87 @@ class ExamResultManagement extends Component
     public $theory;
     public $mcq;
     public $practical;
-    public function checkGrading()
-    {
-        if (School::gradingRule(school(), $this->section_id) !== null) {
-            return true;
-        }
-        return false;
-    }
+    // public function checkGrading()
+    // {
+    //     dd(School::gradingRule(school(), $this->section_id));
+    //     if (School::gradingRule(school(), $this->section_id) != null) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
+
     public function getSection()
     {
-        if (null != $this->class_id || null != $this->filter_class_id) {
-            $this->sections = SchoolClassSection::where('school_class_id', $this->class_id ??  $this->filter_class_id)
-                ->where('school_id', school()->id)
-                ->get();
+        if ($this->editable_item == null) {
+            $this->section_id = null;
+            $this->group_id = null;
+        }
+
+        if (null != $this->class_id) {
+            $this->sections = SchoolClassSection::where('school_class_id', $this->class_id)->where('school_id', school()->id)->get();
+        }
+        //If class had no sections, then get all groups.
+        if (!sizeof($this->sections)) {
+            $this->getGroups();
+        } else {
+            $this->groups = [];
         }
     }
+
+    public function getGroups()
+    {
+        if (null != $this->class_id) {
+            $this->groups = school()->classes()->findOrFail($this->class_id)->groups;
+        }
+    }
+
+    public function check_if_grade_exist()
+    {
+        // dd($this->section_id, $this->group_id);
+        if (isset($this->section_id)) {
+            return SchoolClassSection::findBySchool($this->section_id)->grades->isEmpty();
+        }
+
+        if (isset($this->group_id)) {
+            return classGroup::findBySchool($this->group_id)->grades->isEmpty();
+        }
+    }
+    // public function getSection()
+    // {
+    //     if (null != $this->class_id || null != $this->filter_class_id) {
+    //         $this->sections = SchoolClassSection::where('school_class_id', $this->class_id ??  $this->filter_class_id)
+    //             ->where('school_id', school()->id)
+    //             ->get();
+    //     }
+    // }
     public function getSubjects()
     {
-        if (null != $this->filter_section_id && null != $this->filter_class_id || null != $this->class_id || null != $this->section_id) {
+        $this->check_if_grade_exist();
+        if ($this->filter_section_id != null &&  $this->filter_class_id != null || $this->class_id != null || $this->section_id != null) {
             $this->subjects = SchoolClassSubject::where('school_class_id', $this->filter_class_id ?? $this->class_id)
                 ->where('school_class_section_id', $this->filter_section_id ?? $this->section_id)
                 ->where('school_id', school()->id)
                 ->get();
         }
+        if (isset($this->group_id)) {
+            $this->subjects = classGroup::findOrFail($this->group_id)->subjects;
+        }
+
+        //Load all exams
+        $this->getExams();
     }
     public function getStudents()
     {
-        $this->getSubjects();
+        // $this->getSubjects();
 
         if (null != $this->class_id && null != $this->section_id) {
             $this->students = SchoolClassSection::students($this->section_id);
         }
-        $this->getExams();
+
+        if (isset($this->group_id)) {
+            $this->students = classGroup::findOrFail($this->group_id)->students;
+        }
     }
     public function getExams()
     {
@@ -77,6 +130,12 @@ class ExamResultManagement extends Component
                 ->where('school_class_section_id', $this->section_id ?? $this->filter_section_id)
                 ->get();
         }
+
+        if (isset($this->group_id)) {
+            $this->exams = classGroup::findOrFail($this->group_id)->exams;
+        }
+
+        $this->getStudents();
     }
     public function store()
     {
@@ -85,19 +144,28 @@ class ExamResultManagement extends Component
             'class_id' => 'required',
             'student_id' => 'required',
             'school_exam_id' => 'required',
-            'section_id' => 'required',
             'theory' => 'required',
             'mcq' => 'required',
             'practical' => 'required',
         ]);
-        $result = School::gradingRule(school(), $this->section_id);
+        $type = isset($this->group_id) ? 'group' : 'section';
+        $result = School::gradingRule(school(), $this->group_id ?? $this->section_id, $type);
+
+        if ($result == null) {
+            throw new Exception('This grade doesn\'t have any rule, Please set rule for this.', 203);
+        }
         $totalNumber = $this->theory + $this->mcq + $this->practical;
         $e = $result->gradingRules->where('starts_at', '<=', $totalNumber)
             ->where('ends_at', '>=', $totalNumber)
-            ->firstOrFail();
+            ->first();
+
+        if ($e == null) {
+            throw new Exception('This total number doesn\'t have any rule, Please set rule for this.', 203);
+        }
         SchoolExamResult::create([
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
+            'group_id' => $this->group_id,
             'school_class_subject_id' => $this->subject_id,
             'school_exam_id' => $this->school_exam_id,
             'student_id' => $this->student_id,
@@ -119,7 +187,10 @@ class ExamResultManagement extends Component
         $this->student_id = $schoolExamResult->student_id;
         $this->school_exam_id = $schoolExamResult->school_exam_id;
         $this->section_id = $schoolExamResult->school_class_section_id;
-        $this->obtained_marks = $schoolExamResult->mark_obtained;
+        $this->group_id = $schoolExamResult->group_id;
+        $this->theory = $schoolExamResult->theory;
+        $this->mcq = $schoolExamResult->mcq;
+        $this->practical = $schoolExamResult->practical;
         $this->getSection();
         $this->getExams();
         $this->getStudents();
@@ -127,24 +198,32 @@ class ExamResultManagement extends Component
     public function update()
     {
         abort_action(school()->user_id);
-        $result = School::gradingRule(school(), $this->section_id);
-        $totalNumber = $this->theory + $this->mcq + $this->practical;
-        $e = $result->gradingRules->where('starts_at', '<=', $totalNumber)
-            ->where('ends_at', '>=', $totalNumber)
-            ->firstOrFail();
         $this->validate([
             'class_id' => 'required',
             'student_id' => 'required',
             'school_exam_id' => 'required',
-            'section_id' => 'required',
             'theory' => 'required',
             'mcq' => 'required',
             'practical' => 'required',
         ]);
-        $e = SchoolExamResult::findBySchool($this->editable_item->id);
-        $e->update([
+        $type = isset($this->group_id) ? 'group' : 'section';
+        $result = School::gradingRule(school(), $this->group_id ?? $this->section_id, $type);
+
+        if ($result == null) {
+            throw new Exception('This grade doesn\'t have any rule, Please set rule for this.', 203);
+        }
+        $totalNumber = $this->theory + $this->mcq + $this->practical;
+        $e = $result->gradingRules->where('starts_at', '<=', $totalNumber)
+            ->where('ends_at', '>=', $totalNumber)
+            ->first();
+
+        if ($e == null) {
+            throw new Exception('This total number doesn\'t have any rule, Please set rule for this.', 203);
+        }
+        $this->editable_item->update([
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
+            'group_id' => $this->group_id,
             'school_class_subject_id' => $this->subject_id,
             'school_exam_id' => $this->school_exam_id,
             'student_id' => $this->student_id,
@@ -153,7 +232,6 @@ class ExamResultManagement extends Component
             'practical' => $this->practical,
             'total' => $totalNumber,
             'grade' => $e->grade,
-            'school_id' => school()->id
         ]);
         $this->dispatch('closeModal');
         $this->alert('success', 'Exam result updated');

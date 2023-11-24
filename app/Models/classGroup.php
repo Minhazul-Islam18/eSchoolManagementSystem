@@ -18,8 +18,29 @@ class classGroup extends Model
      */
     public function subjects(): HasMany
     {
-        return $this->hasMany(SchoolClassSubject::class);
+        return $this->hasMany(SchoolClassSubject::class, 'class_group_id');
     }
+
+    /**
+     * Get all of the exams for the classGroup
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function exams(): HasMany
+    {
+        return $this->hasMany(SchoolExam::class, 'group_id');
+    }
+
+    /**
+     * Get all of the students for the classGroup
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class, 'class_group_id');
+    }
+
 
     /**
      * Get the class that owns the classGroup
@@ -56,5 +77,15 @@ class classGroup extends Model
     public static function findBySchool($id)
     {
         return self::where('school_id', school()->id)->findOrFail($id);
+    }
+
+    /**
+     * Get all of the grades for the classGroup
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function grades(): HasMany
+    {
+        return $this->hasMany(Grade::class, 'group_id');
     }
 }
