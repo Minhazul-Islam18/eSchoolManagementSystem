@@ -54,13 +54,13 @@ class School extends Model
     }
 
     /**
-     * The fees that belong to the School
+     * Get all of the fees for the School
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function fees(): BelongsToMany
+    public function fees(): HasMany
     {
-        return $this->belongsToMany(SchoolFee::class);
+        return $this->hasMany(SchoolFee::class, 'school_id');
     }
 
     /**

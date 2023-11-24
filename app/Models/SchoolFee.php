@@ -42,6 +42,17 @@ class SchoolFee extends Model
     }
 
     /**
+     * Get the group that owns the SchoolFee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(classGroup::class, 'group_id');
+    }
+
+
+    /**
      * Get the category that owns the SchoolFee
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

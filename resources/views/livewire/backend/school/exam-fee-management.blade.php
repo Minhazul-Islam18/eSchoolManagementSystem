@@ -4,7 +4,7 @@
             <header class="flex items-center flex-wrap mb-4" wire:ignore>
                 <div class="w-1/2 flex justify-start items-center flex-wrap">
                     <span class="shadow-md px-2 py-2 bg-emerald-500 rounded mr-2">
-                        <i data-lucide="book-open-check" class="w-10"></i>
+                        <i data-lucide="banknote" class="w-10"></i>
                     </span>
                 </div>
                 <div class="w-1/2 flex justify-end items-center gap-3">
@@ -74,23 +74,48 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="">
-                                                <label for="" class="form-label">Section</label>
-                                                <select wire:model.blur='section_id' class="form-select rounded"
-                                                    id="">
-                                                    <option value="">Select section</option>
-                                                    @forelse ($sections as $item)
-                                                        <option value="{{ $item->id }}"
-                                                            {{ $item->id == $this->section_id ? 'selected' : '' }}>
-                                                            {{ $item->section_name }}</option>
-                                                    @empty
-                                                        <option value="" disabled>No section found</option>
-                                                    @endforelse
-                                                </select>
-                                                @error('section_id')
-                                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                                @enderror
-                                            </div>
+
+                                            @if ($this->groups != null)
+                                                <div class="">
+                                                    <label for="group_id" class="form-label">Groups</label>
+                                                    <select wire:model.blur='group_id' class="form-select rounded"
+                                                        wire:loading.class='opacity-50 blur-sm' wire:target='getSection'
+                                                        id="group_id">
+                                                        <option value="">Select group</option>
+                                                        @forelse ($this->groups as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                {{ $item->id == $this->group_id ? 'selected' : '' }}>
+                                                                {{ $item->group_name }}</option>
+                                                        @empty
+                                                            <option value="" disabled>No group found</option>
+                                                        @endforelse
+                                                    </select>
+                                                    @error('group_id')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            @else
+                                                <div class="">
+                                                    <label for="section_id" class="form-label">Section</label>
+                                                    <select wire:model.blur='section_id' class="form-select rounded"
+                                                        wire:loading.class='opacity-50 blur-sm' wire:target='getSection'
+                                                        id="section_id">
+                                                        <option value="">Select section</option>
+                                                        @forelse ($sections as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                {{ $item->id == $this->section_id ? 'selected' : '' }}>
+                                                                {{ $item->section_name }}</option>
+                                                        @empty
+                                                            <option value="" disabled>No section found
+                                                            </option>
+                                                        @endforelse
+                                                    </select>
+                                                    @error('section_id')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            @endif
+
                                             <div class="">
                                                 <label for="" class="form-label">Category</label>
                                                 <select wire:model.blur='category_id' class="form-select rounded"
@@ -151,7 +176,7 @@
                         <tr>
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
-                            <th class="text-white">Section</th>
+                            <th class="text-white">Section/Group</th>
                             <th class="text-white">Category</th>
                             <th class="text-white">Fee name</th>
                             <th class="text-white">Amount</th>
@@ -166,7 +191,7 @@
                                     {{ $item->class->class_name }}
                                 </td>
                                 <td>
-                                    {{ $item->section->section_name }}
+                                    {{ $item->group?->group_name ?? $item->section?->section_name }}
                                 </td>
                                 <td>
                                     {{ $item->category->category_name }}
@@ -198,7 +223,7 @@
                         <tr>
                             <th class="text-white">ID</th>
                             <th class="text-white">Class</th>
-                            <th class="text-white">Section</th>
+                            <th class="text-white">Section/Group</th>
                             <th class="text-white">Category</th>
                             <th class="text-white">Fee name</th>
                             <th class="text-white">Amount</th>
