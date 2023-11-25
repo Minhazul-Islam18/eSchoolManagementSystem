@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('additional_features')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
+            $table->integer('allowed_students')->nullable();
             $table->timestamps();
         });
     }
