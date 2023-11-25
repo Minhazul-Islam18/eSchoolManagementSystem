@@ -41,7 +41,6 @@ class UserManagement extends Component
         ];
     }
     public $deletable_user;
-    #[Title('Role Management')]
     #[Layout('layouts.backend.admin.layout')]
     public function store()
     {

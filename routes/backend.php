@@ -10,6 +10,7 @@ use App\Livewire\Backend\BackupManagement;
 use App\Livewire\Backend\DashboardComponent;
 use App\Livewire\Backend\GeneralSettings;
 use App\Livewire\Backend\MenuBuilder;
+use App\Livewire\Backend\PackageManagement;
 use App\Livewire\Backend\School\Dashboard;
 
 Route::get('/dashboard', DashboardComponent::class)->name('dashboard');
@@ -28,6 +29,10 @@ Route::get('/create-page', ConfigurePage::class)->name('page.create');
 Route::get('/edit-page/{id}', ConfigurePage::class)->name('page.edit');
 //upload image in page using editor
 Route::post('/page-image', PageManagement::class . '@uploadImage')->name('page-image');
+
+//Package management
+Route::get('/packages', PackageManagement::class)->name('packages');
+
 //Menu Management
 Route::get('/menus', MenuManagement::class)->name('menus');
 Route::group(['as' => 'menu.', 'prefix' => 'menus/{id}/'], function () {

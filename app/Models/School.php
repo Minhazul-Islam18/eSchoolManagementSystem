@@ -16,6 +16,18 @@ class School extends Model
 
 
     // Relationships
+
+    /**
+     * Get all of the users for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+
+
     public function administrator()
     {
         return $this->belongsTo(User::class, 'user_id');

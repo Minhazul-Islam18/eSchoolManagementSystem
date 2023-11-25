@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('generate_student_id_cards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('school_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('class_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('section_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('group_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('class_id')->nullable()->constrained('school_classes')->cascadeOnDelete();
+            $table->foreignId('section_id')->nullable()->constrained('school_class_sections')->cascadeOnDelete();
+            $table->foreignId('group_id')->nullable()->constrained('class_groups')->cascadeOnDelete();
             $table->foreignId('student_id')->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
