@@ -5,10 +5,11 @@ namespace App\Livewire\Backend;
 use App\Models\Package;
 use Livewire\Component;
 use Livewire\Attributes\Title;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Validate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Livewire\Attributes\Validate;
 
 class PackageManagement extends Component
 {
@@ -24,9 +25,17 @@ class PackageManagement extends Component
     public $openCEmodal = false;
     #[Title('Package Management')]
     #[Layout('layouts.backend.admin.layout')]
-
+    public function rules()
+    {
+        return [
+            'package_name' => [
+                Rule::unique('packages')->ignore($this->editable_item),
+            ],
+        ];
+    }
     public function store()
     {
+        $this->validate();
         Package::create([
             'name' => $this->package_name,
             'student_allowed' => $this->student_allowed,
