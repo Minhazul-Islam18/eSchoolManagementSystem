@@ -16,37 +16,70 @@ class PackageManagement extends Component
     use LivewireAlert;
     use AuthorizesRequests;
     public $editable_item;
+    public ?Package $package;
     public $additional_features;
     public $student_allowed;
     public $price;
-    #[Validate('required|max:50|min:1|unique:packages,name', as: 'Package name')]
+    #[Validate('required|max:50|min:1', as: 'Package name')]
     public $package_name;
-    public $packages = [];
+    // public $packages = [];
     public $openCEmodal = false;
     #[Title('Package Management')]
     #[Layout('layouts.backend.admin.layout')]
+
     public function rules()
     {
         return [
-            'package_name' => [
-                Rule::unique('packages')->ignore($this->editable_item),
-            ],
+            'package_name' => 'unique:packages,name,id:' . $this->editable_item?->id,
         ];
     }
+
     public function store()
     {
-        $this->validate();
+        // $this->validate();
         Package::create([
             'name' => $this->package_name,
-            'student_allowed' => $this->student_allowed,
+            'allowed_students' => $this->student_allowed,
             'price' => $this->price,
             'additional_features' => $this->additional_features,
         ]);
 
         $this->alert('success', 'Package created.');
     }
+
+    public function edit(Package $package)
+    {
+        $this->editable_item = $package;
+        $this->package = $package;
+        $this->package_name = $this->editable_item->name;
+        $this->student_allowed = $this->editable_item->allowed_students;
+        $this->price = $this->editable_item->price;
+        $this->additional_features = $this->editable_item->additional_features;
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+        $this->editable_item->update([
+            'name' => $this->package_name,
+            'allowed_students' => $this->student_allowed,
+            'price' => $this->price,
+            'additional_features' => $this->additional_features,
+        ]);
+
+        $this->alert('success', 'Package updated.');
+    }
+
+    public function destroy(Package $package)
+    {
+        $package->delete();
+
+        $this->alert('success', 'Package deleted');
+    }
     public function render()
     {
-        return view('livewire.backend.package-management');
+        $packages = Package::all();
+        return view('livewire.backend.package-management', ['packages' => $packages]);
     }
 }

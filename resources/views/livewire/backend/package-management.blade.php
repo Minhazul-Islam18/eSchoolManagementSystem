@@ -22,29 +22,24 @@
                     <tr>
                         <th class="text-white">ID</th>
                         <th class="text-white">Name</th>
-                        <th class="text-white">User</th>
-                        <th class="text-white">Created at</th>
+                        <th class="text-white">Price</th>
+                        <th class="text-white">Allowed students</th>
                         <th class="text-white">Status</th>
                         <th class="text-white">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($users as $key => $item)
+                    @foreach ($packages as $key => $item)
                         <tr wire:key='{{ $item->id }}' class="border-b">
                             <td>{{ $key + 1 }}</td>
                             <td>
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <img class="h-10 w-10 rounded-full object-cover"
-                                        src="{{ $item->profile_photo_path ?? $item->profile_photo_url }}"
-                                        alt="{{ $item->name }}" />
-                                    {{ $item->name }}
-                                </div>
+                                {{ $item->name }}
                             </td>
                             <td>
-                                {{ $item->role->name ?? 'User' }}
+                                {{ $item->price }}
                             </td>
                             <td>
-                                {{ $item->created_at->diffForHumans() }}
+                                {{ $item->allowed_students }}
                             </td>
                             <td>
                                 @if ($item->status)
@@ -57,7 +52,7 @@
                             <td class="p-3 al flex justify-center items-center gap-1.5 flex-wrap">
                                 <span
                                     class="px-2 py-1 rounded-sm bg-yellow-500 cursor-pointer flex w-max align-center justify-center"
-                                    wire:click='edit({{ $item->id }})' @click="OpenCEModal = true">
+                                    wire:click='edit({{ $item->id }})' @click="openCEmodal = true">
                                     <i data-lucide="pen-square" class="w-4 me-1"></i> Edit
                                 </span>
                                 <span
@@ -67,19 +62,19 @@
                                 </span>
                                 <button
                                     class="px-2 py-1 rounded-sm bg-red-500 cursor-pointer flex w-max align-center justify-center"
-                                    wire:confirm="Are you sure?" wire:click="delete({{ $item->id }})"><i
+                                    wire:confirm="Are you sure?" wire:click="destroy({{ $item->id }})"><i
                                         data-lucide="trash-2" class="w-4 me-1"></i>
                                     Delete</button>
                             </td>
                         </tr>
-                    @endforeach --}}
+                    @endforeach
                 </tbody>
                 <tfoot class="bg-blue-500">
                     <tr>
                         <th class="text-white">ID</th>
                         <th class="text-white">Name</th>
-                        <th class="text-white">User</th>
-                        <th class="text-white">Created at</th>
+                        <th class="text-white">Price</th>
+                        <th class="text-white">Allowed students</th>
                         <th class="text-white">Status</th>
                         <th class="text-white">Actions</th>
                     </tr>
@@ -174,7 +169,7 @@
                                     class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50 transition-all duration-200">
                                     {{ $this->editable_item ? 'Update' : 'Save' }}</button>
                                 @if ($this->editable_item)
-                                    <button type="button" wire:click='resetFields'
+                                    <button type="button" wire:click='resetFields' @click="openCEmodal = false"
                                         class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-400 dark:focus:ring-red-200/50">
                                         {{ 'Cancel' }}</button>
                                 @endif
@@ -213,29 +208,6 @@
         $('.dtr-data').addClass('flex flex-wrap gap-2');
     </script>
     <script>
-        Livewire.directive('confirm', ({
-            el,
-            directive,
-            component,
-            cleanup
-        }) => {
-            let content = directive.expression
-
-            let onClick = e => {
-                if (!confirm(content)) {
-                    e.preventDefault()
-                    e.stopImmediatePropagation()
-                }
-            }
-
-            el.addEventListener('click', onClick, {
-                capture: true
-            })
-
-            cleanup(() => {
-                el.removeEventListener('click', onClick)
-            })
-        })
         Livewire.on('closeModal', (value) => {
             console.log(value);
             if (value === false) {
