@@ -33,12 +33,7 @@ class ExamFeeManagement extends Component
             'fee_name' => ['required', new CheckUniqueAsClassID($this->class_id, 'school_fees', 'fee_name', $this->editable_item->id ?? null)],
         ];
     }
-    // public function getSection()
-    // {
-    //     if (null != $this->class_id) {
-    //         $this->sections = SchoolClassSection::where('school_class_id', $this->class_id)->where('school_id', school()->id)->get();
-    //     }
-    // }
+
 
     public function getSection()
     {

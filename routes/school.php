@@ -20,6 +20,7 @@ use App\Livewire\Backend\School\GradingManagement;
 use App\Livewire\Backend\School\GradingRuleManagement;
 use App\Livewire\Backend\School\NoticeEdit;
 use App\Livewire\Backend\School\NoticeManagement;
+use App\Livewire\Backend\School\StudentIdCardManagement;
 
 Route::middleware('checkRole:school')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('index');
@@ -41,6 +42,7 @@ Route::middleware('checkRole:school')->group(function () {
     Route::get('/grading-rule/{id}', GradingRuleManagement::class)->name('grading-rule');
     Route::get('/admissions/{admission_id}', AdmissionFormPreview::class)->name('admissions.show');
     Route::get('/general-information', GeneralInformation::class)->name('general-information');
+    Route::get('/auto-generate/student-id-card', StudentIdCardManagement::class)->name('generate-student-id-card');
     // Route::group(['as' => 'student'], function () {
     //     Route::get('/', function () {
     //         dd('Student');
