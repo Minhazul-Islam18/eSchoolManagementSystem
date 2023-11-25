@@ -108,7 +108,7 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between space-x-4">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        {{ $this->editable_item ? 'Edit' : 'Create' }} Exam fee
+                        {{ $this->editable_item ? 'Edit' : 'Create' }} Package
                     </h3>
                     <button @click="openCEmodal = false" wire:click='resetFields'
                         class="text-gray-600 focus:outline-none hover:text-gray-700">
@@ -129,13 +129,49 @@
                             <div class="p-6 space-y-6 h-full">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {{-- Fields --}}
+                                    <div>
+                                        <label for=""
+                                            class="form-label after:content-['*'] after:ml-0.5 after:text-red-500">Package
+                                            name</label>
+                                        <input type="text" class="form-input rounded" wire:model.blur="package_name"
+                                            id="">
+                                        @error('package_name')
+                                            <span class="text-red-500 text-sm font-medium">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        <label for="" class="form-label">Price</label>
+                                        <input type="number" class="form-input rounded" wire:model.blur="price"
+                                            id="">
+                                        @error('price')
+                                            <span class="text-red-500 text-sm font-medium">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        <label for=""
+                                            class="form-label after:content-['*'] after:ml-0.5 after:text-red-500">Student
+                                            allowed</label>
+                                        <input type="number" class="form-input rounded"
+                                            wire:model.blur="student_allowed" id="">
+                                        @error('student_allowed')
+                                            <span class="text-red-500 text-sm font-medium">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        <label for="" class="form-label">Additional features</label>
+                                        <textarea wire:model.blur="additional_features" id="" cols="30" rows="5"
+                                            class="form-input rounded"></textarea>
+                                        @error('additional_features')
+                                            <span class="text-red-500 text-sm font-medium">{{ $message }}</span>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                             <!-- Modal footer -->
                             <div
                                 class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                                 <button type="submit"
-                                    class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50">
+                                    class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50 transition-all duration-200">
                                     {{ $this->editable_item ? 'Update' : 'Save' }}</button>
                                 @if ($this->editable_item)
                                     <button type="button" wire:click='resetFields'
