@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '67a7b97dc0e562121e7cc619ac7ae989004af240',
+        'reference' => '7a57b439ebfe0ecba14341a443314fdd97a1dc65',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -418,6 +418,15 @@
                 0 => 'v10.26.2',
             ),
         ),
+        'inertiajs/inertia-laravel' => array(
+            'pretty_version' => 'v0.6.11',
+            'version' => '0.6.11.0',
+            'reference' => '2a1e19048f95c0e4adb2b2733f9119e49c4fc09f',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../inertiajs/inertia-laravel',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'jantinnerezo/livewire-alert' => array(
             'pretty_version' => 'v3.0@beta',
             'version' => '3.0.0.0',
@@ -481,7 +490,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '67a7b97dc0e562121e7cc619ac7ae989004af240',
+            'reference' => '7a57b439ebfe0ecba14341a443314fdd97a1dc65',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
