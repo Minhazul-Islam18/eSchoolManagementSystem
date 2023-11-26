@@ -17,7 +17,24 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 class GeneralSettings extends Component
 {
     use LivewireAlert, WithFileUploads;
-    #[Title('General Settings')]
+    // public $site_title = setting('site_title');
+    // public $site_description = setting('site_description');
+    // public $address = setting('address');
+    // public $logo = setting('logo');
+    // public $favicon = setting('favicon');
+    // public $primary_color = setting('primary_color');
+    // public $secondary_color = setting('secondary_color');
+    // public $mail_mailer = setting('mail_mailer');
+    // public $mail_host = setting('mail_host');
+    // public $mail_port = setting('mail_port');
+    // public $mail_username = setting('mail_username');
+    // public $mail_password = setting('mail_password');
+    // public $mail_encryption = setting('mail_encryption');
+    // public $mail_from_name = setting('mail_from_name');
+    // public $mail_from_address = setting('mail_from_address');
+    // public $google_client_id = setting('google_client_id');
+    // public $google_client_secret = setting('google_client_secret');
+
     public $site_title;
     public $site_description;
     public $address;
@@ -35,6 +52,8 @@ class GeneralSettings extends Component
     public $mail_from_address;
     public $google_client_id;
     public $google_client_secret;
+
+    #[Title('General Settings')]
     public function SaveGeneralSettings()
     {
         Gate::authorize('app.settings.update');
@@ -78,6 +97,7 @@ class GeneralSettings extends Component
         SiteSetting::updateOrCreate(['key' => 'favicon'], ['value' => $favicon ?? setting('favicon')]);
         SiteSetting::updateOrCreate(['key' => 'primary_color'], ['value' => $this->primary_color]);
         SiteSetting::updateOrCreate(['key' => 'secondary_color'], ['value' => $this->secondary_color]);
+
         $this->alert('success', 'Settings updated.');
     }
     public function SaveMailSettings()

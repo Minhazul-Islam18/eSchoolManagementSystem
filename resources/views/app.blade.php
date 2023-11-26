@@ -5,15 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @inertiaHead
 </head>
 
 <body class="">
+    {{-- <header>
+        <img src="/storage/{{ setting('logo') }}" alt="">
+        <nav>
+            <Link href="/">Home</Link>
+        </nav>
+    </header> --}}
     @inertia
-    <h1>tem</h1>
 </body>
 
 </html>
