@@ -57,7 +57,7 @@
                                 </span>
                                 <span
                                     class="px-2 py-1 rounded-sm bg-blue-500 cursor-pointer flex w-max align-center justify-center"
-                                    wire:click='view({{ $item->id }})' @click="OpenViewModal = true">
+                                    wire:click='show({{ $item->id }})' @click="OpenViewModal = true">
                                     <i data-lucide="eye" class="w-4 me-1"></i> View
                                 </span>
                                 <button
@@ -82,10 +82,11 @@
             </table>
         </div>
     </main>
+
     <div x-show="openCEmodal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
         aria-modal="true">
         <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
-            <div x-cloak @click="openCEmodal = false" x-show="openCEmodal"
+            <div x-cloak @click="openCEmodal = false" x-show="openCEmodal" wire:click='resetFields'
                 x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0"
                 x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200 transform"
                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
@@ -138,6 +139,8 @@
                                         <label for="" class="form-label">Price</label>
                                         <input type="number" class="form-input rounded" wire:model.blur="price"
                                             id="">
+                                        <p class="text-red-500 text-xs font-medium mt-1">
+                                            {{ __('Left this field empty to make this package FREE') }}</p>
                                         @error('price')
                                             <span class="text-red-500 text-sm font-medium">{{ $message }}</span>
                                         @enderror
@@ -160,6 +163,12 @@
                                             <span class="text-red-500 text-sm font-medium">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                    <div>
+                                        <label for="status" class="form-label gap-2 flex items-center">
+                                            {{ __('Status') }}
+                                            <input type="checkbox" wire:model.blur="status" id="status">
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             <!-- Modal footer -->
@@ -175,6 +184,63 @@
                                 @endif
                             </div>
                         </form>
+                    </div>
+                    <!-- / Step Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div x-show="OpenViewModal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
+        role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
+            <div x-cloak @click="OpenViewModal = false" x-show="OpenViewModal" wire:click='resetFields'
+                x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200 transform"
+                x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                class="fixed inset-0 transition-opacity bg-slate-950 bg-opacity-60" aria-hidden="true">
+            </div>
+
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" x-cloak
+                x-show="OpenViewModal" x-transition:enter="transition ease-out duration-300 transform"
+                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave="transition ease-in duration-200 transform"
+                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                class="max-h-[90vh] overflow-y-scroll inline-block w-full max-w-[80vw] p-8 overflow-hidden text-left transition-all transform bg-white dark:bg-slate-800 rounded-lg shadow-xl 2xl:max-w-2xl">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between space-x-4">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Preview package
+                    </h3>
+                    <button @click="OpenViewModal = false" wire:click='resetFields'
+                        class="text-gray-600 focus:outline-none hover:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Modal content-->
+                <div class="px-4 py-2">
+                    <!-- Step Content -->
+                    <div class="py-0 flex flex-col gap-3">
+                        <h2 class="text-2xl font-bold"> {{ 'Package name: ' . $this->package_name }}</h2>
+                        <span
+                            class=" font-medium text-lg">{{ 'Total allowed students: ' . $this->student_allowed }}</span>
+                        <span class="text-sm">{{ 'Price: ' . $this->price }}</span>
+                        <p>
+                            {{ 'Additional features: ' . $this->additional_features }}
+                        </p>
+                        <p>
+                            {{ 'Status: ' }}
+                            @if ($item->status)
+                                <span class="bg-green-500 text-white rounded px-2 py-1">{{ 'Active' }}</span>
+                            @else
+                                <span class="bg-red-500 text-white rounded px-2 py-1">{{ 'Inactive' }}</span>
+                            @endif
+                        </p>
                     </div>
                     <!-- / Step Content -->
                 </div>

@@ -20,10 +20,11 @@ class PackageManagement extends Component
     public $additional_features;
     public $student_allowed;
     public $price;
+    public $status;
     #[Validate('required|max:50|min:1', as: 'Package name')]
     public $package_name;
-    // public $packages = [];
     public $openCEmodal = false;
+
     #[Title('Package Management')]
     #[Layout('layouts.backend.admin.layout')]
 
@@ -36,15 +37,27 @@ class PackageManagement extends Component
 
     public function store()
     {
-        // $this->validate();
         Package::create([
             'name' => $this->package_name,
             'allowed_students' => $this->student_allowed,
             'price' => $this->price,
             'additional_features' => $this->additional_features,
+            'status' => $this->status,
         ]);
 
+        $this->resetFields();
         $this->alert('success', 'Package created.');
+    }
+
+    public function show(Package $package)
+    {
+        $this->editable_item = $package;
+        $this->package = $package;
+        $this->package_name = $this->editable_item->name;
+        $this->student_allowed = $this->editable_item->allowed_students;
+        $this->price = $this->editable_item->price;
+        $this->additional_features = $this->editable_item->additional_features;
+        $this->status = $this->editable_item->status;
     }
 
     public function edit(Package $package)
@@ -55,6 +68,7 @@ class PackageManagement extends Component
         $this->student_allowed = $this->editable_item->allowed_students;
         $this->price = $this->editable_item->price;
         $this->additional_features = $this->editable_item->additional_features;
+        $this->status = $this->editable_item->status;
     }
 
     public function update()
@@ -66,8 +80,10 @@ class PackageManagement extends Component
             'allowed_students' => $this->student_allowed,
             'price' => $this->price,
             'additional_features' => $this->additional_features,
+            'status' => $this->status,
         ]);
 
+        $this->resetFields();
         $this->alert('success', 'Package updated.');
     }
 
@@ -77,6 +93,19 @@ class PackageManagement extends Component
 
         $this->alert('success', 'Package deleted');
     }
+
+    public function resetFields()
+    {
+        $this->editable_item = null;
+        $this->package = null;
+        $this->additional_features = null;
+        $this->student_allowed = null;
+        $this->price = null;
+        $this->package_name = null;
+        $this->status = null;
+        $this->openCEmodal =  false;
+    }
+
     public function render()
     {
         $packages = Package::all();
