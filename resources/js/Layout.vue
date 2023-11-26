@@ -1,14 +1,102 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 </script>
+<style>
+/* Add styles for the mobile sidebar */
+#mobile-menu {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 240px;
+    /* Adjust the width as needed */
+    background-color: #2d3748;
+    /* Sidebar background color */
+    padding-top: 4rem;
+}
 
+#mobile-menu a {
+    color: #cbd5e0;
+    /* Link text color */
+}
+
+#mobile-menu a:hover {
+    color: #ffffff;
+    /* Link text color on hover */
+}
+
+#mobile-menu .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeButton = document.querySelector('#mobile-menu .close-button');
+
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.remove('hidden');
+        mobileMenu.style.transform = 'translateX(0)';
+    });
+
+    closeButton.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.style.transform = 'translateX(-100%)';
+    });
+});
+</script>
 <template>
     <main>
-        <header>
-            <Link href="/">Home</Link>
-            <Link href="/about">About</Link>
-            <Link href="/contact">Contact</Link>
-        </header>
+        <!-- Navbar for larger screens -->
+        <nav class="hidden lg:flex bg-blue-500 p-4">
+            <div class="container mx-auto">
+                <a href="#" class="text-white text-lg font-semibold mr-4">Your Logo</a>
+                <a href="#" class="text-white">Home</a>
+                <a href="#" class="text-white">About</a>
+                <a href="#" class="text-white">Services</a>
+                <a href="#" class="text-white">Contact</a>
+            </div>
+        </nav>
+
+        <!-- Mobile Navbar (visible on small screens) -->
+        <nav class="lg:hidden bg-blue-500 p-4">
+            <div class="container mx-auto">
+                <div class="flex justify-between items-center">
+                    <a href="#" class="text-white text-lg font-semibold">Your Logo</a>
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Sidebar (hidden by default) -->
+        <div id="mobile-menu" class="hidden">
+            <button class="close-button text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <div class="flex flex-col items-center mt-4 space-y-4">
+                <a href="#" class="text-white">Home</a>
+                <a href="#" class="text-white">About</a>
+                <a href="#" class="text-white">Services</a>
+                <a href="#" class="text-white">Contact</a>
+            </div>
+        </div>
+
         <article>
             <slot></slot>
         </article>
