@@ -11,7 +11,10 @@ use App\Livewire\FrontendPageComponent;
 use Inertia\Inertia;
 
 
-Route::inertia('/', 'Home');
+Route::get('/', function () {
+    Inertia::share('logo', setting('logo'));
+    return Inertia::render('Home');
+});
 
 
 Route::get('/admin-login', function () {

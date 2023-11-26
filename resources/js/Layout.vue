@@ -1,5 +1,11 @@
 <script setup>
+import { ref, computed } from 'vue';
 import { Link } from '@inertiajs/vue3'
+import { usePage } from '@inertiajs/vue3'
+
+const page = usePage()
+const logo = computed(() => page.props.logo)
+// const logo = ref('io');
 </script>
 <style>
 /* Add styles for the mobile sidebar */
@@ -56,12 +62,15 @@ document.addEventListener('DOMContentLoaded', function () {
     <main>
         <!-- Navbar for larger screens -->
         <nav class="hidden lg:flex bg-blue-500 p-4">
-            <div class="container mx-auto">
-                <a href="#" class="text-white text-lg font-semibold mr-4">Your Logo</a>
-                <a href="#" class="text-white">Home</a>
-                <a href="#" class="text-white">About</a>
-                <a href="#" class="text-white">Services</a>
-                <a href="#" class="text-white">Contact</a>
+            <div class="container mx-auto flex justify-between items-center">
+                <div>
+                    <img :src="'/storage/' + logo" class="w-[40px]" alt="">
+                    <!-- <img :src="require('@/storage/')" alt=""> -->
+                </div>
+                <div class="flex gap-2 flex-wrap items-end justify-end">
+                    <Link class="after:content-['|'] after:ml-2 pl-2" href="/about">About</Link>
+                    <Link href="/contact">Contact</Link>
+                </div>
             </div>
         </nav>
 
@@ -69,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <nav class="lg:hidden bg-blue-500 p-4">
             <div class="container mx-auto">
                 <div class="flex justify-between items-center">
-                    <a href="#" class="text-white text-lg font-semibold">Your Logo</a>
+                    <img :src="'/storage/' + logo" class="w-[60px]" alt="">
                     <button id="mobile-menu-button" class="text-white focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -90,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </svg>
             </button>
             <div class="flex flex-col items-center mt-4 space-y-4">
+                <img :src="'/storage/' + logo" class="mw-[100%]" alt="">
                 <a href="#" class="text-white">Home</a>
                 <a href="#" class="text-white">About</a>
                 <a href="#" class="text-white">Services</a>
