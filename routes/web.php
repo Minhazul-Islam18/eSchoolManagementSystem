@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Backend\RoleManagement;
 use App\Livewire\Backend\DashboardComponent;
 use App\Livewire\FrontendPageComponent;
+use Inertia\Inertia;
+
+
+Route::inertia('/', 'Home');
+
 
 Route::get('/admin-login', function () {
     $e = Auth::loginUsingId(1, $remember = true);
