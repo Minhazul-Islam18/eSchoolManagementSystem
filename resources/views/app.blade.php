@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @inertiaHead
+
+    <!-- Font Solaimanlipi-->
+    <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'SolaimanLipi', Arial, sans-serif !important;
+        }
+    </style>
 </head>
 
 <body class="">
