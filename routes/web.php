@@ -3,6 +3,7 @@
 use App\Http\Controllers\backend\SocialLogin;
 use App\Http\Controllers\FrontendPageController;
 use App\Models\User;
+use App\Models\Package;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Backend\RoleManagement;
@@ -13,7 +14,8 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     Inertia::share('logo', setting('logo'));
-    return Inertia::render('Home');
+    $pricings = Package::where('status', 1)->get();
+    return Inertia::render('Home', ['pricings' => $pricings]);
 });
 
 

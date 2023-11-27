@@ -16,3 +16,4 @@ createInertiaApp({
             .mount(el);
     },
 });
+// lucide.createIcons();

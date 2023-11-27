@@ -17,10 +17,9 @@ const logo = computed(() => page.props.logo)
     left: 0;
     height: 100%;
     width: 240px;
-    /* Adjust the width as needed */
     background-color: #2d3748;
-    /* Sidebar background color */
     padding-top: 4rem;
+    z-index: 999;
 }
 
 #mobile-menu a {
@@ -58,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
 <template>
     <main>
         <!-- Navbar for larger screens -->
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </svg>
             </button>
             <div class="flex flex-col items-center mt-4 space-y-4">
-                <img :src="'/storage/' + logo" class="mw-[100%]" alt="">
+                <img :src="'/storage/' + logo" class="mw-[100%] mx-3" alt="">
                 <a href="#" class="text-white">Home</a>
                 <a href="#" class="text-white">About</a>
                 <a href="#" class="text-white">Services</a>
