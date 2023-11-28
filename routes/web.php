@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\backend\SocialLogin;
-use App\Http\Controllers\FrontendPageController;
 use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Package;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\FrontendPageComponent;
 use App\Livewire\Backend\RoleManagement;
 use App\Livewire\Backend\DashboardComponent;
-use App\Livewire\FrontendPageComponent;
-use Inertia\Inertia;
+use App\Http\Controllers\backend\SocialLogin;
+use App\Http\Controllers\BkashPaymentController;
+use App\Http\Controllers\FrontendPageController;
 
 
 Route::get('/', function () {
@@ -18,6 +19,20 @@ Route::get('/', function () {
     return Inertia::render('Home', ['pricings' => $pricings]);
 });
 
+Route::group(['middleware' => ['auth']], function () {
+
+    // Payment Routes for bKash
+    Route::get('/bkash/payment', [BkashPaymentController::class, 'index']);
+    Route::post('/bkash/get-token', [BkashPaymentController::class, 'getToken'])->name('bkash-get-token');
+    Route::post('/bkash/create-payment', [BkashPaymentController::class, 'createPayment'])->name('bkash-create-payment');
+    Route::post('/bkash/execute-payment', [BkashPaymentController::class, 'executePayment'])->name('bkash-execute-payment');
+    // Route::get('/bkash/query-payment', [BkashPaymentController::class, 'queryPayment'])->name('bkash-query-payment');
+    // Route::post('/bkash/success', [BkashPaymentController::class, 'bkashSuccess'])->name('bkash-success');
+
+    // // Refund Routes for bKash
+    // Route::get('/bkash/refund', [BkashPaymentController::class, 'refundPage'])->name('bkash-refund');
+    // Route::post('/bkash/refund', [BkashPaymentController::class, 'refund'])->name('bkash-refund');
+});
 
 Route::get('/admin-login', function () {
     $e = Auth::loginUsingId(1, $remember = true);

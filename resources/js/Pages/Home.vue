@@ -1,14 +1,23 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
-import { computed } from "vue";
-import { usePage } from '@inertiajs/vue3'
+import { computed, reactive } from "vue";
+import { usePage, router } from '@inertiajs/vue3'
 import {
     CheckCircle2,
     XCircle
 } from 'lucide-vue-next';
 const page = usePage()
 const logo = computed(() => page.props.logo)
-
+const form = reactive({
+    amount: null,
+    id: null
+});
+function purchase(id, amount) {
+    form.amount = amount;
+    form.id = id;
+    console.log(form);
+    router.get('/bkash/payment', form)
+}
 const props = defineProps({
     'pricings': Array,
 });
@@ -79,148 +88,157 @@ window.addEventListener("resize", swiperCard);
     <!---- End hero---->
 
     <section id="pricing-plan" class="py-10 bg-gradient-to-b from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]">
-        <div class="flex flex-wrap flex-col sm:flex-row container h-full mx-auto">
-            <div class="w-3/12"></div>
-            <div class="w-/12 flex flex-col justify-center items-start">
-                <!-- Display pricing information -->
-                <div
-                    class="relative z-10 overflow-hidden rounded-sm border border-stroke bg-white p-11 shadow-default dark:border-strokedark dark:bg-boxdark">
-                    <div class="w-full overflow-x-auto">
-                        <table class="table-auto">
-                            <thead>
-                                <tr>
-                                    <th class="w-1/4 min-w-[200px] px-5"></th>
-                                    <th class="w-1/4 min-w-[200px] px-5" v-for="pricing in props.pricings"
-                                        :key="pricing.id">
+        <div class="container mx-auto">
+            <!-- Display pricing information -->
+            <div
+                class="relative z-10 overflow-hidden rounded-sm border border-stroke bg-white p-11 shadow-default dark:border-strokedark dark:bg-boxdark">
+                <div class="w-full overflow-x-auto">
+                    <table class="table-auto w-full">
+                        <thead>
+                            <tr>
+                                <th class="w-1/4 min-w-[200px] px-5"></th>
+
+                                <th class="w-1/4 min-w-[200px] px-5" v-for="pricing in  props.pricings " :key="pricing.id">
+                                    <form @submit.prevent="purchase(pricing.id, pricing.price)">
                                         <div class="mb-10 text-left"><span
                                                 class="mb-3.5 block text-xl font-bold text-black dark:text-white">{{
                                                     pricing.name }}</span>
                                             <h4 class="mb-4"><span
-                                                    class="text-[28px] font-bold text-black dark:text-white lg:text-[32px]">৳
+                                                    class="text-[28px] font-bold text-black dark:text-white lg:text-[32px]">
+                                                    <sup class="font-xs">৳</sup>
                                                     {{
-                                                        pricing.price }}</span><span class="font-medium">Per Month</span></h4>
-                                            <p class="mb-6 text-base font-medium">{{ pricing.additional_features }}</p><a
+                                                        pricing.price ?? 0 }}</span><sub class="font-xs">/ Month</sub>
+                                            </h4>
+                                            <p class="mb-6 text-base font-medium">{{ pricing.additional_features }}</p>
+                                            <button :disabled="form.processing"
                                                 class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90"
-                                                href="/pages/pricing-tables">Purchase Now</a>
+                                                type="submit">
+                                                {{ pricing.price > 0 ? 'Purchase Now' : 'Free' }}</button>
                                         </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
-                                        <h5 class="font-medium text-black dark:text-white">Key Features</h5>
-                                    </td>
-                                    <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
-                                        <h5 class="text-center font-medium text-black dark:text-white">Features Limits</h5>
-                                    </td>
-                                    <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
-                                        <h5 class="text-center font-medium text-black dark:text-white">Features Limits</h5>
-                                    </td>
-                                    <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
-                                        <h5 class="text-center font-medium text-black dark:text-white">Features Limits</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
-                                        <p class="font-medium">Allowed students</p>
-                                    </td>
-                                    <td class="border-t border-stroke py-5 px-7 dark:border-strokedark"
-                                        v-for="pricing in props.pricings" :key="pricing.id">
-                                        <p class="text-center font-medium">{{ pricing.allowed_students }}</p>
-                                    </td>
-                                </tr>
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="absolute top-0 left-0 -z-1">
-                        <span class="absolute top-0 left-0 -z-1">
-                            <svg width="213" height="188" viewBox="0 0 213 188" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="75" cy="50" r="138" fill="url(#paint0_linear)"></circle>
-                                <defs>
-                                    <linearGradient id="paint0_linear" x1="75" y1="-88" x2="75" y2="188"
-                                        gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="#3056D3" stop-opacity="0.15"></stop>
-                                        <stop offset="1" stop-color="#C4C4C4" stop-opacity="0"></stop>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                        </span>
-                        <span class="absolute top-30 left-11 -z-1">
-                            <svg width="50" height="109" viewBox="0 0 50 109" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="47.71" cy="107.259" r="1.74121" transform="rotate(180 47.71 107.259)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="47.71" cy="91.9355" r="1.74121" transform="rotate(180 47.71 91.9355)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="47.71" cy="76.6133" r="1.74121" transform="rotate(180 47.71 76.6133)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="47.71" cy="47.0132" r="1.74121" transform="rotate(180 47.71 47.0132)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="47.71" cy="16.7158" r="1.74121" transform="rotate(180 47.71 16.7158)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="47.71" cy="61.6392" r="1.74121" transform="rotate(180 47.71 61.6392)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="47.71" cy="32.0386" r="1.74121" transform="rotate(180 47.71 32.0386)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="47.71" cy="1.74121" r="1.74121" transform="rotate(180 47.71 1.74121)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="32.3877" cy="107.259" r="1.74121" transform="rotate(180 32.3877 107.259)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="32.3877" cy="91.9355" r="1.74121" transform="rotate(180 32.3877 91.9355)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="32.3877" cy="76.6133" r="1.74121" transform="rotate(180 32.3877 76.6133)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="32.3877" cy="47.0132" r="1.74121" transform="rotate(180 32.3877 47.0132)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="32.3877" cy="16.7158" r="1.74121" transform="rotate(180 32.3877 16.7158)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="32.3877" cy="61.6392" r="1.74121" transform="rotate(180 32.3877 61.6392)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="32.3877" cy="32.0386" r="1.74121" transform="rotate(180 32.3877 32.0386)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="32.3877" cy="1.74121" r="1.74121" transform="rotate(180 32.3877 1.74121)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="17.0654" cy="107.259" r="1.74121" transform="rotate(180 17.0654 107.259)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="17.0654" cy="91.9355" r="1.74121" transform="rotate(180 17.0654 91.9355)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="17.0654" cy="76.6133" r="1.74121" transform="rotate(180 17.0654 76.6133)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="17.0654" cy="47.0132" r="1.74121" transform="rotate(180 17.0654 47.0132)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="17.0654" cy="16.7158" r="1.74121" transform="rotate(180 17.0654 16.7158)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="17.0654" cy="61.6392" r="1.74121" transform="rotate(180 17.0654 61.6392)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="17.0654" cy="32.0386" r="1.74121" transform="rotate(180 17.0654 32.0386)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="17.0654" cy="1.74121" r="1.74121" transform="rotate(180 17.0654 1.74121)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="1.74121" cy="107.259" r="1.74121" transform="rotate(180 1.74121 107.259)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="1.74121" cy="91.9355" r="1.74121" transform="rotate(180 1.74121 91.9355)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="1.74121" cy="76.6133" r="1.74121" transform="rotate(180 1.74121 76.6133)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="1.74121" cy="47.0132" r="1.74121" transform="rotate(180 1.74121 47.0132)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="1.74121" cy="16.7158" r="1.74121" transform="rotate(180 1.74121 16.7158)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="1.74121" cy="61.6392" r="1.74121" transform="rotate(180 1.74121 61.6392)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="1.74121" cy="32.0386" r="1.74121" transform="rotate(180 1.74121 32.0386)"
-                                    fill="#3056D3"></circle>
-                                <circle cx="1.74121" cy="1.74121" r="1.74121" transform="rotate(180 1.74121 1.74121)"
-                                    fill="#3056D3"></circle>
-                            </svg>
-                        </span>
-                    </div>
+                                    </form>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
+                                    <h5 class="font-medium text-black dark:text-white">Key Features</h5>
+                                </td>
+                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
+                                    <h5 class="text-center font-medium text-black dark:text-white">Features Limits</h5>
+                                </td>
+                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
+                                    <h5 class="text-center font-medium text-black dark:text-white">Features Limits</h5>
+                                </td>
+                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
+                                    <h5 class="text-center font-medium text-black dark:text-white">Features Limits</h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
+                                    <p class="font-medium">Allowed students</p>
+                                </td>
+                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark"
+                                    v-for=" pricing  in  props.pricings " :key="pricing.id">
+                                    <p class="text-center font-medium">{{ pricing.allowed_students }}</p>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="absolute top-0 left-0 -z-1">
+                    <span class="absolute top-0 left-0 -z-1">
+                        <svg width="213" height="188" viewBox="0 0 213 188" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="75" cy="50" r="138" fill="url(#paint0_linear)"></circle>
+                            <defs>
+                                <linearGradient id="paint0_linear" x1="75" y1="-88" x2="75" y2="188"
+                                    gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#3056D3" stop-opacity="0.15"></stop>
+                                    <stop offset="1" stop-color="#C4C4C4" stop-opacity="0"></stop>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </span>
+                    <span class="absolute top-30 left-11 -z-1">
+                        <svg width="50" height="109" viewBox="0 0 50 109" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="47.71" cy="107.259" r="1.74121" transform="rotate(180 47.71 107.259)"
+                                fill="#3056D3">
+                            </circle>
+                            <circle cx="47.71" cy="91.9355" r="1.74121" transform="rotate(180 47.71 91.9355)"
+                                fill="#3056D3">
+                            </circle>
+                            <circle cx="47.71" cy="76.6133" r="1.74121" transform="rotate(180 47.71 76.6133)"
+                                fill="#3056D3">
+                            </circle>
+                            <circle cx="47.71" cy="47.0132" r="1.74121" transform="rotate(180 47.71 47.0132)"
+                                fill="#3056D3">
+                            </circle>
+                            <circle cx="47.71" cy="16.7158" r="1.74121" transform="rotate(180 47.71 16.7158)"
+                                fill="#3056D3">
+                            </circle>
+                            <circle cx="47.71" cy="61.6392" r="1.74121" transform="rotate(180 47.71 61.6392)"
+                                fill="#3056D3">
+                            </circle>
+                            <circle cx="47.71" cy="32.0386" r="1.74121" transform="rotate(180 47.71 32.0386)"
+                                fill="#3056D3">
+                            </circle>
+                            <circle cx="47.71" cy="1.74121" r="1.74121" transform="rotate(180 47.71 1.74121)"
+                                fill="#3056D3">
+                            </circle>
+                            <circle cx="32.3877" cy="107.259" r="1.74121" transform="rotate(180 32.3877 107.259)"
+                                fill="#3056D3"></circle>
+                            <circle cx="32.3877" cy="91.9355" r="1.74121" transform="rotate(180 32.3877 91.9355)"
+                                fill="#3056D3"></circle>
+                            <circle cx="32.3877" cy="76.6133" r="1.74121" transform="rotate(180 32.3877 76.6133)"
+                                fill="#3056D3"></circle>
+                            <circle cx="32.3877" cy="47.0132" r="1.74121" transform="rotate(180 32.3877 47.0132)"
+                                fill="#3056D3"></circle>
+                            <circle cx="32.3877" cy="16.7158" r="1.74121" transform="rotate(180 32.3877 16.7158)"
+                                fill="#3056D3"></circle>
+                            <circle cx="32.3877" cy="61.6392" r="1.74121" transform="rotate(180 32.3877 61.6392)"
+                                fill="#3056D3"></circle>
+                            <circle cx="32.3877" cy="32.0386" r="1.74121" transform="rotate(180 32.3877 32.0386)"
+                                fill="#3056D3"></circle>
+                            <circle cx="32.3877" cy="1.74121" r="1.74121" transform="rotate(180 32.3877 1.74121)"
+                                fill="#3056D3"></circle>
+                            <circle cx="17.0654" cy="107.259" r="1.74121" transform="rotate(180 17.0654 107.259)"
+                                fill="#3056D3"></circle>
+                            <circle cx="17.0654" cy="91.9355" r="1.74121" transform="rotate(180 17.0654 91.9355)"
+                                fill="#3056D3"></circle>
+                            <circle cx="17.0654" cy="76.6133" r="1.74121" transform="rotate(180 17.0654 76.6133)"
+                                fill="#3056D3"></circle>
+                            <circle cx="17.0654" cy="47.0132" r="1.74121" transform="rotate(180 17.0654 47.0132)"
+                                fill="#3056D3"></circle>
+                            <circle cx="17.0654" cy="16.7158" r="1.74121" transform="rotate(180 17.0654 16.7158)"
+                                fill="#3056D3"></circle>
+                            <circle cx="17.0654" cy="61.6392" r="1.74121" transform="rotate(180 17.0654 61.6392)"
+                                fill="#3056D3"></circle>
+                            <circle cx="17.0654" cy="32.0386" r="1.74121" transform="rotate(180 17.0654 32.0386)"
+                                fill="#3056D3"></circle>
+                            <circle cx="17.0654" cy="1.74121" r="1.74121" transform="rotate(180 17.0654 1.74121)"
+                                fill="#3056D3"></circle>
+                            <circle cx="1.74121" cy="107.259" r="1.74121" transform="rotate(180 1.74121 107.259)"
+                                fill="#3056D3"></circle>
+                            <circle cx="1.74121" cy="91.9355" r="1.74121" transform="rotate(180 1.74121 91.9355)"
+                                fill="#3056D3"></circle>
+                            <circle cx="1.74121" cy="76.6133" r="1.74121" transform="rotate(180 1.74121 76.6133)"
+                                fill="#3056D3"></circle>
+                            <circle cx="1.74121" cy="47.0132" r="1.74121" transform="rotate(180 1.74121 47.0132)"
+                                fill="#3056D3"></circle>
+                            <circle cx="1.74121" cy="16.7158" r="1.74121" transform="rotate(180 1.74121 16.7158)"
+                                fill="#3056D3"></circle>
+                            <circle cx="1.74121" cy="61.6392" r="1.74121" transform="rotate(180 1.74121 61.6392)"
+                                fill="#3056D3"></circle>
+                            <circle cx="1.74121" cy="32.0386" r="1.74121" transform="rotate(180 1.74121 32.0386)"
+                                fill="#3056D3"></circle>
+                            <circle cx="1.74121" cy="1.74121" r="1.74121" transform="rotate(180 1.74121 1.74121)"
+                                fill="#3056D3"></circle>
+                        </svg>
+                    </span>
                 </div>
             </div>
-            <div class="w-3/12"></div>
         </div>
     </section>
 </template>
