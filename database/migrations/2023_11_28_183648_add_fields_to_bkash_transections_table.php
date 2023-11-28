@@ -12,11 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bkash_transections', function (Blueprint $table) {
-            $table->after('payment_id', function (Blueprint $table) {
-                $table->string('trx_id')->nullable();
-                $table->string('customer_msisdn')->nullable();
-                $table->string('transaction_reference')->nullable();
-            });
+            $table->boolean('is_used')->default(false);
         });
     }
 
@@ -26,9 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bkash_transections', function (Blueprint $table) {
-            $table->string('trx_id')->nullable();
-            $table->string('customer_msisdn')->nullable();
-            $table->string('transaction_reference')->nullable();
+            $table->boolean('is_used')->default(false);
         });
     }
 };
