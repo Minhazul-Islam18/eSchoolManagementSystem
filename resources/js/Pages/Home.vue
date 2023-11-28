@@ -1,7 +1,13 @@
 <script setup>
 import { Head, Link } from "@inertiajs/vue3";
 import { computed, reactive } from "vue";
-import { usePage, router } from '@inertiajs/vue3'
+import { usePage, router } from '@inertiajs/vue3';
+import { useToast } from "vue-toastification";
+const toast = useToast()
+// Use it!
+
+
+
 import {
     CheckCircle2,
     XCircle
@@ -12,16 +18,35 @@ const form = reactive({
     amount: null,
     id: null
 });
+const freePack = reactive({
+    id: null
+});
 function purchase(id, amount) {
     form.amount = amount;
     form.id = id;
     console.log(form);
     router.get('/bkash/payment', form)
 }
+
+async function free(id) {
+    try {
+        freePack.id = id;
+        router.put(`/process-free-package/${id}`, freePack);
+        toast('success');
+    } catch (error) {
+        console.log(error);
+        toast("error");
+    }
+
+}
+// Route:: post('/process-free-package/{id}', [ProcessFreePackage:: class, 'en']) -> name('process-free-package');
 const props = defineProps({
     'pricings': Array,
+    'message': String,
 });
-// console.log(props.pricings)
+console.log(props.message);
+
+
 </script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.4/swiper-bundle.min.js"></script>
 <script>
@@ -99,7 +124,8 @@ window.addEventListener("resize", swiperCard);
                                 <th class="w-1/4 min-w-[200px] px-5"></th>
 
                                 <th class="w-1/4 min-w-[200px] px-5" v-for="pricing in  props.pricings " :key="pricing.id">
-                                    <form @submit.prevent="purchase(pricing.id, pricing.price)">
+                                    <form
+                                        @submit.prevent="pricing.price > 0 ? purchase(pricing.id, pricing.price) : free(pricing.id)">
                                         <div class="mb-10 text-left"><span
                                                 class="mb-3.5 block text-xl font-bold text-black dark:text-white">{{
                                                     pricing.name }}</span>

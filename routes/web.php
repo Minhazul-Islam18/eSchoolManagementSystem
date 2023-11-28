@@ -11,15 +11,15 @@ use App\Livewire\Backend\DashboardComponent;
 use App\Http\Controllers\backend\SocialLogin;
 use App\Http\Controllers\BkashPaymentController;
 use App\Http\Controllers\FrontendPageController;
-
+use App\Http\Controllers\ProcessFreePackage;
 
 Route::get('/', function () {
     Inertia::share('logo', setting('logo'));
     $pricings = Package::where('status', 1)->get();
     return Inertia::render('Home', ['pricings' => $pricings]);
-});
-
+})->name('/');
 Route::group(['middleware' => ['auth']], function () {
+    Route::put('/process-free-package/{id}', [ProcessFreePackage::class, 'SyncToUser'])->name('process-free-package');
 
     // Payment Routes for bKash
     Route::get('/bkash/payment', [BkashPaymentController::class, 'index']);

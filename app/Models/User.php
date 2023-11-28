@@ -67,9 +67,9 @@ class User extends Authenticatable
     const USER = 'user';
 
     // Relationships
-    public function schools()
+    public function school()
     {
-        return $this->hasMany(School::class);
+        return $this->hasOne(School::class);
     }
 
     public function students()
@@ -89,9 +89,9 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        // dd($role);
         return $this->role->slug === $role;
     }
+
     public function hasPermission($permission): bool
     {
         if ($this->role != null) {

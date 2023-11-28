@@ -10,7 +10,8 @@ use Karim007\LaravelBkash\Facade\BkashPayment;
 
 class BkashPaymentController extends Controller
 {
-    public $amount = 0;
+    private $amount = 0;
+    private $payment_id;
     public function index(Request $request)
     {
         if (session()->has('invoice_amount')) {
@@ -51,6 +52,7 @@ class BkashPaymentController extends Controller
 
         $request_data_json = json_encode($request->all());
         $e = BkashPayment::cPayment($request_data_json);
+        session()->put('payment_id', $e['paymentID']);
         BkashTransection::create([
             'logo' => $e['orgLogo'],
             'name' => $e['orgName'],
@@ -66,11 +68,22 @@ class BkashPaymentController extends Controller
 
     public function executePayment(Request $request)
     {
+        $tr = BkashTransection::where('payment_id', $request->paymentID)->first();
+        // dd(session()->get('payment_id'), $request->paymentID);
         $paymentID = $request->paymentID;
         $e = BkashPayment::executePayment($paymentID);
-        dd($e);
+
+        // dd($tr);
         if ($e['transactionStatus'] !== 'Completed') {
-            BkashTransection::where('payment_id', $e['paymentID'])->first()->delete();
+            $tr->delete();
+        } else {
+            $tr->update([
+                'payment_id' => $e['paymentID'],
+                'transaction_status' => $e['transactionStatus'],
+                'customer_msisdn' => $e['customerMsisdn'],
+                'trx_id' => $e['trxID'],
+                'transaction_reference' => $e['transactionReference'] ?? null,
+            ]);
         }
         return $e;
     }
