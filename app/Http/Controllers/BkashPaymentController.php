@@ -27,8 +27,6 @@ class BkashPaymentController extends Controller
             return to_route('/');
         }
 
-
-
         // return Inertia::render('Payment', [
         //     'logo' => setting('logo'),
         // ]);
@@ -36,59 +34,57 @@ class BkashPaymentController extends Controller
 
     public function getToken()
     {
-        // dd(
-        //     session()->get('invoice_amount')
-        // );
-        // dd('ok');
-        // session()->put('invoice_amount', session()->get('invoice_amount'));
-        return BkashPayment::getToken();
+        if (auth()->user()->hasRole('school')) {
+            return BkashPayment::getToken();
+        }
     }
     public function createPayment(Request $request)
     {
-        // dd(
-        //     $request->session()->get('invoice_amount')
-        // );
-        $request['intent'] = 'sale';
-        $request['currency'] = 'BDT';
-        $request['invoice_amount'] = session()->get('invoice_amount') ?? 10;
-        $request['merchantInvoiceNumber'] = rand();
-        $request['callbackURL'] = config("bkash.callbackURL");;
+        if (auth()->user()->hasRole('school')) {
+            $request['intent'] = 'sale';
+            $request['currency'] = 'BDT';
+            $request['invoice_amount'] = session()->get('invoice_amount') ?? 10;
+            $request['merchantInvoiceNumber'] = rand();
+            $request['callbackURL'] = config("bkash.callbackURL");;
 
-        $request_data_json = json_encode($request->all());
-        $e = BkashPayment::cPayment($request_data_json);
-        session()->put('payment_id', $e['paymentID']);
-        BkashTransection::create([
-            'logo' => $e['orgLogo'],
-            'name' => $e['orgName'],
-            'payment_id' => $e['paymentID'],
-            'currency' => $e['currency'],
-            'transaction_status' => $e['transactionStatus'],
-            'merchant_invoice_number' => $e['merchantInvoiceNumber'],
-            'amount' => $e['amount'],
-            'create_time' => $e['createTime'],
-        ]);
-        return $e;
+            $request_data_json = json_encode($request->all());
+            $e = BkashPayment::cPayment($request_data_json);
+            session()->put('payment_id', $e['paymentID']);
+            BkashTransection::create([
+                'logo' => $e['orgLogo'],
+                'name' => $e['orgName'],
+                'payment_id' => $e['paymentID'],
+                'currency' => $e['currency'],
+                'transaction_status' => $e['transactionStatus'],
+                'merchant_invoice_number' => $e['merchantInvoiceNumber'],
+                'amount' => $e['amount'],
+                'create_time' => $e['createTime'],
+            ]);
+            return $e;
+        }
     }
 
     public function executePayment(Request $request)
     {
-        $tr = BkashTransection::where('payment_id', $request->paymentID)->first();
-        // dd(session()->get('payment_id'), $request->paymentID);
-        $paymentID = $request->paymentID;
-        $e = BkashPayment::executePayment($paymentID);
+        if (auth()->user()->hasRole('school')) {
+            $tr = BkashTransection::where('payment_id', $request->paymentID)->first();
+            // dd(session()->get('payment_id'), $request->paymentID);
+            $paymentID = $request->paymentID;
+            $e = BkashPayment::executePayment($paymentID);
 
-        if ($e['transactionStatus'] !== 'Completed') {
-            $tr->delete();
-        } else {
-            $tr->update([
-                'payment_id' => $e['paymentID'],
-                'transaction_status' => $e['transactionStatus'],
-                'customer_msisdn' => $e['customerMsisdn'],
-                'trx_id' => $e['trxID'],
-                'transaction_reference' => $e['transactionReference'] ?? null,
-            ]);
+            if ($e['transactionStatus'] !== 'Completed') {
+                $tr->delete();
+            } else {
+                $tr->update([
+                    'payment_id' => $e['paymentID'],
+                    'transaction_status' => $e['transactionStatus'],
+                    'customer_msisdn' => $e['customerMsisdn'],
+                    'trx_id' => $e['trxID'],
+                    'transaction_reference' => $e['transactionReference'] ?? null,
+                ]);
+            }
+            return $e;
         }
-        return $e;
     }
     public function queryPayment(Request $request)
     {

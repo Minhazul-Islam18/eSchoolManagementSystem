@@ -21,7 +21,7 @@ class ProcessFreePackage extends Controller
                 "package_id" => $id
             ]);
         } else {
-            return response('You\'re not elligable for buy any package', 200);
+            return to_route('/');
             // return Inertia::location(route('/'), ['message', 'Your message here']);
             // return to_route('/', ['message' => 'You\'re not elligable for buy any package'], 303);
             // return Inertia::render('Home', ['message' => 'You\'re not elligable for buy any package']);

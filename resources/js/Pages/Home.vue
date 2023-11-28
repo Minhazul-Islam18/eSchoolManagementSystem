@@ -32,10 +32,10 @@ async function free(id) {
     try {
         freePack.id = id;
         router.put(`/process-free-package/${id}`, freePack);
-        toast('Package purchased');
+        // toast('Package purchased');
     } catch (error) {
         console.log(error);
-        toast("error");
+        // toast("error");
     }
 
 }
