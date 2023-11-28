@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\BkashTransection;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\School;
@@ -26,6 +27,8 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'role' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
+            'trx_id' => ['required', 'max:255'],
+            'msisdn' => ['required', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
@@ -50,6 +53,26 @@ class CreateNewUser implements CreatesNewUsers
                 // Add other student-specific fields
             ]);
         }
+
+        //Check this newly registerd user has any purchased transection
+        $e = BkashTransection::where('customer_msisdn', $input['msisdn'])
+            ->where('trx_id', $input['trx_id'])
+            ->where('is_used', false)
+            ->firstOrFail();
+
+        if ($e !== null) {
+            // Add package to user
+            $user->update([
+                'package_id' => $e->id,
+                'status' => true,
+            ]);
+
+            // Also expired transection
+            $e->update([
+                'is_used' => true,
+            ]);
+        }
+
         return $user;
     }
 }

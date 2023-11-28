@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,8 +16,11 @@ class CheckActivatedSchool
      */
     public function handle(Request $request, Closure $next): Response
     {
-        abort_if(null != auth()->user() && 0 === auth()->user()->status, '401', 'Your Account isn\'t activated or approved by authority!');
-
+        // dd(auth()->user());
+        // abort_if(auth()->user() != null &&  auth()->user()->status === 0, '401', 'Your Account isn\'t activated or approved by authority!');
+        if (auth()->user() != null &&  auth()->user()->status === 0) {
+            throw new Exception("Your Account isn\'t activated or approved by authority!", 1);
+        }
         return $next($request);
     }
 }

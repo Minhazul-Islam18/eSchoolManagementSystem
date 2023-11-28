@@ -33,6 +33,23 @@
                     name="password_confirmation" required autocomplete="new-password" />
             </div>
 
+            <div class="mt-4">
+                <label for="msisdn" class="flex font-medium text-sm text-gray-700 dark:text-gray-300 gap-2">
+                    {{ __('MSISDN') }}<sub class="text-xs font-bold text-yellow-400">{{ __('[Bkash number]') }}</sub>
+                </label>
+                <x-input id="msisdn" class="block mt-1 w-full" type="text" name="msisdn" required
+                    autocomplete="msisdn" />
+            </div>
+
+            <div class="mt-4">
+                <label for="trx_id" class="flex font-medium text-sm text-gray-700 dark:text-gray-300 gap-2">
+                    {{ __('Transection ID') }}<sub
+                        class="text-xs font-bold text-yellow-400">{{ __('[Bkash transection ID]') }}</sub>
+                </label>
+                <x-input id="trx_id" class="block mt-1 w-full" type="text" name="trx_id" required
+                    autocomplete="trx_id" />
+            </div>
+
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
                     <x-label for="terms">
