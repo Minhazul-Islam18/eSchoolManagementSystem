@@ -159,6 +159,10 @@ class ComposerStaticInit9f5fc69a13b35f8d0b35ad0255c4cd41
             'Laravel\\Jetstream\\' => 18,
             'Laravel\\Fortify\\' => 16,
         ),
+        'K' => 
+        array (
+            'Karim007\\LaravelBkash\\' => 22,
+        ),
         'J' => 
         array (
             'Jenssegers\\Agent\\' => 17,
@@ -545,6 +549,10 @@ class ComposerStaticInit9f5fc69a13b35f8d0b35ad0255c4cd41
         array (
             0 => __DIR__ . '/..' . '/laravel/fortify/src',
         ),
+        'Karim007\\LaravelBkash\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/karim007/laravel-bkash/src',
+        ),
         'Jenssegers\\Agent\\' => 
         array (
             0 => __DIR__ . '/..' . '/jenssegers/agent/src',
@@ -706,6 +714,7 @@ class ComposerStaticInit9f5fc69a13b35f8d0b35ad0255c4cd41
         'App\\Http\\Middleware\\CheckRole' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckRole.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\FrontendLayoutMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/FrontendLayoutMiddleware.php',
+        'App\\Http\\Middleware\\HandleInertiaRequests' => __DIR__ . '/../..' . '/app/Http/Middleware/HandleInertiaRequests.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\RoleBasedRedirection' => __DIR__ . '/../..' . '/app/Http/Middleware/RoleBasedRedirection.php',
@@ -3254,6 +3263,17 @@ class ComposerStaticInit9f5fc69a13b35f8d0b35ad0255c4cd41
         'Jenssegers\\Agent\\Agent' => __DIR__ . '/..' . '/jenssegers/agent/src/Agent.php',
         'Jenssegers\\Agent\\AgentServiceProvider' => __DIR__ . '/..' . '/jenssegers/agent/src/AgentServiceProvider.php',
         'Jenssegers\\Agent\\Facades\\Agent' => __DIR__ . '/..' . '/jenssegers/agent/src/Facades/Agent.php',
+        'Karim007\\LaravelBkash\\BkashServiceProvider' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/BkashServiceProvider.php',
+        'Karim007\\LaravelBkash\\Controllers\\BkashPaymentController' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/Controllers/BkashPaymentController.php',
+        'Karim007\\LaravelBkash\\Exception\\BkashException' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/Exception/BkashException.php',
+        'Karim007\\LaravelBkash\\Exception\\InvalidPrivateKey' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/Exception/InvalidPrivateKey.php',
+        'Karim007\\LaravelBkash\\Exception\\InvalidPublicKey' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/Exception/InvalidPublicKey.php',
+        'Karim007\\LaravelBkash\\Facade\\BkashPayment' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/Facade/BkashPayment.php',
+        'Karim007\\LaravelBkash\\Facade\\BkashRefund' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/Facade/BkashRefund.php',
+        'Karim007\\LaravelBkash\\Payment\\BBaseApi' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/Payment/BBaseApi.php',
+        'Karim007\\LaravelBkash\\Payment\\BPayment' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/Payment/BPayment.php',
+        'Karim007\\LaravelBkash\\Payment\\BRefund' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/Payment/BRefund.php',
+        'Karim007\\LaravelBkash\\Traits\\Helpers' => __DIR__ . '/..' . '/karim007/laravel-bkash/src/Traits/Helpers.php',
         'Laravel\\Fortify\\Actions\\AttemptToAuthenticate' => __DIR__ . '/..' . '/laravel/fortify/src/Actions/AttemptToAuthenticate.php',
         'Laravel\\Fortify\\Actions\\CanonicalizeUsername' => __DIR__ . '/..' . '/laravel/fortify/src/Actions/CanonicalizeUsername.php',
         'Laravel\\Fortify\\Actions\\CompletePasswordReset' => __DIR__ . '/..' . '/laravel/fortify/src/Actions/CompletePasswordReset.php',

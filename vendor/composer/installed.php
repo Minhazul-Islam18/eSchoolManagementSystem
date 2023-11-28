@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '7a57b439ebfe0ecba14341a443314fdd97a1dc65',
+        'reference' => '5d42b57e9bce321d8b628f6fe8a55a4ccd032483',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -454,6 +454,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'karim007/laravel-bkash' => array(
+            'pretty_version' => 'v2.0.0',
+            'version' => '2.0.0.0',
+            'reference' => '26d6a750304b55e4543d4a10d7ae9174cea1aebe',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../karim007/laravel-bkash',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -490,7 +499,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '7a57b439ebfe0ecba14341a443314fdd97a1dc65',
+            'reference' => '5d42b57e9bce321d8b628f6fe8a55a4ccd032483',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
