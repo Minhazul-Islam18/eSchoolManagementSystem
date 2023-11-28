@@ -12,6 +12,7 @@ use App\Livewire\Backend\GeneralSettings;
 use App\Livewire\Backend\MenuBuilder;
 use App\Livewire\Backend\PackageManagement;
 use App\Livewire\Backend\School\Dashboard;
+use App\Livewire\Backend\Transections;
 
 Route::get('/dashboard', DashboardComponent::class)->name('dashboard');
 
@@ -35,9 +36,13 @@ Route::get('/packages', PackageManagement::class)->name('packages');
 
 //Menu Management
 Route::get('/menus', MenuManagement::class)->name('menus');
+
+// Transections
+Route::get('/transections', Transections::class);
+
 Route::group(['as' => 'menu.', 'prefix' => 'menus/{id}/'], function () {
     //menu bulder
-    Route::get('builder', MenuBuilder::class)->name('builder');
+
     //ordering menu item
     Route::post('/reorder', MenuBuilder::class . '@updateOrder')->name('reorder-menu');
 });

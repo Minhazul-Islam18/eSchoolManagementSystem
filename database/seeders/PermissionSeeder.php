@@ -177,7 +177,7 @@ class PermissionSeeder extends Seeder
         $pricingPlan = Module::updateOrCreate(['name' => 'Pricing plan']);
         Permission::updateOrCreate([
             'module_id' => $pricingPlan->id,
-            'name' => 'Index',
+            'name' => 'All Plans',
             'slug' => 'app.pricings.index',
         ]);
         Permission::updateOrCreate([
@@ -200,8 +200,8 @@ class PermissionSeeder extends Seeder
         $transections = Module::updateOrCreate(['name' => 'Transections']);
         Permission::updateOrCreate([
             'module_id' => $transections->id,
-            'name' => 'Index',
-            'slug' => 'app.pricings.index',
+            'name' => 'View all Transections',
+            'slug' => 'app.transections.index',
         ]);
     }
 }
