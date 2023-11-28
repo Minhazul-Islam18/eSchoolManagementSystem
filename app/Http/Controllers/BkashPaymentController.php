@@ -14,19 +14,23 @@ class BkashPaymentController extends Controller
     private $payment_id;
     public function index(Request $request)
     {
-        if (session()->has('invoice_amount')) {
-            session()->forget('invoice_amount');
-        }
-        session()->put('invoice_amount', intval($request->amount));
-        $this->amount = session()->get('invoice_amount');
+        if (auth()->user()->hasRole('school')) {
+            if (session()->has('invoice_amount')) {
+                session()->forget('invoice_amount');
+            }
+            session()->put('invoice_amount', intval($request->amount));
+            $this->amount = session()->get('invoice_amount');
 
-        Inertia::share('bkashSandox', config('bkash.sandbox'));
-        return view('bkash::bkash-payment');
-        // $bkashScript = view('bkash::bkash-script')->render();
-        // // dd($bkashScript);
+            Inertia::share('bkashSandox', config('bkash.sandbox'));
+            return view('bkash::bkash-payment');
+        } else {
+            return to_route('/');
+        }
+
+
+
         // return Inertia::render('Payment', [
         //     'logo' => setting('logo'),
-        //     'bkashScript' => $bkashScript,
         // ]);
     }
 
@@ -73,7 +77,6 @@ class BkashPaymentController extends Controller
         $paymentID = $request->paymentID;
         $e = BkashPayment::executePayment($paymentID);
 
-        // dd($tr);
         if ($e['transactionStatus'] !== 'Completed') {
             $tr->delete();
         } else {
