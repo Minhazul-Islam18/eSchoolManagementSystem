@@ -172,5 +172,36 @@ class PermissionSeeder extends Seeder
             'name' => 'Delete Menu',
             'slug' => 'app.menus.destroy',
         ]);
+
+        // Pricing plan
+        $pricingPlan = Module::updateOrCreate(['name' => 'Pricing plan']);
+        Permission::updateOrCreate([
+            'module_id' => $pricingPlan->id,
+            'name' => 'Index',
+            'slug' => 'app.pricings.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $pricingPlan->id,
+            'name' => 'Create plan',
+            'slug' => 'app.pricings.create',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $pricingPlan->id,
+            'name' => 'Edit plan',
+            'slug' => 'app.pricings.edit',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $pricingPlan->id,
+            'name' => 'Delete plan',
+            'slug' => 'app.pricings.destroy',
+        ]);
+
+        // Transections
+        $transections = Module::updateOrCreate(['name' => 'Transections']);
+        Permission::updateOrCreate([
+            'module_id' => $transections->id,
+            'name' => 'Index',
+            'slug' => 'app.pricings.index',
+        ]);
     }
 }
