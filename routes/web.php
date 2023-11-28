@@ -14,9 +14,13 @@ use App\Http\Controllers\FrontendPageController;
 use App\Http\Controllers\ProcessFreePackage;
 
 Route::get('/', function () {
+    // dd(auth()->user()->school);
     Inertia::share('logo', setting('logo'));
     $pricings = Package::where('status', 1)->get();
-    return Inertia::render('Home', ['pricings' => $pricings]);
+    return Inertia::render('Home', [
+        'pricings' => $pricings,
+        'school' => auth()->user()->school
+    ]);
 })->name('/');
 Route::group(['middleware' => ['auth']], function () {
     Route::put('/process-free-package/{id}', [ProcessFreePackage::class, 'SyncToUser'])->name('process-free-package');

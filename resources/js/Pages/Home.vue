@@ -32,52 +32,24 @@ async function free(id) {
     try {
         freePack.id = id;
         router.put(`/process-free-package/${id}`, freePack);
-        toast('success');
+        toast('Package purchased');
     } catch (error) {
         console.log(error);
         toast("error");
     }
 
 }
-// Route:: post('/process-free-package/{id}', [ProcessFreePackage:: class, 'en']) -> name('process-free-package');
+
 const props = defineProps({
     'pricings': Array,
+    'school': Array,
     'message': String,
 });
-console.log(props.message);
+console.log(props.school.package_id);
 
 
 </script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.4/swiper-bundle.min.js"></script>
-<script>
-// Pricing table - mobile only slider
-var init = false;
-var pricingCardSwiper;
-var pricingLoanSwiper
-function swiperCard() {
-    if (window.innerWidth <= 991) {
-        if (!init) {
-            init = true;
-            pricingCardSwiper = new Swiper("#pricingTableSlider", {
-                slidesPerView: "auto",
-                spaceBetween: 5,
-                grabCursor: true,
-                keyboard: true,
-                autoHeight: false,
-                navigation: {
-                    nextEl: "#navBtnRight",
-                    prevEl: "#navBtnLeft",
-                },
-            });
-        }
-    } else if (init) {
-        pricingCardSwiper.destroy();
-        init = false;
-    }
-}
-swiperCard();
-window.addEventListener("resize", swiperCard);
-</script> -->
+
 <template>
     <Head>
         <title>Home</title>
@@ -136,10 +108,12 @@ window.addEventListener("resize", swiperCard);
                                                         pricing.price ?? 0 }}</span><sub class="font-xs">/ Month</sub>
                                             </h4>
                                             <p class="mb-6 text-base font-medium">{{ pricing.additional_features }}</p>
-                                            <button :disabled="form.processing"
+                                            <button v-show="props.school !== null && props.school.package_id !==
+                                                pricing.id" :disabled="form.processing"
                                                 class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90"
                                                 type="submit">
-                                                {{ pricing.price > 0 ? 'Purchase Now' : 'Free' }}</button>
+                                                {{ pricing.price > 0 ? 'Purchase Now' :
+                                                    'Free' }}</button>
                                         </div>
 
                                     </form>
