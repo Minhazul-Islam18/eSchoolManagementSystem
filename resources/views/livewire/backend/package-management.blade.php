@@ -235,7 +235,7 @@
                         </p>
                         <p>
                             {{ 'Status: ' }}
-                            @if ($item->status)
+                            @if ($this->status)
                                 <span class="bg-green-500 text-white rounded px-2 py-1">{{ 'Active' }}</span>
                             @else
                                 <span class="bg-red-500 text-white rounded px-2 py-1">{{ 'Inactive' }}</span>
