@@ -4,14 +4,12 @@ import { computed, reactive } from "vue";
 import { usePage, router } from '@inertiajs/vue3';
 import { useToast } from "vue-toastification";
 const toast = useToast()
-// Use it!
-
-
-
 import {
     CheckCircle2,
     XCircle
 } from 'lucide-vue-next';
+
+
 const page = usePage()
 const logo = computed(() => page.props.logo)
 const form = reactive({
@@ -122,19 +120,20 @@ console.log(props.school.package_id);
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
+                                <td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark border-l">
                                     <h5 class="font-medium text-black dark:text-white">Key Features</h5>
                                 </td>
-                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark"
+                                <td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark"
                                     v-for="pricing in  props.pricings" :key="pricing.id">
                                     <h5 class="font-medium text-black dark:text-white">Key Features</h5>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
+                                <td
+                                    class=" border-l border-t border-r border-b border-stroke py-5 px-7 dark:border-strokedark">
                                     <p class="font-medium">Allowed students</p>
                                 </td>
-                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark"
+                                <td class="border-t border-l border-stroke py-5 px-7 dark:border-strokedark border-b border-r"
                                     v-for=" pricing  in  props.pricings " :key="pricing.id">
                                     <p class="text-center font-medium">{{ pricing.allowed_students }}</p>
                                 </td>
