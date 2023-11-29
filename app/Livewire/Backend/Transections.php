@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Backend;
 
+use App\Models\BkashTransection;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -15,6 +16,7 @@ class Transections extends Component
 
     public function render()
     {
-        return view('livewire.backend.transections');
+        $transections = BkashTransection::all();
+        return view('livewire.backend.transections', ['transections' => $transections]);
     }
 }
