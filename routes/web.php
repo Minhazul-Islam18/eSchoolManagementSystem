@@ -22,6 +22,10 @@ Route::get('/', function () {
         'school' => auth()->user()->school->toArray() ?? []
     ]);
 })->name('/');
+Route::get('subscription-expired', function () {
+    // dd(Auth::user()->subscription);
+    return 'Your subscription has been expired, please renew or buy another plan!';
+})->name('subscription-expired');
 Route::group(['middleware' => ['auth']], function () {
     Route::put('/process-free-package/{id}', [ProcessFreePackage::class, 'SyncToUser'])->name('process-free-package');
 

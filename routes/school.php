@@ -22,7 +22,7 @@ use App\Livewire\Backend\School\NoticeEdit;
 use App\Livewire\Backend\School\NoticeManagement;
 use App\Livewire\Backend\School\StudentIdCardManagement;
 
-Route::middleware('checkRole:school')->group(function () {
+Route::middleware(['checkRole:school', 'checkSubscription'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('index');
     Route::get('/staffs', StaffManagement::class)->name('staffs');
     Route::get('/classes', ClassManagement::class)->name('classes');
