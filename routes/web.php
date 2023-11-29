@@ -19,7 +19,7 @@ Route::get('/', function () {
     $pricings = Package::where('status', 1)->get();
     return Inertia::render('Home', [
         'pricings' => $pricings,
-        'school' => auth()->user()->school->toArray() ?? []
+        'school' => auth()->user()?->school ?? []
     ]);
 })->name('/');
 Route::get('subscription-expired', function () {

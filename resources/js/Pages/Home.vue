@@ -125,14 +125,9 @@ console.log(props.school.package_id);
                                 <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
                                     <h5 class="font-medium text-black dark:text-white">Key Features</h5>
                                 </td>
-                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
-                                    <h5 class="text-center font-medium text-black dark:text-white">Features Limits</h5>
-                                </td>
-                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
-                                    <h5 class="text-center font-medium text-black dark:text-white">Features Limits</h5>
-                                </td>
-                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark">
-                                    <h5 class="text-center font-medium text-black dark:text-white">Features Limits</h5>
+                                <td class="border-t border-stroke py-5 px-7 dark:border-strokedark"
+                                    v-for="pricing in  props.pricings" :key="pricing.id">
+                                    <h5 class="font-medium text-black dark:text-white">Key Features</h5>
                                 </td>
                             </tr>
                             <tr>
