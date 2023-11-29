@@ -42,7 +42,7 @@ Route::get('/transections', Transections::class);
 
 Route::group(['as' => 'menu.', 'prefix' => 'menus/{id}/'], function () {
     //menu bulder
-
+    Route::get('builder', MenuBuilder::class)->name('builder');
     //ordering menu item
     Route::post('/reorder', MenuBuilder::class . '@updateOrder')->name('reorder-menu');
 });
