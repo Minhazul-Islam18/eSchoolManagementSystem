@@ -3,6 +3,7 @@
 namespace App\Livewire\Backend;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class Transections extends Component
