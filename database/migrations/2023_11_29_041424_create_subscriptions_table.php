@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('package_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->dateTime('will_expire');
+            $table->timestamp('will_expire')->nullable();
             $table->timestamps();
         });
     }
