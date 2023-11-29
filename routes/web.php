@@ -19,7 +19,7 @@ Route::get('/', function () {
     $pricings = Package::where('status', 1)->get();
     return Inertia::render('Home', [
         'pricings' => $pricings,
-        'school' => auth()->user()->school ?? []
+        'school' => auth()->user()->school->toArray() ?? []
     ]);
 })->name('/');
 Route::group(['middleware' => ['auth']], function () {
