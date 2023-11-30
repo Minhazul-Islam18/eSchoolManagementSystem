@@ -29,7 +29,6 @@ class AdmissionManagement extends Component
     use LivewireAlert, WithFileUploads;
     #[Title('Admission management')]
 
-    #[Validate]
     public
         $student_image,
         $name_bn,
@@ -168,7 +167,6 @@ class AdmissionManagement extends Component
         }
         $this->section = $this->class->classSections->find($this->section_id);
         $this->group = $this->class->groups->find($this->group_id);
-        // dd($this->group);
         $this->student_quota = StudentQuota::findOrFail($this->student_quota_id);
         $this->student_category = StudentCategory::findOrFail($this->student_category_id);
         $this->division = Division::findOrFail($this->division_id)->bn_name;
@@ -211,7 +209,7 @@ class AdmissionManagement extends Component
             'school_class_id' => $this->school_class_id,
             'roll' => $this->roll,
             'school_class_section_id' => $this->section_id,
-            'class_group_id' => $this->group,
+            'class_group_id' => $this->group_id,
             'ssc_roll' => $this->ssc_roll,
             'gender' => $this->gender,
             'religion' => $this->religion,
