@@ -83,11 +83,19 @@ class SchoolClassSection extends Model
     {
         return $this->hasMany(ClassSyllabus::class);
     }
-
-    public static function students($section_id)
+    /**
+     * Get all of the students for the SchoolClassSection
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function students(): HasMany
     {
-        return Student::where('school_class_section_id', $section_id)->get();
+        return $this->hasMany(Student::class, 'school_class_section_id');
     }
+    // public static function students($section_id)
+    // {
+    //     return Student::where('school_class_section_id', $section_id)->get();
+    // }
 
     public function grading($section_id)
     {

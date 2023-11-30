@@ -18,6 +18,7 @@ class StudentIdCardManagement extends Component
     public $editable_item;
     public $groups = [];
     public $sections = [];
+    public $students = [];
 
 
     #[Title('Generate student ID card')]
@@ -46,7 +47,17 @@ class StudentIdCardManagement extends Component
             $this->groups = school()->classes()->findOrFail($this->class_id)->groups;
         }
     }
+    public function getStudents()
+    {
+        if (isset($this->section_id) && $this->sections !== null) {
+            // dd($this->sections);
+            $this->students = $this->sections->firstWhere('id', $this->section_id)->students;
+        }
 
+        if (isset($this->group_id) && $this->groups !== null) {
+            $this->students = $this->groups->firstWhere('id', $this->group_id)->students;
+        }
+    }
     public function render()
     {
         $classes = school()->classes;

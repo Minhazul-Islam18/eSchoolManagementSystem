@@ -1,8 +1,8 @@
 <div>
     <main>
         <div class="container px-10 py-5">
-            <header class="flex items-center flex-wrap mb-4" wire:ignore>
-                <div class="w-1/2 flex justify-start items-center flex-wrap">
+            <header class="mb-4" wire:ignore>
+                <div class="flex justify-center sm:justify-start items-center">
                     <span class="shadow-md px-2 py-2 bg-emerald-500 rounded mr-2">
                         <svg class="w-6 dark:fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <title>id-card</title>
@@ -10,13 +10,6 @@
                                 d="M4 4C2.89 4 2 4.89 2 6V18C2 19.11 2.89 20 4 20H20C21.11 20 22 19.11 22 18V6C22 4.89 21.11 4 20 4H4M4 6H20V10H4V6M4 12H8V14H4V12M10 12H20V14H10V12M4 16H14V18H4V16M16 16H20V18H16V16Z" />
                         </svg>
                     </span>
-                </div>
-                <div class="w-1/2 flex justify-end items-center gap-3">
-                    {{-- <button @click="openCEmodal = true" data-modal-target="CEmodal" data-modal-toggle="CEmodal"
-                        class="bg-green-500 bg-opacity-25 border border-green-500 rounded flex items-center px-4 py-2 shahow-md hover:bg-opacity-100 transition fade gap-2">
-                        <i data-lucide="plus-circle" class="w-4"></i>
-                        Add
-                    </button> --}}
                 </div>
             </header>
 
@@ -40,7 +33,7 @@
                         @if ($this->groups != null)
                             <div class="">
                                 <label for="group_id" class="form-label">Groups</label>
-                                <select wire:model.blur='group_id' class="form-select rounded" wire:change='getSubject'
+                                <select wire:model.blur='group_id' class="form-select rounded" wire:change='getStudents'
                                     wire:loading.class='opacity-50 blur-sm' wire:target='getSection' id="group_id">
                                     <option value="">Select group</option>
                                     @forelse ($this->groups as $item)
@@ -59,7 +52,7 @@
                             <div class="">
                                 <label for="section_id" class="form-label">Section</label>
                                 <select wire:model.blur='section_id' class="form-select rounded"
-                                    wire:change='getSubject' wire:loading.class='opacity-50 blur-sm'
+                                    wire:change='getStudents' wire:loading.class='opacity-50 blur-sm'
                                     wire:target='getSection' id="section_id">
                                     <option value="">Select section</option>
                                     @forelse ($sections as $item)
