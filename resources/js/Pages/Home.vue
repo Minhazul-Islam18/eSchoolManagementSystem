@@ -1,17 +1,23 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3";
-import { computed, reactive } from "vue";
+import { computed, reactive, defineProps } from 'vue';
+import { Head, Link } from '@inertiajs/vue3';
 import { usePage, router } from '@inertiajs/vue3';
-import { useToast } from "vue-toastification";
-const toast = useToast()
-import {
-    CheckCircle2,
-    XCircle
-} from 'lucide-vue-next';
+// import { useToast } from 'vue-toastification';
+// import { CheckCircle2, XCircle } from 'lucide-vue-next';
+
+// import { Head, Link } from "@inertiajs/vue3";
+// import { computed, reactive } from "vue";
+// import { usePage, router } from '@inertiajs/vue3';
+// import { useToast } from "vue-toastification";
+// const toast = useToast()
+// import {
+//     CheckCircle2,
+//     XCircle
+// } from 'lucide-vue-next';
 
 
 const page = usePage()
-const logo = computed(() => page.props.logo)
+// const logo = computed(() => page.props.logo)
 const form = reactive({
     amount: null,
     id: null
@@ -43,7 +49,7 @@ const props = defineProps({
     'school': Array,
     'message': String,
 });
-console.log(props.school.package_id);
+// console.log(props.school.package_id);
 
 
 </script>
@@ -51,6 +57,7 @@ console.log(props.school.package_id);
 <template>
     <Head>
         <title>Home</title>
+        <meta name="keywords" content="RCT Seba">
     </Head>
     <!---- Hero ---->
     <section id="hero-top"

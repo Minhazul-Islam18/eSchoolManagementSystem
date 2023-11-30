@@ -1,18 +1,22 @@
 {
+  "public/frontend/hero_1.png": {
+    "file": "assets/hero_1-03cbb5ed.png",
+    "src": "public/frontend/hero_1.png"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-23719e75.css",
+    "file": "assets/app-eb727b84.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/js/app.css": {
-    "file": "assets/app-f669a977.css",
+    "file": "assets/app-b5c73ed8.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "css": [
-      "assets/app-f669a977.css"
+      "assets/app-b5c73ed8.css"
     ],
-    "file": "assets/app-1d94f2ff.js",
+    "file": "assets/app-22c178b8.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }

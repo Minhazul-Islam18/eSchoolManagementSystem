@@ -18,7 +18,9 @@
 </head>
 
 <body class="">
+    {{-- <div id="app"> --}}
     @inertia
+    {{-- </div> --}}
 </body>
 
 </html>
