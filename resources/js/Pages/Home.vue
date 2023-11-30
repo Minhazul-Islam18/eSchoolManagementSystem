@@ -83,7 +83,7 @@ const props = defineProps({
                 Register</Link>
             </div>
             <div
-                class="w-full hidden md:block md:w-7/12 bg-[url('/public/frontend/hero_1.png')] md:bg-contain lg:bg-contain xl:bg-cover bg-no-repeat bg-center">
+                class="w-full hidden md:block md:w-7/12 bg-[url('/frontend/hero_1.png')] md:bg-contain lg:bg-contain xl:bg-cover bg-no-repeat bg-center">
             </div>
         </div>
     </section>
