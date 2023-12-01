@@ -71,8 +71,17 @@
                         @endif
                         <div>
                             <label for="" class="form-label">Students</label>
-                            <select name="" wire:model.blur='' class="form-select rounded" id="">
+                            <select name="" wire:model.blur='student_id' class="form-select rounded"
+                                id="" wire:change='setIDcard'>
                                 <option value="">Select student</option>
+                                @forelse ($students as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ $item->id == $this->section_id ? 'selected' : '' }}>
+                                        {{ $item->name_en . ' ID- ' . $item->student_id }}</option>
+                                @empty
+                                    <option value="" disabled>No student found
+                                    </option>
+                                @endforelse
                             </select>
                         </div>
                         <div>
@@ -105,23 +114,17 @@
 
                                 <!-- Progress Bar -->
                                 <div x-show="uploading">
-                                    <progress max="100" x-bind:value="progress"></progress>
-
+                                    {{-- <progress max="100" x-bind:value="progress"></progress> --}}
                                     <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
                                         :style="{ width: progress + '%' }">
                                         <span x-text="progress"></span>%
                                     </div>
 
                                 </div>
-
-                                <!--- Preview -->
-                                {{-- @if ($photo)
-                                    <img width="140px" class="mt-3" src="{{ $photo->temporaryUrl() }}">
-                                @endif --}}
+                                @if ($photo)
+                                    <img src="{{ $photo->temporaryUrl() }}" width="150px" class="rounded-md mt-3">
+                                @endif
                             </div>
-
-
-
                         </div>
                         <div class="text-end">
                             <button type="submit" class="px-3 py-2 rounded-md bg-emerald-500 mt-3">Generate</button>
@@ -132,8 +135,9 @@
                 <div class="w-5/12 bg-gray-300 dark:bg-slate-800 py-5 px-3 rounded-md">
                     <h2 class="mb-2 pb-2 pt-1 text-2xl text-center border-b border-gray-400 dark:border-slate-900">
                         Preview</h2>
-                    <div class=" rounded-md flex bg-cover py-5 px-3 bg-no-repeat back bg-[url('https://img.freepik.com/free-photo/background_53876-32170.jpg?size=626&ext=jpg&ga=GA1.1.2116175301.1700870400&semt=ais')]"
-                        id="profile-card">
+                    <div class="rounded-md flex bg-cover py-5 px-3 bg-no-repeat back"
+                        style="background-image: url('{{ isset($photo) ? $photo->temporaryUrl() : 'https://img.freepik.com/free-photo/background_53876-32170.jpg?size=626&ext=jpg&ga=GA1.1.2116175301.1700870400&semt=ais' }}')"
+                        id="profile-card" wire:loading.class="opacity-50" wire:target='setIDcard'>
                         <div class="w-1/3 flex flex-col items-center">
                             <img class=" rounded-full mb-2" src="{{ 'https://placehold.co/80x80/png' }}"
                                 alt="">
@@ -151,21 +155,46 @@
                                 <span class=" font-medium">Web: {{ school()->web_address }}</span>
                             </div>
                             <div class="py-2 flex-col text-slate-900 gap-2">
+                                {{-- {{ $card['student'] }} --}}
                                 <div class="flex gap-1">
                                     <span class=" font-medium">Name:</span>
-                                    <span>xxxxxxxxxxx</span>
+                                    <span>{{ $card['student']->name_en ?? 'xxxxxxxxxxx' }}</span>
                                 </div>
                                 <div class="flex gap-1">
                                     <span class=" font-medium">Class:</span>
-                                    <span>xxxxx</span>
+                                    <span>{{ $card['student']->school_class->class_name ?? 'xxxxxx' }}</span>
                                 </div>
                                 <div class="flex gap-1">
                                     <span class=" font-medium">DOB:</span>
-                                    <span>xx-xx-xxxx</span>
+                                    <span>{{ isset($card['student']->dob) ? \carbon\carbon::parse($card['student']->dob)->toDateString() : 'xx-xx-xxxx' }}</span>
                                 </div>
                                 <div class="flex gap-1">
                                     <span class=" font-medium">Address:</span>
-                                    <span>xxx,xxxxxxx,xxxx,xxxxxxxxx</span>
+                                    <span>
+                                        {{-- @if ($card['student'])
+
+                                        @else
+
+                                        @endif --}}
+                                        {{ !empty($card['student'])
+                                            ? 'বিভাগঃ-' .
+                                                $card['student']['division'] .
+                                                ', ' .
+                                                'জেলাঃ-' .
+                                                $card['student']['district'] .
+                                                ', ' .
+                                                'উপজেলাঃ-' .
+                                                $card['student']['upazila'] .
+                                                ', ' .
+                                                'ইউনিয়নঃ-' .
+                                                $card['student']['union'] .
+                                                ', ' .
+                                                'পোস্ট অফিসঃ-' .
+                                                $card['student']->postoffice .
+                                                ', ' .
+                                                'গ্রামঃ-' .
+                                                $card['student']->village
+                                            : 'xxx,xxxxxxx,xxxx,xxxxxxxxx' }}</span>
                                 </div>
                                 <div class="flex gap-1">
                                     <span class=" font-medium">Phone:</span>
