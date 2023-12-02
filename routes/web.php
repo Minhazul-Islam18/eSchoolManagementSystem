@@ -14,12 +14,11 @@ use App\Http\Controllers\FrontendPageController;
 use App\Http\Controllers\ProcessFreePackage;
 
 Route::get('/', function () {
-    // dd(auth()->user()->school);
     Inertia::share('logo', setting('logo'));
     $pricings = Package::where('status', 1)->get();
     return Inertia::render('Home', [
         'pricings' => $pricings,
-        'school' => auth()->user()?->school ?? []
+        'school' => auth()->user()?->school->toArray() ?? []
     ]);
 })->name('/');
 Route::get('subscription-expired', function () {

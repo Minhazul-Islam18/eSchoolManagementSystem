@@ -155,7 +155,6 @@
                                 <span class=" font-medium">Web: {{ school()->web_address }}</span>
                             </div>
                             <div class="py-2 flex-col text-slate-900 gap-2">
-                                {{-- {{ $card['student'] }} --}}
                                 <div class="flex gap-1">
                                     <span class=" font-medium">Name:</span>
                                     <span>{{ $card['student']->name_en ?? 'xxxxxxxxxxx' }}</span>
@@ -171,34 +170,13 @@
                                 <div class="flex gap-1">
                                     <span class=" font-medium">Address:</span>
                                     <span>
-                                        {{-- @if ($card['student'])
-
-                                        @else
-
-                                        @endif --}}
                                         {{ !empty($card['student'])
-                                            ? 'বিভাগঃ-' .
-                                                $card['student']['division'] .
-                                                ', ' .
-                                                'জেলাঃ-' .
-                                                $card['student']['district'] .
-                                                ', ' .
-                                                'উপজেলাঃ-' .
-                                                $card['student']['upazila'] .
-                                                ', ' .
-                                                'ইউনিয়নঃ-' .
-                                                $card['student']['union'] .
-                                                ', ' .
-                                                'পোস্ট অফিসঃ-' .
-                                                $card['student']->postoffice .
-                                                ', ' .
-                                                'গ্রামঃ-' .
-                                                $card['student']->village
+                                            ? $card['student']->village . ', ' . $card['student']['upazila'] . ', ' . $card['student']['district']
                                             : 'xxx,xxxxxxx,xxxx,xxxxxxxxx' }}</span>
                                 </div>
                                 <div class="flex gap-1">
                                     <span class=" font-medium">Phone:</span>
-                                    <span>0123456789</span>
+                                    <span>{{ $card['student']->mobile_number ?? '0123456789' }}</span>
                                 </div>
                             </div>
                         </div>
