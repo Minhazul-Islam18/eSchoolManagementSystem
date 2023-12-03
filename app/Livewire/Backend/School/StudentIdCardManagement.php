@@ -8,6 +8,7 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SchoolClassSection;
+use Illuminate\Support\Facades\URL;
 use Devfaysal\BangladeshGeocode\Models\Union;
 use Devfaysal\BangladeshGeocode\Models\Upazila;
 use Devfaysal\BangladeshGeocode\Models\District;
@@ -40,7 +41,7 @@ class StudentIdCardManagement extends Component
     public function loadPdf()
     {
         // dd($this->card);
-        $pdf = Pdf::loadView('livewire.backend.school.id-card-preview', ['card' => $this->card]);
+        $pdf = Pdf::loadView('livewire.backend.school.id-card-preview', ['card' => $this->card, 'path' => 'http://127.0.0.1:8000']);
         // return $pdf->download('invoice.pdf');
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();

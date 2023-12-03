@@ -139,7 +139,7 @@
                             <img class=" rounded-full mb-2" src="{{ 'https://placehold.co/80x80/png' }}"
                                 alt="">
                             <img class="relative block px-3"
-                                src="{{ isset($card['student']->student_image) ? '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
+                                src="{{ isset($card['student']->student_image) ? config('app.url') . '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
                                 alt="">
                         </div>
                         <div class="w-2/3">
