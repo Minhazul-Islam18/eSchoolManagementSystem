@@ -115,8 +115,8 @@ const props = defineProps({
                                                         pricing.price ?? 0 }}</span><sub class="font-xs">/ Month</sub>
                                             </h4>
                                             <p class="mb-6 text-base font-medium">{{ pricing.additional_features }}</p>
-                                            <button v-show="props.school !== null && props.school.package_id !==
-                                                pricing.id" :disabled="form.processing"
+                                            <button v-show="props.school !== null && props.school.package_id == null"
+                                                :disabled="form.processing"
                                                 class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90"
                                                 type="submit">
                                                 {{ pricing.price > 0 ? 'Purchase Now' :

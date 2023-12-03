@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Package;
 use Inertia\Ssr\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 // use Illuminate\Http\Response;
 // use Illuminate\Support\Facades\Response;
 
@@ -16,59 +17,35 @@ class ProcessFreePackage extends Controller
      */
     public function SyncToUser(Request $request)
     {
-        if (auth()->user()->hasRole('school')) {
-            while (auth()->user()->school->package_id === null) {
-                $e = auth()->user()->school()->update([
-                    "package_id" => $request->id
-                ]);
+        $user = auth()->user();
+        //check if user is school
+        if ($user->hasRole('school')) {
+            // can purchase a plan if school doesn't have any package purchased & currently active
+            while ($user->school->package_id === null && $user->subscription === null) {
+                DB::transaction(function () use ($user, $request) {
+                    $s = $user->subscription();
+                    // Update or create user subscription
+                    if ($s == null) {
+                        $s->create([
+                            'package_id' => $request->id,
+                            'will_expire' => now()->addMonth(12),
+                        ]);
+                    } else {
+                        $s->update([
+                            'package_id' => $request->id,
+                            'will_expire' => now()->addMonth(12),
+                        ]);
+                    }
+                    //update school's plan
+                    $user->school()->update([
+                        "package_id" => $request->id
+                    ]);
+                });
                 break;
             }
         } else {
+            // return if there anything wrong.
             return to_route('/');
-            // return Inertia::location(route('/'), ['message', 'Your message here']);
-            // return to_route('/', ['message' => 'You\'re not elligable for buy any package'], 303);
-            // return Inertia::render('Home', ['message' => 'You\'re not elligable for buy any package']);
-            // return response(['message' => 'You\'re not elligable for buy any package'], 303);
         }
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index($id)
-    {
-        dd('Here i am', $id);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Package $package)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Package $package)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Package $package)
-    {
-        //
     }
 }
