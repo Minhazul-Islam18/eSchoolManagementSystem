@@ -23,11 +23,9 @@
                             <select name="" wire:model.blur='class_id' class="form-select rounded" id=""
                                 wire:change='getSection'>
                                 <option value="">Select class</option>
-                                @forelse ($classes as $item)
+                                @foreach ($classes as $item)
                                     <option value="{{ $item->id }}">{{ $item->class_name }}</option>
-                                @empty
-                                    <option value="" disabled>{{ __('No class found') }}</option>
-                                @endforelse
+                                @endforeach
                             </select>
                         </div>
                         @if ($this->groups != null)
@@ -114,7 +112,6 @@
 
                                 <!-- Progress Bar -->
                                 <div x-show="uploading">
-                                    {{-- <progress max="100" x-bind:value="progress"></progress> --}}
                                     <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
                                         :style="{ width: progress + '%' }">
                                         <span x-text="progress"></span>%
@@ -141,7 +138,9 @@
                         <div class="w-1/3 flex flex-col items-center">
                             <img class=" rounded-full mb-2" src="{{ 'https://placehold.co/80x80/png' }}"
                                 alt="">
-                            <img src="{{ 'https://placehold.co/100x100/png' }}" alt="">
+                            <img class="relative block px-3"
+                                src="{{ isset($card['student']->student_image) ? '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
+                                alt="">
                         </div>
                         <div class="w-2/3">
                             <h2 class=" font-bold text-2xl uppercase text-center mb-0 text-blue-600">
@@ -181,10 +180,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-right">
+                    <div class="justify-end gap-3 flex flex-wrap">
                         <button
                             class="bg-emerald-500 transition-all duration-300 mt-3 hover:bg-emerald-700 rounded-md py-2 px-4">
                             Save
+                        </button>
+                        <button wire:click='loadPdf'
+                            class="bg-yellow-400 transition-all duration-300 mt-3 hover:bg-yellow-500/90 rounded-md py-2 px-4">
+                            Download
                         </button>
                     </div>
                 </div>

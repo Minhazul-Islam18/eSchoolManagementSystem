@@ -2,14 +2,16 @@
 
 namespace App\Livewire\Backend\School;
 
+// use PDF;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SchoolClassSection;
-use Devfaysal\BangladeshGeocode\Models\District;
-use Devfaysal\BangladeshGeocode\Models\Division;
 use Devfaysal\BangladeshGeocode\Models\Union;
 use Devfaysal\BangladeshGeocode\Models\Upazila;
+use Devfaysal\BangladeshGeocode\Models\District;
+use Devfaysal\BangladeshGeocode\Models\Division;
 
 class StudentIdCardManagement extends Component
 {
@@ -35,6 +37,17 @@ class StudentIdCardManagement extends Component
 
     #[Title('Generate student ID card')]
 
+    public function loadPdf()
+    {
+        // dd($this->card);
+        $pdf = Pdf::loadView('livewire.backend.school.id-card-preview', ['card' => $this->card]);
+        // return $pdf->download('invoice.pdf');
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'name.pdf');
+        // $pdf =  PDF::loadView('livewire.backend.school.id-card-preview', ['card' => $this->card]);
+        // return $pdf->stream('document.pdf');
+    }
     public function getSection()
     {
         if ($this->editable_item == null) {
