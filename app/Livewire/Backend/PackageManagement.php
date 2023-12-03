@@ -37,10 +37,11 @@ class PackageManagement extends Component
 
     public function store()
     {
+        // dd($this->price);
         Package::create([
             'name' => $this->package_name,
             'allowed_students' => $this->student_allowed,
-            'price' => $this->price,
+            'price' => $this->price == '' ? 0 : $this->price,
             'additional_features' => $this->additional_features,
             'status' => $this->status,
         ]);

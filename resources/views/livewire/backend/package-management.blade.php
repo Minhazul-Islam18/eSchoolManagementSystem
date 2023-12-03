@@ -140,7 +140,8 @@
                                         <input type="number" class="form-input rounded" wire:model.blur="price"
                                             id="">
                                         <p class="text-red-500 text-xs font-medium mt-1">
-                                            {{ __('Left this field empty to make this package FREE') }}</p>
+                                            {{ __('Left this field empty or set value 0 to make this package FREE') }}
+                                        </p>
                                         @error('price')
                                             <span class="text-red-500 text-sm font-medium">{{ $message }}</span>
                                         @enderror
