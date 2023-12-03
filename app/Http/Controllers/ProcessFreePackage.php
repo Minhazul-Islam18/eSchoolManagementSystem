@@ -14,12 +14,15 @@ class ProcessFreePackage extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function SyncToUser($id)
+    public function SyncToUser(Request $request)
     {
         if (auth()->user()->hasRole('school')) {
-            $e = auth()->user()->school()->update([
-                "package_id" => $id
-            ]);
+            while (auth()->user()->school->package_id === null) {
+                $e = auth()->user()->school()->update([
+                    "package_id" => $request->id
+                ]);
+                break;
+            }
         } else {
             return to_route('/');
             // return Inertia::location(route('/'), ['message', 'Your message here']);

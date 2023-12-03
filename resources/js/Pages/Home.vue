@@ -37,7 +37,7 @@ function purchase(id, amount) {
 async function free(id) {
     try {
         freePack.id = id;
-        router.put(`/process-free-package/${id}`, freePack);
+        router.get('process-free-package', freePack);
         // toast('Package purchased');
     } catch (error) {
         console.log(error);
