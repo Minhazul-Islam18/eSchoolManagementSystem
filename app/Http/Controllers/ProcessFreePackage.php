@@ -23,15 +23,15 @@ class ProcessFreePackage extends Controller
             // can purchase a plan if school doesn't have any package purchased & currently active
             while ($user->school->package_id === null && $user->subscription === null) {
                 DB::transaction(function () use ($user, $request) {
-                    $s = $user->subscription();
+                    $s = $user->subscription;
                     // Update or create user subscription
-                    if ($s == null) {
-                        $s->create([
+                    if ($s === null) {
+                        $user->subscription()->create([
                             'package_id' => $request->id,
                             'will_expire' => now()->addMonth(12),
                         ]);
                     } else {
-                        $s->update([
+                        $user->subscription()->update([
                             'package_id' => $request->id,
                             'will_expire' => now()->addMonth(12),
                         ]);

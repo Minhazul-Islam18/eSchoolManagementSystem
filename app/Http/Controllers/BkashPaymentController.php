@@ -87,15 +87,15 @@ class BkashPaymentController extends Controller
                     $tr->delete();
                 } else {
                     DB::transaction(function () use ($user, $tr, $e) {
-                        $s = $user->subscription();
+                        $s = $user->subscription;
                         // Update user subscription
-                        if ($s == null) {
-                            $s->create([
+                        if ($s === null) {
+                            $user->subscription()->create([
                                 'package_id' => session()->get('package_id'),
                                 'will_expire' => now()->addMonth(12),
                             ]);
                         } else {
-                            $s->update([
+                            $user->subscription()->update([
                                 'package_id' => session()->get('package_id'),
                                 'will_expire' => now()->addMonth(12),
                             ]);
