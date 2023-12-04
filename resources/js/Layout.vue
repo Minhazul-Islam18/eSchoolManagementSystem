@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { Link } from '@inertiajs/vue3'
-import { usePage } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 
 const page = usePage()
 const logo = computed(() => page.props.logo)
@@ -68,9 +67,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     <!-- <img :src="require('@/storage/')" alt=""> -->
                 </div>
                 <div class="flex gap-2 flex-wrap items-end justify-end">
-                    <Link class="after:content-['|'] after:ml-2 pl-2" href="/">Home</Link>
-                    <Link class="after:content-['|'] after:ml-2 pl-2" href="/contact">Contact</Link>
-                    <Link class="after:content-['|'] after:ml-2 pl-2" href="/pricings">Pricings</Link>
+                    <Link class=" px-2 py-1" :class="{ 'bg-emerald-500 rounded': $page.url === '/' }" href="/">Home
+                    </Link>
+                    <Link class="px-2 py-1" :class="{ 'bg-emerald-500 rounded': $page.url === '/contact' }" href="/contact">
+                    Contact
+                    </Link>
+                    <Link class="px-2 py-1" :class="{ 'bg-emerald-500 rounded': $page.url === '/pricings' }"
+                        href="/pricings">
+                    Pricings</Link>
+                    <Link class="px-2 py-1" href="/app/login">Login</Link>
                 </div>
             </div>
         </nav>
