@@ -21,7 +21,9 @@ Route::get('/', function () {
         'school' => auth()->user()?->school ?? []
     ]);
 })->name('/');
-
+Route::get('contact', function () {
+    return Inertia::render('Contact');
+})->name('contact');
 Route::get('subscription-expired', function () {
     return 'Your subscription has been expired, please renew or buy another plan!';
 })->name('subscription-expired');
