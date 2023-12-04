@@ -19,8 +19,8 @@ const props = defineProps({
 
 <template>
     <Head>
-        <title>Contact</title>
-        <meta name="keywords" content="RCT Seba">
+        <title>Contact - RCT ems</title>
+        <meta name="keywords" content="RCT Seba, RCT ems, ems, lms">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@ const props = defineProps({
     <section class="min-h-screen bg-gradient-to-tr from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]"
         style="font-family: 'Jost', sans-serif;">
         <div class="container py-12 mx-auto">
-            <h2 class=" text-3xl uppercase mb-4 pb-2 border-b border-emerald-500">Contact us</h2>
+            <h2 class=" text-3xl uppercase mb-4 pb-2 border-b border-emerald-500 font-extrabold">Contact us</h2>
             <div class="flex flex-wrap w-full flex-col gap-2">
                 <div class="flex flex-col gap-1 w-full">
                     <label for="" class="form-label">Full name</label>

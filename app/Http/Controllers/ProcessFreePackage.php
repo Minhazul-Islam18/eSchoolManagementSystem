@@ -45,7 +45,7 @@ class ProcessFreePackage extends Controller
             }
         } else {
             // return if there anything wrong.
-            return to_route('/');
+            return view('show-message');
         }
     }
 }

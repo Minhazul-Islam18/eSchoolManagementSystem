@@ -46,8 +46,8 @@ const props = defineProps({
 
 <template>
     <Head>
-        <title>Home</title>
-        <meta name="keywords" content="RCT Seba">
+        <title>Home - RCT ems</title>
+        <meta name="keywords" content="RCT Seba, RCT ems, ems, lms">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">

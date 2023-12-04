@@ -44,8 +44,8 @@ const props = defineProps({
 
 <template>
     <Head>
-        <title>Contact</title>
-        <meta name="keywords" content="RCT Seba">
+        <title>Contact - RCT ems</title>
+        <meta name="keywords" content="RCT Seba, RCT ems, ems, lms">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -53,7 +53,8 @@ const props = defineProps({
     <section class="min-h-screen bg-gradient-to-tr from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]"
         style="font-family: 'Jost', sans-serif;">
         <div class="container py-12 mx-auto">
-            <h2 class=" text-3xl uppercase mb-4 pb-2 border-b border-emerald-500 text-center">Our Pricings</h2>
+            <h2 class=" text-3xl uppercase mb-4 pb-2 border-b border-emerald-500 text-center font-extrabold">Our Pricings
+            </h2>
             <div
                 class="relative z-10 overflow-hidden rounded-sm border border-stroke bg-white p-11 shadow-default dark:border-strokedark dark:bg-boxdark">
                 <div class="w-full overflow-x-auto">

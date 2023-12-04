@@ -30,7 +30,7 @@ class BkashPaymentController extends Controller
             Inertia::share('bkashSandox', config('bkash.sandbox'));
             return view('bkash::bkash-payment');
         } else {
-            return to_route('/');
+            return view('show-message');
         }
 
         // return Inertia::render('Payment', [
@@ -77,7 +77,6 @@ class BkashPaymentController extends Controller
             $tr = BkashTransection::where('payment_id', $request->paymentID)->first();
             $paymentID = $request->paymentID;
             $e = BkashPayment::executePayment($paymentID);
-            // dd($e);
 
             if (isset($e['errorCode']) && $e['errorCode'] !== null) {
                 //show error message on payment failure'
