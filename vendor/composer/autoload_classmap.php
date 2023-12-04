@@ -65,7 +65,6 @@ return array(
     'App\\Livewire\\Backend\\School\\GeneralInformation' => $baseDir . '/app/Livewire/Backend/School/GeneralInformation.php',
     'App\\Livewire\\Backend\\School\\GradingManagement' => $baseDir . '/app/Livewire/Backend/School/GradingManagement.php',
     'App\\Livewire\\Backend\\School\\GradingRuleManagement' => $baseDir . '/app/Livewire/Backend/School/GradingRuleManagement.php',
-    'App\\Livewire\\Backend\\School\\IdCardPreview' => $baseDir . '/app/Livewire/Backend/School/IdCardPreview.php',
     'App\\Livewire\\Backend\\School\\NoticeEdit' => $baseDir . '/app/Livewire/Backend/School/NoticeEdit.php',
     'App\\Livewire\\Backend\\School\\NoticeManagement' => $baseDir . '/app/Livewire/Backend/School/NoticeManagement.php',
     'App\\Livewire\\Backend\\School\\StaffManagement' => $baseDir . '/app/Livewire/Backend/School/StaffManagement.php',

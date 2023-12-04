@@ -784,7 +784,6 @@ class ComposerStaticInit9f5fc69a13b35f8d0b35ad0255c4cd41
         'App\\Livewire\\Backend\\School\\GeneralInformation' => __DIR__ . '/../..' . '/app/Livewire/Backend/School/GeneralInformation.php',
         'App\\Livewire\\Backend\\School\\GradingManagement' => __DIR__ . '/../..' . '/app/Livewire/Backend/School/GradingManagement.php',
         'App\\Livewire\\Backend\\School\\GradingRuleManagement' => __DIR__ . '/../..' . '/app/Livewire/Backend/School/GradingRuleManagement.php',
-        'App\\Livewire\\Backend\\School\\IdCardPreview' => __DIR__ . '/../..' . '/app/Livewire/Backend/School/IdCardPreview.php',
         'App\\Livewire\\Backend\\School\\NoticeEdit' => __DIR__ . '/../..' . '/app/Livewire/Backend/School/NoticeEdit.php',
         'App\\Livewire\\Backend\\School\\NoticeManagement' => __DIR__ . '/../..' . '/app/Livewire/Backend/School/NoticeManagement.php',
         'App\\Livewire\\Backend\\School\\StaffManagement' => __DIR__ . '/../..' . '/app/Livewire/Backend/School/StaffManagement.php',

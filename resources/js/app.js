@@ -1,4 +1,4 @@
-import { createApp, h } from "vue";
+import { createSSRApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import Layout from "./Layout.vue";
@@ -14,7 +14,7 @@ createInertiaApp({
         return page;
     },
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+        createSSRApp({ render: () => h(App, props) })
             .use(Toast)
             .use(plugin)
             .mount(el);
