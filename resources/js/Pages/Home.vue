@@ -60,6 +60,9 @@ const props = defineProps({
     <Head>
         <title>Home</title>
         <meta name="keywords" content="RCT Seba">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
     </Head>
     <!---- Hero ---->
     <section id="hero-top"
@@ -70,7 +73,8 @@ const props = defineProps({
                 </h1>
                 <h5
                     class=" font-semibold text-lg md:text-2xl before:block before:absolute before:-inset-1 -skew-y-3  md:transform-none before:bg-pink-500 md:before:bg-transparent my-4 md:my-1 relative inline-block z-10">
-                    <span class="relative text-white md:text-slate-900">Education management
+                    <span class="relative text-white md:text-slate-900" style="font-family: 'Jost', sans-serif;">Education
+                        management
                         system</span>
                 </h5>
                 <p class="mt-4 mb-3 text-md antialiased">আরসিটিসেবা আপনার প্রতিষ্ঠানের কাজগুলো সহজে, ডিজিটাল উপায়ে ও
@@ -81,7 +85,8 @@ const props = defineProps({
                 </p>
 
                 <Link href="/" type="button"
-                    class=" border border-slate-900 after:content-[''] after:w-full after:h-full after:border after:border-slate-900 after:absolute relative after:right-0 after:top-0 hover:after:translate-y-[5px] hover:after:right-[-5px] after:transition-all after:duration-300 cursor-pointer bg-emerald-500 text-white font-semibold hover:bg-emerald-400 transition-all duration-200 z-40 after:z-10 px-7 py-3">
+                    class=" border border-slate-900 after:content-[''] after:w-full after:h-full after:border after:border-slate-900 after:absolute relative after:right-0 after:top-0 hover:after:translate-y-[5px] hover:after:right-[-5px] after:transition-all after:duration-300 cursor-pointer bg-emerald-500 text-white font-semibold hover:bg-emerald-400 transition-all duration-200 z-40 after:z-10 px-7 py-3"
+                    style="font-family: 'Jost', sans-serif;">
                 Register</Link>
             </div>
             <div :style="{ backgroundImage: `url('/frontend/hero_1.png')` }"
@@ -91,7 +96,8 @@ const props = defineProps({
     </section>
     <!---- End hero---->
 
-    <section id="pricing-plan" class="py-10 bg-gradient-to-b from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]">
+    <section id="pricing-plan" class="py-10 bg-gradient-to-b from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]"
+        style="font-family: 'Jost', sans-serif;">
         <div class="container mx-auto">
             <!-- Display pricing information -->
             <div
