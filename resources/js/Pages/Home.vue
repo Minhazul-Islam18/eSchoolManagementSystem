@@ -2,18 +2,8 @@
 import { computed, reactive, defineProps } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { usePage, router } from '@inertiajs/vue3';
-// import { useToast } from 'vue-toastification';
-// import { CheckCircle2, XCircle } from 'lucide-vue-next';
-
-// import { Head, Link } from "@inertiajs/vue3";
-// import { computed, reactive } from "vue";
-// import { usePage, router } from '@inertiajs/vue3';
 // import { useToast } from "vue-toastification";
 // const toast = useToast()
-// import {
-//     CheckCircle2,
-//     XCircle
-// } from 'lucide-vue-next';
 
 
 const page = usePage()
@@ -96,7 +86,7 @@ const props = defineProps({
     </section>
     <!---- End hero---->
 
-    <section id="pricing-plan" class="py-10 bg-gradient-to-b from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]"
+    <section id="pricing-plan" class=" py-10 bg-gradient-to-b from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]"
         style="font-family: 'Jost', sans-serif;">
         <div class="container mx-auto">
             <!-- Display pricing information -->

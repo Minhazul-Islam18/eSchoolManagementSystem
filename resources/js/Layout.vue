@@ -110,7 +110,8 @@ document.addEventListener('DOMContentLoaded', function () {
         <article>
             <slot></slot>
         </article>
-        <footer class="py-10 px-6 bg-gradient-to-tr from-slate-800 to-slate-600">
+        <footer class="py-10 px-6 bg-gradient-to-tr from-slate-800 to-slate-600"
+            style="position: sticky;width: 100%;bottom: 0;left: 0;right: 0;z-index: -1;">
             <div class="flex flex-wrap">
                 <div class="w-full flex justify-center">
                     <p class="text-white">আরসিটি ইএমএস ২০২৩ | আরসিটি সেবার একটি পণ্য | সর্বসত্ব সংরক্ষিত</p>
