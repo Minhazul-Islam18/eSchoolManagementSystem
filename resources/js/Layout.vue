@@ -61,15 +61,16 @@ document.addEventListener('DOMContentLoaded', function () {
 <template>
     <main>
         <!-- Navbar for larger screens -->
-        <nav class="hidden lg:flex bg-blue-500 p-4">
+        <nav class="hidden lg:flex bg-sky-500/50 backdrop-blur-2xl border-sky-500 border-b p-4 fixed w-full top-0 z-50">
             <div class="container mx-auto flex justify-between items-center">
                 <div>
                     <img :src="'/storage/' + logo" class="w-[40px]" alt="">
                     <!-- <img :src="require('@/storage/')" alt=""> -->
                 </div>
                 <div class="flex gap-2 flex-wrap items-end justify-end">
-                    <Link class="after:content-['|'] after:ml-2 pl-2" href="/about">About</Link>
-                    <Link href="/contact">Contact</Link>
+                    <Link class="after:content-['|'] after:ml-2 pl-2" href="/">Home</Link>
+                    <Link class="after:content-['|'] after:ml-2 pl-2" href="/contact">Contact</Link>
+                    <Link class="after:content-['|'] after:ml-2 pl-2" href="/pricings">Pricings</Link>
                 </div>
             </div>
         </nav>
@@ -107,10 +108,10 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         </div>
 
-        <article>
+        <article class="mt-[55px]">
             <slot></slot>
         </article>
-        <footer class="py-10 px-6 bg-gradient-to-tr from-slate-800 to-slate-600"
+        <footer class="py-6 px-6 bg-gradient-to-tr from-slate-800 to-slate-600"
             style="position: sticky;width: 100%;bottom: 0;left: 0;right: 0;z-index: -1;">
             <div class="flex flex-wrap">
                 <div class="w-full flex justify-center">

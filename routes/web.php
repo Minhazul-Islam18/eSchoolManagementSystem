@@ -24,6 +24,13 @@ Route::get('/', function () {
 Route::get('contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
+Route::get('pricings', function () {
+    $pricings = Package::where('status', 1)->get();
+    return Inertia::render('Pricings', [
+        'pricings' => $pricings,
+        'school' => auth()->user()?->school ?? []
+    ]);
+})->name('pricings');
 Route::get('subscription-expired', function () {
     return 'Your subscription has been expired, please renew or buy another plan!';
 })->name('subscription-expired');
