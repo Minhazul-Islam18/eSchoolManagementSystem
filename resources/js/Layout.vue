@@ -1,11 +1,27 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3'
+import flasher from "@flasher/flasher";
+import { XCircle } from 'lucide-vue-next';
+
+const props = defineProps({
+    'messages': Object
+});
+
+watch(props.messages, async (value) => {
+    await flasher.render(value);
+});
 
 const page = usePage()
+//close flash message on click
+const closeFlash = () => {
+    page.props.flash.message = null;
+};
+// console.log(page.props.flash.message);
 const logo = computed(() => page.props.logo)
-// const logo = ref('io');
+
 </script>
+
 <style>
 /* Add styles for the mobile sidebar */
 #mobile-menu {
@@ -113,7 +129,13 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         </div>
 
-        <article class="mt-[55px]">
+        <article class="mt-[65px]">
+            <div class="fixed left-0 right-0 z-[999] w-[90vw] mx-auto rounded-md mt-3 py-5 transition-all ease-in-out duration-400 bg-[#fea50098] pl-6 pr-4 flex items-center justify-between backdrop-blur-lg"
+                v-if="$page.props.flash.message">
+                <span class="text-md font-bold" style="font-family: 'Jost', sans-serif;">{{ $page.props.flash.message
+                }}</span>
+                <XCircle class=" cursor-pointer" @click="closeFlash" />
+            </div>
             <slot></slot>
         </article>
         <footer class="py-6 px-6 bg-gradient-to-tr from-slate-800 to-slate-600"

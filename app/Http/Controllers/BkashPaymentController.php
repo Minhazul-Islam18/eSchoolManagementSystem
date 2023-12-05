@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BkashTransection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use App\Models\BkashTransection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Karim007\LaravelBkash\Facade\BkashRefund;
 use Karim007\LaravelBkash\Facade\BkashPayment;
 
@@ -30,12 +31,8 @@ class BkashPaymentController extends Controller
             Inertia::share('bkashSandox', config('bkash.sandbox'));
             return view('bkash::bkash-payment');
         } else {
-            return view('show-message');
+            return Redirect::route('/')->with('message', 'Something went wrong.');
         }
-
-        // return Inertia::render('Payment', [
-        //     'logo' => setting('logo'),
-        // ]);
     }
 
     public function getToken()

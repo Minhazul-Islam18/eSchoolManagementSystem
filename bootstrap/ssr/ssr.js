@@ -284,7 +284,9 @@ createServer(
     render: renderToString,
     resolve: (name) => {
       const pages = /* @__PURE__ */ Object.assign({ "./Pages/Contact.vue": __vite_glob_0_0, "./Pages/Home.vue": __vite_glob_0_1, "./Pages/Payment.vue": __vite_glob_0_2, "./Pages/Pricings.vue": __vite_glob_0_3 });
-      return pages[`./Pages/${name}.vue`];
+      let page2 = pages[`./Pages/${name}.vue`];
+      page2.default.layout = page2.default.layout || Layout;
+      return page2;
     },
     setup({ App, props, plugin }) {
       return createSSRApp({

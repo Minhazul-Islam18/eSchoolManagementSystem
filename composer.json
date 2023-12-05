@@ -21,6 +21,7 @@
         "laravel/socialite": "^5.9",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
+        "php-flasher/flasher-laravel": "^1.15",
         "spatie/laravel-backup": "^8.3"
     },
     "require-dev": {

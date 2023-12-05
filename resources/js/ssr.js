@@ -2,9 +2,11 @@ import { createInertiaApp } from "@inertiajs/vue3";
 import createServer from "@inertiajs/vue3/server";
 import { renderToString } from "@vue/server-renderer";
 import { createSSRApp, h } from "vue";
+import Layout from "./Layout.vue";
 
 createServer((page) =>
     createInertiaApp({
+        id: "app",
         page,
         render: renderToString,
         resolve: (name) => {
@@ -13,10 +15,13 @@ createServer((page) =>
             page.default.layout = page.default.layout || Layout;
             return page;
         },
-        setup({ App, props, plugin }) {
+        setup({ el, App, props, plugin }) {
             return createSSRApp({
                 render: () => h(App, props),
-            }).use(plugin);
+            })
+                .use(Toast)
+                .use(plugin)
+                .mount(el);
         },
     })
 );

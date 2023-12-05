@@ -7,6 +7,7 @@ use App\Models\Package;
 use Inertia\Ssr\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 // use Illuminate\Http\Response;
 // use Illuminate\Support\Facades\Response;
 
@@ -45,7 +46,9 @@ class ProcessFreePackage extends Controller
             }
         } else {
             // return if there anything wrong.
-            return view('show-message');
+            flash()->addSuccess('Something wemt wrong.');
+
+            return Redirect::route('/')->with('message', 'Something went wrong.');
         }
     }
 }
