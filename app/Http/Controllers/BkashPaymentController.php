@@ -17,15 +17,13 @@ class BkashPaymentController extends Controller
     private $package_id;
     public function index(Request $request)
     {
-        // dd($request->all());
         $this->package_id = $request->id;
         session()->put('package_id', intval($request->id));
-        // dd($this->package_id, session()->get('package_id'));
         if (auth()->user()->hasRole('school')) {
             if (session()->has('invoice_amount')) {
                 session()->forget('invoice_amount');
             }
-            session()->put('invoice_amount', intval($request->amount));
+            session()->put('invoice_amount', intval($request->amount) * 12);
             $this->amount = session()->get('invoice_amount');
 
             Inertia::share('bkashSandox', config('bkash.sandbox'));
