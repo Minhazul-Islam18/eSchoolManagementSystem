@@ -41,7 +41,7 @@ class ProcessFreePackage extends Controller
                     $user->school()->update([
                         "package_id" => $request->id
                     ]);
-                });
+                }, 5);
                 break;
             }
         } else {

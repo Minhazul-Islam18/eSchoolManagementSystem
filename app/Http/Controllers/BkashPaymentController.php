@@ -103,7 +103,7 @@ class BkashPaymentController extends Controller
                             'trx_id' => $e['trxID'],
                             'transaction_reference' => $e['transactionReference'] ?? null,
                         ]);
-                    });
+                    }, 5);
                 }
             }
             return $e;
