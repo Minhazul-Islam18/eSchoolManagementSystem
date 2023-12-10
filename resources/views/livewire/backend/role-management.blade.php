@@ -15,11 +15,11 @@
             <table id="example" class="display" style="width: 100%">
                 <thead>
                     <tr>
-                        <th class="text-white">ID</th>
-                        <th class="text-white">Role</th>
-                        <th class="text-white">Permissions</th>
-                        <th class="text-white">Last Modified</th>
-                        <th class="text-white">Actions</th>
+                        <th class="text-black dark:text-white">ID</th>
+                        <th class="text-black dark:text-white">Role</th>
+                        <th class="text-black dark:text-white">Permissions</th>
+                        <th class="text-black dark:text-white">Last Modified</th>
+                        <th class="text-black dark:text-white">Actions</th>
                     </tr>
                 </thead>
                 <tbody>

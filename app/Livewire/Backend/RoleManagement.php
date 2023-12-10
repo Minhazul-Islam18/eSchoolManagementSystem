@@ -35,7 +35,7 @@ class RoleManagement extends Component
     }
     public function StoreRole(User $user)
     {
-        $this->authorize('app.roles.store', $user);
+        $this->authorize('app.roles.create', $user);
         //validate
         $this->validate([
             'role_name' => 'required|unique:roles,name',
@@ -53,16 +53,15 @@ class RoleManagement extends Component
         //dispatch an event
         $this->dispatch('table-updated');
     }
-    public function EditRole($id)
+    public function EditRole(Role $role)
     {
         $this->authorize('app.roles.edit', auth()->user());
         //set to empty
         $this->permissions = [];
         //get the role which gonna be edit and set those data fields.
-        $e =  Role::findOrFail($id);
-        $this->editable_role['id'] = $e->id;
-        $this->role_name = $e->name;
-        foreach ($e->permissions as $key => $value) {
+        $this->editable_role = $role;
+        $this->role_name = $role->name;
+        foreach ($role->permissions as $key => $value) {
             $this->permissions[] = $value->id;
         }
         $this->AllModules =  Module::all();
@@ -70,18 +69,18 @@ class RoleManagement extends Component
     }
     public function UpdateRole(User $user)
     {
-        $this->authorize('app.roles.update', $user);
+        $this->authorize('app.roles.edit', $user);
         //validate
         $this->validate([
             'role_name' => 'required',
+            'permissions' => 'nullable|array'
         ]);
         //Update
-        $e = Role::findOrFail($this->editable_role['id']);
-        $e->update([
+        $this->editable_role->update([
             'name' => $this->role_name,
             'slug' => Str::slug($this->role_name)
         ]);
-        $r = $e->permissions()->sync($this->permissions);
+        $r = $this->editable_role->permissions()->sync(array_keys($this->permissions), []);
         //alert
         $this->alert('success', 'Role updated Successfully!');
         //reset
