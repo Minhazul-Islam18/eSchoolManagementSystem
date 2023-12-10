@@ -6,6 +6,12 @@ import Toast from "vue-toastification";
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
 createInertiaApp({
+    progress: {
+        // The color of the progress bar...
+        color: "#009644",
+        // Whether the NProgress spinner will be shown...
+        showSpinner: true,
+    },
     id: "app",
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
