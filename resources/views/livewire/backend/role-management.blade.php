@@ -31,25 +31,25 @@
                                 @if (count($item->permissions) > 0)
                                     @foreach ($item->permissions as $perm)
                                         <span wire:key='{{ $perm->id }}'
-                                            class="inline-block bg-green-600 dark:bg-indigo-500 rounded-md p-1 text-sm">{{ $perm->name }}</span>
+                                            class="inline-block bg-green-500 dark:bg-indigo-500 rounded-md p-1 text-sm">{{ $perm->name }}</span>
                                     @endforeach
                                 @else
                                     <span
-                                        class="inline-block bg-yellow-500 rounded-md p-1 text-sm">{{ 'No Permissions Found for this Role :(' }}</span>
+                                        class="inline-block bg-yellow-300 rounded-md p-1 text-sm">{{ 'No Permissions Found for this Role :(' }}</span>
                                 @endif
                             </td>
                             <td>
                                 {{ $item->updated_at->diffForHumans() }}
                             </td>
-                            <td>
+                            <td class="flex gap-2 flex-wrap">
                                 <span
-                                    class="px-2 py-1 rounded-sm bg-yellow-500 cursor-pointer flex w-max align-center justify-center"
+                                    class="px-3 py-1 rounded-full text-xs items-center bg-yellow-300 cursor-pointer flex w-max align-center justify-center"
                                     wire:click='EditRole({{ $item->id }})' @click="OpenEditModal = true">
                                     <i data-lucide="pen-square" class="w-4 me-1"></i> Edit
                                 </span>
                                 @if ($item->is_deletable)
                                     <span
-                                        class="p-2 rounded-sm bg-red-500 cursor-pointer flex w-max align-center justify-center"
+                                        class="px-3 py-1 rounded-full text-xs bg-red-500 cursor-pointer flex w-max items-center justify-center"
                                         wire:click='DeleteConfirmation({{ $item->id }})'
                                         @click="OpenDeleteModal = true">
                                         <i data-lucide="trash-2" class="w-4 me-1"></i>Delete
