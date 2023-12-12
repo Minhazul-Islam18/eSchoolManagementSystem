@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Package;
+use App\Models\Role;
 use Inertia\Ssr\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +21,21 @@ class ProcessFreePackage extends Controller
     {
         $user = auth()->user();
         //check if user is school
-        if ($user->hasRole('school')) {
+        if ($user->hasRole('school') || $user->hasRole('demo_school')) {
+            if ($user->hasRole('school')) {
+                $user->role()->dissociate();
+
+                // Associate the user with the 'demo_school' role
+                $demoSchoolRole = Role::where('slug', 'demo_school')->firstOrFail();
+                $user->role()->associate($demoSchoolRole);
+                // $user->role()->associate(Role::where('slug', 'demo_school')->firstOrFail());
+
+                // Save the changes to the database
+                $user->save();
+            }
+
+            // dd(auth()->user()->role);
+
             // can purchase a plan if school doesn't have any package purchased & currently active
             while ($user->school->package_id === null && $user->subscription === null) {
                 DB::transaction(function () use ($user, $request) {
@@ -43,6 +58,7 @@ class ProcessFreePackage extends Controller
                     ]);
                 }, 5);
                 break;
+                return Redirect::route('/')->with('package-purchased', 'Package successfully purchased');
             }
         } else {
             // return if there anything wrong.

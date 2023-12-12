@@ -44,11 +44,20 @@ class UserSeeder extends Seeder
             'status' => false,
         ]);
         // Create school
-        $userRole = Role::where('slug', 'school')->first();
+        $s = Role::where('slug', 'school')->first();
         User::updateOrCreate([
-            'role_id' => $userRole->id,
+            'role_id' => $s->id,
             'name' => 'Test School',
             'email' => 'school@mail.com',
+            'password' => 'password',
+            'status' => true,
+        ]);
+        // Create demo school
+        $ds = Role::where('slug', 'demo_school')->first();
+        User::updateOrCreate([
+            'role_id' => $ds->id,
+            'name' => 'Demo School',
+            'email' => 'demo_school@mail.com',
             'password' => 'password',
             'status' => true,
         ]);

@@ -37,9 +37,9 @@ async function free(id) {
 }
 
 const props = defineProps({
-    'pricings': Array,
-    'school': Array | Object,
-    'message': String,
+    pricings: Array | Object,
+    school: Array | Object,
+    message: String,
 });
 
 </script>
@@ -91,7 +91,7 @@ const props = defineProps({
             <div
                 class="relative z-10 overflow-hidden rounded-sm border border-stroke bg-white p-11 shadow-default dark:border-strokedark dark:bg-boxdark">
                 <div class="w-full overflow-x-auto">
-                    <table class="table-auto w-full">
+                    <table class="table-auto w-full" v-if="props.pricings.length > 0">
                         <thead>
                             <tr>
                                 <th class="w-1/4 min-w-[200px] px-5"></th>
@@ -128,7 +128,7 @@ const props = defineProps({
                                 </td>
                                 <td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark"
                                     v-for="pricing in  props.pricings" :key="pricing.id">
-                                    <h5 class="font-medium text-black dark:text-white">Key Features</h5>
+                                    <h5 class="font-medium text-black dark:text-white text-center">Key Features</h5>
                                 </td>
                             </tr>
                             <tr>
@@ -144,6 +144,7 @@ const props = defineProps({
 
                         </tbody>
                     </table>
+                    <h1 class="text-xl text-center font-extrabold" v-else>{{ 'Sorry, No plans found!' }}</h1>
                 </div>
                 <div class="absolute top-0 left-0 -z-1">
                     <span class="absolute top-0 left-0 -z-1">

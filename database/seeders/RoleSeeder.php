@@ -24,6 +24,7 @@ class RoleSeeder extends Seeder
 
         Role::updateOrCreate(['name' => 'User', 'slug' => 'user', 'is_deletable' => false]);
         Role::updateOrCreate(['name' => 'School', 'slug' => 'school', 'is_deletable' => false]);
+        Role::updateOrCreate(['name' => 'Demo school', 'slug' => 'demo_school', 'is_deletable' => false]);
         Role::updateOrCreate(['name' => 'Student', 'slug' => 'student', 'is_deletable' => false]);
     }
 }

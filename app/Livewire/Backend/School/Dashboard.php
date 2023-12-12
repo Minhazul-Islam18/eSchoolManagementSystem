@@ -10,6 +10,7 @@ class Dashboard extends Component
     #[Title('Dashboard')]
     public function render()
     {
+        dd(auth()->user()->role);
         return view('livewire.backend.school.dashboard');
     }
 }
