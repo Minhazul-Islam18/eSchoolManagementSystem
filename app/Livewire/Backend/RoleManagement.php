@@ -82,7 +82,11 @@ class RoleManagement extends Component
             'name' => $this->role_name,
             'slug' => Str::slug($this->role_name)
         ]);
-        $r = $this->editable_role->permissions()->sync(array_keys($this->permissions), []);
+        // Create a new array with only keys having true values
+        $filteredArray = array_filter($this->permissions, function ($value) {
+            return $value === true;
+        });
+        $r = $this->editable_role->permissions()->sync(array_keys($filteredArray));
         //alert
         $this->alert('success', 'Role updated Successfully!');
         //reset
