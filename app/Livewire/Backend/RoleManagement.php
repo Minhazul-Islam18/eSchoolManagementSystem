@@ -46,7 +46,7 @@ class RoleManagement extends Component
         //create
         Role::create([
             'name' => $this->role_name,
-            'slug' => Str::slug($this->role_name)
+            'slug' => Str::slug($this->role_name, '_')
         ])->permissions()->sync(array_keys($this->permissions), []);
         //alert
         $this->alert('success', 'Role Created Successfully!');
@@ -80,7 +80,7 @@ class RoleManagement extends Component
         //Update
         $this->editable_role->update([
             'name' => $this->role_name,
-            'slug' => Str::slug($this->role_name)
+            'slug' => Str::slug($this->role_name, '_')
         ]);
         // Create a new array with only keys having true values
         $filteredArray = array_filter($this->permissions, function ($value) {
