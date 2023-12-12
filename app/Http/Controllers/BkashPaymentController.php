@@ -41,7 +41,19 @@ class BkashPaymentController extends Controller
     }
     public function createPayment(Request $request)
     {
-        if (auth()->user()->hasRole('school')) {
+        $user = auth()->user();
+        if ($user->hasRole('school') || $user->hasRole('demo_school')) {
+            if ($user->hasRole('demo_school')) {
+                $user->role()->dissociate();
+
+                // Associate the user with the 'demo_school' role
+                $SchoolRole = Role::where('slug', 'school')->firstOrFail();
+                $user->role()->associate($SchoolRole);
+
+                // Save the changes to the database
+                $user->save();
+            }
+
             $request['intent'] = 'sale';
             $request['currency'] = 'BDT';
             $request['invoice_amount'] = session()->get('invoice_amount') ?? 10;
