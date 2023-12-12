@@ -39,7 +39,7 @@
                         <!-- Modal header -->
                         <div class="flex items-center justify-between space-x-4">
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                {{ $this->editable_item ? 'Edit' : 'Create' }} Exam fee
+                                {{ $this->editable_item ? 'Edit' : 'Create' }} Fee
                             </h3>
                             <button @click="openCEmodal = false" wire:click='resetFields'
                                 class="text-gray-600 focus:outline-none hover:text-gray-700">

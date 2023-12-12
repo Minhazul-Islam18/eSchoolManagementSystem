@@ -8,9 +8,10 @@ use App\Models\SchoolFee;
 use App\Models\SchoolExam;
 use App\Models\SchoolClass;
 use Livewire\Attributes\Title;
-use App\Models\SchoolClassSection;
 use App\Models\SchoolFeeCategory;
+use App\Models\SchoolClassSection;
 use App\Rules\CheckUniqueAsClassID;
+use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ExamFeeManagement extends Component
@@ -63,6 +64,7 @@ class ExamFeeManagement extends Component
 
     public function store()
     {
+        Gate::authorize('school.fees.create');
         $this->validate();
         $this->validate([
             'class_id' => 'required',
@@ -84,6 +86,7 @@ class ExamFeeManagement extends Component
     }
     public function edit(SchoolFee $schoolFee)
     {
+        Gate::authorize('school.fees.update');
         abort_action($schoolFee->school->user_id);
 
         $this->editable_item = $schoolFee;
@@ -97,6 +100,7 @@ class ExamFeeManagement extends Component
     }
     public function update()
     {
+        Gate::authorize('school.fees.update');
         $this->validate();
         $this->validate([
             'class_id' => 'required',
@@ -118,6 +122,7 @@ class ExamFeeManagement extends Component
     }
     public function destroy(SchoolFee $schoolFee)
     {
+        Gate::authorize('school.fees.destroy');
         abort_action($schoolFee->school->user_id);
         $schoolFee->delete();
         $this->alert('success', 'Exam fee deleted');
@@ -133,6 +138,10 @@ class ExamFeeManagement extends Component
         $this->openCEmodal = false;
         $this->sections = [];
         $this->groups = [];
+    }
+    public function mount()
+    {
+        Gate::authorize('school.fees.index');
     }
     public function render()
     {

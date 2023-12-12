@@ -5,13 +5,14 @@ namespace App\Livewire\Backend\School;
 use App\Models\Student;
 use Livewire\Component;
 use App\Models\SchoolClass;
-use App\Models\SchoolClassSection;
-use App\Models\StudentCategory;
 use App\Models\StudentQuota;
-use Devfaysal\BangladeshGeocode\Models\District;
-use Devfaysal\BangladeshGeocode\Models\Division;
+use App\Models\StudentCategory;
+use App\Models\SchoolClassSection;
+use Illuminate\Support\Facades\Gate;
 use Devfaysal\BangladeshGeocode\Models\Union;
 use Devfaysal\BangladeshGeocode\Models\Upazila;
+use Devfaysal\BangladeshGeocode\Models\District;
+use Devfaysal\BangladeshGeocode\Models\Division;
 
 class AdmissionFormPreview extends Component
 {
@@ -67,8 +68,8 @@ class AdmissionFormPreview extends Component
         ];
     public function mount($admission_id)
     {
+        Gate::authorize('school.admissions.show');
         $e = Student::where('admission_id', $admission_id)->firstOrFail();
-        // dd($e);
         $this->preview['user_id'] = $e->user_id;
         $this->preview['student_id'] = $e->student_id;
         $this->preview['school_id'] = $e->school_id;

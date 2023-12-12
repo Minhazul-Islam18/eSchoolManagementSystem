@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Backend\School;
 
+use Livewire\Component;
 use App\Models\ClassRoutine;
+use Livewire\Attributes\Title;
 use App\Models\SchoolClassSection;
 use App\Models\SchoolClassSubject;
-use Livewire\Component;
-use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ClassRoutineManagement extends Component
@@ -54,6 +55,7 @@ class ClassRoutineManagement extends Component
 
     public function store()
     {
+        Gate::authorize('school.routines.create');
         $e = school()->classes()->findOrFail($this->class_id);
         if ($this->section_id) {
             $insertable =  $e->classSections()->findOrFail($this->section_id);
@@ -86,6 +88,7 @@ class ClassRoutineManagement extends Component
 
     public function edit(ClassRoutine $classRoutine)
     {
+        Gate::authorize('school.routines.update');
         abort_action($classRoutine->school->user_id);
 
         $this->editable_item = $classRoutine;
@@ -101,6 +104,7 @@ class ClassRoutineManagement extends Component
 
     public function update()
     {
+        Gate::authorize('school.routines.update');
         abort_action($this->editable_item->school->user_id);
 
         $this->editable_item->update([
@@ -119,6 +123,7 @@ class ClassRoutineManagement extends Component
 
     public function destroy(ClassRoutine $classRoutine)
     {
+        Gate::authorize('school.routines.destroy');
         abort_action($classRoutine->school->user_id);
 
         $classRoutine->delete();
@@ -142,6 +147,10 @@ class ClassRoutineManagement extends Component
         $this->groups = [];
     }
 
+    public function mount()
+    {
+        Gate::authorize('school.routines.index');
+    }
 
     public function render()
     {

@@ -7,6 +7,7 @@ use App\Models\classGroup;
 use App\Models\SchoolClass;
 use Livewire\Attributes\Title;
 use App\Rules\CheckUniqueAsClassID;
+use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ClassGroupManagement extends Component
@@ -38,6 +39,7 @@ class ClassGroupManagement extends Component
 
     public function store()
     {
+        Gate::authorize('school.groups.create');
         $this->validate();
         $e = SchoolClass::findBySchool($this->class_id);
         $e->groups()->create([
@@ -50,6 +52,7 @@ class ClassGroupManagement extends Component
     }
     public function edit(classGroup $classGroup)
     {
+        Gate::authorize('school.groups.update');
         abort_action(school()->user_id);
         $this->editable_item = $classGroup;
         $this->group_name = $classGroup->group_name;
@@ -57,6 +60,7 @@ class ClassGroupManagement extends Component
     }
     // public function update()
     // {
+    // Gate::authorize('school.groups.update');
     //     $this->validate();
     //     $e = classGroup::findBySchool($this->editable_item->id);
     //     $e->update([
@@ -70,6 +74,7 @@ class ClassGroupManagement extends Component
     // }
     public function destroy(classGroup $classGroup)
     {
+        Gate::authorize('school.groups.destroy');
         abort_action(school()->user_id);
         $classGroup->delete();
         $this->alert('success', 'Class group deleted');
@@ -119,7 +124,10 @@ class ClassGroupManagement extends Component
         }
     }
 
-
+    public function mount()
+    {
+        Gate::authorize('school.groups.index');
+    }
 
     public function render()
     {

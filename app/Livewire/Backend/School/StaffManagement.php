@@ -8,6 +8,7 @@ use App\Models\SchoolStaff;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -34,6 +35,7 @@ class StaffManagement extends Component
     public $website;
     public function store()
     {
+        Gate::authorize('school.staffs.create');
         $this->validate([
             'image' => 'nullable|image|mimes:png,jpg,jpeg,webp,svg',
             'type' => 'required',
@@ -71,6 +73,7 @@ class StaffManagement extends Component
     }
     public function view(SchoolStaff $schoolStaff)
     {
+        Gate::authorize('school.staffs.show');
         abort_action($schoolStaff->school->user_id);
         $schoolStaff->others_info = json_decode($schoolStaff->others_info);
         $this->name = $schoolStaff->name;
@@ -90,6 +93,7 @@ class StaffManagement extends Component
     }
     public function edit(SchoolStaff $schoolStaff)
     {
+        Gate::authorize('school.staffs.update');
         abort_action($schoolStaff->school->user_id);
         $this->editable_item = $schoolStaff;
         $this->selectedStatus = $schoolStaff->status;
@@ -97,6 +101,7 @@ class StaffManagement extends Component
     }
     public function delete(SchoolStaff $schoolStaff)
     {
+        Gate::authorize('school.staffs.destroy');
         abort_action($schoolStaff->school->user_id);
         if ($schoolStaff->image != null) {
             Storage::disk('public')->delete($schoolStaff->image);
@@ -105,6 +110,7 @@ class StaffManagement extends Component
     }
     public function update()
     {
+        Gate::authorize('school.staffs.update');
         $this->validate([
             'image' => 'nullable|image|mimes:png,jpg,jpeg,webp,svg',
             'type' => 'required',
@@ -160,6 +166,10 @@ class StaffManagement extends Component
         $this->facebook = '';
         $this->email = '';
         $this->phone = '';
+    }
+    public function mount()
+    {
+        Gate::authorize('school.staffs.index');
     }
     public function render()
     {

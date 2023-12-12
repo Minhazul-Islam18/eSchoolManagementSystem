@@ -8,6 +8,7 @@ use App\Models\SchoolClass;
 use Livewire\Attributes\Title;
 use App\Models\SchoolClassSection;
 use App\Rules\CheckUniqueAsClassID;
+use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class GradingManagement extends Component
@@ -56,6 +57,7 @@ class GradingManagement extends Component
 
     public function store()
     {
+        Gate::authorize('school.gradings.create');
         $this->validate();
         Grade::create([
             'school_id' => school()->id,
@@ -70,6 +72,7 @@ class GradingManagement extends Component
 
     public function edit(Grade $grade)
     {
+        Gate::authorize('school.gradings.update');
         $this->editable_item = $grade;
         $this->class_id = $grade->school_class_id;
         $this->section_id = $grade->school_class_section_id;
@@ -79,6 +82,7 @@ class GradingManagement extends Component
 
     public function update()
     {
+        Gate::authorize('school.gradings.update');
         $this->validate();
         $this->editable_item->update([
             'school_id' => school()->id,
@@ -93,6 +97,7 @@ class GradingManagement extends Component
 
     public function destroy(Grade $grade)
     {
+        Gate::authorize('school.gradings.destroy');
         $grade->delete();
         $this->alert('success', 'Deleted successfully.');
     }
@@ -107,6 +112,10 @@ class GradingManagement extends Component
         $this->openCEmodal = false;
         $this->sections = [];
         $this->groups = [];
+    }
+    public function mount()
+    {
+        Gate::authorize('school.gradings.index');
     }
     public function render()
     {

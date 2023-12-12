@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Backend\School;
 
+use Carbon\Carbon;
 use Livewire\Component;
+use App\Models\SchoolFee;
 use App\Models\SchoolExam;
 use App\Models\SchoolClass;
 use Livewire\Attributes\Title;
 use App\Models\SchoolClassSection;
-use App\Models\SchoolFee;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ExamManagement extends Component
@@ -52,6 +53,7 @@ class ExamManagement extends Component
 
     public function store()
     {
+        Gate::authorize('school.exams.create');
         $this->validate([
             'class_id' => 'required',
             'exam_date' => 'required',
@@ -72,6 +74,7 @@ class ExamManagement extends Component
 
     public function edit(SchoolExam $schoolExam)
     {
+        Gate::authorize('school.exams.update');
         abort_action($schoolExam->school->user_id);
 
         $this->editable_item = $schoolExam;
@@ -84,6 +87,7 @@ class ExamManagement extends Component
     }
     public function update()
     {
+        Gate::authorize('school.exams.update');
         $this->validate([
             'class_id' => 'required',
             'exam_date' => 'required',
@@ -104,6 +108,7 @@ class ExamManagement extends Component
     }
     public function destroy(SchoolExam $schoolExam)
     {
+        Gate::authorize('school.exams.destroy');
         abort_action($schoolExam->school->user_id);
         $schoolExam->delete();
         $this->alert('success', 'Class exam deleted');
@@ -119,6 +124,10 @@ class ExamManagement extends Component
         $this->sections = [];
         $this->groups = [];
         $this->openCEmodal = false;
+    }
+    public function mount()
+    {
+        Gate::authorize('school.exams.index');
     }
     public function render()
     {

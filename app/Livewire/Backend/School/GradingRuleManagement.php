@@ -3,10 +3,11 @@
 namespace App\Livewire\Backend\School;
 
 use App\Models\Grade;
-use App\Models\GradingRule;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
-use Livewire\Attributes\Title;
 use Livewire\Component;
+use App\Models\GradingRule;
+use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Gate;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class GradingRuleManagement extends Component
 {
@@ -31,6 +32,7 @@ class GradingRuleManagement extends Component
     }
     public function store()
     {
+        Gate::authorize('school.grading-rule.create');
         $this->validate();
         $this->e->gradingRules()->create([
             'grade' => $this->grade,
@@ -43,11 +45,13 @@ class GradingRuleManagement extends Component
     }
     public function destroy(GradingRule $gradingRule)
     {
+        Gate::authorize('school.grading-rule.destroy');
         $gradingRule->delete();
         $this->alert('success', 'Rule deleted.');
     }
     public function mount($id)
     {
+        Gate::authorize('school.grading-rule.index');
         $this->e = Grade::findBySchool($id);
         $this->title = $this->e->grade_name;
         $this->allRules = GradingRule::allRules($id);

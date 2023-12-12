@@ -10,19 +10,20 @@ use App\Models\SchoolClass;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use App\Models\StudentQuota;
+use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
 use App\Models\StudentCategory;
+use Livewire\Attributes\Layout;
 use App\Models\GurdianOccupation;
+use Livewire\Attributes\Validate;
 use App\Models\SchoolClassSection;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Devfaysal\BangladeshGeocode\Models\Union;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Devfaysal\BangladeshGeocode\Models\Upazila;
 use Devfaysal\BangladeshGeocode\Models\District;
 use Devfaysal\BangladeshGeocode\Models\Division;
-use Livewire\Attributes\Layout;
-use Livewire\WithFileUploads;
-use Livewire\Attributes\Validate;
 
 class AdmissionManagement extends Component
 {
@@ -190,6 +191,7 @@ class AdmissionManagement extends Component
     }
     public function store()
     {
+        Gate::authorize('school.admissions.create');
         $u = User::create([
             'student_id' => date('y') . rand(101, 10000),
             'name' => $this->name_en,
@@ -252,6 +254,10 @@ class AdmissionManagement extends Component
         $this->alert('success', 'Student admission created');
     }
 
+    public function mount()
+    {
+        Gate::authorize('school.admissions.index');
+    }
     public function render()
     {
         $applications = Student::where('school_id', school()->id)->whereNotNull('admission_id')->get();

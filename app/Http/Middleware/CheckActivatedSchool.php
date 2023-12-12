@@ -16,8 +16,6 @@ class CheckActivatedSchool
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // dd(auth()->user());
-        // abort_if(auth()->user() != null &&  auth()->user()->status === 0, '401', 'Your Account isn\'t activated or approved by authority!');
         if (auth()->user() != null &&  auth()->user()->status === 0) {
             throw new Exception("Your Account isn\'t activated or approved by authority!", 1);
         }

@@ -7,6 +7,7 @@ use App\Models\SchoolClass;
 use Livewire\Attributes\Title;
 use App\Models\SchoolClassSection;
 use App\Rules\CheckUniqueAsClassID;
+use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ClassSectionManagement extends Component
@@ -41,6 +42,7 @@ class ClassSectionManagement extends Component
 
     public function store()
     {
+        Gate::authorize('school.sections.create');
         $this->validate();
         SchoolClassSection::create([
             'school_class_id' => $this->class_id,
@@ -53,6 +55,7 @@ class ClassSectionManagement extends Component
     }
     public function edit(SchoolClassSection $schoolClassSection)
     {
+        Gate::authorize('school.sections.update');
         abort_action($schoolClassSection->school->user_id);
         $this->editable_item = $schoolClassSection;
         $this->class_id = $schoolClassSection->school_class_id;
@@ -60,6 +63,7 @@ class ClassSectionManagement extends Component
     }
     public function update()
     {
+        Gate::authorize('school.sections.update');
         $this->validate();
         $e = SchoolClassSection::findBySchool($this->editable_item->id);
         $e->update([
@@ -73,6 +77,7 @@ class ClassSectionManagement extends Component
     }
     public function destroy(SchoolClassSection $schoolClassSection)
     {
+        Gate::authorize('school.sections.destroy');
         abort_action($schoolClassSection->school->user_id);
         $schoolClassSection->delete();
         $this->alert('success', 'Class section deleted');
@@ -120,6 +125,10 @@ class ClassSectionManagement extends Component
     }
 
 
+    public function mount()
+    {
+        Gate::authorize('school.sections.index');
+    }
     public function render()
     {
         $e = school();

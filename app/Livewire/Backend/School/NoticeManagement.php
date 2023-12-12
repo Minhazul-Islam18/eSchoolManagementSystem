@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\SchoolNotice;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -26,6 +27,7 @@ class NoticeManagement extends Component
 
     public function store()
     {
+        Gate::authorize('school.notices.create');
         $fs = [];
         foreach ($this->files as $file) {
             $name = $file->hashName();
@@ -44,6 +46,7 @@ class NoticeManagement extends Component
 
     public function destroy(SchoolNotice $schoolNotice)
     {
+        Gate::authorize('school.notices.destroy');
         abort_action($schoolNotice->school->user_id);
 
         if (null !== $schoolNotice->files) {

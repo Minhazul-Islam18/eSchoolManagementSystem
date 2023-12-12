@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Backend\School;
 
+use Livewire\Component;
 use App\Models\SchoolClass;
+use Livewire\Attributes\Title;
 use App\Models\SchoolClassSection;
 use App\Models\SchoolClassSubject;
+use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-use Livewire\Attributes\Title;
-use Livewire\Component;
 
 class ClassSectionSubjectManagement extends Component
 {
@@ -47,6 +48,7 @@ class ClassSectionSubjectManagement extends Component
     }
     public function store()
     {
+        Gate::authorize('school.subjects.create');
         $this->validate([
             'class_id' => 'required',
             'subject_name' => 'required|min:1|max:50|unique:school_class_subjects'
@@ -64,6 +66,7 @@ class ClassSectionSubjectManagement extends Component
     }
     public function edit(SchoolClassSubject $schoolClassSubject)
     {
+        Gate::authorize('school.subjects.update');
         abort_action($schoolClassSubject->school->user_id);
 
         $this->editable_item = $schoolClassSubject;
@@ -76,6 +79,7 @@ class ClassSectionSubjectManagement extends Component
     }
     public function update()
     {
+        Gate::authorize('school.subjects.update');
         $this->validate([
             'class_id' => 'required',
             'subject_name' => 'required|min:1|max:50|unique:school_class_subjects,subject_name,' . $this->editable_item->id,
@@ -94,6 +98,7 @@ class ClassSectionSubjectManagement extends Component
     }
     public function destroy(SchoolClassSubject $schoolClassSubject)
     {
+        Gate::authorize('school.subjects.destroy');
         abort_action($schoolClassSubject->school->user_id);
         $schoolClassSubject->delete();
         $this->alert('success', 'Class subject deleted');
@@ -109,6 +114,10 @@ class ClassSectionSubjectManagement extends Component
         $this->openCEmodal = false;
         $this->sections = [];
         $this->groups = [];
+    }
+    public function mount()
+    {
+        Gate::authorize('school.subjects.index');
     }
     public function render()
     {

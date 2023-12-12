@@ -7,6 +7,7 @@ use App\Models\SchoolClass;
 use Illuminate\Support\Str;
 use App\Models\SchoolNotice;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class NoticeEdit extends Component
@@ -18,6 +19,7 @@ class NoticeEdit extends Component
         $editable_item;
     public function mount($slug)
     {
+        Gate::authorize('school.notices.index');
         $this->editable_item =  SchoolNotice::where('slug', $slug)->firstOrFail();
         abort_action($this->editable_item->school->user_id);
         $this->title = $this->editable_item->title;
@@ -29,6 +31,7 @@ class NoticeEdit extends Component
 
     public function update()
     {
+        Gate::authorize('school.notices.index');
         $fs = [];
         if (null !== $this->files) {
             Storage::disk('public')->delete(json_decode($this->editable_item->files));

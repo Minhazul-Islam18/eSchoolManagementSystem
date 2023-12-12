@@ -5,6 +5,7 @@ namespace App\Livewire\Backend\School;
 use Livewire\Component;
 use App\Models\SchoolClass;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -29,6 +30,7 @@ class ClassManagement extends Component
     }
     public function store()
     {
+        Gate::authorize('school.classes.create');
         $this->validate(['class_name' => 'required|unique:school_classes,class_name']);
         SchoolClass::create([
             'class_name' => $this->class_name,
@@ -40,12 +42,14 @@ class ClassManagement extends Component
     }
     public function edit(SchoolClass $schoolClass)
     {
+        Gate::authorize('school.classes.update');
         abort_action($schoolClass->school->user_id);
         $this->editable_item = $schoolClass;
         $this->class_name = $schoolClass->class_name;
     }
     public function update()
     {
+        Gate::authorize('school.classes.update');
         $this->validate(['class_name' => 'required|unique:school_classes,class_name,' . $this->editable_item->id]);
         $e = SchoolClass::findBySchool($this->editable_item->id);
         $e->update([
@@ -58,6 +62,7 @@ class ClassManagement extends Component
     }
     public function destroy(SchoolClass $schoolClass)
     {
+        Gate::authorize('school.classes.destroy');
         abort_action($schoolClass->school->user_id);
         $schoolClass->delete();
         $this->alert('success', 'Class deleted');
@@ -74,6 +79,10 @@ class ClassManagement extends Component
         $this->editable_item = null;
         $this->class_name = null;
         $this->openCEmodal = false;
+    }
+    public function mount()
+    {
+        Gate::authorize('school.classes.index');
     }
     public function render()
     {

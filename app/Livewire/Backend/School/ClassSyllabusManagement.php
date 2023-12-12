@@ -7,6 +7,7 @@ use App\Models\SchoolClass;
 use App\Models\ClassSyllabus;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -17,6 +18,7 @@ class ClassSyllabusManagement extends Component
     public $editable_item, $class_id, $syllabus_name, $files = [], $openCEmodal = false;
     public function store()
     {
+        Gate::authorize('school.syllabi.create');
         $fs = [];
         foreach ($this->files as $file) {
             $name = $file->hashName();
@@ -33,6 +35,7 @@ class ClassSyllabusManagement extends Component
 
     public function edit(ClassSyllabus $classSyllabus)
     {
+        Gate::authorize('school.syllabi.update');
         abort_action($classSyllabus->school->user_id);
 
         $this->editable_item = $classSyllabus;
@@ -42,6 +45,7 @@ class ClassSyllabusManagement extends Component
 
     public function update()
     {
+        Gate::authorize('school.syllabi.update');
         abort_action($this->editable_item->school->user_id);
 
         $fs = [];
@@ -67,6 +71,7 @@ class ClassSyllabusManagement extends Component
 
     public function destroy(ClassSyllabus $classSyllabus)
     {
+        Gate::authorize('school.syllabi.destroy');
         abort_action($classSyllabus->school->user_id);
         if (null != $classSyllabus->files) {
             Storage::disk('public')->delete(json_decode($classSyllabus->files));
@@ -83,6 +88,10 @@ class ClassSyllabusManagement extends Component
         $this->syllabus_name = null;
         $this->files = [];
         $this->openCEmodal = false;
+    }
+    public function mount()
+    {
+        Gate::authorize('school.syllabi.index');
     }
     public function render()
     {

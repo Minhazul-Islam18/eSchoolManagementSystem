@@ -3,9 +3,10 @@
 namespace App\Livewire\Backend\School;
 
 use App\Models\School;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
-use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Gate;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class GeneralInformation extends Component
 {
@@ -22,6 +23,7 @@ class GeneralInformation extends Component
     public $web_address;
     public function SaveGeneralSettings()
     {
+        Gate::authorize('school.settings.update');
         $this->validate([
             'institute_name' => 'nullable|max:100',
             'institute_address' => 'nullable|max:255',
@@ -50,6 +52,7 @@ class GeneralInformation extends Component
     }
     public function mount()
     {
+        Gate::authorize('school.settings.index');
         $e = School::allInformations();
         $this->institute_name  = $e->institute_name;
         $this->institute_address  = $e->institute_address;

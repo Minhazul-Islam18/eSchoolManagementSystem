@@ -1,6 +1,9 @@
 {{-- This Component is for showing Parent elements for dropdown in Top nav/Sidebar --}}
+@php
+    $user = auth()->user();
+@endphp
 <ul class="menu" data-fc-type="accordion" id="parent-accordion">
-    @can('app.dashboard', auth()->user())
+    @can('app.dashboard', $user)
         @foreach ($menudata as $item)
             <li class="menu-item">
                 <a href="{{ $item->url }}"
@@ -34,8 +37,7 @@
             </li>
         @endforeach
     @endcan
-    {{-- @dd(auth()->user()->role->slug) --}}
-    @if (auth()->user()->role->slug === 'school')
+    @if (($user->role->slug === 'school') | ($user->role->slug === 'demo_school'))
         <li class="menu-item">
             <a href="{{ route('school.index') }}" class="menu-link ">
                 <i data-lucide="layout-dashboard"></i>

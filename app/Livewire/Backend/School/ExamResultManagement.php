@@ -2,17 +2,18 @@
 
 namespace App\Livewire\Backend\School;
 
-use App\Models\classGroup;
+use Exception;
 use App\Models\School;
+use App\Models\Student;
 use Livewire\Component;
+use App\Models\classGroup;
+use App\Models\SchoolExam;
 use App\Models\SchoolClass;
 use Livewire\Attributes\Title;
 use App\Models\SchoolExamResult;
 use App\Models\SchoolClassSection;
 use App\Models\SchoolClassSubject;
-use App\Models\SchoolExam;
-use App\Models\Student;
-use Exception;
+use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ExamResultManagement extends Component
@@ -77,7 +78,6 @@ class ExamResultManagement extends Component
 
     public function check_if_grade_exist()
     {
-        // dd($this->section_id, $this->group_id);
         if (isset($this->section_id)) {
             return SchoolClassSection::findBySchool($this->section_id)->grades->isEmpty();
         }
@@ -112,8 +112,6 @@ class ExamResultManagement extends Component
     }
     public function getStudents()
     {
-        // $this->getSubjects();
-
         if (null != $this->class_id && null != $this->section_id) {
             $this->students = SchoolClassSection::students($this->section_id);
         }
@@ -139,6 +137,7 @@ class ExamResultManagement extends Component
     }
     public function store()
     {
+        Gate::authorize('school.exam-results.create');
         abort_action(school()->user_id);
         $this->validate([
             'class_id' => 'required',
@@ -181,6 +180,7 @@ class ExamResultManagement extends Component
     }
     public function edit(SchoolExamResult $schoolExamResult)
     {
+        Gate::authorize('school.exam-results.update');
         abort_action($schoolExamResult->school->user_id);
         $this->editable_item = $schoolExamResult;
         $this->class_id = $schoolExamResult->school_class_id;
@@ -197,6 +197,7 @@ class ExamResultManagement extends Component
     }
     public function update()
     {
+        Gate::authorize('school.exam-results.update');
         abort_action(school()->user_id);
         $this->validate([
             'class_id' => 'required',
@@ -239,6 +240,7 @@ class ExamResultManagement extends Component
     }
     public function destroy(SchoolExamResult $schoolExamResult)
     {
+        Gate::authorize('school.exam-results.destroy');
         abort_action($schoolExamResult->school->user_id);
         $schoolExamResult->delete();
         $this->alert('success', 'Exam result deleted');
@@ -275,6 +277,10 @@ class ExamResultManagement extends Component
     public function refresh()
     {
         $this->render();
+    }
+    public function mount()
+    {
+        Gate::authorize('school.exam-results.index');
     }
     public function render()
     {
