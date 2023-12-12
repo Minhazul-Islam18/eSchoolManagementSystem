@@ -28,13 +28,10 @@ class ProcessFreePackage extends Controller
                 // Associate the user with the 'demo_school' role
                 $demoSchoolRole = Role::where('slug', 'demo_school')->firstOrFail();
                 $user->role()->associate($demoSchoolRole);
-                // $user->role()->associate(Role::where('slug', 'demo_school')->firstOrFail());
 
                 // Save the changes to the database
                 $user->save();
             }
-
-            // dd(auth()->user()->role);
 
             // can purchase a plan if school doesn't have any package purchased & currently active
             while ($user->school->package_id === null && $user->subscription === null) {

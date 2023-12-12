@@ -22,7 +22,7 @@ use App\Livewire\Backend\School\NoticeEdit;
 use App\Livewire\Backend\School\NoticeManagement;
 use App\Livewire\Backend\School\StudentIdCardManagement;
 
-Route::middleware(['checkRole:school', 'checkSubscription'])->group(function () {
+Route::middleware(['checkRole:school,demo_school', 'checkSubscription'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('index');
     Route::get('/staffs', StaffManagement::class)->name('staffs');
     Route::get('/classes', ClassManagement::class)->name('classes');
@@ -43,9 +43,4 @@ Route::middleware(['checkRole:school', 'checkSubscription'])->group(function () 
     Route::get('/admissions/{admission_id}', AdmissionFormPreview::class)->name('admissions.show');
     Route::get('/general-information', GeneralInformation::class)->name('general-information');
     Route::get('/auto-generate/student-id-card', StudentIdCardManagement::class)->name('generate-student-id-card');
-    // Route::group(['as' => 'student'], function () {
-    //     Route::get('/', function () {
-    //         dd('Student');
-    //     })->name('index');
-    // });
 });
