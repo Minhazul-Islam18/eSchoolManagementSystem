@@ -21,6 +21,8 @@ class GeneralInformation extends Component
     public $mobile_no;
     public $alt_mobile_no;
     public $web_address;
+    public $subscription;
+    public $package;
     public function SaveGeneralSettings()
     {
         Gate::authorize('school.settings.update');
@@ -50,6 +52,18 @@ class GeneralInformation extends Component
         ]);
         $this->alert('success', 'Information updated');
     }
+    public function cancelSubscription()
+    {
+        //Null/empty the value of package_id in schools table
+        school()->update([
+            'package_id' => null,
+        ]);
+
+        //Dissociate the subscription
+        $this->alert('success', 'Your subscription canceled.');
+        // auth()->user()->subscription()->dissociate();
+        return to_route('/');
+    }
     public function mount()
     {
         Gate::authorize('school.settings.index');
@@ -63,6 +77,8 @@ class GeneralInformation extends Component
         $this->mobile_no  = $e->mobile_no;
         $this->alt_mobile_no  = $e->alt_mobile_no;
         $this->web_address  = $e->web_address;
+        $this->package = $e->package;
+        $this->subscription = auth()->user()->subscription;
     }
     public function render()
     {

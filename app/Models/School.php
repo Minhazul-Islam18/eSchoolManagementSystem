@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -61,7 +63,7 @@ class School extends Model
     public static function allInformations(): School
     {
         return self::where('user_id', auth()->user()->id)
-            // ->with('classes.classSections')
+            ->with('package')
             ->first();
     }
 
@@ -133,4 +135,25 @@ class School extends Model
     {
         return $this->hasMany(SchoolClassSection::class);
     }
+
+
+    /**
+     * Get the package that owns the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function package(): BelongsTo
+    {
+        return $this->belongsTo(Package::class);
+    }
+
+    // /**
+    //  * Get the subscription associated with the School
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    //  */
+    // public function subscription(): HasOne
+    // {
+    //     return $this->hasOne(Subscription::class, 'user_id', school()->user_id);
+    // }
 }
