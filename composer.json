@@ -23,7 +23,8 @@
         "livewire/livewire": "^3.0",
         "php-flasher/flasher-laravel": "^1.15",
         "power-components/livewire-powergrid": "^5.1",
-        "spatie/laravel-backup": "^8.3"
+        "spatie/laravel-backup": "^8.3",
+        "wireui/wireui": "^1.18"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

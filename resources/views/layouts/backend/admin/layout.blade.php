@@ -28,6 +28,7 @@
     </style>
     @livewireStyles
     @stack('page-style')
+    <wireui:scripts />
 </head>
 
 <body>
