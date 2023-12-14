@@ -20,11 +20,15 @@ use App\Livewire\Backend\School\GradingManagement;
 use App\Livewire\Backend\School\GradingRuleManagement;
 use App\Livewire\Backend\School\NoticeEdit;
 use App\Livewire\Backend\School\NoticeManagement;
+use App\Livewire\Backend\School\StaffAttendanceManagement;
+use App\Livewire\Backend\School\StudentAttendanceManagement;
 use App\Livewire\Backend\School\StudentIdCardManagement;
 
 Route::middleware(['checkRole:school,demo_school', 'checkSubscription'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('index');
     Route::get('/staffs', StaffManagement::class)->name('staffs');
+    Route::get('/staffs-attendance', StaffAttendanceManagement::class)->name('staffs-attendance');
+    Route::get('/students-attendance', StudentAttendanceManagement::class)->name('students-attendance');
     Route::get('/classes', ClassManagement::class)->name('classes');
     Route::get('/groups', ClassGroupManagement::class)->name('groups');
     Route::get('/sections', ClassSectionManagement::class)->name('sections');

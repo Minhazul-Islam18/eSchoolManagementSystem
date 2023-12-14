@@ -39,6 +39,7 @@ async function free(id) {
 const props = defineProps({
     pricings: Array | Object,
     school: Array | Object,
+    package_purchased: String,
     message: String,
 });
 

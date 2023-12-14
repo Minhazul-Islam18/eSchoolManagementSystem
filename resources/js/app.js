@@ -1,3 +1,8 @@
+import "./../../vendor/power-components/livewire-powergrid/dist/powergrid";
+
+// If you use Tailwind
+import "./../../vendor/power-components/livewire-powergrid/dist/tailwind.css";
+
 import { createSSRApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";

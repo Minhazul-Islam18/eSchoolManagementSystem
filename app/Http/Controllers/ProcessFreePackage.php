@@ -55,7 +55,7 @@ class ProcessFreePackage extends Controller
                     ]);
                 }, 5);
                 break;
-                return Redirect::route('/')->with('package-purchased', 'Package successfully purchased');
+                return Redirect::route('/')->with('package_purchased', 'Package successfully purchased');
             }
         } else {
             // return if there anything wrong.

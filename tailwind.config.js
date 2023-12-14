@@ -4,6 +4,10 @@ import typography from "@tailwindcss/typography";
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    presets: [
+        require("./vendor/wireui/wireui/tailwind.config.js"),
+        require("./vendor/power-components/livewire-powergrid/tailwind.config.js"),
+    ],
     darkMode: "class",
     content: [
         "./resources/**/*.blade.php",
@@ -39,6 +43,9 @@ export default {
     },
 
     plugins: [
+        require("@tailwindcss/forms")({
+            strategy: "class",
+        }),
         forms,
         typography,
         require("flowbite/plugin"),
