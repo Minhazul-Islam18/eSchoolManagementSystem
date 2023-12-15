@@ -32,8 +32,15 @@ class StaffAttendanceManagement extends Component
             'attendance_date' => 'required',
         ]);
 
+        // Make attendance sheat visible
         $this->attendanceSheat = true;
-        $this->students = school()->classes()->findOrFail($this->class_id)->classSections()->findOrFail($this->section_id);
+
+        //Get filtered students for attendance
+        if (isset($this->class_id) && isset($this->section_id)) {
+            $this->students = school()->classes()->findOrFail($this->class_id)->classSections()->findOrFail($this->section_id)->students;
+        } elseif (isset($this->class_id) && isset($this->group_id)) {
+            $this->students = school()->classes()->findOrFail($this->class_id)->groups()->findOrFail($this->group_id)->students;
+        }
     }
     public function getSection()
     {

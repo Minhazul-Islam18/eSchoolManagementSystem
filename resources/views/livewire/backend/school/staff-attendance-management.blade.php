@@ -1,4 +1,4 @@
-<div x-data="{ openCEmodal: @entangle('openCEmodal') }">
+<div>
     <main>
         <div class="container px-10 py-5">
             <header class="flex items-center flex-wrap mb-4" wire:ignore>
@@ -78,12 +78,13 @@
                         class="px-12 py-2 bg-emerald-500/90 hover:bg-emerald-500 rounded-full">Search</button>
                 </form>
             </div>
+
             <img wire:loading wire:target='getAttendanceSheet'
                 src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*TBQCEJX9IO3JAOLpuR0xjg.gif"
                 alt="">
 
             @if ($attendanceSheat == true)
-                <livewire:attendance-sheat-table />
+                <livewire:attendance-sheat-table :data="$students" />
             @endif
             {{-- <div x-show="openCEmodal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
                 role="dialog" aria-modal="true">
@@ -455,33 +456,40 @@
     </main>
 </div>
 @push('page-style')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"> --}}
 @endpush
 @push('page-script')
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.tailwindcss.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> --}}
     <script>
-        document.addEventListener('mounted', function() {
-            console.log('mounted');
-            $('#select2').select2();
-
-            $('#select2').on('change', function(e) {
-                @this.set('student_id', e.target.value);
+        //         document.addEventListener('livewire:init', () => {
+        //    Livewire.on('post-created', (event) => {
+        //        //
+        //    });
+        // });
+        document.addEventListener('livewire:init', function() {
+            Livewire.on('showAlert', event => {
+                alert(event[0].message);
             });
         });
-        new DataTable('#example', {
-            responsive: true,
-            retrieve: true,
-            paging: true
-        });
-        $('#example_filter label').addClass('flex justify-end items-center');
-        $('#example_paginate div').addClass('flex justify-end items-center');
-        $('.dtr-data').addClass('flex flex-wrap gap-2');
+        // new DataTable('#example', {
+        //     responsive: true,
+        //     retrieve: true,
+        //     paging: true
+        // });
+        // $('#example_filter label').addClass('flex justify-end items-center');
+        // $('#example_paginate div').addClass('flex justify-end items-center');
+        // $('.dtr-data').addClass('flex flex-wrap gap-2');
 
-        Livewire.on('reload', (value) => {
-            location.reload();
-        });
+        // Livewire.on('reload', (value) => {
+        //     location.reload();
+        // });
+
+
+        // window.addEventListener('showAlert', event => {
+        //     alert(event);
+        // })
     </script>
 @endpush

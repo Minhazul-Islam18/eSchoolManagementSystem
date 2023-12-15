@@ -3,41 +3,80 @@
 namespace App\Livewire;
 
 use App\Models\Student;
+use Illuminate\Support\Carbon;
 use App\Models\StudentAttendance;
+use WireUi\View\Components\Checkbox;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Carbon;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Rule;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 final class AttendanceSheatTable extends PowerGridComponent
 {
+    use WithExport;
+    public $data;
+    protected function getListeners()
+    {
+        return array_merge(
+            parent::getListeners(),
+            [
+                'bulkPresentEvent',
+            ]
+        );
+    }
+    public function header(): array
+    {
+        return [
+            Button::add('bulk-present')
+                ->slot(__('Present all'))
+                ->class('cursor-pointer block bg-indigo-500 text-white')
+                ->dispatch('bulkPresentEvent', [])
+        ];
+    }
+
+    public function bulkPresentEvent(): void
+    {
+        if (count($this->checkboxValues) == 0) {
+            // dd(count($this->checkboxValues) == 0, $this->checkboxValues);
+            $this->dispatch('showAlert', ['message' => 'You must select at least one item!']);
+
+            return;
+        }
+        dd($this->checkboxValues);
+        $ids = implode(', ', $this->checkboxValues);
+
+        $this->dispatch('showAlert', ['message' => 'You have selected IDs: ' . $ids]);
+    }
+
+
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            Exportable::make('export')
+            Exportable::make('file')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput(),
+            Header::make()->showSearchInput()->showToggleColumns(),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
         ];
     }
 
-    public function datasource(): Collection
+    public function datasource(): ?Collection
     {
-        return school()->students;
+        // dd($this->data);
+        return $this->data;
     }
 
     public function addColumns(): PowerGridColumns
@@ -58,7 +97,7 @@ final class AttendanceSheatTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Name', 'name')
+            Column::make('Name', 'name_bn')
                 ->searchable()
                 ->sortable(),
 
@@ -89,11 +128,14 @@ final class AttendanceSheatTable extends PowerGridComponent
     public function actions(\App\Models\Student $row): array
     {
         return [
-            Button::add('edit')
-                ->slot('Edit: ' . $row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+            // Button::che
+            // Checkbox::resolve(['md', 'label'])
+            // $this->showCheckBox()
+            // Button::add('edit')
+            //     ->slot('Edit: ' . $row->id)
+            //     ->id()
+            //     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+            //     ->dispatch('edit', ['rowId' => $row->id])
         ];
     }
 
