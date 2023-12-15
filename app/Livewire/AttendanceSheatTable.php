@@ -38,7 +38,7 @@ final class AttendanceSheatTable extends PowerGridComponent
         return [
             Button::add('bulk-present')
                 ->slot(__('Present all'))
-                ->class('cursor-pointer block bg-indigo-500 text-white')
+                ->class('cursor-pointer block bg-indigo-500 text-white px-3 py-1 rounded-md')
                 ->dispatch('bulkPresentEvent', [])
         ];
     }
