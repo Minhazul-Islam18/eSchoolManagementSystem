@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\BkashTransection;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Karim007\LaravelBkash\Facade\BkashRefund;
@@ -19,7 +21,7 @@ class BkashPaymentController extends Controller
     {
         $this->package_id = $request->id;
         session()->put('package_id', intval($request->id));
-        if (auth()->user()->hasRole('school')) {
+        if (auth()->user()->hasRole('school') || auth()->user()->hasRole('demo_school')) {
             if (session()->has('invoice_amount')) {
                 session()->forget('invoice_amount');
             }
@@ -35,28 +37,19 @@ class BkashPaymentController extends Controller
 
     public function getToken()
     {
-        if (auth()->user()->hasRole('school')) {
+        if (auth()->user()->hasRole('school') || auth()->user()->hasRole('demo_school')) {
             return BkashPayment::getToken();
+        } else {
+            return Redirect::route('/')->with('message', 'Something went wrong.');
         }
     }
     public function createPayment(Request $request)
     {
-        $user = auth()->user();
-        if ($user->hasRole('school') || $user->hasRole('demo_school')) {
-            if ($user->hasRole('demo_school')) {
-                $user->role()->dissociate();
-
-                // Associate the user with the 'demo_school' role
-                $SchoolRole = Role::where('slug', 'school')->firstOrFail();
-                $user->role()->associate($SchoolRole);
-
-                // Save the changes to the database
-                $user->save();
-            }
-
+        // $user = auth()->user();
+        if (auth()->user()->hasRole('school') || auth()->user()->hasRole('demo_school')) {
             $request['intent'] = 'sale';
             $request['currency'] = 'BDT';
-            $request['invoice_amount'] = session()->get('invoice_amount') ?? 10;
+            $request['invoice_amount'] = session()->get('invoice_amount') ?? throw new Exception('Something went wrong.');
             $request['merchantInvoiceNumber'] = rand();
             $request['callbackURL'] = config("bkash.callbackURL");;
 
@@ -74,13 +67,15 @@ class BkashPaymentController extends Controller
                 'create_time' => $e['createTime'],
             ]);
             return $e;
+        } else {
+            return Redirect::route('/')->with('message', 'Something went wrong.');
         }
     }
 
     public function executePayment(Request $request)
     {
         $user = auth()->user();
-        if ($user->hasRole('school')) {
+        if ($user->hasRole('school') || $user->hasRole('demo_school')) {
             $tr = BkashTransection::where('payment_id', $request->paymentID)->first();
             $paymentID = $request->paymentID;
             $e = BkashPayment::executePayment($paymentID);
@@ -93,6 +88,17 @@ class BkashPaymentController extends Controller
                     $tr->delete();
                 } else {
                     DB::transaction(function () use ($user, $tr, $e) {
+                        if ($user->hasRole('demo_school')) {
+                            $user->role()->dissociate();
+
+                            // Associate the user with the 'demo_school' role
+                            $SchoolRole = Role::where('slug', 'school')->firstOrFail();
+                            if ($SchoolRole) {
+                                $user->role()->associate($SchoolRole);
+                                $user->save();
+                            }
+                        }
+                        school()->update(['package_id' => session()->get('package_id')]);
                         $s = $user->subscription;
                         // Update user subscription
                         if ($s === null) {

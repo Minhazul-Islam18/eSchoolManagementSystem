@@ -464,32 +464,10 @@
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> --}}
     <script>
-        //         document.addEventListener('livewire:init', () => {
-        //    Livewire.on('post-created', (event) => {
-        //        //
-        //    });
-        // });
         document.addEventListener('livewire:init', function() {
             Livewire.on('showAlert', event => {
                 alert(event[0].message);
             });
         });
-        // new DataTable('#example', {
-        //     responsive: true,
-        //     retrieve: true,
-        //     paging: true
-        // });
-        // $('#example_filter label').addClass('flex justify-end items-center');
-        // $('#example_paginate div').addClass('flex justify-end items-center');
-        // $('.dtr-data').addClass('flex flex-wrap gap-2');
-
-        // Livewire.on('reload', (value) => {
-        //     location.reload();
-        // });
-
-
-        // window.addEventListener('showAlert', event => {
-        //     alert(event);
-        // })
     </script>
 @endpush
