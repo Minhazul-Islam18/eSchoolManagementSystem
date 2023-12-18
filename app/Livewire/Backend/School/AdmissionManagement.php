@@ -75,8 +75,8 @@ class AdmissionManagement extends Component
         $gurdians_occupation,
         $sections = [],
         $groups = [],
-        $class_id,
-        $group_id,
+        $class_id = null,
+        $group_id = null,
         $class_id_of_studying_siblings,
         $division,
         $division_id,
@@ -252,6 +252,72 @@ class AdmissionManagement extends Component
             'gurdians_occupation' => $this->gurdians_occupation,
         ]);
         $this->alert('success', 'Student admission created');
+        $this->resetFields();
+    }
+
+    public function resetFields()
+    {
+        $this->student_image = '';
+        $this->name_bn = '';
+        $this->name_en = '';
+        $this->school_class_id = '';
+        $this->roll = '';
+        $this->ssc_roll = '';
+        $this->gender = '';
+        $this->religion = '';
+        $this->birth_certificate_no = '';
+        $this->dob = '';
+        $this->has_stipend = '';
+        $this->have_siblings_studying = '';
+        $this->name_of_studying_siblings = '';
+        $this->class_of_studying_siblings = '';
+        $this->roll_of_studying_siblings = '';
+        $this->freedom_fighter_id = '';
+        $this->student_category_id = '';
+        $this->student_quota_id = '';
+        $this->previous_institute = '';
+        $this->previous_study_class = '';
+        $this->district = '';
+        $this->upazila = '';
+        $this->union = '';
+        $this->postoffice = '';
+        $this->village = '';
+        $this->mobile_number = '';
+        $this->post_code = '';
+        $this->fathers_name_bn = '';
+        $this->mothers_name_bn = '';
+        $this->fathers_name_en = '';
+        $this->mothers_name_en = '';
+        $this->fathers_nid_no = '';
+        $this->mothers_nid_no = '';
+        $this->fathers_bc_no = '';
+        $this->mothers_bc_no = '';
+        $this->gurdian_in_absence_of_parent_en = '';
+        $this->gurdian_in_absence_of_parent_bn = '';
+        $this->gurdian_nid_no = '';
+        $this->relation_with_gurdian = '';
+        $this->gurdians_monthly_income = '';
+        $this->fathers_occupation = '';
+        $this->gurdians_occupation = '';
+        $this->sections = [];
+        $this->groups = [];
+        $this->class_id = '';
+        $this->group_id = '';
+        $this->class_id_of_studying_siblings = '';
+        $this->division = '';
+        $this->division_id = '';
+        $this->district_id = '';
+        $this->upazila_id = '';
+        $this->union_id = '';
+        $this->districts = [];
+        $this->upazilas = [];
+        $this->unions = [];
+        $this->section_id = '';
+        $this->openCEmodal = false;
+        $this->checkImageDimension = true;
+        $this->editable_item = '';
+        $this->student_quota = '';
+        $this->student_category = '';
     }
 
     public function mount()
@@ -260,7 +326,11 @@ class AdmissionManagement extends Component
     }
     public function render()
     {
-        $applications = Student::where('school_id', school()->id)->whereNotNull('admission_id')->get();
+        $applications = Student::where('school_id', school()->id)
+            ->whereNotNull('admission_id')
+            ->with(['class_group', 'school_class_section'])
+            ->get();
+        // dd($applications);
         $divisions = Division::all();
         $GurdianOccupation = GurdianOccupation::all();
         $sc = StudentCategory::all();

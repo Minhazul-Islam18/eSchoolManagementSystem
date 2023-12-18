@@ -102,6 +102,9 @@
                             @empty(!$AllModules)
                                 <span
                                     class="w-100 text-center text-xl pb-2 pt-3 font-medium">{{ __('Permissions for this role') }}</span>
+                                <label for="checkAll" class="form-label flex gap-2">
+                                    <input type="checkbox" class="form-checkbox" id="checkAll"> Check all
+                                </label>
                                 @error('permissions')
                                     <span class="text-red-500 block font-medium mt-1">{{ $message }}</span>
                                 @enderror
@@ -117,7 +120,7 @@
                                                     <label class="inline-flex items-center" wire:key='{{ $perms->id }}'>
                                                         <input type="checkbox" wire:model='permissions.{{ $perms->id }}'
                                                             value="{{ $perms->id }}"
-                                                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
+                                                            class="checkbox rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
                                                             id="perms{{ $perms->id }}">
                                                         <span class="ml-2">{{ $perms->name }}</span>
                                                     </label>
@@ -200,6 +203,18 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.tailwindcss.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script>
+        $(document).ready(function() {
+            // Check All checkbox change event
+            $("#checkAll").change(function() {
+                $(".checkbox").prop('checked', $(this).prop('checked'));
+            });
+
+            // Individual checkbox change event
+            $(".checkbox").change(function() {
+                // If all checkboxes are checked, update the Check All checkbox
+                $("#checkAll").prop('checked', $(".checkbox:checked").length === $(".checkbox").length);
+            });
+        });
         new DataTable('#example', {
             responsive: true,
             retrieve: true,

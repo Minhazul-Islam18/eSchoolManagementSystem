@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\School;
+use App\Models\classGroup;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,5 +50,15 @@ class Student extends Model
     public function fees(): BelongsToMany
     {
         return $this->belongsToMany(SchoolFee::class);
+    }
+
+    /**
+     * Get the school_class_group that owns the Student
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function class_group(): BelongsTo
+    {
+        return $this->belongsTo(classGroup::class);
     }
 }

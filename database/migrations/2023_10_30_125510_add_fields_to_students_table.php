@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('school_class_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('school_class_section_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('roll')->nullable();
-            $table->enum('group', ['Science', 'Commerce', 'Humanities'])->nullable();
+            // $table->enum('group', ['Science', 'Commerce', 'Humanities'])->nullable();
             $table->string('ssc_roll')->nullable();
             $table->enum('gender', ['Male', 'Female'])->nullable();
             $table->enum('religion', ['Islam', 'Hindu', 'Others'])->nullable();
@@ -76,7 +76,7 @@ return new class extends Migration
             $table->foreignId('school_class_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('school_class_section_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('roll')->nullable();
-            $table->enum('group', ['Science', 'Commerce', 'Humanities'])->nullable();
+            // $table->enum('group', ['Science', 'Commerce', 'Humanities'])->nullable();
             $table->string('ssc_roll')->nullable();
             $table->enum('gender', ['Male', 'Female'])->nullable();
             $table->enum('religion', ['Islam', 'Hindu', 'Others'])->nullable();

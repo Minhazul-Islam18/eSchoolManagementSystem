@@ -78,7 +78,7 @@
                                     <h2 class="text-2xl mb-4 text-gray-800 text-center font-bold">Registration
                                         Success</h2>
 
-                                    <button @click="openCEmodal = false"
+                                    <button @click="ApplicationCompleted()"
                                         class="w-40 block mx-auto focus:outline-none py-2 px-5 rounded-lg shadow-sm text-center text-gray-600 bg-white hover:bg-gray-100 font-medium border">Close</button>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
                                                     <option value="">নির্বাচন করুন</option>
                                                     @forelse ($this->groups as $item)
                                                         <option value="{{ $item->id }}"
-                                                            {{ $item->id == $this->group_id ? 'selected' : '' }}>
+                                                            {{ $item->id === $this->group_id ? 'selected' : '' }}>
                                                             {{ $item->group_name }}</option>
                                                     @empty
                                                         <option value="" disabled>No group found</option>
@@ -186,7 +186,7 @@
                                                     <option value="">নির্বাচন করুন</option>
                                                     @forelse ($sections as $item)
                                                         <option value="{{ $item->id }}"
-                                                            {{ $item->id == $this->section_id ? 'selected' : '' }}>
+                                                            {{ $item->id === $this->section_id ? 'selected' : '' }}>
                                                             {{ $item->section_name }}</option>
                                                     @empty
                                                         <option value="" disabled>No section found</option>
@@ -900,7 +900,16 @@
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <div class="flex flex-col gap-2">
                                             {{ 'শ্রেণী: ' . $item->school_class->class_name }},<br />
-                                            {{ 'শাখা: ' . $item->school_class_section->section_name }}
+                                            {{-- @isset($item->class_group)
+                                                @dd($item->class_group?->group_name)
+                                            @endisset --}}
+                                            @php
+                                                if ($item->school_class_section !== null) {
+                                                    echo $result = 'শাখা:' . $item->school_class_section->section_name;
+                                                } else {
+                                                    echo $result = 'গ্রুপ: ' . $item->class_group->group_name;
+                                                }
+                                            @endphp
                                         </div>
                                     </div>
                                 </td>
@@ -920,12 +929,12 @@
                                         class="px-2 py-1 rounded-sm bg-emerald-500 cursor-pointer flex w-max align-center justify-center">
                                         <i data-lucide="eye" class="w-4 me-1"></i> View
                                     </a>
-                                    <span
+                                    {{-- <span
                                         class="px-2 py-1 rounded-sm bg-yellow-300 cursor-pointer flex w-max align-center justify-center"
                                         wire:click='edit({{ $item->id }})' @click="openCEmodal = true"
                                         data-modal-target="CEmodal" data-modal-toggle="CEmodal">
                                         <i data-lucide="pen-square" class="w-4 me-1"></i> Edit
-                                    </span>
+                                    </span> --}}
                                     <button
                                         class="px-2 py-1 rounded-sm bg-red-500 cursor-pointer flex w-max align-center justify-center"
                                         wire:confirm="Are you sure?" wire:click="destroy({{ $item->id }})"><i
@@ -1028,6 +1037,13 @@
         }
     </script>
     <script>
+        function ApplicationCompleted() {
+            console.log('clicked');
+            @this.openCEmodal = false;
+            Alpine.data('step', 1);
+            // this.step = 1;
+        }
+
         function checkImageDimensions(event) {
             const input = event.target;
             const file = input.files[0];

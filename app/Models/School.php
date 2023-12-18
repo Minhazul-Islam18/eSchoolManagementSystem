@@ -138,6 +138,17 @@ class School extends Model
 
 
     /**
+     * Get all of the groups for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function groups(): HasMany
+    {
+        return $this->hasMany(classGroup::class);
+    }
+
+
+    /**
      * Get the package that owns the School
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
