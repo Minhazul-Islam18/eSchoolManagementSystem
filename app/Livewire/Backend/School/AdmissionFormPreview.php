@@ -68,6 +68,7 @@ class AdmissionFormPreview extends Component
         ];
     public function mount($admission_id)
     {
+        // dd(school()->id);
         Gate::authorize('school.admissions.show');
         $e = Student::where('admission_id', $admission_id)->firstOrFail();
         $this->preview['user_id'] = $e->user_id;
@@ -79,7 +80,9 @@ class AdmissionFormPreview extends Component
         $this->preview['name_en'] = $e->name_en;
         $this->preview['class_name'] = SchoolClass::findBySchool($e->school_class_id)->class_name;
         $this->preview['roll'] = $e->roll;
-        $this->preview['section_name'] = SchoolClassSection::findBySchool($e->school_class_section_id)->section_name;
+        $this->preview['section_name'] = school()->sections()->find($e->school_class_section_id)->section_name ?? '';
+        $this->preview['group_name'] = school()->groups()->find($e->class_group_id)->group_name ?? '';
+        // $this->preview['section_name'] = SchoolClassSection::findBySchool($e->school_class_section_id)->section_name;
         $this->preview['ssc_roll'] = $e->ssc_roll;
         $this->preview['gender'] = $e->gender;
         $this->preview['religion'] = $e->religion;

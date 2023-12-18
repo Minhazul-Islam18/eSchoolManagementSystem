@@ -18,7 +18,14 @@
                             {{ $preview['class_name'] ?? '' }}
                         </td>
                         <td class="p-4 border-dark border-r">
-                            শাখা {{ $preview['section_name'] ?? '' }}
+                            {{-- শাখা {{ $preview['section_name'] ?? '' }}  --}}
+                            @php
+                                if ($preview !== null) {
+                                    echo 'শাখা:' . $preview['section_name'];
+                                } else {
+                                    echo 'গ্রুপ: ' . $preview['group_name'];
+                                }
+                            @endphp
                         </td>
                         <td class="p-4 border-dark border-r">
                             ধর্মঃ {{ $preview['religion'] ?? '' }}
