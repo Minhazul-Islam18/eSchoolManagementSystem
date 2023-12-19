@@ -95,7 +95,7 @@ final class AttendanceSheatTable extends PowerGridComponent
             Column::make('ID', 'id')
                 ->searchable()
                 ->sortable(),
-            Column::make('Image', 'student_image'),
+            // Column::make('Image', 'student_image'),
 
             Column::make('Name', 'name_bn')
                 ->searchable()

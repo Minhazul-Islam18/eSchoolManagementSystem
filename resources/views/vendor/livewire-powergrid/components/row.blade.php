@@ -38,11 +38,9 @@
             $contentClass = array_key_exists($content, $column->contentClasses) ? $column->contentClasses[$content] : '';
         }
     @endphp
-    <td
-        @class([$theme->table->tdBodyClass, $column->bodyClass])
+    <td @class([$theme->table->tdBodyClass, $column->bodyClass])
         style="{{ $column->hidden === true ? 'display:none' : '' }}; {{ $theme->table->tdBodyStyle . ' ' . $column->bodyStyle ?? '' }}"
-        wire:key="row-{{ $column->field }}"
-    >
+        wire:key="row-{{ $column->field }}">
         <div class="flex gap-2 w-full">
             <!-- Render Action -->
 
