@@ -46,15 +46,13 @@ final class AttendanceSheatTable extends PowerGridComponent
     public function bulkPresentEvent(): void
     {
         if (count($this->checkboxValues) == 0) {
-            // dd(count($this->checkboxValues) == 0, $this->checkboxValues);
             $this->dispatch('showAlert', ['message' => 'You must select at least one item!']);
 
             return;
         }
-        dd($this->checkboxValues);
         $ids = implode(', ', $this->checkboxValues);
 
-        $this->dispatch('showAlert', ['message' => 'You have selected IDs: ' . $ids]);
+        $this->dispatch('presentSelected', ['ids' => $ids]);
     }
 
 
@@ -75,7 +73,6 @@ final class AttendanceSheatTable extends PowerGridComponent
 
     public function datasource(): ?Collection
     {
-        // dd($this->data);
         return $this->data;
     }
 
@@ -84,7 +81,9 @@ final class AttendanceSheatTable extends PowerGridComponent
         return PowerGrid::columns()
             ->addColumn('id')
             ->addColumn('name')
-            ->addColumn('Type')
+            ->addColumn('Image', function () {
+                return `<img src="" width="50px" />`;
+            })
             ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)))
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (Student $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
@@ -96,6 +95,7 @@ final class AttendanceSheatTable extends PowerGridComponent
             Column::make('ID', 'id')
                 ->searchable()
                 ->sortable(),
+            Column::make('Image', 'student_image'),
 
             Column::make('Name', 'name_bn')
                 ->searchable()

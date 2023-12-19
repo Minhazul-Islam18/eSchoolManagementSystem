@@ -456,17 +456,13 @@
     </main>
 </div>
 @push('page-style')
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"> --}}
 @endpush
 @push('page-script')
-    {{-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.tailwindcss.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> --}}
     <script>
         document.addEventListener('livewire:init', function() {
-            Livewire.on('showAlert', event => {
-                alert(event[0].message);
+            Livewire.on('presentSelected', event => {
+                console.log(event);
+                alert(event[0].ids);
             });
         });
     </script>
