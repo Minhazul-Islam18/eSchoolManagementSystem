@@ -258,7 +258,7 @@ class AdmissionManagement extends Component
             'gurdians_occupation' => $this->gurdians_occupation,
         ]);
         $this->alert('success', 'Student admission created');
-        $this->resetFields();
+        // $this->resetFields();
     }
 
     public function resetFields()
