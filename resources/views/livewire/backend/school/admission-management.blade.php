@@ -114,7 +114,7 @@
                                         <p x-show="!imageDimensionsValid" class="text-red-500">Image
                                             dimensions
                                             must be 300x300 pixels.</p>
-                                        <input name="photo" id="fileInput" accept="image/*" class="hidden"
+                                        <input name="photo" id="fileInput" accept="image/jpeg" class="hidden"
                                             wire:model.blur='student_image' type="file"
                                             x-on:change="checkImageDimensions"
                                             @change="let file = document.getElementById('fileInput').files[0];
@@ -900,9 +900,6 @@
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <div class="flex flex-col gap-2">
                                             {{ 'শ্রেণী: ' . $item->school_class->class_name }},<br />
-                                            {{-- @isset($item->class_group)
-                                                @dd($item->class_group?->group_name)
-                                            @endisset --}}
                                             @php
                                                 if ($item->school_class_section !== null) {
                                                     echo $result = 'শাখা:' . $item->school_class_section->section_name;
@@ -1039,9 +1036,10 @@
     <script>
         function ApplicationCompleted() {
             console.log('clicked');
-            @this.openCEmodal = false;
-            Alpine.data('step', 1);
-            // this.step = 1;
+            Alpine.store('step', 1);
+            // Alpine.store('openCEmodal', false);
+            // @this.openCEmodal = false;
+            // Alpine.data('step', 1);
         }
 
         function checkImageDimensions(event) {
@@ -1052,11 +1050,13 @@
             image.src = URL.createObjectURL(file);
 
             image.onload = function() {
-                if (image.width !== 300 || image.height !== 300) {
-                    input.value = ""; // Clear the input field
+                if (image.width === 300 && image.height === 300) {
+                    console.log('Image size valid');
                     @this.dispatch('image-dimensions-valid');
                 } else {
-                    @this.dispatch('image-dimensions-ok');
+                    console.log('Invalid image size');
+                    input.value = ""; // Clear the input field
+                    @this.dispatch('image-dimensions-invalid');
                 }
             };
         }

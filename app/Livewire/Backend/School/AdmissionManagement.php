@@ -98,6 +98,12 @@ class AdmissionManagement extends Component
     #[On('image-dimensions-valid')]
     public function imageDimensionsValid()
     {
+        $this->checkImageDimension = true;
+    }
+
+    #[On('image-dimensions-invalid')]
+    public function imageDimensionsInvalid()
+    {
         $this->checkImageDimension = false;
     }
     #[On('image-dimensions-ok')]
@@ -330,7 +336,6 @@ class AdmissionManagement extends Component
             ->whereNotNull('admission_id')
             ->with(['class_group', 'school_class_section'])
             ->get();
-        // dd($applications);
         $divisions = Division::all();
         $GurdianOccupation = GurdianOccupation::all();
         $sc = StudentCategory::all();
