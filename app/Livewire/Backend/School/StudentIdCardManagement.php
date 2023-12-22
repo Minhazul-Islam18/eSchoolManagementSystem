@@ -41,11 +41,16 @@ class StudentIdCardManagement extends Component
     public function loadPdf()
     {
         // dd($this->card);
-        $pdf = Pdf::loadView('livewire.backend.school.id-card-preview', ['card' => $this->card, 'path' => 'http://127.0.0.1:8000']);
-        // return $pdf->download('invoice.pdf');
-        return response()->streamDownload(function () use ($pdf) {
-            echo $pdf->stream();
-        }, 'name.pdf');
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML("<h1>Hello world!</h1>");
+        $mpdf->Output();
+
+        // $pdf = Pdf::loadView('livewire.backend.school.id-card-preview', ['card' => $this->card, 'path' => 'http://127.0.0.1:8000']);
+        // // return $pdf->download('invoice.pdf');
+        // return response()->streamDownload(function () use ($pdf) {
+        //     echo $pdf->stream();
+        // }, 'name.pdf');
+
         // $pdf =  PDF::loadView('livewire.backend.school.id-card-preview', ['card' => $this->card]);
         // return $pdf->stream('document.pdf');
     }
@@ -90,8 +95,8 @@ class StudentIdCardManagement extends Component
             $this->student_id !== "" && isset($this->class_id) && (isset($this->section_id) || isset($this->group_id))
         ) {
             $this->card['class'] = $this->classes->firstWhere('id', $this->class_id);
-            $this->card['section'] = $this->sections->firstWhere('id', $this->section_id);
-            $this->card['group'] = $this->groups->firstWhere('id', $this->group_id);
+            $this->card['section'] = $this->sections ? $this->sections->firstWhere('id', $this->section_id) : null;
+            $this->card['group'] = $this->groups ? $this->groups->firstWhere('id', $this->group_id) : null;
             $this->card['student'] = $this->students->firstWhere('id', $this->student_id);
             $this->card['student']['division'] = Division::findOrFail($this->card['student']->division)->name;
             $this->card['student']['district'] = District::findOrFail($this->card['student']->zilla)->name;
@@ -105,9 +110,6 @@ class StudentIdCardManagement extends Component
     public function render()
     {
         $this->classes = school()->classes;
-        return view(
-            'livewire.backend.school.student-id-card-management',
-            // ['classes' => $classes]
-        );
+        return view('livewire.backend.school.student-id-card-management');
     }
 }

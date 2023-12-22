@@ -82,4 +82,9 @@ class SchoolFee extends Model
     {
         return $this->belongsToMany(Student::class);
     }
+
+    public function studentPayments()
+    {
+        return $this->hasMany(StudentPayment::class);
+    }
 }

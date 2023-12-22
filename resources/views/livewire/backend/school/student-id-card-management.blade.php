@@ -132,7 +132,7 @@
                 <div class="w-5/12 bg-gray-300 dark:bg-slate-800 py-5 px-3 rounded-md">
                     <h2 class="mb-2 pb-2 pt-1 text-2xl text-center border-b border-gray-400 dark:border-slate-900">
                         Preview</h2>
-                    <div class="rounded-md flex bg-cover py-5 px-3 bg-no-repeat back"
+                    <div class="rounded-md flex bg-cover py-5 px-3 bg-no-repeat bg-center"
                         style="background-image: url('{{ isset($photo) ? $photo->temporaryUrl() : 'https://img.freepik.com/free-photo/background_53876-32170.jpg?size=626&ext=jpg&ga=GA1.1.2116175301.1700870400&semt=ais' }}')"
                         id="profile-card" wire:loading.class="opacity-50" wire:target='setIDcard'>
                         <div class="w-1/3 flex flex-col items-center">

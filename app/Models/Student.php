@@ -49,7 +49,7 @@ class Student extends Model
      */
     public function fees(): BelongsToMany
     {
-        return $this->belongsToMany(SchoolFee::class);
+        return $this->belongsToMany(SchoolFee::class)->withPivot('due_amount');
     }
 
     /**
@@ -60,5 +60,10 @@ class Student extends Model
     public function class_group(): BelongsTo
     {
         return $this->belongsTo(classGroup::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(StudentPayment::class);
     }
 }
