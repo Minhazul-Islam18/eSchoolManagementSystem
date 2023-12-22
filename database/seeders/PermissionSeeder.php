@@ -614,5 +614,18 @@ class PermissionSeeder extends Seeder
             'name' => 'Delete result',
             'slug' => 'school.exam-results.destroy',
         ]);
+
+        //Attendance management
+        $exmrm = Module::updateOrCreate(['name' => 'Attendance management']);
+        Permission::updateOrCreate([
+            'module_id' => $exmrm->id,
+            'name' => 'Attendance management',
+            'slug' => 'school.attendance.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $exmrm->id,
+            'name' => 'Create result',
+            'slug' => 'school.attendance.create',
+        ]);
     }
 }

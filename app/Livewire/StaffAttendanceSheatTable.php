@@ -2,10 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\Student;
+use App\Models\SchoolStaff;
 use Illuminate\Support\Carbon;
-use App\Models\StudentAttendance;
-use WireUi\View\Components\Checkbox;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -20,7 +18,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
-final class AttendanceSheatTable extends PowerGridComponent
+final class StaffAttendanceSheatTable extends PowerGridComponent
 {
     use WithExport;
     public $data;
@@ -54,23 +52,22 @@ final class AttendanceSheatTable extends PowerGridComponent
         $this->dispatch('presentSelected', ['ids' => $this->checkboxValues]);
     }
 
-
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            Exportable::make('file')
+            Exportable::make('export')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput()->showToggleColumns(),
+            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
         ];
     }
 
-    public function datasource(): ?Collection
+    public function datasource(): Collection
     {
         return $this->data;
     }
@@ -80,12 +77,9 @@ final class AttendanceSheatTable extends PowerGridComponent
         return PowerGrid::columns()
             ->addColumn('id')
             ->addColumn('name')
-            ->addColumn('Image', function () {
-                return `<img src="" width="50px" />`;
-            })
-            ->addColumn('name_lower', fn (Student $model) => strtolower(e($model->name)))
+            ->addColumn('name_lower', fn (SchoolStaff $model) => strtolower(e($model->name)))
             ->addColumn('created_at')
-            ->addColumn('created_at_formatted', fn (Student $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (SchoolStaff $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     public function columns(): array
@@ -94,9 +88,8 @@ final class AttendanceSheatTable extends PowerGridComponent
             Column::make('ID', 'id')
                 ->searchable()
                 ->sortable(),
-            // Column::make('Image', 'student_image'),
 
-            Column::make('Name', 'name_bn')
+            Column::make('Name', 'name')
                 ->searchable()
                 ->sortable(),
 
@@ -124,22 +117,19 @@ final class AttendanceSheatTable extends PowerGridComponent
         $this->js('alert(' . $rowId . ')');
     }
 
-    public function actions(\App\Models\Student $row): array
-    {
-        return [
-            // Button::che
-            // Checkbox::resolve(['md', 'label'])
-            // $this->showCheckBox()
-            // Button::add('edit')
-            //     ->slot('Edit: ' . $row->id)
-            //     ->id()
-            //     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-            //     ->dispatch('edit', ['rowId' => $row->id])
-        ];
-    }
+    // public function actions(\App\Models\SchoolStaff $row): array
+    // {
+    // return [
+    //     Button::add('edit')
+    //         ->slot('Edit: ' . $row->id)
+    //         ->id()
+    //         ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+    //         ->dispatch('edit', ['rowId' => $row->id])
+    // ];
+    // }
 
     /*
-    public function actionRules(\App\Models\StudentAttendance $row): array
+    public function actionRules(\App\Models\SchoolStaff $row): array
     {
        return [
             // Hide button edit for ID 1
