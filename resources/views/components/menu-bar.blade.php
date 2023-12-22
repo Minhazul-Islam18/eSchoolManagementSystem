@@ -45,12 +45,6 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="{{ route('school.staffs') }}" class="menu-link ">
-                <i data-lucide="user-square"></i>
-                Staffs
-            </a>
-        </li>
-        <li class="menu-item">
             <a href="{{ route('school.all-fees') }}" class="menu-link ">
                 <i data-lucide="banknote"></i>
                 Fees
@@ -88,6 +82,12 @@
             </span>
 
             <ul class="sub-menu hidden">
+                <li class="menu-item">
+                    <a href="{{ route('school.staffs') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        Staffs
+                    </a>
+                </li>
                 <li class="menu-item">
                     <a href="{{ route('school.classes') }}" data-fc-type="collapse" class="menu-link"
                         data-fc-parent="child-accordion">
@@ -146,6 +146,27 @@
                     </a>
                 </li>
             </ul>
+        <li class="menu-item">
+            <span class="flex gap-1 mt-3">
+                <i data-lucide="calendar-days"></i>
+                Attendances
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
+            <ul class="sub-menu hidden">
+                <li class="menu-item">
+                    <a href="{{ route('school.staffs-attendance') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Staffs attendance') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.students-attendance') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Students attendance') }} </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
         </li>
     @endif
 </ul>
