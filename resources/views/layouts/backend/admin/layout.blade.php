@@ -82,6 +82,7 @@
 
     <!-- Dashboard App js -->
     {{-- <script src="{{ asset('backend/assets/js/pages/dashboard.init.js') }}"></script> --}}
+    @livewire('livewire-ui-modal')
     @livewireScripts
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

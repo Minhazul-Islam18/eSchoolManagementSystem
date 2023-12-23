@@ -44,11 +44,31 @@
                 Dashboard
             </a>
         </li>
+        {{-- <li class="menu-item">
+            <a href="{{ route('') }}" class="menu-link ">
+
+            </a>
+        </li> --}}
         <li class="menu-item">
-            <a href="{{ route('school.all-fees') }}" class="menu-link ">
+            <span class="flex gap-1 mt-3">
                 <i data-lucide="banknote"></i>
                 Fees
-            </a>
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
+            <ul class="sub-menu hidden">
+                <li class="menu-item">
+                    <a href="{{ route('school.all-fees') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('All fees') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.fee-categories') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Categories') }} </span>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li class="menu-item">
             <a class="menu-link " href="{{ route('school.admissions') }}" class="menu-link ">
@@ -146,6 +166,7 @@
                     </a>
                 </li>
             </ul>
+        </li>
         <li class="menu-item">
             <span class="flex gap-1 mt-3">
                 <i data-lucide="calendar-days"></i>

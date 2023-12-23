@@ -88,4 +88,9 @@ class classGroup extends Model
     {
         return $this->hasMany(Grade::class, 'group_id');
     }
+
+    public function fees()
+    {
+        return $this->hasMany(SchoolFee::class);
+    }
 }

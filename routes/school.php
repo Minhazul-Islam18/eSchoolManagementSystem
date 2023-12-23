@@ -16,6 +16,7 @@ use App\Livewire\Backend\School\ClassSectionManagement;
 use App\Livewire\Backend\School\ClassSectionSubjectManagement;
 use App\Livewire\Backend\School\ClassSyllabusManagement;
 use App\Livewire\Backend\School\FeeCategoryManagement;
+use App\Livewire\Backend\School\FeeCollectionManagement;
 use App\Livewire\Backend\School\GradingManagement;
 use App\Livewire\Backend\School\GradingRuleManagement;
 use App\Livewire\Backend\School\NoticeEdit;
@@ -40,6 +41,7 @@ Route::middleware(['checkRole:school,demo_school', 'checkSubscription'])->group(
     Route::get('/notice/{slug}', NoticeEdit::class)->name('notice.slug');
     Route::get('/fee-categories', FeeCategoryManagement::class)->name('fee-categories');
     Route::get('/all-fees', ExamFeeManagement::class)->name('all-fees');
+    Route::get('/fee-collection', FeeCollectionManagement::class)->name('fee-collection');
     Route::get('/exam-results', ExamResultManagement::class)->name('exam-results');
     Route::get('/admissions', AdmissionManagement::class)->name('admissions');
     Route::get('/grading', GradingManagement::class)->name('grading');

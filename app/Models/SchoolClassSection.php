@@ -101,4 +101,9 @@ class SchoolClassSection extends Model
     {
         return Grade::where('school_class_section_id', $section_id)->first();
     }
+
+    public function fees()
+    {
+        return $this->hasMany(SchoolFee::class);
+    }
 }

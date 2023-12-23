@@ -10,6 +10,7 @@ use App\Models\SchoolClass;
 use Livewire\Attributes\Title;
 use App\Models\SchoolFeeCategory;
 use App\Models\SchoolClassSection;
+use Illuminate\Support\Facades\DB;
 use App\Rules\CheckUniqueAsClassID;
 use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -72,14 +73,32 @@ class ExamFeeManagement extends Component
             'category_id' => 'required',
             'fee_name' => 'required|min:1|max:50'
         ]);
-        school()->fees()->create([
-            'school_class_id' => $this->class_id,
-            'school_class_section_id' => $this->section_id,
-            'school_fee_category_id' => $this->category_id,
-            'group_id' => $this->group_id,
-            'fee_name' => $this->fee_name,
-            'amount' => $this->amount,
-        ]);
+        DB::transaction(function () {
+            $fee = school()->fees()->create([
+                'school_class_id' => $this->class_id,
+                'school_class_section_id' => $this->section_id,
+                'school_fee_category_id' => $this->category_id,
+                'group_id' => $this->group_id,
+                'fee_name' => $this->fee_name,
+                'amount' => $this->amount,
+            ]);
+            // Calculate due amounts for each student in the class, section, or group
+            $studentsQuery = school()->students()->where('school_class_id', $this->class_id);
+
+            if ($this->section_id) {
+                $studentsQuery->where('school_class_section_id', $this->section_id);
+            } elseif ($this->group_id) {
+                $studentsQuery->where('class_group_id', $this->group_id);
+            }
+
+            $students = $studentsQuery->get();
+
+
+            foreach ($students as $student) {
+                // Store the due amount for the student
+                $student->fees()->attach($fee->id, ['due_amount' => $this->amount]);
+            }
+        });
         $this->dispatch('closeModal');
         $this->resetFields();
         $this->alert('success', 'Exam fee created.');
