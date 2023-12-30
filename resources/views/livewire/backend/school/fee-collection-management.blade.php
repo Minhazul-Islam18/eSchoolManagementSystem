@@ -195,11 +195,13 @@
                 @endif
             </div>
         </div>
+
+        <!-- Modal --->
         <x-modal name="edit-modal" blur>
 
             <x-card title="Edit">
                 <form wire:submit='updateFeeStatus()' class=" flex py-2 gap-y-3 flex-col">
-
+                    <x-errors title="We found {errors} validation error(s)" />
                     <x-input label="Name" placeholder="Enter amount" corner-hint="Ex: 250"
                         wire:model.blur='amount' />
 

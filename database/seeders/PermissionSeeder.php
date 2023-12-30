@@ -627,5 +627,18 @@ class PermissionSeeder extends Seeder
             'name' => 'Create result',
             'slug' => 'school.attendance.create',
         ]);
+
+        //Fee collection management
+        $fcm = Module::updateOrCreate(['name' => 'Fee collection management']);
+        Permission::updateOrCreate([
+            'module_id' => $fcm->id,
+            'name' => 'Fee collection management',
+            'slug' => 'school.fee-collection.index',
+        ]);
+        Permission::updateOrCreate([
+            'module_id' => $fcm->id,
+            'name' => 'Save fee data',
+            'slug' => 'school.fee-collection.update',
+        ]);
     }
 }

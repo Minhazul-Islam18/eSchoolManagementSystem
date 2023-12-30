@@ -137,6 +137,7 @@ class FeeCollectionManagement extends Component
 
     public function updateFeeStatus()
     {
+        Gate::authorize('school.fee-collection.update');
         $this->validate([
             'amount' => 'integer|nullable',
             'status' => 'required|in:Paid,Unpaid'
@@ -152,7 +153,7 @@ class FeeCollectionManagement extends Component
     }
     public function mount()
     {
-        // Gate::authorize('school.fee-collection.index');
+        Gate::authorize('school.fee-collection.index');
     }
     public function render()
     {
