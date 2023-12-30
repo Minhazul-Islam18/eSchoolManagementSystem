@@ -62,12 +62,11 @@ jobs:
       - name: Install Composer dependencies
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
-          rm composer.lock
           composer install
 
-      - name: Install openspout/openspout
+      - name: Install openspout/openspout 4.20
         if: matrix.php == '8.2'
-        run: composer require openspout/openspout
+        run: composer require openspout/openspout 4.20
 
       - name: Cypress
         run: |
@@ -76,6 +75,7 @@ jobs:
           cd tests/cypress &&
           cp stubs/CypressTable.php app/app/Livewire/CypressTable.php &&
           cp stubs/rules-controllers.blade.php app/resources/views/components/header/rules-controllers.blade.php
+          cp stubs/filters-controllers.blade.php app/resources/views/components/header/filters-controllers.blade.php
           cd ./../../
           chmod +x ./tests/cypress/run.sh
           ./tests/cypress/run.sh

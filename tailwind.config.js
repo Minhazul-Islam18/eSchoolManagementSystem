@@ -18,15 +18,11 @@ export default {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./node_modules/tw-elements/dist/js/**/*.js",
-        "./vendor/wireui/wireui/src/*.php",
+        "./vendor/wireui/wireui/resources/**/*.blade.php",
 
         "./vendor/wireui/wireui/ts/**/*.ts",
 
         "./vendor/wireui/wireui/src/View/**/*.php",
-
-        "./vendor/wireui/wireui/src/WireUi/**/*.php",
-
-        "./vendor/wireui/wireui/src/resources/**/*.blade.php",
     ],
 
     theme: {
@@ -50,7 +46,9 @@ export default {
             },
         },
     },
-
+    corePlugins: {
+        aspectRatio: false,
+    },
     plugins: [
         require("@tailwindcss/forms")({
             strategy: "class",
@@ -59,5 +57,6 @@ export default {
         typography,
         require("flowbite/plugin"),
         require("tw-elements/dist/plugin.cjs"),
+        require("@tailwindcss/aspect-ratio"),
     ],
 };

@@ -72,7 +72,7 @@
                     <div class="">
                         <label for="fee_id" class="form-label">Fees</label>
                         <select wire:model.blur='fee_id' class="form-select rounded"
-                            wire:loading.class='opacity-50 blur-sm' wire:target='getSection' id="fee_id">
+                            wire:loading.class='opacity-50 blur-sm' wire:target='getFees' id="fee_id">
                             <option value="">Select fee</option>
                             @forelse ($fees as $item)
                                 <option value="{{ $item->id }}"
@@ -89,13 +89,13 @@
                     </div>
 
 
-                    <button type="submit"
-                        class="px-12 py-2 bg-emerald-500/90 hover:bg-emerald-500 rounded-full">Search</button>
+                    <button type="submit" class="px-12 py-2 bg-emerald-500/90 hover:bg-emerald-500 rounded-full"
+                        wire:click="$refresh">Search</button>
                 </form>
             </div>
 
             <div class="my-4 relative h-[250px] flex items-center justify-center transition-all duration-200 ease-in-out"
-                wire:loading wire:target='getAttendanceSheet'>
+                wire:loading wire:target='getCollectionSheet'>
                 <div class="loader">
                     <div class="cell d-0"></div>
                     <div class="cell d-1"></div>
@@ -117,15 +117,103 @@
             </div>
             <div class=" border-dashed border-4 rounded-lg py-8 px-4 mt-4 border-orange-400">
                 @if ($attendanceSheat == true)
-                    <livewire:fee-collection-sheat-table :data="$students" />
+                    <div class="container mx-auto px-4 sm:px-8">
+                        <div class="py-8">
+                            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                                <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+                                    <table class="min-w-full leading-normal">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                                    ID <sub>[Student ID]</sub>
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                                    Details
+                                                </th>
+                                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100">Status</th>
+                                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($students as $item)
+                                                {{-- @dd($item) --}}
+                                                <tr>
+                                                    <td>
+                                                        {{ $item->id }}
+                                                        <sub>{{ $item->student_id }}</sub>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex">
+                                                            <div class="flex-shrink-0 w-10 h-10">
+                                                                <img class="w-full h-full rounded-full"
+                                                                    src="/storage/{{ $item->student_image }}"
+                                                                    alt="" />
+                                                            </div>
+                                                            <div class="ml-3">
+                                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                                    Name: {{ __($item->name_bn) }}
+                                                                </p>
+                                                                <p class="text-gray-600 whitespace-no-wrap">Roll:
+                                                                    {{ __($item->roll) }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class=" text-center">
+                                                        @foreach ($item->fees as $fee)
+                                                            @if ($fee->pivot->status == 'Unpaid')
+                                                                <span
+                                                                    class="px-2 py-1 rounded bg-green-400/40 text-black">{{ __('Unpaid') }}</span>
+                                                            @else
+                                                                <span
+                                                                    class="px-2 py-1 rounded bg-red-400/40 text-black">{{ __('Paid') }}</span>
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    <td
+                                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                                                        <x-button label="Edit"
+                                                            wire:click="$set('student_id', {{ $item->id }})"
+                                                            x-on:click="$openModal('edit-modal')" primary />
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="4" class="px-5 py-5 text-sm text-center">
+                                                        {{ __('No students found') }}</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @else
                     <h5 class=" text-orange-400 text-xl font-extrabold">{{ 'Please select dropdown steps!' }}</h5>
                 @endif
             </div>
-
         </div>
+        <x-modal name="edit-modal" blur>
+
+            <x-card title="Edit">
+                <form wire:submit='updateFeeStatus()' class=" flex py-2 gap-y-3 flex-col">
+
+                    <x-input label="Name" placeholder="Enter amount" corner-hint="Ex: 250"
+                        wire:model.blur='amount' />
+
+                    <x-select label="Select Status" placeholder="Select status" :options="['Paid', 'Unpaid']"
+                        wire:model.defer="status" />
+                    <x-button positive label="Save" type="submit" />
+                </form>
+            </x-card>
+
+        </x-modal>
     </main>
+
 </div>
+
 @push('page-style')
     <style>
         .loader {
@@ -229,6 +317,11 @@
                 // Livewire.dispatch('present-getting-ids', {
                 //     ids: event[0].ids
                 // })
+            });
+
+            Livewire.on('close-modal', event => {
+                // Alpine.store('showModal', false);
+                $wireui.closeModal('edit-modal');
             });
         });
     </script>

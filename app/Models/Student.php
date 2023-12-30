@@ -49,7 +49,7 @@ class Student extends Model
      */
     public function fees(): BelongsToMany
     {
-        return $this->belongsToMany(SchoolFee::class)->withPivot('due_amount');
+        return $this->belongsToMany(SchoolFee::class)->withPivot(['due_amount', 'status']);
     }
 
     /**

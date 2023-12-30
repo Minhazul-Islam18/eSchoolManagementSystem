@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Student;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\On;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Footer;
@@ -22,26 +23,27 @@ final class FeeCollectionSheatTable extends PowerGridComponent
     public $data;
     public function datasource(): ?Collection
     {
+        // dd($this->data);
         return $this->data;
     }
-    protected function getListeners()
-    {
-        return array_merge(
-            parent::getListeners(),
-            [
-                // 'tyup',
-            ]
-        );
-    }
-    public function header(): array
-    {
-        return [
-            // Button::add('bulk-present')
-            //     ->slot(__('Present all'))
-            //     ->class('cursor-pointer block bg-indigo-500 text-white px-3 py-1 rounded-md')
-            //     ->dispatch('bulkPresentEvent', [])
-        ];
-    }
+    // protected function getListeners()
+    // {
+    //     return array_merge(
+    //         parent::getListeners(),
+    //         [
+    //             // 'pg:eventRefresh-' .  $this->tableName  => '$refresh',
+    //         ]
+    //     );
+    // }
+    // public function header(): array
+    // {
+    //     return [
+    //         // Button::add('bulk-present')
+    //         //     ->slot(__('Present all'))
+    //         //     ->class('cursor-pointer block bg-indigo-500 text-white px-3 py-1 rounded-md')
+    //         //     ->dispatch('bulkPresentEvent', [])
+    //     ];
+    // }
 
     // public function bulkPresentEvent(): void
     // {
@@ -53,7 +55,11 @@ final class FeeCollectionSheatTable extends PowerGridComponent
 
     //     $this->dispatch('presentSelected', ['ids' => $this->checkboxValues]);
     // }
-
+    // #[On('reload-table')]
+    // public function reloadTable()
+    // {
+    //     $this->fillData();
+    // }
 
     public function setUp(): array
     {
@@ -98,16 +104,16 @@ final class FeeCollectionSheatTable extends PowerGridComponent
         ];
     }
 
-    public function actions(Student $row): array
-    {
-        return [
-            Button::add('edit-fee')
-                ->slot('Edit')
-                ->class('bg-indigo-500 text-white')
-                // ->dispatch('student', ['id' => $row])
-                ->openModal('student-fee-collection-modal', ['student' => $row->fees])
-                ->tooltip('Edit Record'),
+    // public function actions(Student $row): array
+    // {
+    //     return [
+    //         Button::add('edit-fee')
+    //             ->slot('Edit')
+    //             ->class('bg-indigo-500 text-white px-4 py-2 rounded')
+    //             ->dispatch('student', ['id' => $row])
+    //             ->openModal('student-fee-collection-modal', ['fees' => $row->fees])
+    //             ->tooltip('Edit Record'),
 
-        ];
-    }
+    //     ];
+    // }
 }

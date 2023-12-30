@@ -7,10 +7,10 @@ use LivewireUI\Modal\ModalComponent;
 
 class StudentFeeCollectionModal extends ModalComponent
 {
-    public $student;
-    public function mount($student)
+    public $fees;
+    public function mount($fees)
     {
-        dd($student);
+        $this->fees = $fees;
     }
     public function render()
     {

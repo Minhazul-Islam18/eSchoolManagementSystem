@@ -91,6 +91,6 @@ class classGroup extends Model
 
     public function fees()
     {
-        return $this->hasMany(SchoolFee::class);
+        return $this->hasMany(SchoolFee::class, 'group_id');
     }
 }

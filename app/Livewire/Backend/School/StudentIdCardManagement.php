@@ -41,17 +41,18 @@ class StudentIdCardManagement extends Component
     public function loadPdf()
     {
         // dd($this->card);
-        $mpdf = new \Mpdf\Mpdf();
-        $mpdf->WriteHTML("<h1>Hello world!</h1>");
-        $mpdf->Output();
+        ini_set('max_execution_time', 300); // Set the maximum execution time to 300 seconds (adjust as needed)
 
-        // $pdf = Pdf::loadView('livewire.backend.school.id-card-preview', ['card' => $this->card, 'path' => 'http://127.0.0.1:8000']);
-        // // return $pdf->download('invoice.pdf');
-        // return response()->streamDownload(function () use ($pdf) {
-        //     echo $pdf->stream();
-        // }, 'name.pdf');
+        $pdf = Pdf::loadView(
+            'livewire.backend.school.id-card-preview',
+            ['card' => $this->card, 'path' => 'http://127.0.0.1:8000']
+        );
 
-        // $pdf =  PDF::loadView('livewire.backend.school.id-card-preview', ['card' => $this->card]);
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'name.pdf');
+
+        // $pdf =  PDF::loadView('livewire.back''end.school.id-card-preview', ['card' => $this->card]);
         // return $pdf->stream('document.pdf');
     }
     public function getSection()

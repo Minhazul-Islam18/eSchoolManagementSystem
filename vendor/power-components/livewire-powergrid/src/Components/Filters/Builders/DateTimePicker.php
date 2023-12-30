@@ -10,10 +10,14 @@ class DateTimePicker extends BuilderBase
 {
     public function builder(EloquentBuilder|QueryBuilder $builder, string $field, int|array|string|null $values): void
     {
+        if (gettype($values) !== 'array') {
+            return;
+        }
+
         /** @var array $values */
         [$startDate, $endDate] = [
-            0 => Carbon::parse($values[0]),
-            1 => Carbon::parse($values[1]),
+            0 => Carbon::parse($values['start']),
+            1 => Carbon::parse($values['end']),
         ];
 
         if (data_get($this->filterBase, 'builder')) {
@@ -32,8 +36,8 @@ class DateTimePicker extends BuilderBase
     {
         /** @var array $values */
         [$startDate, $endDate] = [
-            0 => Carbon::parse($values[0]),
-            1 => Carbon::parse($values[1]),
+            0 => Carbon::parse($values['start']),
+            1 => Carbon::parse($values['end']),
         ];
 
         if (data_get($this->filterBase, 'collection')) {

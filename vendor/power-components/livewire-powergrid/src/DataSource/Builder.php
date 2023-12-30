@@ -43,89 +43,86 @@ class Builder
             return $this->query;
         }
 
-        foreach ($this->powerGridComponent->filters as $filterType => $column) {
-            $this->query->where(function ($query) use ($filterType, $column, $filters) {
-                $filter = function ($query, $filters, $filterType, $field, $value) {
-                    $filter = $filters->filter(function ($filter) use ($field) {
-                        return data_get($filter, 'field') === $field;
-                    })
-                        ->first();
+        foreach ($this->powerGridComponent->filters as $filterType => $columns) {
+            $columns = Arr::dot($columns);
 
-                    match ($filterType) {
-                        'datetime'     => (new DateTimePicker($filter))->builder($query, $field, $value),
-                        'date'         => (new DatePicker($filter))->builder($query, $field, $value),
-                        'multi_select' => (new MultiSelect($filter))->builder($query, $field, $value),
-                        'select'       => (new Select($filter))->builder($query, $field, $value),
-                        'boolean'      => (new Boolean($filter))->builder($query, $field, $value),
-                        'number'       => (new Number($filter))->builder($query, $field, $value),
-                        'input_text'   => (new InputText($filter))->builder($query, $field, [
-                            'selected'     => $this->validateInputTextOptions($this->powerGridComponent->filters, $field),
-                            'value'        => $value,
-                            'searchMorphs' => $this->powerGridComponent->searchMorphs,
-                        ]),
-                        default => null
-                    };
-                };
+            // convert array:2 [
+            //    "dishes.produced_at.start" => "2021-03-03",
+            //    "dishes.produced_at.end" => "2021-03-01"
+            //] to
+            // array:2 [
+            //    "dishes.produced_at" => ["start" => "2021-03-03"],
+            //    "dishes.produced_at.end" => ["start" => "2021-03-01"]
+            //] and
+            // convert array:2 [
+            //    "dishes.produced_at.0" => "2021-03-03",
+            //    "dishes.produced_at.1" => "2021-03-01"
+            //] to
+            // array:2 [
+            //    "dishes.produced_at" => [0 => "2021-03-03"],
+            //    "dishes.produced_at" => [1 => "2021-03-01"]
+            //]
 
-                if (
-                    isset($column[key($column)]) &&
-                    is_array($column[key($column)]) &&
-                    is_string(key($column[key($column)])) &&
-                    count($column[key($column)]) === 1
-                ) {
-                    if (count($column) > 1) {
-                        foreach ($column as $tableName => $columnValue) {
-                            $field = key(Arr::dot($columnValue));
+            $newColumns = [];
 
-                            $value = Arr::dot($columnValue)[$field];
+            foreach ($columns as $key => $value) {
+                $parts    = explode('.', $key);
+                $lastPart = end($parts);
 
-                            $filter($query, $filters, $filterType, $tableName . '.' . $field, $value);
-                        }
-                    } else {
-                        $field = key(static::arrayToDot($column));
+                if (is_numeric($lastPart) && intval($lastPart) == $lastPart) {
+                    array_pop($parts);
+                    $prefix = implode('.', $parts);
 
-                        $value = static::arrayToDot($column)[$field];
-
-                        $filter($query, $filters, $filterType, $field, $value);
+                    if (!isset($newColumns[$prefix])) {
+                        $newColumns[$prefix] = [];
                     }
+
+                    $index = intval($lastPart);
+
+                    $newColumns[$prefix][$index] = $value;
+                } elseif ($lastPart === 'start' || $lastPart === 'end') {
+                    $prefix = implode('.', array_slice($parts, 0, -1));
+
+                    if (!isset($newColumns[$prefix])) {
+                        $newColumns[$prefix] = [];
+                    }
+
+                    $newColumns[$prefix][$lastPart] = $value;
                 } else {
-                    foreach ($column as $field => $value) {
-                        if (is_array($value) && $filterType === 'input_text') {
-                            foreach ($value as $arrayField => $arrayValue) {
-                                $filter($query, $filters, $filterType, $field . '.' . $arrayField, $arrayValue);
-                            }
-                        } else {
-                            $filter($query, $filters, $filterType, $field, $value);
-                        }
-                    }
+                    $newColumns[$key] = $value;
                 }
-            });
+            }
+
+            foreach ($newColumns as $field => $value) {
+                $this->query->where(function ($query) use ($filterType, $field, $value, $filters) {
+                    $filter = function ($query, $filters, $filterType, $field, $value) {
+                        $filter = $filters->filter(function ($filter) use ($field) {
+                            return data_get($filter, 'field') === $field;
+                        })
+                            ->first();
+
+                        match ($filterType) {
+                            'datetime'     => (new DateTimePicker($this->powerGridComponent, $filter))->builder($query, $field, $value),
+                            'date'         => (new DatePicker($this->powerGridComponent, $filter))->builder($query, $field, $value),
+                            'multi_select' => (new MultiSelect($this->powerGridComponent, $filter))->builder($query, $field, $value),
+                            'select'       => (new Select($this->powerGridComponent, $filter))->builder($query, $field, $value),
+                            'boolean'      => (new Boolean($this->powerGridComponent, $filter))->builder($query, $field, $value),
+                            'number'       => (new Number($this->powerGridComponent, $filter))->builder($query, $field, $value),
+                            'input_text'   => (new InputText($this->powerGridComponent, $filter))->builder($query, $field, [
+                                'selected'     => $this->validateInputTextOptions($this->powerGridComponent->filters, $field),
+                                'value'        => $value,
+                                'searchMorphs' => $this->powerGridComponent->searchMorphs,
+                            ]),
+                            default => null
+                        };
+                    };
+
+                    $filter($query, $filters, $filterType, $field, $value);
+                });
+            }
         }
 
         return $this->query;
-    }
-
-    public static function arrayToDot(array $array, string $prepend = ''): array
-    {
-        $results = [];
-
-        foreach ($array as $key => $value) {
-            if (is_array($value) && !empty($value)) {
-                if (is_numeric(array_key_first($value))) {
-                    $results[$prepend . $key] = $value;
-
-                    break;
-                }
-
-                $results = array_merge($results, static::arrayToDot($value, $prepend . $key . '.'));
-
-                continue;
-            }
-
-            $results[$prepend . $key] = $value;
-        }
-
-        return $results;
     }
 
     public function filterContains(): Builder

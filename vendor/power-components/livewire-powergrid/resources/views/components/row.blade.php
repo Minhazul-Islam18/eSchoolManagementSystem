@@ -25,7 +25,7 @@
     'attribute' => $row->{$checkboxAttribute},
 ])
 
-@foreach ($columns as $column)
+@foreach ($this->visibleColumns as $column)
     @php
         $content = $row->{$column->field} ?? null;
         $contentClassField = $column->contentClassField != '' ? $row->{$column->contentClassField} : '';
@@ -43,12 +43,10 @@
         style="{{ $column->hidden === true ? 'display:none' : '' }}; {{ $theme->table->tdBodyStyle . ' ' . $column->bodyStyle ?? '' }}"
         wire:key="row-{{ $column->field }}"
     >
-        <div class="flex gap-2 w-full">
-            <!-- Render Action -->
-
+        <div class="pg-actions">
             @if (filled(data_get($row, 'actions')) && $column->isAction)
                 @foreach (data_get($row, 'actions') as $key => $action)
-                    <div wire:key="action-{{ $row->id }}-{{ $key }}">
+                    <div wire:key="action-{{ data_get($row, $primaryKey) }}-{{ $key }}">
                         {!! $action !!}
                     </div>
                 @endforeach

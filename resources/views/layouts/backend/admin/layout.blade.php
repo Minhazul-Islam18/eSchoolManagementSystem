@@ -9,6 +9,7 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="/storage/{{ setting('favicon') }}" />
 
+    {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script> --}}
     <!-- App css -->
     <link href="{{ asset('backend/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
 
@@ -19,6 +20,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Theme Config Js -->
     <script src="{{ asset('backend/assets/js/config.js') }}"></script>
+    <wireui:scripts />
     @vite('resources/css/app.css')
     <style>
         .ck.ck-editor {
@@ -28,7 +30,6 @@
     </style>
     @livewireStyles
     @stack('page-style')
-    <wireui:scripts />
 </head>
 
 <body>

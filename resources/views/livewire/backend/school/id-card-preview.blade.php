@@ -6,9 +6,9 @@
         <div class="print:w-1/3 w-1/3 print:flex flex print:flex-col flex-col print:items-center items-center">
             <img class=" print:rounded-full print:mb-2 rounded-full mb-2" src="{{ 'https://placehold.co/80x80/png' }}"
                 alt="">
-            {{-- <img class="print:relative print:block print:px-3 relative block px-3"
+            <img class="print:relative print:block print:px-3 relative block px-3"
                 src="{{ isset($card['student']->student_image) ? $path . '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
-                alt=""> --}}
+                alt="">
         </div>
         <div class="print:w-2/3 w-2/3">
             <h2

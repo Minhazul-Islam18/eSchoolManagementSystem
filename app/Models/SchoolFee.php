@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -86,5 +87,15 @@ class SchoolFee extends Model
     public function studentPayments()
     {
         return $this->hasMany(StudentPayment::class);
+    }
+
+    /**
+     * Get all of the fees for the SchoolFee
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function fees(): HasMany
+    {
+        return $this->hasMany(SchoolFee::class);
     }
 }

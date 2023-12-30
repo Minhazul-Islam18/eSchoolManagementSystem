@@ -3,8 +3,11 @@
 namespace PowerComponents\LivewirePowerGrid\Traits;
 
 use DateTimeZone;
-use Illuminate\Support\{Carbon};
+use Illuminate\Support\Carbon;
 use Livewire\Attributes\On;
+
+use function Livewire\store;
+
 use PowerComponents\LivewirePowerGrid\Column;
 
 trait HasFilter
@@ -21,7 +24,7 @@ trait HasFilter
             list($table, $column) = explode('.', $field);
 
             if (isset($this->filters['multi_select'][$table][$column])) {
-                $this->dispatch('pg:clear_multi_select::' . $this->tableName);
+                $this->dispatch('pg:clear_multi_select::' . $this->tableName . ':' . $field);
             }
 
             if (isset($this->filters['datetime'][$table][$column]) || isset($this->filters['date'][$table][$column])) {
@@ -85,7 +88,7 @@ trait HasFilter
             }
         } else {
             if (isset($this->filters['multi_select'][$field])) {
-                $this->dispatch('pg:clear_multi_select::' . $this->tableName);
+                $this->dispatch('pg:clear_multi_select::' . $this->tableName . ':' . $field);
             }
 
             if (isset($this->filters['datetime'][$field]) || isset($this->filters['date'][$field])) {
@@ -120,11 +123,16 @@ trait HasFilter
         $this->persistState('filters');
 
         $this->dispatch('pg:clear_all_flatpickr::' . $this->tableName);
+        $this->dispatch('pg:clear_all_multi_select::' . $this->tableName);
     }
 
     private function resolveFilters(): void
     {
         $filters = collect($this->filters());
+
+        if ($filters->isEmpty()) {
+            return;
+        }
 
         /** @var Column $column */
         foreach ($this->columns as $column) {
@@ -193,7 +201,7 @@ trait HasFilter
     public function datePickerChanged(
         array $selectedDates,
         string $field,
-        string $wireModel,
+        string $dateStr,
         string $label,
         string $type,
         string $timezone = 'UTC',
@@ -203,8 +211,6 @@ trait HasFilter
         }
 
         $this->resetPage();
-
-        $input = explode('.', $wireModel);
 
         $startDate = strval($selectedDates[0]);
         $endDate   = strval($selectedDates[1]);
@@ -224,30 +230,15 @@ trait HasFilter
             $endDate->endOfDay()->setTimeZone($appTimeZone);
         }
 
-        $selectedDates[0] = $startDate;
-        $selectedDates[1] = $endDate;
-
         $this->enabledFilters[$field]['data-field'] = $field;
         $this->enabledFilters[$field]['label']      = $label;
 
-        if (count($input) === 3) {
-            $this->filters[$type][$input[2]] = $selectedDates;
-            $this->persistState('filters');
+        $this->filters[$type][$field]['start'] = $startDate;
+        $this->filters[$type][$field]['end']   = $endDate;
 
-            return;
-        }
+        $this->filters[$type][$field]['formatted'] = $dateStr;
 
-        if (count($input) === 4) {
-            $this->filters[$type][$input[2] . '.' . $input[3]] = $selectedDates;
-            $this->persistState('filters');
-
-            return;
-        }
-
-        if (count($input) === 5) {
-            $this->filters[$type][$input[2] . '.' . $input[3] . '.' . $input[4]] = $selectedDates;
-            $this->persistState('filters');
-        }
+        $this->persistState('filters');
     }
 
     #[On('pg:multiSelect-{tableName}')]
@@ -290,17 +281,14 @@ trait HasFilter
         $this->persistState('filters');
     }
 
-    public function filterNumberStart(array $params, string $value): void
+    public function filterNumberStart(string $field, array $params, string $value): void
     {
         extract($params);
 
         $this->resetPage();
 
-        $value = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
-
-        $this->filters['number'][$field]['start']     = $value;
-        $this->filters['number'][$field]['thousands'] = $thousands;
-        $this->filters['number'][$field]['decimal']   = $decimal;
+        store($this)->set('filters.number.' . $field . '.thousands', $thousands);
+        store($this)->set('filters.number.' . $field . '.decimal', $decimal);
 
         $this->enabledFilters[$field]['id']    = $field;
         $this->enabledFilters[$field]['label'] = $title;
@@ -314,17 +302,14 @@ trait HasFilter
         $this->persistState('filters');
     }
 
-    public function filterNumberEnd(array $params, string $value): void
+    public function filterNumberEnd(string $field, array $params, string $value): void
     {
         extract($params);
 
         $this->resetPage();
 
-        $value = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
-
-        $this->filters['number'][$field]['end']       = $value;
-        $this->filters['number'][$field]['thousands'] = $thousands;
-        $this->filters['number'][$field]['decimal']   = $decimal;
+        store($this)->set('filters.number.' . $field . '.thousands', $thousands);
+        store($this)->set('filters.number.' . $field . '.decimal', $decimal);
 
         $this->enabledFilters[$field]['id']    = $field;
         $this->enabledFilters[$field]['label'] = $title;
@@ -341,22 +326,6 @@ trait HasFilter
     public function filterBoolean(string $field, string $value, string $label): void
     {
         $this->resetPage();
-
-        $setFilter = true;
-
-        // If the field is an attribute of a table (tablename.attribute) check if the filter is already set.
-        // after the setting of the field with the table name it throws an error while getting the collection
-        if (str_contains($field, '.')) {
-            list($tableName, $attribute) = explode('.', $field, 2);
-
-            if (isset($this->filters['boolean'][$tableName][$attribute])) {
-                $setFilter = false;
-            }
-        }
-
-        if ($setFilter) {
-            $this->filters['boolean'][$field] = $value;
-        }
 
         $this->enabledFilters[$field]['id']    = $field;
         $this->enabledFilters[$field]['label'] = $label;
