@@ -27,8 +27,8 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'role' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
-            'trx_id' => ['required', 'max:255'],
-            'msisdn' => ['required', 'max:255'],
+            // 'trx_id' => ['required', 'max:255'],
+            // 'msisdn' => ['required', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
@@ -54,24 +54,27 @@ class CreateNewUser implements CreatesNewUsers
             ]);
         }
 
-        //Check this newly registerd user has any purchased transection
-        $e = BkashTransection::where('customer_msisdn', $input['msisdn'])
-            ->where('trx_id', $input['trx_id'])
-            ->where('is_used', false)
-            ->firstOrFail();
+        if ($input['trx_id'] !== null && $input['msisdn'] !== null) {
+            //Check this newly registerd user has any purchased transection
+            $e = BkashTransection::where('customer_msisdn', $input['msisdn'])
+                ->where('trx_id', $input['trx_id'])
+                ->where('is_used', false)
+                ->firstOrFail();
 
-        if ($e !== null) {
-            // Add package to user
-            $user->update([
-                'package_id' => $e->id,
-                'status' => true,
-            ]);
+            if ($e !== null) {
+                // Add package to user
+                $user->update([
+                    'package_id' => $e->id,
+                    'status' => true,
+                ]);
 
-            // Also expired transection
-            $e->update([
-                'is_used' => true,
-            ]);
+                // Also expired transection
+                $e->update([
+                    'is_used' => true,
+                ]);
+            }
         }
+
 
         return $user;
     }
