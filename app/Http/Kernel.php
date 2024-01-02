@@ -37,7 +37,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\AuthGate::class,
-            \App\Http\Middleware\CheckActivatedSchool::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
         ],
 
@@ -70,5 +69,6 @@ class Kernel extends HttpKernel
         'role.redirect' => \App\Http\Middleware\RoleBasedRedirection::class,
         'checkRole' => \App\Http\Middleware\CheckRole::class,
         'checkSubscription' => \App\Http\Middleware\CheckSubscription::class,
+        'checkActivatedSchool' => \App\Http\Middleware\CheckActivatedSchool::class,
     ];
 }

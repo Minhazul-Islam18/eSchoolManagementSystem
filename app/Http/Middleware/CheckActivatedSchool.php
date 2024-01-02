@@ -16,9 +16,12 @@ class CheckActivatedSchool
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user() != null &&  auth()->user()->status === 0) {
-            throw new Exception("Your Account isn\'t activated or approved by authority!", 1);
+        if (auth()->user() != null &&  auth()->user()->status !== 0) {
+            throw new Exception("Your Account isn't activated or approved by authority!", 1);
+            return $next($request);
+
+            // return to_route('account-status');
         }
-        return $next($request);
+        return redirect()->route('account-status');
     }
 }
