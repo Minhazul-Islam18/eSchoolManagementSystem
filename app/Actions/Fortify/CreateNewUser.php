@@ -33,28 +33,30 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
-        $userRole = Role::where('slug', $input['role'])->first();
-        $user = User::create([
-            'role_id' => $userRole->id,
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
-        ]);
-        if ($user->role->slug == User::SCHOOL) {
-            $school = School::create([
-                'user_id' => $user->id,
-                'name' => $input['name'],
-                // Add other school-specific fields
-            ]);
-        } elseif ($user->role->slug == User::STUDENT) {
-            $student = Student::create([
-                'school_id' => $user->id,
-                'name' => $input['name'],
-                // Add other student-specific fields
-            ]);
-        }
-
         if ($input['trx_id'] !== null && $input['msisdn'] !== null) {
+            $userRole = Role::where('slug', $input['role'])->firstOrFail();
+            $user = User::create([
+                'role_id' => $userRole->id,
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'password' => Hash::make($input['password']),
+            ]);
+            if ($user->role->slug == User::SCHOOL) {
+                $school = School::create([
+                    'user_id' => $user->id,
+                    'name' => $input['name'],
+                    // Add other school-specific fields
+                ]);
+            }
+            // elseif ($user->role->slug == User::STUDENT) {
+            //     $student = Student::create([
+            //         'school_id' => $school->id,
+            //         'name' => $input['name'],
+            //         // Add other student-specific fields
+            //     ]);
+            // }
+
+
             //Check this newly registerd user has any purchased transection
             $e = BkashTransection::where('customer_msisdn', $input['msisdn'])
                 ->where('trx_id', $input['trx_id'])
@@ -73,8 +75,27 @@ class CreateNewUser implements CreatesNewUsers
                     'is_used' => true,
                 ]);
             }
+        } else {
+            $userRole = Role::where('slug', 'demo_school')->firstOrFail();
+            $user = User::create([
+                'role_id' => $userRole->id,
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'password' => Hash::make($input['password']),
+            ]);
+            if ($user->role->slug == User::SCHOOL) {
+                $school = School::create([
+                    'user_id' => $user->id,
+                    'name' => $input['name'],
+                    // Add other school-specific fields
+                ]);
+            }
         }
 
+        //Notify user
+        if (isset($user)) {
+            session()->put('new_register_successfull', 'Congratulation! 🥳 You\'ve success registered.');
+        }
 
         return $user;
     }

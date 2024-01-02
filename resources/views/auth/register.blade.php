@@ -1,8 +1,5 @@
 <x-guest-layout>
     <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
 
         <x-validation-errors class="mb-4" />
 
@@ -10,8 +7,8 @@
             @csrf
             <x-input type="hidden" name="role" value="{{ \App\Models\User::SCHOOL }}" id="" />
             <div>
-                <x-input label="Name" id="name" type="text" autofocus autocomplete="name"
-                    placeholder="your name" name="name" corner-hint="Ex: John" :value="old('name')" required />
+                <x-input label="Name" id="name" type="text" autofocus autocomplete="name" placeholder="your name"
+                    name="name" corner-hint="Ex: John" :value="old('name')" required />
                 {{-- <x-label for="name" value="{{ __('Name') }}" />
                 <x-input class="block mt-1 w-full"
                     /> --}}

@@ -1,8 +1,5 @@
 <x-guest-layout>
     <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
 
         <x-validation-errors class="mb-4" />
 
@@ -16,15 +13,20 @@
             @csrf
 
             <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                <x-input id="email" label="{{ __('Email') }}" type="email" name="email" :value="old('email')" required
                     autofocus autocomplete="username" />
+                {{-- <x-label for="email" value="{{ __('Email') }}" />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                    autofocus autocomplete="username" /> --}}
             </div>
 
             <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                {{-- <x-inputs.password label="Secret 🙈" value="I love WireUI ❤️" /> --}}
+                <x-input id="password" label="{{ __('Password') }}" type="password" name="password" required
                     autocomplete="current-password" />
+                {{-- <x-label for="password" value="{{ __('Password') }}" />
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                    autocomplete="current-password" /> --}}
             </div>
 
             <div class="block mt-4">
@@ -34,7 +36,7 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-end mt-4 gap-4 mb-2">
                 @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                         href="{{ route('password.request') }}">
@@ -42,10 +44,14 @@
                     </a>
                 @endif
 
-                <x-button class="ml-4">
+                <x-button type="submit" positive label="{{ __('Log in') }}" />
+                {{-- <x-button class="ml-4">
                     {{ __('Log in') }}
-                </x-button>
+                </x-button> --}}
             </div>
+            <div class="border-t border-t-gray-200 py-2 text-center">New here? <a href="{{ route('register') }}"
+                    class=" text-sm font-extrabold underline">Register</a> here.</div>
+
         </form>
         <!-- component -->
 
