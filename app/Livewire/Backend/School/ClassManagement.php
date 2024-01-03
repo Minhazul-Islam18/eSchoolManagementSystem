@@ -31,10 +31,9 @@ class ClassManagement extends Component
     public function store()
     {
         Gate::authorize('school.classes.create');
-        $this->validate(['class_name' => 'required|unique:school_classes,class_name']);
-        SchoolClass::create([
+        // $this->validate(['class_name' => 'required|unique:school_classes,class_name']);
+        school()->classes()->create([
             'class_name' => $this->class_name,
-            'school_id' => school()->id,
         ]);
         $this->dispatch('closeModal');
         $this->alert('success', 'Class created');
@@ -50,7 +49,7 @@ class ClassManagement extends Component
     public function update()
     {
         Gate::authorize('school.classes.update');
-        $this->validate(['class_name' => 'required|unique:school_classes,class_name,' . $this->editable_item->id]);
+        // $this->validate(['class_name' => 'required|unique:school_classes,class_name,' . $this->editable_item->id]);
         $e = SchoolClass::findBySchool($this->editable_item->id);
         $e->update([
             'class_name' => $this->class_name,

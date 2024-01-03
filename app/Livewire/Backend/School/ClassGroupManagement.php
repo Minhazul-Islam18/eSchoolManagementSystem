@@ -22,6 +22,7 @@ class ClassGroupManagement extends Component
     public $filter_group_id;
     public $routine_for;
     public $routine_sets = [];
+    public $allClassesWithGroups = [];
     public $groups = [];
     #[Title('Class Sections')]
     public function rules()
@@ -131,13 +132,11 @@ class ClassGroupManagement extends Component
 
     public function render()
     {
-        $groups = classGroup::allGroups();
+        $this->allClassesWithGroups = classGroup::allGroups();
         $classes = SchoolClass::allClasses();
-
         // Get sections with routine_published set to true
         $publishedRoutines = classGroup::where('routine_published', true)->get();
         return view('livewire.backend.school.class-group-management')->with([
-            'groups' => $groups,
             'classes' => $classes,
             'publishedRoutines' => $publishedRoutines,
         ]);
