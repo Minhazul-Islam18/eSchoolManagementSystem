@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\BkashTransection;
+use App\Models\Package;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\School;
@@ -83,10 +84,15 @@ class CreateNewUser implements CreatesNewUsers
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
             ]);
-            if ($user->role->slug == User::SCHOOL) {
+            $user->subscription()->updateOrCreate([
+                'package_id' => Package::where('price', '<=', '0')->firstOrFail()->id,
+                'will_expire' => now()->addMonth(12),
+            ]);
+            if ($user->role->slug == User::SCHOOL || $user->role->slug == User::DEMO_SCHOOL) {
                 $school = School::create([
                     'user_id' => $user->id,
-                    'name' => $input['name'],
+                    'institute_name' => $input['name'],
+                    'package_id' => $user->subscription()->package_id,
                     // Add other school-specific fields
                 ]);
             }
