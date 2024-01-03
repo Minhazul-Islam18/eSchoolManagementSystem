@@ -25,7 +25,7 @@ use App\Livewire\Backend\School\StaffAttendanceManagement;
 use App\Livewire\Backend\School\StudentAttendanceManagement;
 use App\Livewire\Backend\School\StudentIdCardManagement;
 
-Route::middleware(['checkRole:school,demo_school', 'checkSubscription'])->group(function () {
+Route::middleware(['checkRole:school,demo_school', 'checkSubscription', 'checkActivatedSchool'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('index');
     Route::get('/staffs', StaffManagement::class)->name('staffs');
     Route::get('/staffs-attendance', StaffAttendanceManagement::class)->name('staffs-attendance');

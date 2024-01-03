@@ -118,6 +118,7 @@ class AdmissionManagement extends Component
         }
         //If class had no sections, then get all groups.
         if (!sizeof($this->sections)) {
+            $this->section_id = null;
             $this->getGroups();
         } else {
             $this->groups = [];
@@ -143,6 +144,7 @@ class AdmissionManagement extends Component
         $this->unions = Union::where('upazila_id', $this->upazila_id)->get();
     }
     #[On('form-preview')]
+
     public function formPreview()
     {
         $this->validate([
@@ -172,8 +174,8 @@ class AdmissionManagement extends Component
         if ($this->class_id_of_studying_siblings != null) {
             $this->class_of_studying_siblings = SchoolClass::findBySchool($this->class_id_of_studying_siblings)->class_name;
         }
-        $this->section = $this->class->classSections->find($this->section_id);
-        $this->group = $this->class->groups->find($this->group_id);
+        $this->section = $this->class->classSections->find($this->section_id) ?? '';
+        $this->group = $this->class->groups->find($this->group_id) ?? '';
         $this->student_quota = StudentQuota::findOrFail($this->student_quota_id);
         $this->student_category = StudentCategory::findOrFail($this->student_category_id);
         $this->division = Division::findOrFail($this->division_id)->bn_name;
@@ -263,67 +265,67 @@ class AdmissionManagement extends Component
 
     public function resetFields()
     {
-        $this->student_image = '';
-        $this->name_bn = '';
-        $this->name_en = '';
-        $this->school_class_id = '';
-        $this->roll = '';
-        $this->ssc_roll = '';
-        $this->gender = '';
-        $this->religion = '';
-        $this->birth_certificate_no = '';
-        $this->dob = '';
-        $this->has_stipend = '';
-        $this->have_siblings_studying = '';
-        $this->name_of_studying_siblings = '';
-        $this->class_of_studying_siblings = '';
-        $this->roll_of_studying_siblings = '';
-        $this->freedom_fighter_id = '';
-        $this->student_category_id = '';
-        $this->student_quota_id = '';
-        $this->previous_institute = '';
-        $this->previous_study_class = '';
-        $this->district = '';
-        $this->upazila = '';
-        $this->union = '';
-        $this->postoffice = '';
-        $this->village = '';
-        $this->mobile_number = '';
-        $this->post_code = '';
-        $this->fathers_name_bn = '';
-        $this->mothers_name_bn = '';
-        $this->fathers_name_en = '';
-        $this->mothers_name_en = '';
-        $this->fathers_nid_no = '';
-        $this->mothers_nid_no = '';
-        $this->fathers_bc_no = '';
-        $this->mothers_bc_no = '';
-        $this->gurdian_in_absence_of_parent_en = '';
-        $this->gurdian_in_absence_of_parent_bn = '';
-        $this->gurdian_nid_no = '';
-        $this->relation_with_gurdian = '';
-        $this->gurdians_monthly_income = '';
-        $this->fathers_occupation = '';
-        $this->gurdians_occupation = '';
+        $this->student_image = null;
+        $this->name_bn = null;
+        $this->name_en = null;
+        $this->school_class_id = null;
+        $this->roll = null;
+        $this->ssc_roll = null;
+        $this->gender = null;
+        $this->religion = null;
+        $this->birth_certificate_no = null;
+        $this->dob = null;
+        $this->has_stipend = null;
+        $this->have_siblings_studying = null;
+        $this->name_of_studying_siblings = null;
+        $this->class_of_studying_siblings = null;
+        $this->roll_of_studying_siblings = null;
+        $this->freedom_fighter_id = null;
+        $this->student_category_id = null;
+        $this->student_quota_id = null;
+        $this->previous_institute = null;
+        $this->previous_study_class = null;
+        $this->district = null;
+        $this->upazila = null;
+        $this->union = null;
+        $this->postoffice = null;
+        $this->village = null;
+        $this->mobile_number = null;
+        $this->post_code = null;
+        $this->fathers_name_bn = null;
+        $this->mothers_name_bn = null;
+        $this->fathers_name_en = null;
+        $this->mothers_name_en = null;
+        $this->fathers_nid_no = null;
+        $this->mothers_nid_no = null;
+        $this->fathers_bc_no = null;
+        $this->mothers_bc_no = null;
+        $this->gurdian_in_absence_of_parent_en = null;
+        $this->gurdian_in_absence_of_parent_bn = null;
+        $this->gurdian_nid_no = null;
+        $this->relation_with_gurdian = null;
+        $this->gurdians_monthly_income = null;
+        $this->fathers_occupation = null;
+        $this->gurdians_occupation = null;
         $this->sections = [];
         $this->groups = [];
-        $this->class_id = '';
-        $this->group_id = '';
-        $this->class_id_of_studying_siblings = '';
-        $this->division = '';
-        $this->division_id = '';
-        $this->district_id = '';
-        $this->upazila_id = '';
-        $this->union_id = '';
+        $this->class_id = null;
+        $this->group_id = null;
+        $this->class_id_of_studying_siblings = null;
+        $this->division = null;
+        $this->division_id = null;
+        $this->district_id = null;
+        $this->upazila_id = null;
+        $this->union_id = null;
         $this->districts = [];
         $this->upazilas = [];
         $this->unions = [];
-        $this->section_id = '';
+        $this->section_id = null;
         $this->openCEmodal = false;
         $this->checkImageDimension = true;
-        $this->editable_item = '';
-        $this->student_quota = '';
-        $this->student_category = '';
+        $this->editable_item = null;
+        $this->student_quota = null;
+        $this->student_category = null;
     }
 
     public function mount()

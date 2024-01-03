@@ -82,7 +82,7 @@
                                 @endforelse
                             </select>
                         </div>
-                        <div>
+                        {{-- <div>
                             <div x-data="{ uploading: false, progress: 0 }" x-on:livewire-upload-start="uploading = true"
                                 x-on:livewire-upload-finish="uploading = false"
                                 x-on:livewire-upload-error="uploading = false"
@@ -122,7 +122,7 @@
                                     <img src="{{ $photo->temporaryUrl() }}" width="150px" class="rounded-md mt-3">
                                 @endif
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="text-end">
                             <button type="submit" class="px-3 py-2 rounded-md bg-emerald-500 mt-3">Generate</button>
                         </div>

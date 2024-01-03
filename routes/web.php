@@ -14,6 +14,7 @@ use App\Http\Controllers\FrontendPageController;
 use App\Http\Controllers\ProcessFreePackage;
 
 Route::get('/', function () {
+    dd(auth()->user()->id);
     Inertia::share('logo', setting('logo'));
     $pricings = Package::where('status', 1)->get();
     return Inertia::render('Home', [
@@ -34,6 +35,10 @@ Route::get('pricings', function () {
 Route::get('subscription-expired', function () {
     return 'Your subscription has been expired, please renew or buy another plan!';
 })->name('subscription-expired');
+
+Route::get('account-status', function () {
+    return view('auth.account-status');
+})->name('account-status');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/process-free-package', [ProcessFreePackage::class, 'SyncToUser'])->name('process-free-package');
@@ -66,7 +71,7 @@ Route::get('/school-login', function () {
 });
 
 Route::get('/users-redirection', function () {
-    dd('ok');
+    return view('auth.account-status');
 })->name('users-redirection')->middleware(['role.redirect']);
 // Route::middleware([
 //     'auth:sanctum',

@@ -17,7 +17,7 @@ use Devfaysal\BangladeshGeocode\Models\Division;
 class StudentIdCardManagement extends Component
 {
     use WithFileUploads;
-    public $photo;
+    // public $photo;
     public $class_id;
     public $section_id;
     public $group_id;
@@ -45,7 +45,7 @@ class StudentIdCardManagement extends Component
 
         $pdf = Pdf::loadView(
             'livewire.backend.school.id-card-preview',
-            ['card' => $this->card, 'path' => 'http://127.0.0.1:8000']
+            ['card' => $this->card, 'path' => config('app.url')]
         );
 
         return response()->streamDownload(function () use ($pdf) {

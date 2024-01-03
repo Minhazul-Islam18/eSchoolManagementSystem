@@ -68,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="container mx-auto flex justify-between items-center">
                 <div>
                     <img :src="'/storage/' + logo" class="w-[40px]" alt="">
-                    <!-- <img :src="require('@/storage/')" alt=""> -->
                 </div>
                 <div class="flex gap-2 flex-wrap items-end justify-end">
                     <Link class=" px-2 py-1" :class="{ 'bg-emerald-500 rounded': $page.url === '/' }" href="/">Home

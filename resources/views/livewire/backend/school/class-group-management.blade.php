@@ -196,7 +196,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($groups as $key => $item)
+                        @foreach ($this->allClassesWithGroups as $key => $item)
                             <tr wire:key='{{ $item->id }}' class="border-b">
                                 <td>{{ $key + 1 }}</td>
                                 <td>
@@ -284,6 +284,7 @@
                             <select wire:model.blur='filter_group_id' class="form-select rounded" name=""
                                 id="">
                                 <option value="">Select group</option>
+                                {{-- @dd($this->groups) --}}
                                 @foreach ($this->groups as $group)
                                     <option value="{{ $group->id }}">{{ $group->group_name }}</option>
                                 @endforeach

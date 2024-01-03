@@ -17,27 +17,27 @@ const freePack = reactive({
     id: null
 });
 
-function purchase(id, amount) {
-    form.amount = amount;
-    form.id = id;
-    console.log(form);
-    router.get('/bkash/payment', form)
-}
+// function purchase(id, amount) {
+//     form.amount = amount;
+//     form.id = id;
+//     console.log(form);
+//     router.get('/bkash/payment', form)
+// }
 
-async function free(id) {
-    try {
-        freePack.id = id;
-        router.get('process-free-package', freePack);
-        // toast('Package purchased');
-    } catch (error) {
-        console.log(error);
-        // toast("error");
-    }
+// async function free(id) {
+//     try {
+//         freePack.id = id;
+//         router.get('process-free-package', freePack);
+//         // toast('Package purchased');
+//     } catch (error) {
+//         console.log(error);
+//         // toast("error");
+//     }
 
-}
+// }
 
 const props = defineProps({
-    pricings: Array | Object,
+    // pricings: Array | Object,
     school: Array | Object,
     package_purchased: String,
     message: String,
@@ -70,7 +70,7 @@ const props = defineProps({
                     ঝামেলাহীনভাবে শিক্ষক-শিক্ষার্থী ও
                     অভিভাবকদের মধ্যে সমন্বয় করে.</p>
                 <p class="mt-2 mb-3 sm:mb-6 text-md antialiased">
-                    আপনার শিক্ষা প্রতিষ্ঠানকে ডিজিটাল ও স্মার্ট করুন আরসিটি এম এস-এর মাধ্যমে
+                    আপনার শিক্ষা প্রতিষ্ঠানকে ডিজিটাল ও স্মার্ট করুন আরসিটি ই এম এস-এর মাধ্যমে
                 </p>
 
                 <Link href="/" type="button"
@@ -85,10 +85,9 @@ const props = defineProps({
     </section>
     <!---- End hero---->
 
-    <section id="pricing-plan" class=" py-10 bg-gradient-to-b from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]"
+    <!-- <section id="pricing-plan" class=" py-10 bg-gradient-to-b from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]"
         style="font-family: 'Jost', sans-serif;">
         <div class="container mx-auto">
-            <!-- Display pricing information -->
             <div
                 class="relative z-10 overflow-hidden rounded-sm border border-stroke bg-white p-11 shadow-default dark:border-strokedark dark:bg-boxdark">
                 <div class="w-full overflow-x-auto">
@@ -239,5 +238,5 @@ const props = defineProps({
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 </template>

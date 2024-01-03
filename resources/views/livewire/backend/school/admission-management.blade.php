@@ -160,10 +160,10 @@
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        @if ($this->groups != null)
+                                        @if (isset($this->groups))
                                             <div class="">
                                                 <label for="" class="form-label">Groups</label>
-                                                <select wire:model.blur='group_id' class="form-select rounded"
+                                                <select wire:model.deafer='group_id' class="form-select rounded"
                                                     id="">
                                                     <option value="">নির্বাচন করুন</option>
                                                     @forelse ($this->groups as $item)
@@ -181,10 +181,10 @@
                                         @else
                                             <div class="">
                                                 <label for="" class="form-label">Section</label>
-                                                <select wire:model.blur='section_id' class="form-select rounded"
+                                                <select wire:model.defer='section_id' class="form-select rounded"
                                                     id="">
                                                     <option value="">নির্বাচন করুন</option>
-                                                    @forelse ($sections as $item)
+                                                    @forelse ($this->sections as $item)
                                                         <option value="{{ $item->id }}"
                                                             {{ $item->id === $this->section_id ? 'selected' : '' }}>
                                                             {{ $item->section_name }}</option>
@@ -606,11 +606,11 @@
                                                         {{ $this->class->class_name ?? '' }}
                                                     </td>
                                                     <td class="p-4">
-                                                        @if ($this->group)
-                                                            গ্রুপঃ {{ $this->group->group_name ?? '' }}
-                                                        @else
-                                                            সেকশন: {{ $this->section->section_name ?? '' }}
-                                                        @endif
+                                                        {{-- @if ($this->group) --}}
+                                                        গ্রুপঃ {{ $this->group->group_name ?? '' }}
+                                                        {{-- @else --}}
+                                                        সেকশন: {{ $this->section->section_name ?? '' }}
+                                                        {{-- @endif --}}
                                                     </td>
                                                     <td class="p-4">
                                                         ধর্মঃ {{ $this->religion ?? '' }}

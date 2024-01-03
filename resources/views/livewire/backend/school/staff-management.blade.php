@@ -114,14 +114,14 @@
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div x-show="selectedStatus == 0" class="flex flex-wrap">
-                                <div class="mb-3 w-full md:w-1/2">
+                            <div x-show="selectedStatus == 0" class="flex flex-col sm:flex-row flex-wrap gap-3">
+                                <div class="mb-3">
                                     <label for="" class="form-label">Joined at</label>
                                     <input type="date" wire:model.blur='joined_at' class="form-input rounded"
                                         name="" id="" placeholder="">
                                 </div>
-                                <div class="mb-3 w-full md:w-1/2">
-                                    <label for=""class="form-label">Resigned at</label>
+                                <div class="mb-3">
+                                    <label for=""class="form-label">End at</label>
                                     <input type="date" wire:model.blur='resigned_at' class="form-input rounded"
                                         name="" id="" placeholder="">
                                 </div>

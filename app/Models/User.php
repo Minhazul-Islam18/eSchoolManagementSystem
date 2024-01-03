@@ -51,7 +51,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        // 'password' => 'hashed',
     ];
 
     /**
@@ -65,6 +65,7 @@ class User extends Authenticatable
     // Define user roles as constants
     const ADMIN = 'admin';
     const SCHOOL = 'school';
+    const DEMO_SCHOOL = 'demo_school';
     const STUDENT = 'student';
     const USER = 'user';
 
