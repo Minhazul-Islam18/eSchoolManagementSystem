@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\School;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,81 +29,111 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'role' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
-            // 'trx_id' => ['required', 'max:255'],
-            // 'msisdn' => ['required', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
         if ($input['trx_id'] !== null && $input['msisdn'] !== null) {
-            $userRole = Role::where('slug', $input['role'])->firstOrFail();
-            $user = User::create([
-                'role_id' => $userRole->id,
-                'name' => $input['name'],
-                'email' => $input['email'],
-                'password' => Hash::make($input['password']),
-            ]);
-            if ($user->role->slug == User::SCHOOL) {
-                $school = School::create([
-                    'user_id' => $user->id,
+            try {
+                DB::beginTransaction();
+
+                $userRole = Role::where('slug', $input['role'])->firstOrFail();
+                $user = User::create([
+                    'role_id' => $userRole->id,
                     'name' => $input['name'],
-                    // Add other school-specific fields
+                    'email' => $input['email'],
+                    'password' => Hash::make($input['password']),
                 ]);
-            }
-            // elseif ($user->role->slug == User::STUDENT) {
-            //     $student = Student::create([
-            //         'school_id' => $school->id,
-            //         'name' => $input['name'],
-            //         // Add other student-specific fields
-            //     ]);
-            // }
+                if ($user->role->slug == User::SCHOOL) {
+                    $school = School::create([
+                        'user_id' => $user->id,
+                        'name' => $input['name'],
+                        // Add other school-specific fields
+                    ]);
+                }
 
+                //Check this newly registerd user has any purchased transection
+                $e = BkashTransection::where('customer_msisdn', $input['msisdn'])
+                    ->where('trx_id', $input['trx_id'])
+                    ->where('is_used', false)
+                    ->firstOrFail();
 
-            //Check this newly registerd user has any purchased transection
-            $e = BkashTransection::where('customer_msisdn', $input['msisdn'])
-                ->where('trx_id', $input['trx_id'])
-                ->where('is_used', false)
-                ->firstOrFail();
+                if ($e !== null) {
+                    // Add package to user
+                    $user->update([
+                        'package_id' => $e->id,
+                        'status' => true,
+                    ]);
 
-            if ($e !== null) {
-                // Add package to user
-                $user->update([
-                    'package_id' => $e->id,
-                    'status' => true,
-                ]);
+                    // Also expired transection
+                    $e->update([
+                        'is_used' => true,
+                    ]);
+                }
 
-                // Also expired transection
-                $e->update([
-                    'is_used' => true,
-                ]);
-            }
+                //Notify user
+                if (isset($user)) {
+                    session()->put('new_register_successfull', 'Congratulation! 🥳 You\'ve success registered.');
+                }
+                DB::commit();
+                return $user;
+                // Return the user or any other result if needed
+                return $user;
+            } catch (\Exception $e) {
+                // Something went wrong, rollback the transaction
+                DB::rollback();
+
+                // Handle the exception or log it
+                // ...
+
+                // Return null or any other error response
+                return null;
+            };
         } else {
-            $userRole = Role::where('slug', 'demo_school')->firstOrFail();
-            $user = User::create([
-                'role_id' => $userRole->id,
-                'name' => $input['name'],
-                'email' => $input['email'],
-                'password' => Hash::make($input['password']),
-            ]);
-            $user->subscription()->updateOrCreate([
-                'package_id' => Package::where('price', '<=', '0')->firstOrFail()->id,
-                'will_expire' => now()->addMonth(12),
-            ]);
-            if ($user->role->slug == User::SCHOOL || $user->role->slug == User::DEMO_SCHOOL) {
-                $school = School::create([
-                    'user_id' => $user->id,
-                    'institute_name' => $input['name'],
-                    'package_id' => $user->subscription()->package_id,
-                    // Add other school-specific fields
+            try {
+                DB::beginTransaction();
+
+                $userRole = Role::where('slug', 'demo_school')->firstOrFail();
+                $user = User::create([
+                    'role_id' => $userRole->id,
+                    'name' => $input['name'],
+                    'email' => $input['email'],
+                    'password' => Hash::make($input['password']),
                 ]);
+
+                $user->subscription()->updateOrCreate([
+                    'package_id' => Package::where('price', '<=', '0')->firstOrFail()->id,
+                    'will_expire' => now()->addMonth(12),
+                ]);
+
+                if ($user->role->slug == User::SCHOOL || $user->role->slug == User::DEMO_SCHOOL) {
+                    $school = School::create([
+                        'user_id' => $user->id,
+                        'institute_name' => $input['name'],
+                        'package_id' => $user->subscription->package_id,
+                        // Add other school-specific fields
+                    ]);
+                }
+
+                // Notify user
+                if (isset($user)) {
+                    session()->put('new_register_successful', 'Congratulations! 🥳 You\'ve successfully registered.');
+                }
+
+                DB::commit();
+
+                // Return the user or any other result if needed
+                return $user;
+            } catch (\Exception $e) {
+                // Something went wrong, rollback the transaction
+                DB::rollback();
+
+                // Handle the exception or log it
+                // ...
+
+                // Return null or any other error response
+                return null;
             }
         }
-
-        //Notify user
-        if (isset($user)) {
-            session()->put('new_register_successfull', 'Congratulation! 🥳 You\'ve success registered.');
-        }
-
-        return $user;
     }
 }
