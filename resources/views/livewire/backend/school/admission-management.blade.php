@@ -17,7 +17,7 @@
                     x-transition:leave="transition ease-in duration-200 transform"
                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    class="h-[100vh] overflow-y-scroll inline-block w-full max-w-[80vw] p-8 overflow-hidden text-left transition-all transform bg-white dark:bg-slate-700/90 backdrop-blur-2xl dark:text-white rounded-lg shadow-xl 2xl:max-w-2xl">
+                    class="h-[100vh] overflow-y-scroll inline-block w-full sm:max-w-[80vw] p-8 overflow-hidden text-left transition-all transform bg-white dark:bg-slate-700/90 backdrop-blur-2xl dark:text-white rounded-lg shadow-xl 2xl:max-w-2xl">
                     <!-- Modal header -->
                     <div class="flex items-center justify-between space-x-4">
                         <div class="border-b-2 py-4 w-full">
@@ -598,237 +598,239 @@
                                                     :src="image" alt="">
                                             </div>
                                         </div>
-                                        <table class="table-auto w-full border rounded my-4">
-                                            <tbody>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        শ্রেণিঃ
-                                                        {{ $this->class->class_name ?? '' }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{-- @if ($this->group) --}}
-                                                        গ্রুপঃ {{ $this->group->group_name ?? '' }}
-                                                        {{-- @else --}}
-                                                        সেকশন: {{ $this->section->section_name ?? '' }}
-                                                        {{-- @endif --}}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        ধর্মঃ {{ $this->religion ?? '' }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        লিঙ্গঃ {{ $this->gender ?? '' }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        শিক্ষার্থীর নাম (বাংলা)
-                                                    </td>
-                                                    <td class="p-4">
-                                                        শিক্ষার্থীর নাম (English)
-                                                    </td>
-                                                    <td class="p-4">
-                                                        শিক্ষার্থীর জন্ম তারিখ
-                                                    </td>
-                                                    <td class="p-4">
-                                                        শিক্ষার্থীর জন্ম নিবন্ধন নং
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        {{ $this->name_bn }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->name_en }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->dob }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->birth_certificate_no }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        {{ 'পিতার নাম (বাংলা)' }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ 'পিতার নাম (English)' }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ 'পিতার জাতীয় পরিচয়পত্র নং' }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ 'পিতার জন্ম নিবন্ধন নং' }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        {{ $this->fathers_name_bn }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->fathers_name_en }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->fathers_nid_no }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->fathers_bc_no }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        {{ 'মাতার নাম (বাংলা)' }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ 'মাতার নাম (English)' }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ 'মাতার জাতীয় পরিচয়পত্র নং' }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ 'মাতার জন্ম নিবন্ধন নং' }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        {{ $this->mothers_name_bn }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->mothers_name_en }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->mothers_nid_no }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->mothers_bc_no }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        পিতা/মাতা জীবিত না থাকলে অভিভাবকের নাম (বাংলা)
-                                                    </td>
-                                                    <td class="p-4">
-                                                        অভিভাবকের নাম (English)
-                                                    </td>
-                                                    <td class="p-4">
-                                                        অভিভাবকের জাতীয় পরিচয়পত্র নং
-                                                    </td>
-                                                    <td class="p-4">
-                                                        অভিভাবকের সাথে শিক্ষার্থীর সম্পর্ক
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        {{ $this->gurdian_in_absence_of_parent_bn }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->gurdian_in_absence_of_parent_en }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->gurdian_nid_no }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->relation_with_gurdian }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        অভিভাবকের পেশা
-                                                    </td>
-                                                    <td class="p-4" colspan="3">
-                                                        {{ $this->gurdians_occupation }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        অভিভাবকের মাসিক আয়
-                                                    </td>
-                                                    <td class="p-4" colspan="3">
-                                                        {{ $this->gurdians_monthly_income }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        মোবাইল নাম্বার
-                                                    </td>
-                                                    <td class="p-4" colspan="3">
-                                                        {{ $this->mobile_number }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4" colspan="2">
-                                                        শিক্ষার্থীর ধরন
-                                                    </td>
-                                                    <td class="p-4" colspan="2">
-                                                        শিক্ষার্থীর কোটা
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4" colspan="2">
-                                                        {{ $this->student_category->name ?? '' }}
-                                                    </td>
-                                                    <td class="p-4" colspan="2">
-                                                        {{ $this->student_quota->name ?? '' }}
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4" colspan="2">
-                                                        পূর্বে অধ্যায়নরত স্কুল এর নাম
-                                                    </td>
-                                                    <td class="p-4" colspan="2">
-                                                        পূর্বে অধ্যায়নরত শ্রেণি
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4" colspan="2">
-                                                        {{ $this->previous_institute }}
-                                                    </td>
-                                                    <td class="p-4" colspan="2">
-                                                        {{ $this->previous_study_class }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        কোন ভাই/বোন অত্র প্রতিষ্ঠানে অধ্যয়নরত কি না
-                                                    </td>
-                                                    <td class="p-4">
-                                                        অধ্যয়নরত ভাই/বোনের নাম
-                                                    </td>
-                                                    <td class="p-4">
-                                                        অধ্যয়নরত ভাই/বোনের শ্রেণি
-                                                    </td>
-                                                    <td class="p-4">
-                                                        অধ্যয়নরত ভাই/বোনের রোল
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        {{ $this->have_siblings_studying ? 'হ্যাঁ' : 'না' }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->name_of_studying_siblings }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->class_of_studying_siblings }}
-                                                    </td>
-                                                    <td class="p-4">
-                                                        {{ $this->roll_of_studying_siblings }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
-                                                    <td class="p-4">
-                                                        ঠিকানা
-                                                    </td>
-                                                    <td class="p-4" colspan="3">
-                                                        বিভাগঃ- {{ $this->division }},
-                                                        জেলাঃ- {{ $this->district }},
-                                                        উপজেলাঃ- {{ $this->upazila }},
-                                                        ইউনিয়নঃ- {{ $this->union }},
-                                                        পোস্ট অফিসঃ- {{ $this->postoffice }},
-                                                        গ্রামঃ- {{ $this->village }}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class=" relative overflow-x-auto">
+                                            <table class="table-auto w-full border rounded my-4">
+                                                <tbody>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            শ্রেণিঃ
+                                                            {{ $this->class->class_name ?? '' }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{-- @if ($this->group) --}}
+                                                            গ্রুপঃ {{ $this->group->group_name ?? '' }}
+                                                            {{-- @else --}}
+                                                            সেকশন: {{ $this->section->section_name ?? '' }}
+                                                            {{-- @endif --}}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            ধর্মঃ {{ $this->religion ?? '' }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            লিঙ্গঃ {{ $this->gender ?? '' }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            শিক্ষার্থীর নাম (বাংলা)
+                                                        </td>
+                                                        <td class="p-4">
+                                                            শিক্ষার্থীর নাম (English)
+                                                        </td>
+                                                        <td class="p-4">
+                                                            শিক্ষার্থীর জন্ম তারিখ
+                                                        </td>
+                                                        <td class="p-4">
+                                                            শিক্ষার্থীর জন্ম নিবন্ধন নং
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            {{ $this->name_bn }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->name_en }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->dob }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->birth_certificate_no }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            {{ 'পিতার নাম (বাংলা)' }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ 'পিতার নাম (English)' }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ 'পিতার জাতীয় পরিচয়পত্র নং' }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ 'পিতার জন্ম নিবন্ধন নং' }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            {{ $this->fathers_name_bn }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->fathers_name_en }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->fathers_nid_no }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->fathers_bc_no }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            {{ 'মাতার নাম (বাংলা)' }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ 'মাতার নাম (English)' }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ 'মাতার জাতীয় পরিচয়পত্র নং' }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ 'মাতার জন্ম নিবন্ধন নং' }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            {{ $this->mothers_name_bn }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->mothers_name_en }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->mothers_nid_no }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->mothers_bc_no }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            পিতা/মাতা জীবিত না থাকলে অভিভাবকের নাম (বাংলা)
+                                                        </td>
+                                                        <td class="p-4">
+                                                            অভিভাবকের নাম (English)
+                                                        </td>
+                                                        <td class="p-4">
+                                                            অভিভাবকের জাতীয় পরিচয়পত্র নং
+                                                        </td>
+                                                        <td class="p-4">
+                                                            অভিভাবকের সাথে শিক্ষার্থীর সম্পর্ক
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            {{ $this->gurdian_in_absence_of_parent_bn }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->gurdian_in_absence_of_parent_en }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->gurdian_nid_no }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->relation_with_gurdian }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            অভিভাবকের পেশা
+                                                        </td>
+                                                        <td class="p-4" colspan="3">
+                                                            {{ $this->gurdians_occupation }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            অভিভাবকের মাসিক আয়
+                                                        </td>
+                                                        <td class="p-4" colspan="3">
+                                                            {{ $this->gurdians_monthly_income }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            মোবাইল নাম্বার
+                                                        </td>
+                                                        <td class="p-4" colspan="3">
+                                                            {{ $this->mobile_number }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4" colspan="2">
+                                                            শিক্ষার্থীর ধরন
+                                                        </td>
+                                                        <td class="p-4" colspan="2">
+                                                            শিক্ষার্থীর কোটা
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4" colspan="2">
+                                                            {{ $this->student_category->name ?? '' }}
+                                                        </td>
+                                                        <td class="p-4" colspan="2">
+                                                            {{ $this->student_quota->name ?? '' }}
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4" colspan="2">
+                                                            পূর্বে অধ্যায়নরত স্কুল এর নাম
+                                                        </td>
+                                                        <td class="p-4" colspan="2">
+                                                            পূর্বে অধ্যায়নরত শ্রেণি
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4" colspan="2">
+                                                            {{ $this->previous_institute }}
+                                                        </td>
+                                                        <td class="p-4" colspan="2">
+                                                            {{ $this->previous_study_class }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            কোন ভাই/বোন অত্র প্রতিষ্ঠানে অধ্যয়নরত কি না
+                                                        </td>
+                                                        <td class="p-4">
+                                                            অধ্যয়নরত ভাই/বোনের নাম
+                                                        </td>
+                                                        <td class="p-4">
+                                                            অধ্যয়নরত ভাই/বোনের শ্রেণি
+                                                        </td>
+                                                        <td class="p-4">
+                                                            অধ্যয়নরত ভাই/বোনের রোল
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            {{ $this->have_siblings_studying ? 'হ্যাঁ' : 'না' }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->name_of_studying_siblings }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->class_of_studying_siblings }}
+                                                        </td>
+                                                        <td class="p-4">
+                                                            {{ $this->roll_of_studying_siblings }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-b hover:bg-gray-50 hover:text-gray-800">
+                                                        <td class="p-4">
+                                                            ঠিকানা
+                                                        </td>
+                                                        <td class="p-4" colspan="3">
+                                                            বিভাগঃ- {{ $this->division }},
+                                                            জেলাঃ- {{ $this->district }},
+                                                            উপজেলাঃ- {{ $this->upazila }},
+                                                            ইউনিয়নঃ- {{ $this->union }},
+                                                            পোস্ট অফিসঃ- {{ $this->postoffice }},
+                                                            গ্রামঃ- {{ $this->village }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -956,7 +958,10 @@
         </div>
     </main>
 </div>
-
+@push('page-style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.tailwindcss.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+@endpush
 @push('page-script')
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.tailwindcss.min.js"></script>

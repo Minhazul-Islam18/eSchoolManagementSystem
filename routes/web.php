@@ -14,7 +14,6 @@ use App\Http\Controllers\FrontendPageController;
 use App\Http\Controllers\ProcessFreePackage;
 
 Route::get('/', function () {
-    dd(auth()->user()->id);
     Inertia::share('logo', setting('logo'));
     $pricings = Package::where('status', 1)->get();
     return Inertia::render('Home', [
