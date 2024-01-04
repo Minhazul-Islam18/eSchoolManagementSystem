@@ -67,7 +67,9 @@ document.addEventListener('DOMContentLoaded', function () {
         <nav class="hidden lg:flex bg-sky-500/50 backdrop-blur-2xl border-sky-500 border-b p-4 fixed w-full top-0 z-50">
             <div class="container mx-auto flex justify-between items-center">
                 <div>
-                    <img :src="'/storage/' + logo" class="w-[40px]" alt="">
+                    <a href="/">
+                        <img :src="'/storage/' + logo" class="w-[115px]" alt="">
+                    </a>
                 </div>
                 <div class="flex gap-2 flex-wrap items-end justify-end">
                     <Link class=" px-2 py-1" :class="{ 'bg-emerald-500 rounded': $page.url === '/' }" href="/">Home

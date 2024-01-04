@@ -27,6 +27,10 @@
             position: relative;
             color: #000 !important;
         }
+
+        .container {
+            max-width: 1200px;
+        }
     </style>
     @livewireStyles
     @stack('page-style')
