@@ -89,6 +89,26 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <x-livewire-alert::scripts />
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get all menu items with sub-menus
+            var menuItems = document.querySelectorAll('.menu-item');
+
+            // Add click event listener to each menu item
+            menuItems.forEach(function(menuItem) {
+                menuItem.addEventListener('click', function() {
+                    // Toggle the 'hidden' class for the sub-menu
+                    var subMenu = menuItem.querySelector('.sub-menu');
+                    subMenu.classList.toggle('hidden');
+
+                    // Toggle the opacity for the fade-in and fade-out effect
+                    var isHidden = subMenu.classList.contains('hidden');
+                    subMenu.style.opacity = isHidden ? 0 : 1;
+                });
+            });
+        });
+    </script>
+
     @stack('page-script')
 </body>
 

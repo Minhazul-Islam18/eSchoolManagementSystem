@@ -1643,6 +1643,8 @@ label {
 }
 .hidden {
     display: none;
+    opacity: 0;
+        transition: opacity 0.3s ease;
 }
 .h-0 {
     height: 0;

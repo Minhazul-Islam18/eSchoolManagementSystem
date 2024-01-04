@@ -44,11 +44,7 @@
                 Dashboard
             </a>
         </li>
-        {{-- <li class="menu-item">
-            <a href="{{ route('') }}" class="menu-link ">
 
-            </a>
-        </li> --}}
         <li class="menu-item">
             <span class="flex gap-1 mt-3">
                 <i data-lucide="banknote"></i>
