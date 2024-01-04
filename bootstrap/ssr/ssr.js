@@ -1,5 +1,5 @@
 import { unref, withCtx, createVNode, useSSRContext, reactive, createTextVNode, computed, watch, mergeProps, createSSRApp, h } from "vue";
-import { ssrRenderComponent, ssrRenderStyle, ssrRenderList, ssrInterpolate, ssrIncludeBooleanAttr, ssrRenderAttr, ssrRenderAttrs, ssrRenderSlot } from "vue/server-renderer";
+import { ssrRenderComponent, ssrRenderStyle, ssrRenderAttr, ssrRenderList, ssrInterpolate, ssrIncludeBooleanAttr, ssrRenderAttrs, ssrRenderSlot } from "vue/server-renderer";
 import { Head, usePage, Link, createInertiaApp } from "@inertiajs/vue3";
 import createServer from "@inertiajs/vue3/server";
 import { renderToString } from "@vue/server-renderer";
@@ -63,21 +63,20 @@ const _sfc_main$4 = {
   __name: "Home",
   __ssrInlineRender: true,
   props: {
-    pricings: Array | Object,
+    // pricings: Array | Object,
     school: Array | Object,
     package_purchased: String,
     message: String
   },
   setup(__props) {
     usePage();
-    const form = reactive({
+    reactive({
       amount: null,
       id: null
     });
     reactive({
       id: null
     });
-    const props = __props;
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<!--[-->`);
       _push(ssrRenderComponent(unref(Head), null, {
@@ -109,7 +108,7 @@ const _sfc_main$4 = {
         }),
         _: 1
       }, _parent));
-      _push(`<section id="hero-top" class="h-screen py-6 md:py-0 md:bg-gradient-to-t from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc] bg-[url(&#39;/public/frontend/hero_1.png&#39;)] bg-no-repeat bg-contain bg-bottom"><div class="flex flex-wrap flex-col sm:flex-row container h-full mx-auto"><div class="w-full md:w-5/12 flex flex-col justify-center items-start"><h1 class="font-extrabold text-3xl md:text-5xl leading-12 text-emerald-500">শিক্ষা ব্যবস্থাপনা সফটওয়্যার </h1><h5 class="font-semibold text-lg md:text-2xl before:block before:absolute before:-inset-1 -skew-y-3 md:transform-none before:bg-pink-500 md:before:bg-transparent my-4 md:my-1 relative inline-block z-10"><span class="relative text-white md:text-slate-900" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}">Education management system</span></h5><p class="mt-4 mb-3 text-md antialiased">আরসিটিসেবা আপনার প্রতিষ্ঠানের কাজগুলো সহজে, ডিজিটাল উপায়ে ও ঝামেলাহীনভাবে শিক্ষক-শিক্ষার্থী ও অভিভাবকদের মধ্যে সমন্বয় করে.</p><p class="mt-2 mb-3 sm:mb-6 text-md antialiased"> আপনার শিক্ষা প্রতিষ্ঠানকে ডিজিটাল ও স্মার্ট করুন আরসিটি এম এস-এর মাধ্যমে </p>`);
+      _push(`<section id="hero-top" class="h-screen py-6 md:py-0 md:bg-gradient-to-t from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc] bg-[url(&#39;/public/frontend/hero_1.png&#39;)] bg-no-repeat bg-contain bg-bottom"><div class="flex flex-wrap flex-col sm:flex-row container h-full mx-auto"><div class="w-full md:w-5/12 flex flex-col justify-center items-start"><h1 class="font-extrabold text-3xl md:text-5xl leading-12 text-emerald-500">শিক্ষা ব্যবস্থাপনা সফটওয়্যার </h1><h5 class="font-semibold text-lg md:text-2xl before:block before:absolute before:-inset-1 -skew-y-3 md:transform-none before:bg-pink-500 md:before:bg-transparent my-4 md:my-1 relative inline-block z-10"><span class="relative text-white md:text-slate-900" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}">Education management system</span></h5><p class="mt-4 mb-3 text-md antialiased">আরসিটিসেবা আপনার প্রতিষ্ঠানের কাজগুলো সহজে, ডিজিটাল উপায়ে ও ঝামেলাহীনভাবে শিক্ষক-শিক্ষার্থী ও অভিভাবকদের মধ্যে সমন্বয় করে.</p><p class="mt-2 mb-3 sm:mb-6 text-md antialiased"> আপনার শিক্ষা প্রতিষ্ঠানকে ডিজিটাল ও স্মার্ট করুন আরসিটি ই এম এস-এর মাধ্যমে </p>`);
       _push(ssrRenderComponent(unref(Link), {
         href: "/",
         type: "button",
@@ -127,25 +126,7 @@ const _sfc_main$4 = {
         }),
         _: 1
       }, _parent));
-      _push(`</div><div style="${ssrRenderStyle({ backgroundImage: `url('/frontend/hero_1.png')` })}" class="w-full hidden md:block md:w-7/12 md:bg-contain lg:bg-contain xl:bg-cover bg-no-repeat bg-center"></div></div></section><section id="pricing-plan" class="py-10 bg-gradient-to-b from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}"><div class="container mx-auto"><div class="relative z-10 overflow-hidden rounded-sm border border-stroke bg-white p-11 shadow-default dark:border-strokedark dark:bg-boxdark"><div class="w-full overflow-x-auto">`);
-      if (props.pricings.length > 0) {
-        _push(`<table class="table-auto w-full"><thead><tr><th class="w-1/4 min-w-[200px] px-5"></th><!--[-->`);
-        ssrRenderList(props.pricings, (pricing) => {
-          _push(`<th class="w-1/4 min-w-[200px] px-5"><form><div class="mb-10 text-left"><span class="mb-3.5 block text-xl font-bold text-black dark:text-white">${ssrInterpolate(pricing.name)}</span><h4 class="mb-4"><span class="text-[28px] font-bold text-black dark:text-white lg:text-[32px]"><sup class="font-xs">৳</sup> ${ssrInterpolate(pricing.price ?? 0)}</span><sub class="font-xs">/ Month</sub></h4><p class="mb-6 text-base font-medium">${ssrInterpolate(pricing.additional_features)}</p><button style="${ssrRenderStyle(props.school !== null && props.school.package_id == null ? null : { display: "none" })}"${ssrIncludeBooleanAttr(form.processing) ? " disabled" : ""} class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90" type="submit">${ssrInterpolate(pricing.price > 0 ? "Purchase Now" : "Free")}</button></div></form></th>`);
-        });
-        _push(`<!--]--></tr></thead><tbody><tr><td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark border-l"><h5 class="font-medium text-black dark:text-white">Key Features</h5></td><!--[-->`);
-        ssrRenderList(props.pricings, (pricing) => {
-          _push(`<td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark"><h5 class="font-medium text-black dark:text-white text-center">Key Features</h5></td>`);
-        });
-        _push(`<!--]--></tr><tr><td class="border-l border-t border-r border-b border-stroke py-5 px-7 dark:border-strokedark"><p class="font-medium">Allowed students</p></td><!--[-->`);
-        ssrRenderList(props.pricings, (pricing) => {
-          _push(`<td class="border-t border-l border-stroke py-5 px-7 dark:border-strokedark border-b border-r"><p class="text-center font-medium">${ssrInterpolate(pricing.allowed_students)}</p></td>`);
-        });
-        _push(`<!--]--></tr></tbody></table>`);
-      } else {
-        _push(`<h1 class="text-xl text-center font-extrabold">${ssrInterpolate("Sorry, No plans found!")}</h1>`);
-      }
-      _push(`</div><div class="absolute top-0 left-0 -z-1"><span class="absolute top-0 left-0 -z-1"><svg width="213" height="188" viewBox="0 0 213 188" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="75" cy="50" r="138" fill="url(#paint0_linear)"></circle><defs><linearGradient id="paint0_linear" x1="75" y1="-88" x2="75" y2="188" gradientUnits="userSpaceOnUse"><stop stop-color="#3056D3" stop-opacity="0.15"></stop><stop offset="1" stop-color="#C4C4C4" stop-opacity="0"></stop></linearGradient></defs></svg></span><span class="absolute top-30 left-11 -z-1"><svg width="50" height="109" viewBox="0 0 50 109" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="47.71" cy="107.259" r="1.74121" transform="rotate(180 47.71 107.259)" fill="#3056D3"></circle><circle cx="47.71" cy="91.9355" r="1.74121" transform="rotate(180 47.71 91.9355)" fill="#3056D3"></circle><circle cx="47.71" cy="76.6133" r="1.74121" transform="rotate(180 47.71 76.6133)" fill="#3056D3"></circle><circle cx="47.71" cy="47.0132" r="1.74121" transform="rotate(180 47.71 47.0132)" fill="#3056D3"></circle><circle cx="47.71" cy="16.7158" r="1.74121" transform="rotate(180 47.71 16.7158)" fill="#3056D3"></circle><circle cx="47.71" cy="61.6392" r="1.74121" transform="rotate(180 47.71 61.6392)" fill="#3056D3"></circle><circle cx="47.71" cy="32.0386" r="1.74121" transform="rotate(180 47.71 32.0386)" fill="#3056D3"></circle><circle cx="47.71" cy="1.74121" r="1.74121" transform="rotate(180 47.71 1.74121)" fill="#3056D3"></circle><circle cx="32.3877" cy="107.259" r="1.74121" transform="rotate(180 32.3877 107.259)" fill="#3056D3"></circle><circle cx="32.3877" cy="91.9355" r="1.74121" transform="rotate(180 32.3877 91.9355)" fill="#3056D3"></circle><circle cx="32.3877" cy="76.6133" r="1.74121" transform="rotate(180 32.3877 76.6133)" fill="#3056D3"></circle><circle cx="32.3877" cy="47.0132" r="1.74121" transform="rotate(180 32.3877 47.0132)" fill="#3056D3"></circle><circle cx="32.3877" cy="16.7158" r="1.74121" transform="rotate(180 32.3877 16.7158)" fill="#3056D3"></circle><circle cx="32.3877" cy="61.6392" r="1.74121" transform="rotate(180 32.3877 61.6392)" fill="#3056D3"></circle><circle cx="32.3877" cy="32.0386" r="1.74121" transform="rotate(180 32.3877 32.0386)" fill="#3056D3"></circle><circle cx="32.3877" cy="1.74121" r="1.74121" transform="rotate(180 32.3877 1.74121)" fill="#3056D3"></circle><circle cx="17.0654" cy="107.259" r="1.74121" transform="rotate(180 17.0654 107.259)" fill="#3056D3"></circle><circle cx="17.0654" cy="91.9355" r="1.74121" transform="rotate(180 17.0654 91.9355)" fill="#3056D3"></circle><circle cx="17.0654" cy="76.6133" r="1.74121" transform="rotate(180 17.0654 76.6133)" fill="#3056D3"></circle><circle cx="17.0654" cy="47.0132" r="1.74121" transform="rotate(180 17.0654 47.0132)" fill="#3056D3"></circle><circle cx="17.0654" cy="16.7158" r="1.74121" transform="rotate(180 17.0654 16.7158)" fill="#3056D3"></circle><circle cx="17.0654" cy="61.6392" r="1.74121" transform="rotate(180 17.0654 61.6392)" fill="#3056D3"></circle><circle cx="17.0654" cy="32.0386" r="1.74121" transform="rotate(180 17.0654 32.0386)" fill="#3056D3"></circle><circle cx="17.0654" cy="1.74121" r="1.74121" transform="rotate(180 17.0654 1.74121)" fill="#3056D3"></circle><circle cx="1.74121" cy="107.259" r="1.74121" transform="rotate(180 1.74121 107.259)" fill="#3056D3"></circle><circle cx="1.74121" cy="91.9355" r="1.74121" transform="rotate(180 1.74121 91.9355)" fill="#3056D3"></circle><circle cx="1.74121" cy="76.6133" r="1.74121" transform="rotate(180 1.74121 76.6133)" fill="#3056D3"></circle><circle cx="1.74121" cy="47.0132" r="1.74121" transform="rotate(180 1.74121 47.0132)" fill="#3056D3"></circle><circle cx="1.74121" cy="16.7158" r="1.74121" transform="rotate(180 1.74121 16.7158)" fill="#3056D3"></circle><circle cx="1.74121" cy="61.6392" r="1.74121" transform="rotate(180 1.74121 61.6392)" fill="#3056D3"></circle><circle cx="1.74121" cy="32.0386" r="1.74121" transform="rotate(180 1.74121 32.0386)" fill="#3056D3"></circle><circle cx="1.74121" cy="1.74121" r="1.74121" transform="rotate(180 1.74121 1.74121)" fill="#3056D3"></circle></svg></span></div></div></div></section><!--]-->`);
+      _push(`</div><div style="${ssrRenderStyle({ backgroundImage: `url('/frontend/hero_1.png')` })}" class="w-full hidden md:block md:w-7/12 md:bg-contain lg:bg-contain xl:bg-cover bg-no-repeat bg-center"></div></div></section><!--]-->`);
     };
   }
 };
@@ -338,7 +319,7 @@ const _sfc_main = {
     const page = usePage();
     const logo = computed(() => page.props.logo);
     return (_ctx, _push, _parent, _attrs) => {
-      _push(`<main${ssrRenderAttrs(_attrs)}><nav class="hidden lg:flex bg-sky-500/50 backdrop-blur-2xl border-sky-500 border-b p-4 fixed w-full top-0 z-50"><div class="container mx-auto flex justify-between items-center"><div><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[40px]" alt=""></div><div class="flex gap-2 flex-wrap items-end justify-end">`);
+      _push(`<main${ssrRenderAttrs(_attrs)}><nav class="hidden lg:flex bg-sky-500/50 backdrop-blur-2xl border-sky-500 border-b p-4 fixed w-full top-0 z-50"><div class="container mx-auto flex justify-between items-center"><div><a href="/"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[115px]" alt=""></a></div><div class="flex gap-2 flex-wrap items-end justify-end">`);
       _push(ssrRenderComponent(unref(Link), {
         class: ["px-2 py-1", { "bg-emerald-500 rounded": _ctx.$page.url === "/" }],
         href: "/"

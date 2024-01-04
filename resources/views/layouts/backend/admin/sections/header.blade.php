@@ -2,8 +2,8 @@
      <div class="flex items-center px-6 gap-3">
          <!-- Brand Logo -->
          <a href="{{ route('app.dashboard') }}" class="logo-box">
-             <img src="{{ '/storage/' . setting('logo') }}" class="h-[calc(100%-2vh)] md:h-[calc(100%-5vh)]" alt="logo"
-                 loading="lazy" />
+             <img src="{{ '/storage/' . setting('logo') }}" class="h-[calc(100%-2vh)] md:h-[calc(100%-15vh)]"
+                 alt="logo" loading="lazy" />
          </a>
 
          <!-- Sidenav Menu Toggle Button -->
