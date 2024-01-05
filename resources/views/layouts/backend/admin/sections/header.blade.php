@@ -42,7 +42,7 @@
          </div>
 
          <!-- Notification Bell Button -->
-         <div class="relative md:flex hidden">
+         {{-- <div class="relative md:flex hidden">
              <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link p-2">
                  <span class="sr-only">View notifications</span>
                  <span class="flex items-center justify-center h-6 w-6">
@@ -173,7 +173,7 @@
                      View All
                  </a>
              </div>
-         </div>
+         </div> --}}
 
          <!-- Profile Dropdown Button -->
          <div class="relative">
@@ -219,8 +219,8 @@
          </div>
          <!-- Customization Button -->
          <div class="flex">
-             <button type="button" class="nav-link p-2" data-fc-type="offcanvas"
-                 data-fc-target="theme-customization" data-fc-scroll="true">
+             <button type="button" class="nav-link p-2" data-fc-type="offcanvas" data-fc-target="theme-customization"
+                 data-fc-scroll="true">
                  <span class="sr-only">Customization Button</span>
                  <span class="flex items-center justify-center h-6 w-6">
                      <i data-lucide="settings"></i>

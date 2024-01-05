@@ -140,10 +140,11 @@
                 <div class="w-1/6"></div>
                 <div class="w-4/6">
                     <div class="dd min-w-full">
-                        <x-menuBuilderComponent :menuItems="$this->menu
+                        <x-menu-builder-component :menuItems="$this->menu
                             ->menuItems()
                             ->orderBy('order', 'ASC')
                             ->get()" />
+
                         {{-- @livewire('backend.menu-dd-component', [
                             'menuItems' => $this->menu->menuItems()->orderBy('order', 'ASC')->get(),
                         ]) --}}
