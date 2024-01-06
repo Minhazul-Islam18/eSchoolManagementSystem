@@ -167,4 +167,14 @@ class School extends Model
     // {
     //     return $this->hasOne(Subscription::class, 'user_id', school()->user_id);
     // }
+
+    /**
+     * Get all of the monthly_fees for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function monthly_fees(): HasMany
+    {
+        return $this->hasMany(SchoolMonthlyFee::class);
+    }
 }

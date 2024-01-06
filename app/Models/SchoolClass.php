@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\ClassSyllabus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -93,5 +94,15 @@ class SchoolClass extends Model
     public function syllabuses(): HasMany
     {
         return $this->hasMany(ClassSyllabus::class, 'class_id');
+    }
+
+    /**
+     * Get the monthly_fee associated with the SchoolClass
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function monthly_fee(): HasOne
+    {
+        return $this->hasOne(SchoolMonthlyFee::class, 'class_id');
     }
 }
