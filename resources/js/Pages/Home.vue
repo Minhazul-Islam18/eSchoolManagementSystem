@@ -73,7 +73,7 @@ const props = defineProps({
                     আপনার শিক্ষা প্রতিষ্ঠানকে ডিজিটাল ও স্মার্ট করুন আরসিটি ই এম এস-এর মাধ্যমে
                 </p>
 
-                <Link href="/" type="button"
+                <Link href="/app/register" type="button"
                     class=" border border-slate-900 after:content-[''] after:w-full after:h-full after:border after:border-slate-900 after:absolute relative after:right-0 after:top-0 hover:after:translate-y-[5px] hover:after:right-[-5px] after:transition-all after:duration-300 cursor-pointer bg-emerald-500 text-white font-semibold hover:bg-emerald-400 transition-all duration-200 z-40 after:z-10 px-7 py-3"
                     style="font-family: 'Jost', sans-serif;">
                 Register</Link>

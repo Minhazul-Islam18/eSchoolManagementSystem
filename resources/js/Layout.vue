@@ -20,7 +20,7 @@ const logo = computed(() => page.props.logo)
     left: 0;
     height: 100%;
     width: 240px;
-    background-color: #2d3748;
+    /* background-color: #72a5fa; */
     padding-top: 4rem;
     z-index: 999;
 }
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
         </nav>
 
         <!-- Mobile Sidebar (hidden by default) -->
-        <div id="mobile-menu" class="hidden">
+        <div id="mobile-menu" class="hidden bg-sky-500/50 backdrop-blur-2xl">
             <button class="close-button text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -110,11 +110,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 </svg>
             </button>
             <div class="flex flex-col items-center mt-4 space-y-4">
-                <img :src="'/storage/' + logo" class="mw-[100%] mx-3" alt="">
-                <a href="#" class="text-white">Home</a>
-                <a href="#" class="text-white">About</a>
-                <a href="#" class="text-white">Services</a>
-                <a href="#" class="text-white">Contact</a>
+                <img :src="'/storage/' + logo" class=" w-[150px] mw-[100%] mx-auto" alt="">
+                <Link class="text-white px-2 py-1" :class="{ 'bg-emerald-500 rounded': $page.url === '/' }" href="/">Home
+                </Link>
+                <Link class="px-2 py-1 text-white" :class="{ 'bg-emerald-500 rounded': $page.url === '/contact' }"
+                    href="/contact">
+                Contact
+                </Link>
+                <Link class="px-2 py-1 text-white" :class="{ 'bg-emerald-500 rounded': $page.url === '/pricings' }"
+                    href="/pricings">
+                Pricings</Link>
+                <Link class="px-2 py-1 text-white" href="/app/login">Login</Link>
             </div>
         </div>
 
