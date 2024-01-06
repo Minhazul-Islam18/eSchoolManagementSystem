@@ -1,10 +1,10 @@
  <header class="app-header">
      <div class="flex items-center px-6 gap-3">
          <!-- Brand Logo -->
-         <a href="{{ route('app.dashboard') }}" class="logo-box">
-             <img src="{{ '/storage/' . setting('logo') }}" class="h-[calc(100%-2vh)] md:h-[calc(100%-15vh)]"
-                 alt="logo" loading="lazy" />
-         </a>
+         {{-- <a href="{{ route('app.dashboard') }}" class="logo-box"> --}}
+         <img src="{{ '/storage/' . setting('logo') }}" class="w-[90px] sm:w-[100px] md:w-[140px]" alt="logo"
+             loading="lazy" />
+         {{-- </a> --}}
 
          <!-- Sidenav Menu Toggle Button -->
          <button id="button-toggle-menu" class="nav-link p-2">
