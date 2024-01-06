@@ -1,18 +1,19 @@
 <?php
 
+use App\Livewire\Backend\MenuBuilder;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Backend\Transections;
 use App\Livewire\Backend\ConfigurePage;
 use App\Livewire\Backend\MenuManagement;
 use App\Livewire\Backend\PageManagement;
 use App\Livewire\Backend\RoleManagement;
 use App\Livewire\Backend\UserManagement;
-use App\Livewire\Backend\BackupManagement;
-use App\Livewire\Backend\DashboardComponent;
 use App\Livewire\Backend\GeneralSettings;
-use App\Livewire\Backend\MenuBuilder;
-use App\Livewire\Backend\PackageManagement;
+use App\Livewire\Backend\BackupManagement;
 use App\Livewire\Backend\School\Dashboard;
-use App\Livewire\Backend\Transections;
+use App\Livewire\Backend\PackageManagement;
+use App\Livewire\Backend\DashboardComponent;
+use App\Http\Controllers\BkashPaymentController;
 
 Route::get('/dashboard', DashboardComponent::class)->name('dashboard');
 

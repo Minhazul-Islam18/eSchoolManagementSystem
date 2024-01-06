@@ -15,14 +15,17 @@ use App\Livewire\Backend\School\ExamResultManagement;
 use App\Livewire\Backend\School\ClassSectionManagement;
 use App\Livewire\Backend\School\ClassSectionSubjectManagement;
 use App\Livewire\Backend\School\ClassSyllabusManagement;
+use App\Livewire\Backend\School\CollectionReportManagement;
 use App\Livewire\Backend\School\FeeCategoryManagement;
 use App\Livewire\Backend\School\FeeCollectionManagement;
 use App\Livewire\Backend\School\GradingManagement;
 use App\Livewire\Backend\School\GradingRuleManagement;
+use App\Livewire\Backend\School\MonthlyFeeManagement;
 use App\Livewire\Backend\School\NoticeEdit;
 use App\Livewire\Backend\School\NoticeManagement;
 use App\Livewire\Backend\School\StaffAttendanceManagement;
 use App\Livewire\Backend\School\StudentAttendanceManagement;
+use App\Livewire\Backend\School\StudentCollectionManagement;
 use App\Livewire\Backend\School\StudentIdCardManagement;
 
 Route::middleware(['checkRole:school,demo_school', 'checkSubscription', 'checkActivatedSchool'])->group(function () {
@@ -48,5 +51,8 @@ Route::middleware(['checkRole:school,demo_school', 'checkSubscription', 'checkAc
     Route::get('/grading-rule/{id}', GradingRuleManagement::class)->name('grading-rule');
     Route::get('/admissions/{admission_id}', AdmissionFormPreview::class)->name('admissions.show');
     Route::get('/general-information', GeneralInformation::class)->name('general-information');
+    Route::get('/monthly-fees', MonthlyFeeManagement::class)->name('monthly-fees');
+    Route::get('/collections', StudentCollectionManagement::class)->name('collections');
+    Route::get('/collection-report', CollectionReportManagement::class)->name('collection-report');
     Route::get('/auto-generate/student-id-card', StudentIdCardManagement::class)->name('generate-student-id-card');
 });

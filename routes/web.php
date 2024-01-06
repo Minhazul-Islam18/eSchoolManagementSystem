@@ -14,6 +14,7 @@ use App\Http\Controllers\FrontendPageController;
 use App\Http\Controllers\ProcessFreePackage;
 
 Route::get('/', function () {
+    // dd(auth()->user()->id);
     Inertia::share('logo', setting('logo'));
     $pricings = Package::where('status', 1)->get();
     return Inertia::render('Home', [
@@ -70,7 +71,8 @@ Route::get('/school-login', function () {
 });
 
 Route::get('/users-redirection', function () {
-    return view('auth.account-status');
+    // return view('auth.account-status');
+    return redirect('/school/dashboard');
 })->name('users-redirection')->middleware(['role.redirect']);
 // Route::middleware([
 //     'auth:sanctum',
