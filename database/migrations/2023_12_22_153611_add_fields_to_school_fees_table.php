@@ -24,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('school_fees', function (Blueprint $table) {
-            $table->date('due_date')->nullable();
+            $table->dropColumn('due_date');
         });
     }
 };

@@ -26,9 +26,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bkash_transections', function (Blueprint $table) {
-            $table->string('trx_id')->nullable();
-            $table->string('customer_msisdn')->nullable();
-            $table->string('transaction_reference')->nullable();
+            $table->dropColumn('trx_id');
+            $table->dropColumn('customer_msisdn');
+            $table->dropColumn('transaction_reference');
         });
     }
 };

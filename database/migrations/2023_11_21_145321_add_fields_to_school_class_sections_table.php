@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('school_class_sections', function (Blueprint $table) {
-            $table->boolean('routine_published')->default(false);
+            $table->dropColumn('routine_published');
         });
     }
 };

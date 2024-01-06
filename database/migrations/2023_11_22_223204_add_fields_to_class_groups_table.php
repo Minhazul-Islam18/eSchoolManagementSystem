@@ -24,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('class_groups', function (Blueprint $table) {
-            $table->foreignId('school_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->dropConstrainedForeignId('school_id');
         });
     }
 };

@@ -23,8 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('school_fee__student', function (Blueprint $table) {
-            $table->enum('status', ['Paid', 'Unpaid'])->default('Unpaid');
+        Schema::table('school_fee_student', function (Blueprint $table) {
+            $table->dropColumn('status');
         });
     }
 };

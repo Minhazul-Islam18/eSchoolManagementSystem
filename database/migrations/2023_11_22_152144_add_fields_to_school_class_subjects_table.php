@@ -12,9 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('school_class_subjects', function (Blueprint $table) {
-            $table->after('school_class_section_id', function (Blueprint $table) {
-                $table->foreignId('class_group_id')->nullable()->constrained()->cascadeOnDelete();
-            });
+            $table->dropConstrainedForeignId('class_group_id');
         });
     }
 

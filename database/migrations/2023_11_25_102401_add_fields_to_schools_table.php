@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('schools', function (Blueprint $table) {
-            $table->foreignId('package_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->dropConstrainedForeignId('package_id');
         });
     }
 };

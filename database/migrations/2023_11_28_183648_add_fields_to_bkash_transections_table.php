@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bkash_transections', function (Blueprint $table) {
-            $table->boolean('is_used')->default(false);
+            $table->dropColumn('is_used');
         });
     }
 };

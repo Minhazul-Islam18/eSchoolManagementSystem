@@ -30,7 +30,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('schools', function (Blueprint $table) {
-            //
+            $table->dropColumn('institute_name');
+            $table->dropColumn('institute_address');
+            $table->dropColumn('thana_or_upazilla');
+            $table->dropColumn('district');
+            $table->dropColumn('eiin_no');
+            $table->dropColumn('headteacher_number');
+            $table->dropColumn('mobile_no');
+            $table->dropColumn('alt_mobile_no');
+            $table->dropColumn('web_address');
         });
     }
 };

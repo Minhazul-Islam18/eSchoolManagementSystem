@@ -24,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('packages', function (Blueprint $table) {
-            $table->boolean('status')->default(true);
+            $table->dropColumn('status');
         });
     }
 };

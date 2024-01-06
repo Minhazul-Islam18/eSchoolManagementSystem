@@ -24,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('class_groups', function (Blueprint $table) {
-            $table->boolean('routine_published')->default(false);
+            $table->dropColumn('routine_published');
         });
     }
 };
