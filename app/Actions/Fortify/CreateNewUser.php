@@ -43,11 +43,13 @@ class CreateNewUser implements CreatesNewUsers
                     'name' => $input['name'],
                     'email' => $input['email'],
                     'password' => Hash::make($input['password']),
+                    'status' => true,
                 ]);
                 if ($user->role->slug == User::SCHOOL) {
                     $school = School::create([
                         'user_id' => $user->id,
                         'name' => $input['name'],
+                        // 'status' => true,
                         // Add other school-specific fields
                     ]);
                 }
@@ -60,9 +62,8 @@ class CreateNewUser implements CreatesNewUsers
 
                 if ($e !== null) {
                     // Add package to user
-                    $user->update([
+                    $user->school->update([
                         'package_id' => $e->id,
-                        'status' => true,
                     ]);
 
                     // Also expired transection
@@ -80,6 +81,7 @@ class CreateNewUser implements CreatesNewUsers
                 // Return the user or any other result if needed
                 return $user;
             } catch (\Exception $e) {
+                dd($e);
                 // Something went wrong, rollback the transaction
                 DB::rollback();
 
@@ -99,6 +101,7 @@ class CreateNewUser implements CreatesNewUsers
                     'name' => $input['name'],
                     'email' => $input['email'],
                     'password' => Hash::make($input['password']),
+                    'status' => true,
                 ]);
 
                 $user->subscription()->updateOrCreate([
