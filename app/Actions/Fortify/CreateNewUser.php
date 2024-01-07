@@ -2,15 +2,16 @@
 
 namespace App\Actions\Fortify;
 
-use App\Models\BkashTransection;
-use App\Models\Package;
+use Exception;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\School;
+use App\Models\Package;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\BkashTransection;
 use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -122,20 +123,14 @@ class CreateNewUser implements CreatesNewUsers
                 if (isset($user)) {
                     session()->put('new_register_successful', 'Congratulations! 🥳 You\'ve successfully registered.');
                 }
-
                 DB::commit();
 
-                // Return the user or any other result if needed
                 return $user;
             } catch (\Exception $e) {
                 // Something went wrong, rollback the transaction
                 DB::rollback();
 
-                // Handle the exception or log it
-                // ...
-
-                // Return null or any other error response
-                return null;
+                throw new Exception("Something went wrong", 404);
             }
         }
     }
