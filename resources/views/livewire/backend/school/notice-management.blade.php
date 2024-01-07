@@ -47,79 +47,76 @@
                         </button>
                     </div>
                     <!-- Modal content-->
-                    <div class="px-4 py-2">
-                        <div>
-                            <!-- Step Content -->
-                            <div class="py-0">
-                                <form class="h-full flex flex-col justify-between" action=""
-                                    wire:submit='{{ $this->editable_item ? 'update' : 'store' }}'>
-                                    <!-- Modal body -->
-                                    <div class="p-6 space-y-6 h-full">
-                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <div wire:ignore>
-                                                <select class="form-control" id="classes" wire:model.blur='class'
-                                                    multiple="multiple" style="width: 100%">
-                                                    <option rel="select-all" value="0">Select All</option>
-                                                    @foreach ($allClass as $class)
-                                                        <option value="{{ $class->id }}"
-                                                            @if (in_array($class->id, $this->class)) selected @endif>
-                                                            {{ $class->class_name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('class')
-                                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-
-                                            <div class="">
-                                                <label for="" class="form-label">Title</label>
-                                                <input wire:model.blur='title' type="text"
-                                                    class="form-input rounded placeholder:text-gray-300"
-                                                    placeholder="Notice title" id="">
-                                                @error('title')
-                                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-
-                                            <div class="">
-                                                <label
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                                    for="file_input">Upload file</label>
-                                                <input
-                                                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                                    aria-describedby="file_input_help" id="file_input" type="file"
-                                                    wire:model.blur='files'>
-
-                                                @error('files')
-                                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                                @enderror
-                                            </div>
+                    <div class="py-2">
+                        <!-- Step Content -->
+                        <div class="py-0">
+                            <form class="h-full flex flex-col justify-between" action=""
+                                wire:submit='{{ $this->editable_item ? 'update' : 'store' }}'>
+                                <!-- Modal body -->
+                                <div class=" space-y-6 h-full">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div wire:ignore>
+                                            <select class="form-control" id="classes" wire:model.blur='class'
+                                                multiple="multiple" style="width: 100%">
+                                                <option rel="select-all" value="0">Select All</option>
+                                                @foreach ($allClass as $class)
+                                                    <option value="{{ $class->id }}"
+                                                        @if (in_array($class->id, $this->class)) selected @endif>
+                                                        {{ $class->class_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('class')
+                                                <span class="text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
                                         </div>
-                                        <div class="" wire:ignore>
-                                            <label for="" class="form-label">Description</label>
-                                            <textarea id="desc" class="form" wire:model.blur="description" id="" cols="30" rows="10">{!! $this->description !!}</textarea>
-                                            @error('description')
+
+                                        <div class="">
+                                            <label for="" class="form-label">Title</label>
+                                            <input wire:model.blur='title' type="text"
+                                                class="form-input rounded placeholder:text-gray-300"
+                                                placeholder="Notice title" id="">
+                                            @error('title')
+                                                <span class="text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="">
+                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                for="file_input">Upload file</label>
+                                            <input
+                                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                aria-describedby="file_input_help" id="file_input" type="file"
+                                                wire:model.blur='files'>
+
+                                            @error('files')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
-                                    <!-- Modal footer -->
-                                    <div
-                                        class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                        <button type="submit"
-                                            class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50">
-                                            {{ $this->editable_item ? 'Update' : 'Save' }}</button>
-                                        @if ($this->editable_item)
-                                            <button type="button" wire:click='resetFields'
-                                                class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-red-400 dark:focus:ring-red-200/50">
-                                                {{ 'Cancel' }}</button>
-                                        @endif
+                                    <div class="" wire:ignore>
+                                        <label for="" class="form-label">Description</label>
+                                        <textarea id="desc" class="form" wire:model.blur="description" id="" cols="30" rows="10">{!! $this->description !!}</textarea>
+                                        @error('description')
+                                            <span class="text-sm text-red-500">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                </form>
-                            </div>
-                            <!-- / Step Content -->
+                                </div>
+                                <!-- Modal footer -->
+                                <div
+                                    class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                    <button type="submit"
+                                        class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50">
+                                        {{ $this->editable_item ? 'Update' : 'Save' }}</button>
+                                    @if ($this->editable_item)
+                                        <button type="button" wire:click='resetFields'
+                                            class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-red-400 dark:focus:ring-red-200/50">
+                                            {{ 'Cancel' }}</button>
+                                    @endif
+                                </div>
+                            </form>
                         </div>
+                        <!-- / Step Content -->
                     </div>
                 </div>
             </div>
