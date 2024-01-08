@@ -27,6 +27,10 @@ class StudentIdCardManagement extends Component
     public $groups = [];
     public $sections = [];
     public $students = [];
+    public $student_division_name;
+    public $student_district_name;
+    public $student_upazila_name;
+    public $student_union_name;
 
     public $card = [
         'class' => [],
@@ -40,12 +44,11 @@ class StudentIdCardManagement extends Component
 
     public function loadPdf()
     {
-        // dd($this->card);
         ini_set('max_execution_time', 300); // Set the maximum execution time to 300 seconds (adjust as needed)
 
         $pdf = Pdf::loadView(
             'livewire.backend.school.id-card-preview',
-            ['card' => $this->card, 'path' => config('app.url')]
+            ['card' => $this->card, 'path' => config('app.url'), 'student_upazila_name' => $this->student_upazila_name, 'student_district_name' => $this->student_district_name]
         );
 
         return response()->streamDownload(function () use ($pdf) {
@@ -99,11 +102,12 @@ class StudentIdCardManagement extends Component
             $this->card['section'] = $this->sections ? $this->sections->firstWhere('id', $this->section_id) : null;
             $this->card['group'] = $this->groups ? $this->groups->firstWhere('id', $this->group_id) : null;
             $this->card['student'] = $this->students->firstWhere('id', $this->student_id);
-            $this->card['student']['division'] = Division::findOrFail($this->card['student']->division)->name;
-            $this->card['student']['district'] = District::findOrFail($this->card['student']->zilla)->name;
-            $this->card['student']['upazila'] = Upazila::findOrFail($this->card['student']->upazilla_or_thana)->name;
-            $this->card['student']['union'] = Union::findOrFail($this->card['student']->union)->name;
+            $this->student_division_name = Division::findOrFail($this->card['student']->division)->name;
+            $this->student_district_name = District::findOrFail($this->card['student']->zilla)->name;
+            $this->student_upazila_name = Upazila::findOrFail($this->card['student']->upazilla_or_thana)->name;
+            $this->student_union_name = Union::findOrFail($this->card['student']->union)->name;
 
+            // dd($this->card['student']);
             break;
         };
     }

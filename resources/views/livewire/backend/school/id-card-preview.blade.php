@@ -1,53 +1,61 @@
 <div>
-    {{-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> --}}
-    <div class="rounded-md flex bg-cover py-5 px-3 bg-no-repeat back print:rounded-md print:flex print:bg-cover print:py-5 print:px-3 print:bg-no-repeat"
-        style="border-radius: .5rem; display:flex; background-size: cover; padding: 1.2rem .7rem; background-repeat: no-repeat;"
+    <div style="background-color:#e1f0ff; border-radius: .5rem; display: grid; grid-template-columns: 1fr 2fr; background-size: cover; padding: 1.2rem .7rem; background-repeat: no-repeat;"
         id="profile-card" wire:loading.class="opacity-50">
-        <div class="print:w-1/3 w-1/3 print:flex flex print:flex-col flex-col print:items-center items-center">
-            <img class=" print:rounded-full print:mb-2 rounded-full mb-2" src="{{ 'https://placehold.co/80x80/png' }}"
+
+        <div style="width: 33.333%; display: flex; flex-direction: column; align-items: center;">
+            <img style="border-radius: 50%; width:50px; margin-bottom: 2px;"
+                src="{{ isset(school()->institute_logo) ? storage_path(school()->institute_logo) : 'https://placehold.co/80x80/png' }}"
                 alt="">
-            <img class="print:relative print:block print:px-3 relative block px-3"
+            <img style="position: relative; display: block; padding: 0 3px; width: 80px;"
                 src="{{ isset($card['student']->student_image) ? $path . '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
                 alt="">
         </div>
-        <div class="print:w-2/3 w-2/3">
-            <h2
-                class=" print:font-bold print:text-2xl print:uppercase print:text-center print:mb-0 print:text-blue-600 text-blue-600 mb-0 text-center uppercase text-2xl font-bold">
+
+        <div style="width: 66.666%;">
+            <h2 style="font-weight: bold; text-align: center; margin-bottom: 0; color: #3182ce; text-transform: uppercase; font-size: 1.5rem;"
+                class="print:font-bold print:text-2xl print:uppercase print:text-center print:mb-0 print:text-blue-600">
                 {{ school()->institute_name }}
             </h2>
-            <p class="print:text-center print:text-black print:text-xs print:mb-2 mb-2 text-xs text-black text-center">
+            <p style="text-align: center; color: #000; font-size: 0.75rem; margin-bottom: 2px;"
+                class="print:text-center print:text-black print:text-xs print:mb-2">
                 {{ school()->institute_address }}
             </p>
-            <div
-                class="print:text-black text-black print:flex flex print:flex-wrap flex-wrap print:gap-2 gap-2 print:justify-center justify-center print:mb-1 mb-1 print:border-b border-b print:border-blue-600 border-blue-600">
-                <span class=" print:font-medium font-medium">Phone: {{ school()->mobile_no }}</span>
-                <span class=" print:font-medium font-medium">Web: {{ school()->web_address }}</span>
+
+            <div style="color: #000; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1px; border-bottom: 1px solid #3182ce;"
+                class="print:flex flex print:flex-wrap flex-wrap print:gap-2 gap-2 print:justify-center justify-center print:mb-1 mb-1 print:border-b border-b print:border-blue-600">
+                <span style="font-weight: 500;" class="print:font-medium font-medium">Phone:
+                    {{ school()->mobile_no }}</span>
+                <span style="font-weight: 500;" class="print:font-medium font-medium">Web:
+                    {{ school()->web_address }}</span>
             </div>
-            <div class="print:py-2 py-2 print:flex-col flex-col print:text-slate-900 text-slate-900 print:gap-2 gap-2">
-                <div class="print:flex flex print:gap-1 gap-1">
-                    <span class=" print:font-medium font-medium">Name:</span>
+
+            <div style="padding: 2px 0; display: flex; flex-direction: column; color: #1a202c; gap: 2px;"
+                class="print:py-2 py-2 print:flex-col flex-col print:text-slate-900 text-slate-900 print:gap-2 gap-2">
+                <div style="display: flex; gap: .6rem;" class="print:flex flex print:gap-1 gap-1">
+                    <span style="font-weight: 500;" class="print:font-medium font-medium">Name:</span>
                     <span>{{ $card['student']->name_en ?? 'xxxxxxxxxxx' }}</span>
                 </div>
-                <div class="print:flex flex print:gap-1 gap-1">
-                    <span class=" print:font-medium font-medium">Class:</span>
+                <div style="display: flex; gap: .6rem;" class="print:flex flex print:gap-1 gap-1">
+                    <span style="font-weight: 500;" class="print:font-medium font-medium">Class:</span>
                     <span>{{ $card['student']->school_class->class_name ?? 'xxxxxx' }}</span>
                 </div>
-                <div class="print:flex flex print:gap-1 gap-1">
-                    <span class=" print:font-medium font-medium">DOB:</span>
-                    <span>{{ isset($card['student']->dob) ? \carbon\carbon::parse($card['student']->dob)->toDateString() : 'xx-xx-xxxx' }}</span>
+                <div style="display: flex; gap: .6rem;" class="print:flex flex print:gap-1 gap-1">
+                    <span style="font-weight: 500;" class="print:font-medium font-medium">DOB:</span>
+                    <span>{{ isset($card['student']->dob) ? \Carbon\Carbon::parse($card['student']->dob)->toDateString() : 'xx-xx-xxxx' }}</span>
                 </div>
-                <div class="print:flex flex print:gap-1 gap-1">
-                    <span class=" print:font-medium font-medium">Address:</span>
+                <div style="display: flex; gap: .6rem;" class="print:flex flex print:gap-1 gap-1">
+                    <span style="font-weight: 500;" class="print:font-medium font-medium">Address:</span>
                     <span>
                         {{ !empty($card['student'])
-                            ? $card['student']->village . ', ' . $card['student']['upazila'] . ', ' . $card['student']['district']
+                            ? $card['student']->village . ', ' . $student_upazila_name . ', ' . $student_district_name
                             : 'xxx,xxxxxxx,xxxx,xxxxxxxxx' }}</span>
                 </div>
-                <div class="print:flex flex print:gap-1 gap-1">
-                    <span class=" print:font-medium font-medium">Phone:</span>
+                <div style="display: flex; gap: .6rem;" class="print:flex flex print:gap-1 gap-1">
+                    <span style="font-weight: 500;" class="print:font-medium font-medium">Phone:</span>
                     <span>{{ $card['student']->mobile_number ?? '0123456789' }}</span>
                 </div>
             </div>
         </div>
     </div>
+
 </div>

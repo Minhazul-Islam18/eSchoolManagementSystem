@@ -43,10 +43,12 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="">
                                     @if ($this->image)
-                                        <img src="{{ $this->image != null ? $this->image->temporaryUrl() : '' }}"
+                                        <img class="w-[150px]"
+                                            src="{{ $this->image != null ? $this->image->temporaryUrl() : '' }}"
                                             alt="">
                                     @elseif ($this->preview_image)
-                                        <img src="{{ '/storage/' . $this->preview_image }}" alt="">
+                                        <img class="w-[150px]" src="{{ '/storage/' . $this->preview_image }}"
+                                            alt="">
                                     @endif
 
                                     <label for="" class="form-label">Image</label>
@@ -69,7 +71,7 @@
                                     <select wire:model.blur='gender' class="form-select rounded" id="">
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
-                                        <option value="intersex">Intersex</option>
+                                        {{-- <option value="intersex">Intersex</option> --}}
                                     </select>
                                 </div>
                                 <div class="">

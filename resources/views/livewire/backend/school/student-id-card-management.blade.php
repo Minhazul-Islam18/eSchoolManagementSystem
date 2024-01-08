@@ -136,7 +136,8 @@
                         style="background-image: url('{{ isset($photo) ? $photo->temporaryUrl() : 'https://img.freepik.com/free-photo/background_53876-32170.jpg?size=626&ext=jpg&ga=GA1.1.2116175301.1700870400&semt=ais' }}')"
                         id="profile-card" wire:loading.class="opacity-50" wire:target='setIDcard'>
                         <div class="w-1/3 flex flex-col items-center">
-                            <img class=" rounded-full mb-2" src="{{ 'https://placehold.co/80x80/png' }}"
+                            <img class=" rounded-full mb-2"
+                                src="{{ isset(school()->institute_logo) ? storage_path(school()->institute_logo) : 'https://placehold.co/80x80/png' }}"
                                 alt="">
                             <img class="relative block px-3"
                                 src="{{ isset($card['student']->student_image) ? config('app.url') . '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
@@ -170,7 +171,7 @@
                                     <span class=" font-medium">Address:</span>
                                     <span>
                                         {{ !empty($card['student'])
-                                            ? $card['student']->village . ', ' . $card['student']['upazila'] . ', ' . $card['student']['district']
+                                            ? $card['student']->village . ', ' . $student_upazila_name . ', ' . $student_district_name
                                             : 'xxx,xxxxxxx,xxxx,xxxxxxxxx' }}</span>
                                 </div>
                                 <div class="flex gap-1">

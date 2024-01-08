@@ -22,6 +22,18 @@
                                 <form action="" wire:submit='SaveGeneralSettings'>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         <div class="mb-2">
+                                            @if ($institute_logo)
+                                                <img src="{{ $institute_logo->temporaryUrl() }}" width="140px"
+                                                    alt="">
+                                            @else
+                                                <img src="/storage/{{ $preview_logo }}" class="rounded" alt=""
+                                                    width="140px">
+                                            @endif
+                                            <x-input wire:model="institute_logo" label="Institute logo"
+                                                accept="image/png,image/jpg,image/webp,image/jpeg" type="file" />
+                                        </div>
+
+                                        <div class="mb-2">
                                             <label for="" class="form-label">Institute name</label>
                                             <input type="text" wire:model.blur='institute_name'
                                                 class="form-input rounded">

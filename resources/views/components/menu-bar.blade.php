@@ -84,12 +84,7 @@
                 Notices
             </a>
         </li>
-        <li class="menu-item">
-            <a href="{{ route('school.grading') }}" class="menu-link">
-                <i data-lucide="candlestick-chart"></i>
-                Gradings
-            </a>
-        </li>
+
         <li class="menu-item">
             <span class="flex gap-1 mt-3">
                 <i data-lucide="graduation-cap"></i>
@@ -108,6 +103,12 @@
                     <a href="{{ route('school.classes') }}" data-fc-type="collapse" class="menu-link"
                         data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Classes') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.monthly-fees') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Monthly fees') }} </span>
                     </a>
                 </li>
                 <li class="menu-item">
@@ -161,6 +162,12 @@
                         <span class="menu-text"> {{ __('Results') }} </span>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.grading') }}" class="menu-link">
+                        <i data-lucide="candlestick-chart"></i>
+                        Gradings
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="menu-item">
@@ -184,6 +191,45 @@
                 </li>
             </ul>
         </li>
+
+        <li class="menu-item">
+            <span class="flex gap-1 mt-3">
+                <i data-lucide="clipboard-signature"></i>
+                Accounts
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
+            <ul class="sub-menu hidden">
+                <li class="menu-item">
+                    <a href="{{ route('school.staffs-attendance') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Collection') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.students-attendance') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Collection Report') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.students-attendance') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Collection Update') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.students-attendance') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Receipt Print') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.students-attendance') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Student Summary') }} </span>
+                    </a>
+                </li>
+            </ul>
         </li>
     @endif
 </ul>

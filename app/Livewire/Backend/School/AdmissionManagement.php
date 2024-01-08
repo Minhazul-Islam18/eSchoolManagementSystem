@@ -199,6 +199,7 @@ class AdmissionManagement extends Component
     }
     public function store()
     {
+        if(school()->canAddStudent()){
         Gate::authorize('school.admissions.create');
         $u = User::create([
             'student_id' => date('y') . rand(101, 10000),
@@ -261,6 +262,7 @@ class AdmissionManagement extends Component
         ]);
         $this->alert('success', 'Student admission created');
         // $this->resetFields();
+    }
     }
 
     public function resetFields()

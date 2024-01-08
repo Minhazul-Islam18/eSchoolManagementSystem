@@ -177,4 +177,10 @@ class School extends Model
     {
         return $this->hasMany(SchoolMonthlyFee::class);
     }
+
+    public function canAddStudent()
+    {
+        $maxStudents = school()->package->allowed_students;
+        return $this->students()->count() < $maxStudents;
+    }
 }

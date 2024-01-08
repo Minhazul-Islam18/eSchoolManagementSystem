@@ -4,19 +4,19 @@
     "src": "public/frontend/hero_1.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-63b4f1b4.css",
+    "file": "assets/app-ee3e5b10.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/js/app.css": {
-    "file": "assets/app-b5c73ed8.css",
+    "file": "assets/app-d3166104.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "css": [
-      "assets/app-b5c73ed8.css"
+      "assets/app-d3166104.css"
     ],
-    "file": "assets/app-5a3a51b8.js",
+    "file": "assets/app-40ca4747.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }

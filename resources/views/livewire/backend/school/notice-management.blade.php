@@ -31,7 +31,7 @@
                     x-transition:leave="transition ease-in duration-200 transform"
                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    class="max-h-[90vh] overflow-y-scroll inline-block w-full max-w-[80vw] p-8 overflow-hidden text-left transition-all transform bg-white dark:bg-slate-800 rounded-lg shadow-xl 2xl:max-w-2xl">
+                    class="max-h-[90vh] overflow-y-scroll inline-block w-full max-w-[95vw] sm:max-w-[80vw] p-8 overflow-hidden text-left transition-all transform bg-white dark:bg-slate-800 rounded-lg shadow-xl 2xl:max-w-2xl">
                     <!-- Modal header -->
                     <div class="flex items-center justify-between space-x-4">
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -56,6 +56,7 @@
                                 <div class=" space-y-6 h-full">
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div wire:ignore>
+                                            <label for="classes">Select class</label>
                                             <select class="form-control" id="classes" wire:model.blur='class'
                                                 multiple="multiple" style="width: 100%">
                                                 <option rel="select-all" value="0">Select All</option>
@@ -126,6 +127,7 @@
                 <thead class="bg-blue-500 border-none">
                     <tr>
                         <th class="text-white">ID</th>
+                        <th class="text-white">Class</th>
                         <th class="text-white">Title</th>
                         <th class="text-white text-right">Actions</th>
                     </tr>
@@ -134,6 +136,11 @@
                     @foreach ($notices as $key => $item)
                         <tr wire:key='{{ $item->id }}' class="border-b">
                             <td>{{ $key + 1 }}</td>
+                            <td>
+                                @foreach ($item->schoolClasses as $c)
+                                    {{ $c->class_name }}
+                                @endforeach
+                            </td>
                             <td>
                                 {{ $item->title }}
                             </td>
@@ -155,6 +162,7 @@
                 <tfoot class="bg-blue-500">
                     <tr>
                         <th class="text-white">ID</th>
+                        <th class="text-white">Class</th>
                         <th class="text-white">Title</th>
                         <th class="text-white text-right">Actions</th>
                     </tr>

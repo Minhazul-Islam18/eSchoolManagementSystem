@@ -71,17 +71,29 @@ Route::get('/school-login', function () {
 });
 
 Route::get('/users-redirection', function () {
-    // return view('auth.account-status');
-    return redirect('/school/dashboard');
+    if (auth()->user()->role->slug == 'admin' || auth()->user()->role->slug == 'super_admin') {
+        return redirect()->route('app.index');
+    } elseif (auth()->user()->role->slug == 'school' || auth()->user()->role->slug == "demo_school") {
+        return redirect()->route('school.index');
+    } elseif (auth()->user()->role->slug == 'student') {
+        return redirect()->route('student.index');
+    }
+    // return redirect('/school/dashboard');
 })->name('users-redirection')->middleware(['role.redirect']);
+
+Route::get('/dashboard', function () {
+    if (auth()->user()->role->slug == 'admin' || auth()->user()->role->slug == 'super_admin') {
+        return redirect()->route('app.index');
+    } elseif (auth()->user()->role->slug == 'school' || auth()->user()->role->slug == "demo_school") {
+        return redirect()->route('school.index');
+    }
+})->name('dashboard');
 // Route::middleware([
 //     'auth:sanctum',
 //     config('jetstream.auth_session'),
 //     'verified',
 // ])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return view('dashboard');
-//     })->name('dashboard');
+
 // });
 
 //Social Login

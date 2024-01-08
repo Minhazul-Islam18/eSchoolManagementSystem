@@ -4,14 +4,17 @@ namespace App\Livewire\Backend\School;
 
 use App\Models\School;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class GeneralInformation extends Component
 {
-    use LivewireAlert;
+    use LivewireAlert, WithFileUploads;
     #[Title('General information')]
+    public $preview_logo;
+    public $institute_logo;
     public $institute_name;
     public $institute_address;
     public $thana_or_upazilla;
@@ -27,6 +30,7 @@ class GeneralInformation extends Component
     {
         Gate::authorize('school.settings.update');
         $this->validate([
+            'institute_logo' => 'nullable|image:png,jpg,webp,jpeg',
             'institute_name' => 'nullable|max:100',
             'institute_address' => 'nullable|max:255',
             'thana_or_upazilla' => 'nullable|max:100',
@@ -37,9 +41,14 @@ class GeneralInformation extends Component
             'alt_mobile_no' => 'nullable|max:20',
             'web_address' => 'nullable|max:50',
         ]);
+
+        if (isset($this->institute_logo)) {
+            $this->institute_logo = $this->institute_logo->storeAs(auth()->user()->id . '/institute', $this->institute_logo->hashName(), 'public');
+        }
         $e = School::where('user_id', auth()->user()->id)->first();
 
         $e->update([
+            'institute_logo' => $this->institute_logo,
             'institute_name' => $this->institute_name,
             'institute_address' => $this->institute_address,
             'thana_or_upazilla' => $this->thana_or_upazilla,
@@ -50,6 +59,7 @@ class GeneralInformation extends Component
             'alt_mobile_no' => $this->alt_mobile_no,
             'web_address' => $this->web_address,
         ]);
+        $this->institute_logo = '';
         $this->alert('success', 'Information updated');
     }
     public function cancelSubscription()
@@ -68,6 +78,7 @@ class GeneralInformation extends Component
     {
         Gate::authorize('school.settings.index');
         $e = School::allInformations();
+        $this->preview_logo  = $e->institute_logo;
         $this->institute_name  = $e->institute_name;
         $this->institute_address  = $e->institute_address;
         $this->thana_or_upazilla  = $e->thana_or_upazilla;

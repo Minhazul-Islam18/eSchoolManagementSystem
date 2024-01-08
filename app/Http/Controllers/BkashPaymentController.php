@@ -55,6 +55,7 @@ class BkashPaymentController extends Controller
 
             $request_data_json = json_encode($request->all());
             $e = BkashPayment::cPayment($request_data_json);
+            // dd($e);
             session()->put('payment_id', $e['paymentID']);
             BkashTransection::create([
                 'logo' => $e['orgLogo'],

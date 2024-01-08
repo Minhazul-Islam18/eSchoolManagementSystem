@@ -110,7 +110,7 @@ const _sfc_main$4 = {
       }, _parent));
       _push(`<section id="hero-top" class="h-screen py-6 md:py-0 md:bg-gradient-to-t from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc] bg-[url(&#39;/public/frontend/hero_1.png&#39;)] bg-no-repeat bg-contain bg-bottom"><div class="flex flex-wrap flex-col sm:flex-row container h-full mx-auto"><div class="w-full md:w-5/12 flex flex-col justify-center items-start"><h1 class="font-extrabold text-3xl md:text-5xl leading-12 text-emerald-500">শিক্ষা ব্যবস্থাপনা সফটওয়্যার </h1><h5 class="font-semibold text-lg md:text-2xl before:block before:absolute before:-inset-1 -skew-y-3 md:transform-none before:bg-pink-500 md:before:bg-transparent my-4 md:my-1 relative inline-block z-10"><span class="relative text-white md:text-slate-900" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}">Education management system</span></h5><p class="mt-4 mb-3 text-md antialiased">আরসিটিসেবা আপনার প্রতিষ্ঠানের কাজগুলো সহজে, ডিজিটাল উপায়ে ও ঝামেলাহীনভাবে শিক্ষক-শিক্ষার্থী ও অভিভাবকদের মধ্যে সমন্বয় করে.</p><p class="mt-2 mb-3 sm:mb-6 text-md antialiased"> আপনার শিক্ষা প্রতিষ্ঠানকে ডিজিটাল ও স্মার্ট করুন আরসিটি ই এম এস-এর মাধ্যমে </p>`);
       _push(ssrRenderComponent(unref(Link), {
-        href: "/",
+        href: "/app/register",
         type: "button",
         class: "border border-slate-900 after:content-[''] after:w-full after:h-full after:border after:border-slate-900 after:absolute relative after:right-0 after:top-0 hover:after:translate-y-[5px] hover:after:right-[-5px] after:transition-all after:duration-300 cursor-pointer bg-emerald-500 text-white font-semibold hover:bg-emerald-400 transition-all duration-200 z-40 after:z-10 px-7 py-3",
         style: { "font-family": "'Jost', sans-serif" }
@@ -380,7 +380,68 @@ const _sfc_main = {
         }),
         _: 1
       }, _parent));
-      _push(`</div></div></nav><nav class="lg:hidden bg-blue-500 p-4"><div class="container mx-auto"><div class="flex justify-between items-center"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[60px]" alt=""><button id="mobile-menu-button" class="text-white focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div></div></nav><div id="mobile-menu" class="hidden"><button class="close-button text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><div class="flex flex-col items-center mt-4 space-y-4"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="mw-[100%] mx-3" alt=""><a href="#" class="text-white">Home</a><a href="#" class="text-white">About</a><a href="#" class="text-white">Services</a><a href="#" class="text-white">Contact</a></div></div><article class="mt-[65px]">`);
+      _push(`</div></div></nav><nav class="lg:hidden bg-blue-500 p-4"><div class="container mx-auto"><div class="flex justify-between items-center"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[60px]" alt=""><button id="mobile-menu-button" class="text-white focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div></div></nav><div id="mobile-menu" class="hidden bg-sky-500/50 backdrop-blur-2xl"><button class="close-button text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><div class="flex flex-col items-center mt-4 space-y-4"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[150px] mw-[100%] mx-auto" alt="">`);
+      _push(ssrRenderComponent(unref(Link), {
+        class: ["text-white px-2 py-1", { "bg-emerald-500 rounded": _ctx.$page.url === "/" }],
+        href: "/"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Home `);
+          } else {
+            return [
+              createTextVNode("Home ")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(unref(Link), {
+        class: ["px-2 py-1 text-white", { "bg-emerald-500 rounded": _ctx.$page.url === "/contact" }],
+        href: "/contact"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(` Contact `);
+          } else {
+            return [
+              createTextVNode(" Contact ")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(unref(Link), {
+        class: ["px-2 py-1 text-white", { "bg-emerald-500 rounded": _ctx.$page.url === "/pricings" }],
+        href: "/pricings"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(` Pricings`);
+          } else {
+            return [
+              createTextVNode(" Pricings")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(unref(Link), {
+        class: "px-2 py-1 text-white",
+        href: "/app/login"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Login`);
+          } else {
+            return [
+              createTextVNode("Login")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div></div><article class="mt-[65px]">`);
       _push(ssrRenderComponent(_sfc_main$1, null, null, _parent));
       ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
       _push(`</article><footer class="py-6 px-6 bg-gradient-to-tr from-slate-800 to-slate-600" style="${ssrRenderStyle({ "position": "sticky", "width": "100%", "bottom": "0", "left": "0", "right": "0", "z-index": "-1" })}"><div class="flex flex-wrap"><div class="w-full flex justify-center"><p class="text-white">আরসিটি ইএমএস ২০২৩ | আরসিটি সেবার একটি পণ্য | সর্বসত্ব সংরক্ষিত</p></div></div></footer></main>`);
