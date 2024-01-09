@@ -132,19 +132,68 @@
                 <div class="w-5/12 bg-gray-300 dark:bg-slate-800 py-5 px-3 rounded-md">
                     <h2 class="mb-2 pb-2 pt-1 text-2xl text-center border-b border-gray-400 dark:border-slate-900">
                         Preview</h2>
-                    <div class="rounded-md flex bg-cover py-5 px-3 bg-no-repeat bg-center"
+                    <table style="background-color: #dae9fc; padding: .8rem 1rem; border-radius: .5rem; width: 100%">
+                        <tbody>
+                            <tr style="display: flex; flex-direction: row;">
+                                <td
+                                    style="width:33%; display: flex; flex-direction: column; align-items:center; justify-content:space-around">
+                                    <img class=" rounded-full mb-2"
+                                        src="{{ isset(school()->institute_logo) ? storage_path(school()->institute_logo) : 'https://placehold.co/80x80/png' }}"
+                                        alt="">
+                                    <img class="relative block px-3"
+                                        src="{{ isset($card['student']->student_image) ? config('app.url') . '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
+                                        alt="">
+                                </td>
+                                <td style="width:66%">
+                                    <h2 class=" font-bold text-2xl uppercase text-center mb-0 text-blue-600">
+                                        {{ school()->institute_name }}
+                                    </h2>
+                                    <p class="text-center text-black text-xs mb-2">
+                                        {{ school()->institute_address }}
+                                    </p>
+                                    <div
+                                        class="text-black flex flex-wrap gap-2 justify-center mb-1 border-b border-blue-600">
+                                        <span class=" font-medium">Phone: {{ school()->mobile_no }}</span>
+                                        <span class=" font-medium">Web: {{ school()->web_address }}</span>
+                                    </div>
+                                    <div class="py-2 flex-col text-slate-900 gap-2">
+                                        <div class="flex gap-1">
+                                            <span class=" font-medium">Name:</span>
+                                            <span>{{ $card['student']->name_en ?? 'xxxxxxxxxxx' }}</span>
+                                        </div>
+                                        <div class="flex gap-1">
+                                            <span class=" font-medium">Class:</span>
+                                            <span>{{ $card['student']->school_class->class_name ?? 'xxxxxx' }}</span>
+                                        </div>
+                                        <div class="flex gap-1">
+                                            <span class=" font-medium">DOB:</span>
+                                            <span>{{ isset($card['student']->dob) ? \carbon\carbon::parse($card['student']->dob)->toDateString() : 'xx-xx-xxxx' }}</span>
+                                        </div>
+                                        <div class="flex gap-1">
+                                            <span class=" font-medium">Address:</span>
+                                            <span>
+                                                {{ !empty($card['student'])
+                                                    ? $card['student']->village . ', ' . $student_upazila_name . ', ' . $student_district_name
+                                                    : 'xxx,xxxxxxx,xxxx,xxxxxxxxx' }}</span>
+                                        </div>
+                                        <div class="flex gap-1">
+                                            <span class=" font-medium">Phone:</span>
+                                            <span>{{ $card['student']->mobile_number ?? '0123456789' }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    {{-- <div class="rounded-md flex bg-cover py-5 px-3 bg-no-repeat bg-center"
                         style="background-image: url('{{ isset($photo) ? $photo->temporaryUrl() : 'https://img.freepik.com/free-photo/background_53876-32170.jpg?size=626&ext=jpg&ga=GA1.1.2116175301.1700870400&semt=ais' }}')"
                         id="profile-card" wire:loading.class="opacity-50" wire:target='setIDcard'>
                         <div class="w-1/3 flex flex-col items-center">
-                            <img class=" rounded-full mb-2"
-                                src="{{ isset(school()->institute_logo) ? storage_path(school()->institute_logo) : 'https://placehold.co/80x80/png' }}"
-                                alt="">
-                            <img class="relative block px-3"
-                                src="{{ isset($card['student']->student_image) ? config('app.url') . '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
-                                alt="">
+
                         </div>
                         <div class="w-2/3">
-                            <h2 class=" font-bold text-2xl uppercase text-center mb-0 text-blue-600">
+                             <h2 class=" font-bold text-2xl uppercase text-center mb-0 text-blue-600">
                                 {{ school()->institute_name }}
                             </h2>
                             <p class="text-center text-black text-xs mb-2">
@@ -180,7 +229,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="justify-end gap-3 flex flex-wrap">
                         <button
                             class="bg-emerald-500 transition-all duration-300 mt-3 hover:bg-emerald-700 rounded-md py-2 px-4">

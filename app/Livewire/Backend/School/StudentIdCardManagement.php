@@ -47,7 +47,7 @@ class StudentIdCardManagement extends Component
         ini_set('max_execution_time', 300); // Set the maximum execution time to 300 seconds (adjust as needed)
 
         $pdf = Pdf::loadView(
-            'livewire.backend.school.id-card-preview',
+            'components.backend.id-card-preview',
             ['card' => $this->card, 'path' => config('app.url'), 'student_upazila_name' => $this->student_upazila_name, 'student_district_name' => $this->student_district_name]
         );
 
