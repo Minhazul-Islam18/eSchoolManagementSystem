@@ -123,6 +123,7 @@ class AdmissionManagement extends Component
         } else {
             $this->groups = [];
         }
+        // dd($this->sections);
     }
 
     public function getGroups()
@@ -143,126 +144,126 @@ class AdmissionManagement extends Component
     {
         $this->unions = Union::where('upazila_id', $this->upazila_id)->get();
     }
-    #[On('form-preview')]
 
+    #[On('form-preview')]
     public function formPreview()
     {
         $this->validate([
-            'student_image' => 'required',
+            // 'student_image' => 'required',
             'name_bn' => 'required',
             'name_en' => 'required',
             'school_class_id' => 'required',
             'gender' => 'required',
-            'religion' => 'required',
-            'birth_certificate_no' => 'required',
-            'dob' => 'required',
-            'have_siblings_studying' => 'nullable',
-            'student_category_id' => 'required',
-            'student_quota_id' => 'required',
-            'division_id' => 'required',
-            'district_id' => 'required',
-            'upazila_id' => 'required',
-            'union_id' => 'required',
-            'postoffice' => 'required',
-            'village' => 'required',
-            'mobile_number' => 'required',
-            'post_code' => 'required',
+            // 'religion' => 'required',
+            // 'birth_certificate_no' => 'required',
+            // 'dob' => 'required',
+            // 'have_siblings_studying' => 'nullable',
+            // 'student_category_id' => 'required',
+            // 'student_quota_id' => 'required',
+            // 'division_id' => 'required',
+            // 'district_id' => 'required',
+            // 'upazila_id' => 'required',
+            // 'union_id' => 'required',
+            // 'postoffice' => 'required',
+            // 'village' => 'required',
+            // 'mobile_number' => 'required',
+            // 'post_code' => 'required',
         ]);
-        $this->student_category = StudentCategory::findOrFail($this->student_category_id);
-        $this->student_quota = StudentQuota::findOrFail($this->student_quota_id);
+        $this->student_category = StudentCategory::find($this->student_category_id) ?? null;
+        $this->student_quota = StudentQuota::find($this->student_quota_id) ?? null;
         $this->class = SchoolClass::findBySchool($this->school_class_id);
         if ($this->class_id_of_studying_siblings != null) {
             $this->class_of_studying_siblings = SchoolClass::findBySchool($this->class_id_of_studying_siblings)->class_name;
         }
         $this->section = $this->class->classSections->find($this->section_id) ?? '';
         $this->group = $this->class->groups->find($this->group_id) ?? '';
-        $this->student_quota = StudentQuota::findOrFail($this->student_quota_id);
-        $this->student_category = StudentCategory::findOrFail($this->student_category_id);
-        $this->division = Division::findOrFail($this->division_id)->bn_name;
-        $this->district = District::findOrFail($this->district_id)->bn_name;
-        $this->upazila = Upazila::findOrFail($this->upazila_id)->bn_name;
-        $this->union = Union::findOrFail($this->union_id)->bn_name;
+        $this->student_quota = StudentQuota::find($this->student_quota_id) ?? null;
+        $this->student_category = StudentCategory::find($this->student_category_id) ?? null;
+        $this->division = Division::find($this->division_id)->bn_name ?? null;
+        $this->district = District::find($this->district_id)->bn_name ?? null;
+        $this->upazila = Upazila::find($this->upazila_id)->bn_name ?? null;
+        $this->union = Union::find($this->union_id)->bn_name ?? null;
     }
     public function checkPD()
     {
-        $this->validate([
-            'fathers_name_bn' => 'required',
-            'mothers_name_bn' => 'required',
-            'fathers_name_en' => 'required',
-            'mothers_name_en' => 'required',
-            'fathers_nid_no' => 'required',
-            'mothers_nid_no' => 'required',
-            'fathers_bc_no' => 'required',
-            'mothers_bc_no' => 'required',
-            'gurdians_occupation' => 'required',
-        ]);
+        // $this->validate([
+        // 'fathers_name_bn' => 'required',
+        // 'mothers_name_bn' => 'required',
+        // 'fathers_name_en' => 'required',
+        // 'mothers_name_en' => 'required',
+        // 'fathers_nid_no' => 'required',
+        // 'mothers_nid_no' => 'required',
+        // 'fathers_bc_no' => 'required',
+        // 'mothers_bc_no' => 'required',
+        // 'gurdians_occupation' => 'required',
+        // ]);
     }
     public function store()
     {
-        if(school()->canAddStudent()){
-        Gate::authorize('school.admissions.create');
-        $u = User::create([
-            'student_id' => date('y') . rand(101, 10000),
-            'name' => $this->name_en,
-            'role_id' => Role::where('slug', 'student')->first()->id,
-        ]);
-        if (null != $this->student_image) {
-            $this->student_image = $this->student_image->storeAs(auth()->user()->id . '/students', $this->student_image->hashName(), 'public');
+        if (school()->canAddStudent()) {
+            Gate::authorize('school.admissions.create');
+            $u = User::create([
+                'student_id' => date('y') . rand(101, 10000),
+                'name' => $this->name_en,
+                'role_id' => Role::where('slug', 'student')->first()->id,
+            ]);
+            if (null != $this->student_image) {
+                $this->student_image = $this->student_image->storeAs(auth()->user()->id . '/students', $this->student_image->hashName(), 'public');
+            }
+            Student::create([
+                'user_id' => $u->id,
+                'student_id' => $u->student_id,
+                'school_id' => school()->id,
+                'admission_id' => date('d') . date('m') . date('y') . Str::random(5),
+                'student_image' => $this->student_image,
+                'name_bn' => $this->name_bn,
+                'name_en' => $this->name_en,
+                'school_class_id' => $this->school_class_id,
+                'roll' => $this->roll,
+                'school_class_section_id' => $this->section_id,
+                'class_group_id' => $this->group_id,
+                'ssc_roll' => $this->ssc_roll,
+                'gender' => $this->gender,
+                'religion' => $this->religion,
+                'birth_certificate_no' => $this->birth_certificate_no,
+                'dob' => $this->dob,
+                'has_stipend' => false,
+                'have_siblings_studying' => $this->have_siblings_studying ? 1 : 0,
+                'student_category_id' => $this->student_category_id,
+                'student_quota_id' => $this->student_quota_id,
+                'name_of_siblings_studying' => $this->name_of_studying_siblings,
+                'roll_of_siblings_studying' => $this->roll_of_studying_siblings,
+                'class_of_siblings_studying' => $this->class_of_studying_siblings,
+                'freedomfighter_certificate_no' => $this->freedom_fighter_id,
+                'previous_institute' => $this->previous_institute,
+                'previous_study_class' => $this->previous_study_class,
+                'division' => $this->division_id,
+                'zilla' => $this->district_id,
+                'upazilla_or_thana' => $this->upazila_id,
+                'union' => $this->union_id,
+                'postoffice' => $this->postoffice,
+                'village' => $this->village,
+                'mobile_number' => $this->mobile_number,
+                'post_code' => $this->post_code,
+                'fathers_name_bn' => $this->fathers_name_bn,
+                'mothers_name_bn' => $this->mothers_name_bn,
+                'fathers_name_en' => $this->fathers_name_en,
+                'mothers_name_en' => $this->mothers_name_en,
+                'fathers_nid_no' => $this->fathers_nid_no,
+                'mothers_nid_no' => $this->mothers_nid_no,
+                'fathers_bc_no' => $this->fathers_bc_no,
+                'mothers_bc_no' => $this->mothers_bc_no,
+                // 'father_occupation' => $this->gurdians_occupation,
+                'gurdian_in_absence_of_parent_en' => $this->gurdian_in_absence_of_parent_en,
+                'gurdian_in_absence_of_parent_bn' => $this->gurdian_in_absence_of_parent_bn,
+                'gurdian_nid_no' => $this->gurdian_nid_no,
+                'relation_with_gurdian' => $this->relation_with_gurdian,
+                'gurdians_monthly_income' => $this->gurdians_monthly_income,
+                'gurdians_occupation' => $this->gurdians_occupation,
+            ]);
+            $this->alert('success', 'Student admission created');
+            // $this->resetFields();
         }
-        Student::create([
-            'user_id' => $u->id,
-            'student_id' => $u->student_id,
-            'school_id' => school()->id,
-            'admission_id' => date('d') . date('m') . date('y') . Str::random(5),
-            'student_image' => $this->student_image,
-            'name_bn' => $this->name_bn,
-            'name_en' => $this->name_en,
-            'school_class_id' => $this->school_class_id,
-            'roll' => $this->roll,
-            'school_class_section_id' => $this->section_id,
-            'class_group_id' => $this->group_id,
-            'ssc_roll' => $this->ssc_roll,
-            'gender' => $this->gender,
-            'religion' => $this->religion,
-            'birth_certificate_no' => $this->birth_certificate_no,
-            'dob' => $this->dob,
-            'has_stipend' => false,
-            'have_siblings_studying' => $this->have_siblings_studying ? 1 : 0,
-            'student_category_id' => $this->student_category_id,
-            'student_quota_id' => $this->student_quota_id,
-            'name_of_siblings_studying' => $this->name_of_studying_siblings,
-            'roll_of_siblings_studying' => $this->roll_of_studying_siblings,
-            'class_of_siblings_studying' => $this->class_of_studying_siblings,
-            'freedomfighter_certificate_no' => $this->freedom_fighter_id,
-            'previous_institute' => $this->previous_institute,
-            'previous_study_class' => $this->previous_study_class,
-            'division' => $this->division_id,
-            'zilla' => $this->district_id,
-            'upazilla_or_thana' => $this->upazila_id,
-            'union' => $this->union_id,
-            'postoffice' => $this->postoffice,
-            'village' => $this->village,
-            'mobile_number' => $this->mobile_number,
-            'post_code' => $this->post_code,
-            'fathers_name_bn' => $this->fathers_name_bn,
-            'mothers_name_bn' => $this->mothers_name_bn,
-            'fathers_name_en' => $this->fathers_name_en,
-            'mothers_name_en' => $this->mothers_name_en,
-            'fathers_nid_no' => $this->fathers_nid_no,
-            'mothers_nid_no' => $this->mothers_nid_no,
-            'fathers_bc_no' => $this->fathers_bc_no,
-            'mothers_bc_no' => $this->mothers_bc_no,
-            // 'father_occupation' => $this->gurdians_occupation,
-            'gurdian_in_absence_of_parent_en' => $this->gurdian_in_absence_of_parent_en,
-            'gurdian_in_absence_of_parent_bn' => $this->gurdian_in_absence_of_parent_bn,
-            'gurdian_nid_no' => $this->gurdian_nid_no,
-            'relation_with_gurdian' => $this->relation_with_gurdian,
-            'gurdians_monthly_income' => $this->gurdians_monthly_income,
-            'gurdians_occupation' => $this->gurdians_occupation,
-        ]);
-        $this->alert('success', 'Student admission created');
-        // $this->resetFields();
-    }
     }
 
     public function resetFields()

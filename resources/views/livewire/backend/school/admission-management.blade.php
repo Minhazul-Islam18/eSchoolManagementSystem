@@ -160,7 +160,8 @@
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        @if (isset($this->groups))
+                                        {{-- @dd(isset($groups), empty($groups)) --}}
+                                        @if (isset($groups) && !empty($groups))
                                             <div class="">
                                                 <label for="" class="form-label">Groups</label>
                                                 <select wire:model.deafer='group_id' class="form-select rounded"
@@ -184,7 +185,7 @@
                                                 <select wire:model.defer='section_id' class="form-select rounded"
                                                     id="">
                                                     <option value="">নির্বাচন করুন</option>
-                                                    @forelse ($this->sections as $item)
+                                                    @forelse ($sections as $item)
                                                         <option value="{{ $item->id }}"
                                                             {{ $item->id === $this->section_id ? 'selected' : '' }}>
                                                             {{ $item->section_name }}</option>
@@ -914,7 +915,8 @@
                                 </td>
                                 <td>
                                     <div class="flex items-center gap-2 flex-wrap">
-                                        <img width="100px" src="/storage/{{ $item->student_image }}"
+                                        <img width="100px"
+                                            src="{{ isset($item->student_image) ? '/storage/' . $item->student_image : 'https://static.vecteezy.com/system/resources/previews/020/911/740/original/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png' }}"
                                             alt="">
                                         <div>
                                             {{ 'নাম: ' . $item->name_bn }}</br>
