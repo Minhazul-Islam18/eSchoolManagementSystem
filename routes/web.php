@@ -15,7 +15,6 @@ use App\Http\Controllers\ProcessFreePackage;
 
 Route::get('/', function () {
     // dd(auth()->user()->id);
-    Inertia::share('logo', setting('logo'));
     $pricings = Package::where('status', 1)->get();
     return Inertia::render('Home', [
         'pricings' => $pricings,
@@ -41,13 +40,29 @@ Route::get('account-status', function () {
 })->name('account-status');
 
 Route::group(['middleware' => ['auth']], function () {
+
+
+
+
+    Route::get('/bkash/payment', [App\Http\Controllers\BkashTokenizePaymentController::class, 'index']);
+    Route::get('/bkash/create-payment', [App\Http\Controllers\BkashTokenizePaymentController::class, 'createPayment'])->name('bkash-create-payment');
+    Route::get('/bkash/callback', [App\Http\Controllers\BkashTokenizePaymentController::class, 'callBack'])->name('bkash-callBack');
+
+    //search payment
+    Route::get('/bkash/search/{trxID}', [App\Http\Controllers\BkashTokenizePaymentController::class, 'searchTnx'])->name('bkash-serach');
+
+    //refund payment routes
+    Route::get('/bkash/refund', [App\Http\Controllers\BkashTokenizePaymentController::class, 'refund'])->name('bkash-refund');
+    Route::get('/bkash/refund/status', [App\Http\Controllers\BkashTokenizePaymentController::class, 'refundStatus'])->name('bkash-refund-status');
+
+
     Route::get('/process-free-package', [ProcessFreePackage::class, 'SyncToUser'])->name('process-free-package');
 
     // Payment Routes for bKash
-    Route::get('/bkash/payment', [BkashPaymentController::class, 'index']);
-    Route::post('/bkash/get-token', [BkashPaymentController::class, 'getToken'])->name('bkash-get-token');
-    Route::post('/bkash/create-payment', [BkashPaymentController::class, 'createPayment'])->name('bkash-create-payment');
-    Route::post('/bkash/execute-payment', [BkashPaymentController::class, 'executePayment'])->name('bkash-execute-payment');
+    // Route::get('/bkash/payment', [BkashPaymentController::class, 'index']);
+    // Route::post('/bkash/get-token', [BkashPaymentController::class, 'getToken'])->name('bkash-get-token');
+    // Route::post('/bkash/create-payment', [BkashPaymentController::class, 'createPayment'])->name('bkash-create-payment');
+    // Route::post('/bkash/execute-payment', [BkashPaymentController::class, 'executePayment'])->name('bkash-execute-payment');
     // Route::get('/bkash/query-payment', [BkashPaymentController::class, 'queryPayment'])->name('bkash-query-payment');
     // Route::post('/bkash/success', [BkashPaymentController::class, 'bkashSuccess'])->name('bkash-success');
 
