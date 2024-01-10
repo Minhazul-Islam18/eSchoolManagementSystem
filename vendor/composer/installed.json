@@ -2366,18 +2366,18 @@
             "install-path": "../jantinnerezo/livewire-alert"
         },
         {
-            "name": "karim007/laravel-bkash",
-            "version": "v2.0.0",
-            "version_normalized": "2.0.0.0",
+            "name": "karim007/laravel-bkash-tokenize",
+            "version": "v2.2",
+            "version_normalized": "2.2.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/karim-007/laravel-bkash.git",
-                "reference": "26d6a750304b55e4543d4a10d7ae9174cea1aebe"
+                "url": "https://github.com/karim-007/laravel-bkash-tokenize.git",
+                "reference": "a9eb8a6223e1fd85321e61770d8fbfa33b601473"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/karim-007/laravel-bkash/zipball/26d6a750304b55e4543d4a10d7ae9174cea1aebe",
-                "reference": "26d6a750304b55e4543d4a10d7ae9174cea1aebe",
+                "url": "https://api.github.com/repos/karim-007/laravel-bkash-tokenize/zipball/a9eb8a6223e1fd85321e61770d8fbfa33b601473",
+                "reference": "a9eb8a6223e1fd85321e61770d8fbfa33b601473",
                 "shasum": ""
             },
             "require": {
@@ -2385,22 +2385,22 @@
                 "illuminate/support": "^6|^7|^8|^9|^10",
                 "php": "^7.4|^8.0|^8.1|^8.2"
             },
-            "time": "2023-05-18T10:18:41+00:00",
+            "time": "2023-06-20T09:39:01+00:00",
             "type": "library",
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Karim007\\LaravelBkash\\BkashServiceProvider"
+                        "Karim007\\LaravelBkashTokenize\\BkashTokenizeServiceProvider"
                     ],
                     "aliases": {
-                        "LaravelBkash": "Karim007\\LaravelBkash\\LaravelBkash"
+                        "LaravelBkashTokenize": "Karim007\\LaravelBkashTokenize\\LaravelBkashTokenize"
                     }
                 }
             },
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "Karim007\\LaravelBkash\\": "src/"
+                    "Karim007\\LaravelBkashTokenize\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2413,19 +2413,20 @@
                     "email": "karim.cse007@gmail.com"
                 }
             ],
-            "description": "This is bKash payment gateway for laravel",
+            "description": "This is bKash tokenize payment gateway for laravel",
             "keywords": [
                 "bkash",
                 "bkash-payment",
                 "bkash-payment-gateway",
                 "laravel-bkash",
-                "laravel-bkash-payment"
+                "laravel-bkash-payment",
+                "laravel-bkash-payment-tokenize"
             ],
             "support": {
-                "issues": "https://github.com/karim-007/laravel-bkash/issues",
-                "source": "https://github.com/karim-007/laravel-bkash/tree/v2.0.0"
+                "issues": "https://github.com/karim-007/laravel-bkash-tokenize/issues",
+                "source": "https://github.com/karim-007/laravel-bkash-tokenize/tree/v2.2"
             },
-            "install-path": "../karim007/laravel-bkash"
+            "install-path": "../karim007/laravel-bkash-tokenize"
         },
         {
             "name": "laravel/fortify",

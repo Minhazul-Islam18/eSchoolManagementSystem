@@ -1,6 +1,6 @@
 <?php
 
-namespace Karim007\LaravelBkash\Exception;
+namespace Karim007\LaravelBkashTokenize\Exception;
 
 use Exception;
 

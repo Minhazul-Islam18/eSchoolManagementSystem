@@ -1,10 +1,10 @@
 <?php
 
-namespace Karim007\LaravelBkash\Payment;
+namespace Karim007\LaravelBkashTokenize\Payment;
 
-use Karim007\LaravelBkash\Traits\Helpers;
+use Karim007\LaravelBkashTokenize\Traits\Helpers;
 
-class BBaseApi
+class TBBaseApi
 {
     use Helpers;
 
@@ -25,9 +25,9 @@ class BBaseApi
     private function baseUrl()
     {
         if (config("bkash.sandbox") == true) {
-            $this->baseUrl = 'https://checkout.sandbox.bka.sh/v1.2.0-beta';
+            $this->baseUrl = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized';
         } else {
-            $this->baseUrl = 'https://checkout.pay.bka.sh/v1.2.0-beta';
+            $this->baseUrl = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized';
         }
     }
 

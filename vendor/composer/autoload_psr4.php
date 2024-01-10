@@ -95,7 +95,7 @@ return array(
     'Laravel\\Prompts\\' => array($vendorDir . '/laravel/prompts/src'),
     'Laravel\\Jetstream\\' => array($vendorDir . '/laravel/jetstream/src'),
     'Laravel\\Fortify\\' => array($vendorDir . '/laravel/fortify/src'),
-    'Karim007\\LaravelBkash\\' => array($vendorDir . '/karim007/laravel-bkash/src'),
+    'Karim007\\LaravelBkashTokenize\\' => array($vendorDir . '/karim007/laravel-bkash-tokenize/src'),
     'Jantinnerezo\\LivewireAlert\\' => array($vendorDir . '/jantinnerezo/livewire-alert/src'),
     'Inertia\\' => array($vendorDir . '/inertiajs/inertia-laravel/src'),
     'Illuminate\\Support\\' => array($vendorDir . '/laravel/framework/src/Illuminate/Macroable', $vendorDir . '/laravel/framework/src/Illuminate/Collections', $vendorDir . '/laravel/framework/src/Illuminate/Conditionable'),
