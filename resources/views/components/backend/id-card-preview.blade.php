@@ -15,7 +15,7 @@
             background-size: cover;
             padding: 1.2rem .7rem;
             background-repeat: no-repeat;
-            width: 100%
+            /* width: 100% */
         }
     </style>
 </head>
@@ -25,7 +25,8 @@
         <table id="profile-card">
             <tbody>
                 <tr style="width: 100%">
-                    <td style="width:30%;display: flex; flex-direction: column; align-items: center; justify-content: space-around">
+                    <td
+                        style="width:30%;display: flex; flex-direction: column; align-items: center; justify-content: space-around">
                         <img style="border-radius: 50%; width:50px; margin-bottom: 2px;"
                             src="{{ isset(school()->institute_logo) ? storage_path(school()->institute_logo) : 'https://placehold.co/80x80/png' }}"
                             alt="">

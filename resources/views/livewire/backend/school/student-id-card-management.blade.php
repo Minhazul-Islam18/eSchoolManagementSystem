@@ -123,9 +123,9 @@
                                 @endif
                             </div>
                         </div> --}}
-                        <div class="text-end">
+                        {{-- <div class="text-end">
                             <button type="submit" class="px-3 py-2 rounded-md bg-emerald-500 mt-3">Generate</button>
-                        </div>
+                        </div> --}}
                     </form>
                 </div>
                 <div class="w-2/12"></div>
