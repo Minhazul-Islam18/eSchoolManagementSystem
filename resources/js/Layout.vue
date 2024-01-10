@@ -5,10 +5,9 @@ import flasher from "@flasher/flasher";
 import FlashMessage from "./Components/FlashMessage.vue";
 const page = usePage()
 
-// console.log(page.props.flash.message);
 const logo = computed(() => page.props.logo)
 const is_authenticated = computed(() => page.props.is_authenticated)
-
+console.log(logo);
 </script>
 
 <style>

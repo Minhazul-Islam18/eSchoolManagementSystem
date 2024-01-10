@@ -5,10 +5,10 @@ import { usePage, router } from '@inertiajs/vue3';
 // import { useToast } from "vue-toastification";
 // const toast = useToast()
 
-
 const page = usePage()
 const is_authenticated = computed(() => page.props.is_authenticated)
 console.log(is_authenticated);
+
 const form = reactive({
     amount: null,
     id: null
@@ -18,24 +18,6 @@ const freePack = reactive({
     id: null
 });
 
-// function purchase(id, amount) {
-//     form.amount = amount;
-//     form.id = id;
-//     console.log(form);
-//     router.get('/bkash/payment', form)
-// }
-
-// async function free(id) {
-//     try {
-//         freePack.id = id;
-//         router.get('process-free-package', freePack);
-//         // toast('Package purchased');
-//     } catch (error) {
-//         console.log(error);
-//         // toast("error");
-//     }
-
-// }
 
 const props = defineProps({
     // pricings: Array | Object,
@@ -76,10 +58,10 @@ const props = defineProps({
 
                 <a v-if="is_authenticated" type="button"
                     class=" border border-slate-900 after:content-[''] after:w-full after:h-full after:border after:border-slate-900 after:absolute relative after:right-0 after:top-0 hover:after:translate-y-[5px] hover:after:right-[-5px] after:transition-all after:duration-300 cursor-pointer bg-emerald-500 text-white font-semibold hover:bg-emerald-400 transition-all duration-200 z-40 after:z-10 px-7 py-3"
-                    style="font-family: 'Jost', sans-serif;" href="/app/register">Register</a>
+                    style="font-family: 'Jost', sans-serif;" href="/users-redirection">Dashboard</a>
                 <a v-else
                     class=" border border-slate-900 after:content-[''] after:w-full after:h-full after:border after:border-slate-900 after:absolute relative after:right-0 after:top-0 hover:after:translate-y-[5px] hover:after:right-[-5px] after:transition-all after:duration-300 cursor-pointer bg-emerald-500 text-white font-semibold hover:bg-emerald-400 transition-all duration-200 z-40 after:z-10 px-7 py-3"
-                    type="button" style="font-family: 'Jost', sans-serif;" href="/users-redirection">Dashboard</a>
+                    type="button" style="font-family: 'Jost', sans-serif;" href="/app/register">Register</a>
             </div>
             <div :style="{ backgroundImage: `url('/frontend/hero_1.png')` }"
                 class="w-full hidden md:block md:w-7/12 md:bg-contain lg:bg-contain xl:bg-cover bg-no-repeat bg-center">
