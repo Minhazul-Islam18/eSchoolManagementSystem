@@ -107,7 +107,7 @@ class CreateNewUser implements CreatesNewUsers
 
                 $user->subscription()->updateOrCreate([
                     'package_id' => Package::where('price', '<=', '0')->firstOrFail()->id,
-                    'will_expire' => now()->addMonth(12),
+                    'will_expire' => now()->addDays(3),
                 ]);
 
                 if ($user->role->slug == User::SCHOOL || $user->role->slug == User::DEMO_SCHOOL) {
