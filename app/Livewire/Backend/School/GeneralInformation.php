@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Backend\School;
 
+use App\Models\Package;
 use App\Models\School;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
@@ -64,15 +66,27 @@ class GeneralInformation extends Component
     }
     public function cancelSubscription()
     {
-        //Null/empty the value of package_id in schools table
-        school()->update([
-            'package_id' => null,
-        ]);
+        $pack = Package::where('price', 0)->first();
+        if ($pack) {
+            school()->update([
+                'package_id' => $pack->id,
+            ]);
 
-        //Dissociate the subscription
-        $this->alert('success', 'Your subscription canceled.');
-        // auth()->user()->subscription()->dissociate();
-        return to_route('/');
+            // Retrieve the authenticated user
+            $user = auth()->user();
+            // Check if the user has a subscription before attempting to delete and save
+            if ($user && $user->subscription) {
+                $user->subscription->update([
+                    'package_id' => $pack->id,
+                    'will_expire' => now()->addDays(3)
+                ]);
+                $this->alert('success', 'Your subscription canceled.');
+            }
+        } else {
+            $this->alert('error', 'Something went wrong.');
+        }
+
+        // return to_route('/');
     }
     public function mount()
     {

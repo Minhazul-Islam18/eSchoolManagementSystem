@@ -91,18 +91,27 @@
                                         <h3 class="text-xl font-bold pt-4 pb-2 border-b border-gray-300 text-center">
                                             Subscription details
                                         </h3>
-                                        <div>
-                                            <ul class="pb-4 pt-3 text-lg">
-                                                <li>
-                                                    Current plan: <span
-                                                        class="text-md font-extrabold">{{ $package->name }}</span>
-                                                </li>
-                                                <li>
-                                                    Will be end at: <span
-                                                        class="text-md font-extrabold">{{ \carbon\Carbon::parse($subscription->will_expire)->toDayDateTimeString() }}</span>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        @if ($package)
+                                            <div>
+                                                <ul class="pb-4 pt-3 text-lg">
+                                                    <li>
+                                                        Current plan: <span
+                                                            class="text-md font-extrabold">{{ $package->name }}</span>
+                                                    </li>
+                                                    <li>
+                                                        Will be end at: <span
+                                                            class="text-md font-extrabold">{{ \carbon\Carbon::parse($subscription->will_expire)->toDayDateTimeString() }}</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        @else
+                                            <div>
+                                                <h3 class=" text-emerald-500 font-semibold text-2xl text-center">
+                                                    {{ 'There\'s no currently active plan. please upgrade your plan' }}
+                                                </h3>
+                                            </div>
+                                        @endif
+
                                         <h6
                                             class="text-center text-lg text-red-500 font-bold bg-red-500/20 backdrop-blur-lg pt-2 pb-2">
                                             Cancel
@@ -113,6 +122,10 @@
                                                 wire:click='cancelSubscription'
                                                 class=" bg-red-500/50 backdrop-blur-lg rounded shadow-sm text-white px-3 py-2 transition-all duration-200 ease-in-out hover:bg-red-500">Yes,
                                                 Cancel now!</button>
+                                            <button
+                                                class=" bg-emerald-500/50 backdrop-blur-lg rounded shadow-sm text-white px-3 py-2 transition-all duration-200 ease-in-out hover:bg-emerald-500">
+                                                <a href="{{ route('pricings') }}">Update subscription</a>
+                                            </button>
                                         </div>
                                     </div>
 
