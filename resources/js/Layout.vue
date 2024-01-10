@@ -7,6 +7,7 @@ const page = usePage()
 
 // console.log(page.props.flash.message);
 const logo = computed(() => page.props.logo)
+const is_authenticated = computed(() => page.props.is_authenticated)
 
 </script>
 
@@ -80,7 +81,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     <Link class="px-2 py-1" :class="{ 'bg-emerald-500 rounded': $page.url === '/pricings' }"
                         href="/pricings">
                     Pricings</Link>
-                    <Link class="px-2 py-1" href="/app/login">Login</Link>
+                    <a v-if="is_authenticated" class="px-2 py-1" href="/users-redirection">Dashboard</a>
+                    <a v-else class="px-2 py-1" href="/app/login">Login</a>
                 </div>
             </div>
         </nav>

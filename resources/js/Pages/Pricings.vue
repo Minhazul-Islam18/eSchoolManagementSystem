@@ -44,7 +44,7 @@ const props = defineProps({
 
 <template>
     <Head>
-        <title>Contact - RCT ems</title>
+        <title>Pricings - RCT ems</title>
         <meta name="keywords" content="RCT Seba, RCT ems, ems, lms">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
