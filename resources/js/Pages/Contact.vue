@@ -10,9 +10,9 @@ import { usePage, router } from '@inertiajs/vue3';
 
 
 const props = defineProps({
-    'pricings': Array,
-    'school': Array | Object,
-    'message': String,
+    pricings: Array,
+    school: Array | Object,
+    message: String,
 });
 
 </script>

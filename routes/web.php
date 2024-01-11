@@ -32,7 +32,12 @@ Route::get('pricings', function () {
     ]);
 })->name('pricings');
 Route::get('subscription-expired', function () {
-    return 'Your subscription has been expired, please renew or buy another plan!';
+    return Inertia::render(
+        'ProfileLocked',
+        [
+            'image' => 'https://i.ibb.co/Tt6TpsD/13677898-5143410.jpg'
+        ]
+    );
 })->name('subscription-expired');
 
 Route::get('account-status', function () {
