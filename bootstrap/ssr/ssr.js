@@ -1,4 +1,4 @@
-import { unref, withCtx, createVNode, useSSRContext, reactive, createTextVNode, computed, watch, mergeProps, createSSRApp, h } from "vue";
+import { unref, withCtx, createVNode, useSSRContext, computed, reactive, watch, mergeProps, createTextVNode, createSSRApp, h } from "vue";
 import { ssrRenderComponent, ssrRenderStyle, ssrRenderAttr, ssrRenderList, ssrInterpolate, ssrIncludeBooleanAttr, ssrRenderAttrs, ssrRenderSlot } from "vue/server-renderer";
 import { Head, usePage, Link, createInertiaApp } from "@inertiajs/vue3";
 import createServer from "@inertiajs/vue3/server";
@@ -69,7 +69,9 @@ const _sfc_main$4 = {
     message: String
   },
   setup(__props) {
-    usePage();
+    const page = usePage();
+    const is_authenticated = computed(() => page.props.is_authenticated);
+    console.log(is_authenticated);
     reactive({
       amount: null,
       id: null
@@ -109,23 +111,11 @@ const _sfc_main$4 = {
         _: 1
       }, _parent));
       _push(`<section id="hero-top" class="h-screen py-6 md:py-0 md:bg-gradient-to-t from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc] bg-[url(&#39;/public/frontend/hero_1.png&#39;)] bg-no-repeat bg-contain bg-bottom"><div class="flex flex-wrap flex-col sm:flex-row container h-full mx-auto"><div class="w-full md:w-5/12 flex flex-col justify-center items-start"><h1 class="font-extrabold text-3xl md:text-5xl leading-12 text-emerald-500">শিক্ষা ব্যবস্থাপনা সফটওয়্যার </h1><h5 class="font-semibold text-lg md:text-2xl before:block before:absolute before:-inset-1 -skew-y-3 md:transform-none before:bg-pink-500 md:before:bg-transparent my-4 md:my-1 relative inline-block z-10"><span class="relative text-white md:text-slate-900" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}">Education management system</span></h5><p class="mt-4 mb-3 text-md antialiased">আরসিটিসেবা আপনার প্রতিষ্ঠানের কাজগুলো সহজে, ডিজিটাল উপায়ে ও ঝামেলাহীনভাবে শিক্ষক-শিক্ষার্থী ও অভিভাবকদের মধ্যে সমন্বয় করে.</p><p class="mt-2 mb-3 sm:mb-6 text-md antialiased"> আপনার শিক্ষা প্রতিষ্ঠানকে ডিজিটাল ও স্মার্ট করুন আরসিটি ই এম এস-এর মাধ্যমে </p>`);
-      _push(ssrRenderComponent(unref(Link), {
-        href: "/app/register",
-        type: "button",
-        class: "border border-slate-900 after:content-[''] after:w-full after:h-full after:border after:border-slate-900 after:absolute relative after:right-0 after:top-0 hover:after:translate-y-[5px] hover:after:right-[-5px] after:transition-all after:duration-300 cursor-pointer bg-emerald-500 text-white font-semibold hover:bg-emerald-400 transition-all duration-200 z-40 after:z-10 px-7 py-3",
-        style: { "font-family": "'Jost', sans-serif" }
-      }, {
-        default: withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(` Register`);
-          } else {
-            return [
-              createTextVNode(" Register")
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
+      if (is_authenticated.value) {
+        _push(`<a type="button" class="border border-slate-900 after:content-[&#39;&#39;] after:w-full after:h-full after:border after:border-slate-900 after:absolute relative after:right-0 after:top-0 hover:after:translate-y-[5px] hover:after:right-[-5px] after:transition-all after:duration-300 cursor-pointer bg-emerald-500 text-white font-semibold hover:bg-emerald-400 transition-all duration-200 z-40 after:z-10 px-7 py-3" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}" href="/users-redirection">Dashboard</a>`);
+      } else {
+        _push(`<a class="border border-slate-900 after:content-[&#39;&#39;] after:w-full after:h-full after:border after:border-slate-900 after:absolute relative after:right-0 after:top-0 hover:after:translate-y-[5px] hover:after:right-[-5px] after:transition-all after:duration-300 cursor-pointer bg-emerald-500 text-white font-semibold hover:bg-emerald-400 transition-all duration-200 z-40 after:z-10 px-7 py-3" type="button" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}" href="/app/register">Register</a>`);
+      }
       _push(`</div><div style="${ssrRenderStyle({ backgroundImage: `url('/frontend/hero_1.png')` })}" class="w-full hidden md:block md:w-7/12 md:bg-contain lg:bg-contain xl:bg-cover bg-no-repeat bg-center"></div></div></section><!--]-->`);
     };
   }
@@ -198,9 +188,9 @@ const _sfc_main$2 = {
   __name: "Pricings",
   __ssrInlineRender: true,
   props: {
-    "pricings": Array,
-    "school": Array | Object,
-    "message": String
+    pricings: Array,
+    school: Array | Object,
+    message: String
   },
   setup(__props) {
     const form = reactive({
@@ -216,10 +206,10 @@ const _sfc_main$2 = {
       _push(ssrRenderComponent(unref(Head), null, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<title${_scopeId}>Contact - RCT ems</title><meta name="keywords" content="RCT Seba, RCT ems, ems, lms"${_scopeId}><link rel="preconnect" href="https://fonts.googleapis.com"${_scopeId}><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin${_scopeId}><link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet"${_scopeId}>`);
+            _push2(`<title${_scopeId}>Pricings - RCT ems</title><meta name="keywords" content="RCT Seba, RCT ems, ems, lms"${_scopeId}><link rel="preconnect" href="https://fonts.googleapis.com"${_scopeId}><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin${_scopeId}><link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet"${_scopeId}>`);
           } else {
             return [
-              createVNode("title", null, "Contact - RCT ems"),
+              createVNode("title", null, "Pricings - RCT ems"),
               createVNode("meta", {
                 name: "keywords",
                 content: "RCT Seba, RCT ems, ems, lms"
@@ -318,6 +308,8 @@ const _sfc_main = {
   setup(__props) {
     const page = usePage();
     const logo = computed(() => page.props.logo);
+    const is_authenticated = computed(() => page.props.is_authenticated);
+    console.log(logo);
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<main${ssrRenderAttrs(_attrs)}><nav class="hidden lg:flex bg-sky-500/50 backdrop-blur-2xl border-sky-500 border-b p-4 fixed w-full top-0 z-50"><div class="container mx-auto flex justify-between items-center"><div><a href="/"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[115px]" alt=""></a></div><div class="flex gap-2 flex-wrap items-end justify-end">`);
       _push(ssrRenderComponent(unref(Link), {
@@ -365,21 +357,11 @@ const _sfc_main = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(unref(Link), {
-        class: "px-2 py-1",
-        href: "/app/login"
-      }, {
-        default: withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`Login`);
-          } else {
-            return [
-              createTextVNode("Login")
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
+      if (is_authenticated.value) {
+        _push(`<a class="px-2 py-1" href="/users-redirection">Dashboard</a>`);
+      } else {
+        _push(`<a class="px-2 py-1" href="/app/login">Login</a>`);
+      }
       _push(`</div></div></nav><nav class="lg:hidden bg-blue-500 p-4"><div class="container mx-auto"><div class="flex justify-between items-center"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[60px]" alt=""><button id="mobile-menu-button" class="text-white focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div></div></nav><div id="mobile-menu" class="hidden bg-sky-500/50 backdrop-blur-2xl"><button class="close-button text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><div class="flex flex-col items-center mt-4 space-y-4"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[150px] mw-[100%] mx-auto" alt="">`);
       _push(ssrRenderComponent(unref(Link), {
         class: ["text-white px-2 py-1", { "bg-emerald-500 rounded": _ctx.$page.url === "/" }],
