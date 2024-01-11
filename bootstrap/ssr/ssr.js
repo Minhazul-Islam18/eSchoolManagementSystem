@@ -5,13 +5,13 @@ import createServer from "@inertiajs/vue3/server";
 import { renderToString } from "@vue/server-renderer";
 import "@flasher/flasher";
 import { XCircle } from "lucide-vue-next";
-const _sfc_main$5 = {
+const _sfc_main$6 = {
   __name: "Contact",
   __ssrInlineRender: true,
   props: {
-    "pricings": Array,
-    "school": Array | Object,
-    "message": String
+    pricings: Array,
+    school: Array | Object,
+    message: String
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
@@ -49,17 +49,17 @@ const _sfc_main$5 = {
     };
   }
 };
-const _sfc_setup$5 = _sfc_main$5.setup;
-_sfc_main$5.setup = (props, ctx) => {
+const _sfc_setup$6 = _sfc_main$6.setup;
+_sfc_main$6.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Contact.vue");
-  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
+  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
 const __vite_glob_0_0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$5
+  default: _sfc_main$6
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$4 = {
+const _sfc_main$5 = {
   __name: "Home",
   __ssrInlineRender: true,
   props: {
@@ -120,15 +120,15 @@ const _sfc_main$4 = {
     };
   }
 };
-const _sfc_setup$4 = _sfc_main$4.setup;
-_sfc_main$4.setup = (props, ctx) => {
+const _sfc_setup$5 = _sfc_main$5.setup;
+_sfc_main$5.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Home.vue");
-  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
+  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
 const __vite_glob_0_1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$4
+  default: _sfc_main$5
 }, Symbol.toStringTag, { value: "Module" }));
 const __default__ = {
   data() {
@@ -158,7 +158,7 @@ const __default__ = {
     console.log("oh");
   }
 };
-const _sfc_main$3 = /* @__PURE__ */ Object.assign(__default__, {
+const _sfc_main$4 = /* @__PURE__ */ Object.assign(__default__, {
   __name: "Payment",
   __ssrInlineRender: true,
   props: {
@@ -174,17 +174,17 @@ const _sfc_main$3 = /* @__PURE__ */ Object.assign(__default__, {
     };
   }
 });
-const _sfc_setup$3 = _sfc_main$3.setup;
-_sfc_main$3.setup = (props, ctx) => {
+const _sfc_setup$4 = _sfc_main$4.setup;
+_sfc_main$4.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Payment.vue");
-  return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
+  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
 };
 const __vite_glob_0_2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$3
+  default: _sfc_main$4
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$2 = {
+const _sfc_main$3 = {
   __name: "Pricings",
   __ssrInlineRender: true,
   props: {
@@ -248,13 +248,66 @@ const _sfc_main$2 = {
     };
   }
 };
+const _sfc_setup$3 = _sfc_main$3.setup;
+_sfc_main$3.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Pricings.vue");
+  return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
+};
+const __vite_glob_0_3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: _sfc_main$3
+}, Symbol.toStringTag, { value: "Module" }));
+const _sfc_main$2 = {
+  __name: "ProfileLocked",
+  __ssrInlineRender: true,
+  props: {
+    image: String
+  },
+  setup(__props) {
+    const props = __props;
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<!--[-->`);
+      _push(ssrRenderComponent(unref(Head), null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<title${_scopeId}>Profile locked - RCT ems</title><meta name="keywords" content="RCT Seba, RCT ems, ems, lms"${_scopeId}><link rel="preconnect" href="https://fonts.googleapis.com"${_scopeId}><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin${_scopeId}><link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet"${_scopeId}>`);
+          } else {
+            return [
+              createVNode("title", null, "Profile locked - RCT ems"),
+              createVNode("meta", {
+                name: "keywords",
+                content: "RCT Seba, RCT ems, ems, lms"
+              }),
+              createVNode("link", {
+                rel: "preconnect",
+                href: "https://fonts.googleapis.com"
+              }),
+              createVNode("link", {
+                rel: "preconnect",
+                href: "https://fonts.gstatic.com",
+                crossorigin: ""
+              }),
+              createVNode("link", {
+                href: "https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap",
+                rel: "stylesheet"
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`<section class="h-screen bg-gradient-to-tr from-[#b6b6b6] via-[#b6b6b6] via-40% to-[#b6b6b6]" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}"><div class="container py-12 mx-auto h-full"><div class="flex flex-col sm:flex-row h-full"><div class="w-[60%] flex flex-col justify-center items-start gap-y-[14px] sm:gap-y-[20px]"><h2 class="text-3xl font-extrabold uppercase">You&#39;re locked</h2><h5 class="text-1xl font-extrabold capitalize">Please update your subscription to continue...</h5></div><div class="w-[40%] bg-center bg-no-repeat bg-cover" style="${ssrRenderStyle({ backgroundImage: `url('${props.image}')` })}"></div></div></div></section><!--]-->`);
+    };
+  }
+};
 const _sfc_setup$2 = _sfc_main$2.setup;
 _sfc_main$2.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/Pricings.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/ProfileLocked.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
-const __vite_glob_0_3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const __vite_glob_0_4 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: _sfc_main$2
 }, Symbol.toStringTag, { value: "Module" }));
@@ -442,7 +495,7 @@ createServer(
     page,
     render: renderToString,
     resolve: (name) => {
-      const pages = /* @__PURE__ */ Object.assign({ "./Pages/Contact.vue": __vite_glob_0_0, "./Pages/Home.vue": __vite_glob_0_1, "./Pages/Payment.vue": __vite_glob_0_2, "./Pages/Pricings.vue": __vite_glob_0_3 });
+      const pages = /* @__PURE__ */ Object.assign({ "./Pages/Contact.vue": __vite_glob_0_0, "./Pages/Home.vue": __vite_glob_0_1, "./Pages/Payment.vue": __vite_glob_0_2, "./Pages/Pricings.vue": __vite_glob_0_3, "./Pages/ProfileLocked.vue": __vite_glob_0_4 });
       let page2 = pages[`./Pages/${name}.vue`];
       page2.default.layout = page2.default.layout || _sfc_main;
       return page2;
