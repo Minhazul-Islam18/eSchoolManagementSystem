@@ -241,7 +241,7 @@
                 </div>
             </div>
             {{-- Filter options --}}
-            <div class="grid grid-cols-5 gap-4 my-4">
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 my-4">
                 <div class="">
                     <label for="" class="form-label">Class</label>
                     <select wire:model.blur='filter_class_id' class="form-select rounded"

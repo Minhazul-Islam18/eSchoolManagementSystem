@@ -1,6 +1,6 @@
 <div x-data="{ openCEmodal: @entangle('openCEmodal'), openViewModal: false }">
     <main>
-        <div class="container px-10 py-5">
+        <div class="container py-5">
             <header class="flex items-center flex-wrap mb-4" wire:ignore>
                 <div class="w-1/2 flex justify-start items-center flex-wrap">
                     <span class="shadow-md px-2 py-2 bg-emerald-500 rounded mr-2">
@@ -17,10 +17,10 @@
             </header>
 
             <div id="CEmodal" tabindex="-1" aria-hidden="true" x-show="openCEmodal"
-                class="fixed top-0 left-0 right-0 z-50 w-full p-4 md:inset-0 h- max-h-full justify-center items-center flex">
+                class="fixed top-0 left-0 right-0 z-50 w-screen md:inset-0 h-screen max-h-screen justify-center items-center flex my-auto">
                 <!-- Modal content -->
                 <div
-                    class="relative overflow-y-scroll bg-white rounded-lg shadow dark:bg-gray-700 w-2/3 h-[calc(100%-2vh)]">
+                    class="relative overflow-y-scroll bg-white rounded-lg shadow dark:bg-gray-700 w-[calc(100vw-2vw)] sm:w-[calc(100vw-5vw)] h-[calc(100vh-5vh)]">
                     <form action="" wire:submit='{{ $this->editable_item ? 'update' : 'store' }}'>
                         <!-- Modal header -->
                         <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
@@ -145,10 +145,10 @@
                 </div>
             </div>
             <div id="ViewModal" tabindex="-1" aria-hidden="true" x-show="openViewModal"
-                class="fixed top-0 left-0 right-0 z-50 w-full p-4 md:inset-0 h- max-h-full justify-center items-center flex">
+                class="fixed top-0 left-0 right-0 z-50 w-screen md:inset-0 h-screen max-h-screen justify-center items-center flex my-auto">
                 <!-- Modal content -->
                 <div
-                    class="relative overflow-y-scroll bg-white rounded-lg shadow dark:bg-gray-700 w-2/3 h-[calc(100%-2vh)]">
+                    class="relative overflow-y-scroll bg-white rounded-lg shadow dark:bg-gray-700 w-[calc(100vw-2vw)] sm:w-[calc(100vw-5vw)] h-[calc(100vh-5vh)]">
                     <!-- Modal header -->
                     <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -288,7 +288,6 @@
                     </thead>
                     <tbody>
                         @foreach ($staffs as $key => $item)
-                            {{-- @dd($item) --}}
                             <tr wire:key='{{ $item->id }}' class="border-b">
                                 <td>{{ $key + 1 }}</td>
                                 <td>
@@ -357,12 +356,14 @@
     </main>
 </div>
 
+@push('page-style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.tailwindcss.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+@endpush
 @push('page-script')
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.tailwindcss.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://unpkg.com/@nextapps-be/livewire-sortablejs@0.3.5/dist/livewire-sortable.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@1.8.1/dist/flowbite.min.js"></script>
     <script>
         new DataTable('#example', {
             responsive: true,
@@ -372,6 +373,7 @@
         $('#example_filter label').addClass('flex justify-end items-center');
         $('#example_paginate div').addClass('flex justify-end items-center');
         $('.dtr-data').addClass('flex flex-wrap gap-2');
+
         Livewire.directive('confirm', ({
             el,
             directive,
@@ -395,6 +397,7 @@
                 el.removeEventListener('click', onClick)
             })
         })
+
         //close modal on save data
         Livewire.on('closeModal', (value) => {
             console.log(value);

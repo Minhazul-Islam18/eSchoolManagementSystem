@@ -867,7 +867,7 @@
                 </div>
             </div>
         </div>
-        <div class="container px-10 py-5">
+        <div class="container py-5">
             <header class="flex items-center flex-wrap mb-4" wire:ignore>
                 <div class="w-1/2 flex justify-start items-center flex-wrap">
                     <span class="shadow-md px-2 py-2 bg-emerald-500 rounded mr-2">

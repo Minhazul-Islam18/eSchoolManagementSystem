@@ -1,6 +1,6 @@
 <div x-data="{ openCEmodal: @entangle('openCEmodal') }">
     <main class="container">
-        <header class="flex items-center flex-wrap mt-24 mb-4" wire:ignore>
+        <header class="flex items-center flex-wrap mt-10 sm:mt-24 mb-4" wire:ignore>
             <div class="w-1/2 flex justify-start items-center flex-wrap">
                 <span class="shadow-md px-2 py-2 bg-emerald-500 rounded mr-2">
                     <i data-lucide="clipboard-signature" class="w-10"></i>
@@ -137,6 +137,8 @@
 </div>
 @push('page-style')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.tailwindcss.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
 @endpush
 @push('page-script')
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -158,7 +160,7 @@
             responsive: true,
             retrieve: true,
             paging: true,
-            dom: `<'flex items-center justify-between my-3'<'w-full sm:w-[20%]'B><'w-full sm:w-[80%] flex justify-end gap-x-3'lf>>
+            dom: `<'flex items-center flex-col sm:flex-row gap-y-3 justify-between my-3'<'w-full sm:w-[20%]'B><'w-full sm:w-[80%] flex justify-end gap-x-3'lf>>
           <'flex dt-row'<'w-full'tr>>
           <'flex items-center justify-between my-3'<'w-[40%]'i><'w-[60%]'p>>`,
             buttons: {

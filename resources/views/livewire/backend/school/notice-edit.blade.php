@@ -1,6 +1,6 @@
 <div>
     <main class="container">
-        <header class="flex justify-end flex-wrap mt-24 mb-4" wire:ignore>
+        <header class="flex justify-end flex-wrap mt-10 sm:mt-24 mb-4" wire:ignore>
 
             <a href="{{ route('school.notices') }}"
                 class="bg-green-500 bg-opacity-25 border border-green-500 rounded flex items-center px-4 py-2 shahow-md hover:bg-opacity-100 transition fade gap-2">

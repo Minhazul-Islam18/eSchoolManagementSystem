@@ -37,6 +37,10 @@
             display: block;
             opacity: 1;
         }
+
+        .dataTables_filter input {
+            width: 50%;
+        }
     </style>
     @livewireStyles
     @stack('page-style')

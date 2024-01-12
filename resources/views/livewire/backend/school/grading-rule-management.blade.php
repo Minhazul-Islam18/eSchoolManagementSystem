@@ -1,6 +1,6 @@
 <div x-data="{ openCEmodal: @entangle('openCEmodal') }">
     <main class="container">
-        <header class="flex items-center flex-wrap mt-24 mb-4" wire:ignore>
+        <header class="flex items-center flex-wrap mt-10 sm:mt-24 mb-4" wire:ignore>
             <div class="w-1/2 flex justify-start items-center flex-wrap">
                 <span class="shadow-md px-2 py-2 bg-emerald-500 rounded mr-2">
                     <i data-lucide="candlestick-chart" class="w-10"></i>
@@ -169,6 +169,10 @@
         </div>
     </main>
 </div>
+@push('page-style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.tailwindcss.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+@endpush
 @push('page-script')
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.tailwindcss.min.js"></script>

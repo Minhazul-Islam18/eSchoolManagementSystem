@@ -1,6 +1,6 @@
 <div>
     <main>
-        <div class="container px-10 py-5">
+        <div class="container py-5">
             <header class="mb-4" wire:ignore>
                 <div class="flex justify-center sm:justify-start items-center">
                     <span class="shadow-md px-2 py-2 bg-emerald-500 rounded mr-2">
@@ -137,10 +137,10 @@
                             <tr style="display: flex; flex-direction: row;">
                                 <td
                                     style="width:33%; display: flex; flex-direction: column; align-items:center; justify-content:space-around">
-                                    <img class=" rounded-full mb-2"
-                                        src="{{ isset(school()->institute_logo) ? storage_path(school()->institute_logo) : 'https://placehold.co/80x80/png' }}"
+                                    <img class=" rounded-full mb-2 w-[70px]"
+                                        src="{{ isset(school()->institute_logo) ? '/storage/' . school()->institute_logo : 'https://placehold.co/80x80/png' }}"
                                         alt="">
-                                    <img class="relative block px-3"
+                                    <img class="relative block px-3 w-[100px]"
                                         src="{{ isset($card['student']->student_image) ? config('app.url') . '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
                                         alt="">
                                 </td>
