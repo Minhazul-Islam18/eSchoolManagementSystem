@@ -121,7 +121,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 <Link class="px-2 py-1 text-white" :class="{ 'bg-emerald-500 rounded': $page.url === '/pricings' }"
                     href="/pricings">
                 Pricings</Link>
-                <Link class="px-2 py-1 text-white" href="/app/login">Login</Link>
+                <a v-if="is_authenticated" class="px-2 py-1" href="/users-redirection">Dashboard</a>
+                <a v-else class="px-2 py-1" href="/app/login">Login</a>
             </div>
         </div>
 
