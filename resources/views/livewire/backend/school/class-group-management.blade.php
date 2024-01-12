@@ -26,7 +26,7 @@
                         <!-- Modal header -->
                         <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                {{ $this->editable_item ? 'Edit' : 'Create' }} Section
+                                {{ $this->editable_item ? 'Edit' : 'Create' }} group
                             </h3>
                             <button type="button" @click="openCEmodal = false"
                                 class="text-gray-400 bg-transparent hover:bg-red-500/50 hover:text-red-500 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-red-600"
@@ -247,9 +247,9 @@
             <div class="rounded my-6 flex justify-between flex-col sm:flex-row">
                 <ul
                     class=" dark:bg-slate-800 bg-gray-200 border border-gray-300 dark:border-slate-900 shadow-md rounded w-full sm:w-8/12 px-6 py-8 backdrop-blur-md">
-                    <li class="text-lg text-center py-2 mt-2 border-b">Generated routines</li>
-                    @if ($publishedRoutines != null)
-                        @foreach ($publishedRoutines as $item)
+                    <li class="text-lg text-center py-2 mt-2 border-b border-gray-700">Generated routines</li>
+                    @if (!$this->publishedRoutines->isEmpty())
+                        @foreach ($this->publishedRoutines as $item)
                             <li class="py-3 border-b flex justify-between items-center">
                                 {{ 'Class: ' . $item->class->class_name }}
                                 </br>
@@ -260,7 +260,7 @@
                             </li>
                         @endforeach
                     @else
-                        <li>Currently no published routine. </br> Please select any class & section to generate routine.
+                        <li class=" text-md text-center font-bold mt-3">Currently no published routine.
                         </li>
                     @endif
 
@@ -314,29 +314,6 @@
         $('#example_filter label').addClass('flex justify-end items-center');
         $('#example_paginate div').addClass('flex justify-end items-center');
         $('.dtr-data').addClass('flex flex-wrap gap-2');
-        Livewire.directive('confirm', ({
-            el,
-            directive,
-            component,
-            cleanup
-        }) => {
-            let content = directive.expression
-
-            let onClick = e => {
-                if (!confirm(content)) {
-                    e.preventDefault()
-                    e.stopImmediatePropagation()
-                }
-            }
-
-            el.addEventListener('click', onClick, {
-                capture: true
-            })
-
-            cleanup(() => {
-                el.removeEventListener('click', onClick)
-            })
-        })
         //close modal on save data
         Livewire.on('closeModal', (value) => {
             console.log(value);

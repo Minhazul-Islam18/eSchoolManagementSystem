@@ -9,6 +9,7 @@ use Livewire\Attributes\Title;
 use App\Rules\CheckUniqueAsClassID;
 use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Attributes\Computed;
 
 class ClassGroupManagement extends Component
 {
@@ -59,20 +60,18 @@ class ClassGroupManagement extends Component
         $this->group_name = $classGroup->group_name;
         $this->class_id = $classGroup->school_class_id;
     }
-    // public function update()
-    // {
-    // Gate::authorize('school.groups.update');
-    //     $this->validate();
-    //     $e = classGroup::findBySchool($this->editable_item->id);
-    //     $e->update([
-    //         'school_class_id' => $this->class_id,
-    //         'group_name' => $this->group_name,
-    //         'school_id' => school()->id
-    //     ]);
-    //     $this->dispatch('closeModal');
-    //     $this->alert('success', 'Class Section updated');
-    //     $this->resetFields();
-    // }
+    public function update()
+    {
+        Gate::authorize('school.groups.update');
+        $this->validate();
+        $this->editable_item->update([
+            'school_class_id' => $this->class_id,
+            'group_name' => $this->group_name,
+        ]);
+        $this->dispatch('closeModal');
+        $this->alert('success', 'Class group updated');
+        $this->resetFields();
+    }
     public function destroy(classGroup $classGroup)
     {
         Gate::authorize('school.groups.destroy');
@@ -129,16 +128,18 @@ class ClassGroupManagement extends Component
     {
         Gate::authorize('school.groups.index');
     }
-
+    #[Computed('publishedRoutines')]
+    public function publishedRoutines()
+    {
+        return classGroup::where('school_id', school()->id)->where('routine_published', true)->get();
+    }
     public function render()
     {
         $this->allClassesWithGroups = classGroup::allGroups();
         $classes = SchoolClass::allClasses();
         // Get sections with routine_published set to true
-        $publishedRoutines = classGroup::where('routine_published', true)->get();
         return view('livewire.backend.school.class-group-management')->with([
             'classes' => $classes,
-            'publishedRoutines' => $publishedRoutines,
         ]);
     }
 }
