@@ -28,7 +28,7 @@
                     <td
                         style="width:30%;display: flex; flex-direction: column; align-items: center; justify-content: space-around">
                         <img style="border-radius: 50%; width:50px; margin-bottom: 2px;"
-                            src="{{ isset(school()->institute_logo) ? storage_path(school()->institute_logo) : 'https://placehold.co/80x80/png' }}"
+                            src="{{ isset(school()->institute_logo) ? '/storage/' . school()->institute_logo : 'https://placehold.co/80x80/png' }}"
                             alt="">
                         <img style="position: relative; display: block; padding: 0 3px; width: 80px;"
                             src="{{ isset($card['student']->student_image) ? $path . '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
