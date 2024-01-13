@@ -26,6 +26,8 @@ const props = defineProps({
                 <div class="w-[60%] flex flex-col justify-center items-start gap-y-[14px] sm:gap-y-[20px]">
                     <h2 class=" text-3xl font-extrabold uppercase">You're locked</h2>
                     <h5 class=" text-1xl font-extrabold capitalize">Please update your subscription to continue...</h5>
+
+                    <Link href="/pricings" class="px-7 py-4 bg-sky-500 rounded backdrop:blur-3xl">Update now</Link>
                 </div>
                 <div class="w-[40%] bg-center bg-no-repeat bg-cover" :style="{ backgroundImage: `url('${props.image}')` }">
                 </div>
