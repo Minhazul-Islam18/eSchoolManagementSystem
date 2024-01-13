@@ -58,8 +58,8 @@ class ExamResultManagement extends Component
             $this->group_id = null;
         }
 
-        if (null != $this->class_id) {
-            $this->sections = SchoolClassSection::where('school_class_id', $this->class_id)->where('school_id', school()->id)->get();
+        if (null != $this->filter_class_id || isset($this->class_id)) {
+            $this->sections = SchoolClassSection::where('school_class_id', $this->filter_class_id ?? $this->class_id)->where('school_id', school()->id)->get();
         }
         //If class had no sections, then get all groups.
         if (!sizeof($this->sections)) {
@@ -71,8 +71,8 @@ class ExamResultManagement extends Component
 
     public function getGroups()
     {
-        if (null != $this->class_id) {
-            $this->groups = school()->classes()->findOrFail($this->class_id)->groups;
+        if (null != $this->filter_class_id || isset($this->class_id)) {
+            $this->groups = school()->classes()->findOrFail($this->filter_class_id ?? $this->class_id)->groups;
         }
     }
 
@@ -86,14 +86,7 @@ class ExamResultManagement extends Component
             return classGroup::findBySchool($this->group_id)->grades->isEmpty();
         }
     }
-    // public function getSection()
-    // {
-    //     if (null != $this->class_id || null != $this->filter_class_id) {
-    //         $this->sections = SchoolClassSection::where('school_class_id', $this->class_id ??  $this->filter_class_id)
-    //             ->where('school_id', school()->id)
-    //             ->get();
-    //     }
-    // }
+
     public function getSubjects()
     {
         $this->check_if_grade_exist();
@@ -113,7 +106,7 @@ class ExamResultManagement extends Component
     public function getStudents()
     {
         if (null != $this->class_id && null != $this->section_id) {
-            $this->students = SchoolClassSection::students($this->section_id);
+            $this->students = SchoolClassSection::findOrFail($this->section_id)->students;
         }
 
         if (isset($this->group_id)) {

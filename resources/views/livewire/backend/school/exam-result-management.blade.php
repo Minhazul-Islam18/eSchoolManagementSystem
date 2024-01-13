@@ -221,17 +221,19 @@
                                             </div>
                                         </div>
                                         <!-- Modal footer -->
-                                        <div
-                                            class="flex items-center px-6 pt-4 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                            <button type="submit"
-                                                class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50">
-                                                {{ $this->editable_item ? 'Update' : 'Save' }}</button>
-                                            @if ($this->editable_item)
-                                                <button type="button" wire:click='resetFields'
-                                                    class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-400 dark:focus:ring-red-200/50">
-                                                    {{ 'Cancel' }}</button>
-                                            @endif
-                                        </div>
+                                        @if (!$this->check_if_grade_exist())
+                                            <div
+                                                class="flex items-center px-6 pt-4 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                                <button type="submit"
+                                                    class="text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-success-600 dark:hover:bg-green-400 dark:focus:ring-green-200/50">
+                                                    {{ $this->editable_item ? 'Update' : 'Save' }}</button>
+                                                @if ($this->editable_item)
+                                                    <button type="button" wire:click='resetFields'
+                                                        class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-400 dark:focus:ring-red-200/50">
+                                                        {{ 'Cancel' }}</button>
+                                                @endif
+                                            </div>
+                                        @endif
                                     </form>
                                 </div>
                                 <!-- / Step Content -->
@@ -260,7 +262,7 @@
                     <div class="">
                         <label for="group_id" class="form-label">Groups</label>
                         <select wire:model.blur='group_id' class="form-select rounded" wire:change='getExamRefresh'
-                            wire:loading.class='opacity-50 blur-sm' wire:target='getSection' id="group_id">
+                            wire:loading.class='opacity-50 blur-sm' wire:target='getSectionRefresh' id="group_id">
                             <option value="">Select group</option>
                             @forelse ($this->groups as $item)
                                 <option value="{{ $item->id }}"
@@ -277,12 +279,13 @@
                 @else
                     <div class="">
                         <label for="section_id" class="form-label">Section</label>
-                        <select wire:model.blur='section_id' class="form-select rounded" wire:change='getExamRefresh'
-                            wire:loading.class='opacity-50 blur-sm' wire:target='getSection' id="section_id">
+                        <select wire:model.blur='filter_section_id' class="form-select rounded"
+                            wire:change='getExamRefresh' wire:loading.class='opacity-50 blur-sm'
+                            wire:target='getSectionRefresh' id="section_id">
                             <option value="">Select section</option>
                             @forelse ($sections as $item)
                                 <option value="{{ $item->id }}"
-                                    {{ $item->id == $this->section_id ? 'selected' : '' }}>
+                                    {{ $item->id == $this->filter_section_id ? 'selected' : '' }}>
                                     {{ $item->section_name }}</option>
                             @empty
                                 <option value="" disabled>No section found

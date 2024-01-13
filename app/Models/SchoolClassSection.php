@@ -20,7 +20,7 @@ class SchoolClassSection extends Model
      */
     public function grades(): HasMany
     {
-        return $this->hasMany(Grade::class, 'group_id');
+        return $this->hasMany(Grade::class, 'school_class_section_id');
     }
 
     // This function will return all sections by school
