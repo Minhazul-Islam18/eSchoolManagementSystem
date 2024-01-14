@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Package;
@@ -7,24 +8,42 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\FrontendPageComponent;
 use App\Livewire\Backend\RoleManagement;
+use App\Http\Controllers\ProcessFreePackage;
 use App\Livewire\Backend\DashboardComponent;
 use App\Http\Controllers\backend\SocialLogin;
 use App\Http\Controllers\BkashPaymentController;
 use App\Http\Controllers\FrontendPageController;
-use App\Http\Controllers\ProcessFreePackage;
 
 Route::get('/', function () {
-    // dd(auth()->user()->id);
     $pricings = Package::where('status', 1)->get();
     return Inertia::render('Home', [
         'pricings' => $pricings,
         'school' => auth()->user()?->school ?? []
     ]);
 })->name('/');
+Route::get('/under-development', function () {
+    return 'This feature is under development phrase';
+})->name('under-development');
+
 Route::get('contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 Route::get('pricings', function () {
+    if (Auth::check()) {
+        $user = Auth::user();
+        if ($user && $user->subscription) {
+            if (Carbon::parse($user->subscription->will_expire)->isFuture()) {
+                Inertia::share('is_subscription_active', true);
+            } else {
+                Inertia::share('is_subscription_active', false);
+            }
+        } else {
+            Inertia::share('is_subscription_active', false);
+        }
+    } else {
+        Inertia::share('is_subscription_active', 'not_authenticated');
+    }
+
     $pricings = Package::where('status', 1)->get();
     return Inertia::render('Pricings', [
         'pricings' => $pricings,
