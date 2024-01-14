@@ -66,12 +66,7 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
-            <a class="menu-link " href="{{ route('school.admissions') }}" class="menu-link ">
-                <i data-lucide="contact-2"></i>
-                Admissions
-            </a>
-        </li>
+
         <li class="menu-item">
             <a href="{{ route('school.general-information') }}" class="menu-link ">
                 <i data-lucide="cog"></i>
@@ -83,6 +78,222 @@
                 <i data-lucide="mailbox"></i>
                 Notices
             </a>
+        </li>
+
+        <li class="menu-item">
+            <span class="flex gap-1 mt-3">
+                <i data-lucide="contact-2"></i>
+                Student management
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
+
+            <ul class="sub-menu hidden">
+                <li class="menu-item">
+                    <a class="menu-link " href="{{ route('school.admissions') }}" class="menu-link ">
+                        <span class="menu-text"> {{ __('Admissions') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.classes') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Class Wise Students List') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.monthly-fees') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Sections Wise Students List') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.sections') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Gender Wise Students List') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.groups') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Group Wise Students List') }} </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item">
+            <span class="flex gap-1 mt-3">
+                <i data-lucide="book-open-check"></i>
+                Exam Management
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
+
+            <ul class="sub-menu hidden">
+                <li class="menu-item">
+                    <a class="menu-link " href="{{ route('school.exams') }}" class="menu-link ">
+                        <span class="menu-text"> {{ __('All Exams') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Seat Plan') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Admit Card') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Registration Card') }} </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <span class="flex gap-1 mt-3">
+                <i data-lucide="booeck"></i>
+                Results Management
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
+
+            <ul class="sub-menu hidden">
+                <li class="menu-item">
+                    <a class="menu-link " href="{{ route('school.grading') }}" class="menu-link ">
+                        <span class="menu-text"> {{ __('Gradings Setup') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Mark Entry') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Tabulation Sheet') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Transcript') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Progress Report') }} </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item">
+            <span class="flex gap-1 mt-3">
+                <i data-lucide="booeck"></i>
+                Fees Management
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
+
+            <ul class="sub-menu hidden">
+                <li class="menu-item">
+                    <a class="menu-link " href="{{ route('school.all-fees') }}" class="menu-link ">
+                        <span class="menu-text"> {{ __('All Exams Fees') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Class Wise Admission Fees') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Class Wise Monthly Fees') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('All Additional Fees') }} </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item">
+            <span class="flex gap-1 mt-3">
+                <i data-lucide="booeck"></i>
+                Attendance Management
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
+
+            <ul class="sub-menu hidden">
+                <li class="menu-item">
+                    <a href="{{ route('school.staffs-attendance') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Staffs attendance') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('school.students-attendance') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Students attendance') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Staff Attendance Report') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Students Attendance Report') }} </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item">
+            <span class="flex gap-1 mt-3">
+                <i data-lucide="booeck"></i>
+                SMS Management
+                <i class="mdi mdi-chevron-down"></i>
+            </span>
+
+            <ul class="sub-menu hidden">
+                <li class="menu-item">
+                    <a class="menu-link " href="{{ route('under-development') }}" class="menu-link ">
+                        <span class="menu-text"> {{ __('SMS Balance') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Send SMS') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Class Wise Guardian SMS') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('SMS Template') }} </span>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li class="menu-item">
