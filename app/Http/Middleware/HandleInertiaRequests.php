@@ -2,8 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Http\Request;
+use Laravel\Jetstream\Jetstream;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -39,6 +40,8 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'logo' => setting('logo'),
             'is_authenticated' => auth()->check(),
+            'user' => auth()->user() ?? [],
+            'user_profile_photo' => Jetstream::managesProfilePhotos(),
             'messages' => flash()->render([], 'array'),
             'flash' => [
                 'message' => session('message')

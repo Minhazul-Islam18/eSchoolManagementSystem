@@ -7,6 +7,8 @@ import { usePage, router } from '@inertiajs/vue3';
 
 // import { useToast } from "vue-toastification";
 // const toast = useToast()
+const page = usePage();
+console.log(page.props.is_subscription_active);
 const form = reactive({
     amount: null,
     id: null
@@ -38,7 +40,7 @@ async function free(id) {
 const props = defineProps({
     pricings: Array,
     school: Array | Object,
-    message: String,
+    message: String
 });
 </script>
 
@@ -81,6 +83,13 @@ const props = defineProps({
                                                 class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90"
                                                 type="submit">
                                                 {{ pricing.price > 0 ? 'Purchase Now' :
+                                                    'Free' }}</button>
+
+                                            <button v-show="page.props.is_subscription_active == false"
+                                                :disabled="form.processing"
+                                                class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90"
+                                                type="submit">
+                                                {{ pricing.price > 0 ? 'Update Now' :
                                                     'Free' }}</button>
                                         </div>
 

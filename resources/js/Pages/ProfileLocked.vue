@@ -4,7 +4,6 @@ import { Head, Link } from '@inertiajs/vue3';
 import { usePage, router } from '@inertiajs/vue3';
 
 // const image = usePage().props.lockedImage;
-
 const props = defineProps({
     image: String,
 });

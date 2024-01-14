@@ -2,12 +2,15 @@
 import { ref, computed, watch } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3'
 import flasher from "@flasher/flasher";
+import { User, ChevronDown, LogOut } from 'lucide-vue-next';
 import FlashMessage from "./Components/FlashMessage.vue";
 const page = usePage()
 
 const logo = computed(() => page.props.logo)
 const is_authenticated = computed(() => page.props.is_authenticated)
-console.log(logo);
+const user = computed(() => page.props.user)
+const user_profile_photo = computed(() => page.props.user_profile_photo)
+console.log(page.props.user);
 </script>
 
 <style>
@@ -26,7 +29,7 @@ console.log(logo);
 }
 
 #mobile-menu a {
-    color: #cbd5e0;
+    /* color: #cbd5e0; */
     /* Link text color */
 }
 
@@ -82,6 +85,45 @@ document.addEventListener('DOMContentLoaded', function () {
                     Pricings</Link>
                     <a v-if="is_authenticated" class="px-2 py-1" href="/users-redirection">Dashboard</a>
                     <a v-else class="px-2 py-1" href="/app/login">Login</a>
+
+                    <div class="relative" v-if="is_authenticated && user">
+                        <button id="dropdown-button" v-if="user_profile_photo" data-fc-type="dropdown"
+                            data-fc-placement="bottom-end" type="button" class="gap-x-2 nav-link flex items-center">
+                            <img class="h-10 w-10 rounded-full object-cover"
+                                :src="user.profile_photo_path ?? user.profile_photo_url" :alt="user.name" />
+                            <div class="md:flex flex-col hidden">
+                                <div class="font-medium text-base text-left text-gray-800 dark:text-gray-200">
+                                    {{ user.name }}</div>
+                                <div class="font-medium text-sm text-gray-500">{{ user.email }}</div>
+                            </div>
+                            <ChevronDown class="w-[18px]" />
+                        </button>
+
+                        <div id="dropdown-menu"
+                            class="hidden absolute z-50 mt-2 bg-white border border-gray-300 rounded-md shadow-lg">
+                            <h6 class="py-2 px-5 text-md">Welcome !</h6>
+                            <div class=" md:hidden flex flex-col gap-2">
+                                <div class=" px-5 font-medium text-sm text-left text-gray-800 dark:text-gray-200">
+                                    {{ user.name }}</div>
+                                <div class=" px-5 text-sm text-gray-500">{{ user.email }}</div>
+                            </div>
+                            <a class="flex items-center py-2 px-5 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                href="/user/profile">
+                                <User class="w-[18px] me-2" />
+                                <span>My Account</span>
+                            </a>
+                            <hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700" />
+                            <form method="POST" action="/logout" x-data>
+                                <!-- @csrf -->
+                                <button type="submit"
+                                    class="flex items-center py-2 px-5 text-sm w-full text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                    href="/logout">
+                                    <LogOut class="w-[18px] me-2" />
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -122,6 +164,44 @@ document.addEventListener('DOMContentLoaded', function () {
                     href="/pricings">
                 Pricings</Link>
                 <a v-if="is_authenticated" class="px-2 py-1" href="/users-redirection">Dashboard</a>
+                <div class="relative" v-if="is_authenticated && user">
+                    <button id="mobile-dropdown-button" v-if="user_profile_photo" data-fc-type="dropdown"
+                        data-fc-placement="bottom-end" type="button" class="gap-x-2 nav-link flex items-center">
+                        <img class="h-10 w-10 rounded-full object-cover"
+                            :src="user.profile_photo_path ?? user.profile_photo_url" :alt="user.name" />
+                        <div class="md:flex flex-col hidden">
+                            <div class="font-medium text-base text-left text-gray-800 dark:text-gray-200">
+                                {{ user.name }}</div>
+                            <div class="font-medium text-sm text-gray-500">{{ user.email }}</div>
+                        </div>
+                        <ChevronDown class="w-[18px]" />
+                    </button>
+
+                    <div id="mobile-dropdown-menu"
+                        class="hidden absolute z-50 mt-2 bg-white border border-gray-300 rounded-md shadow-lg">
+                        <h6 class="py-2 px-5 text-md">Welcome !</h6>
+                        <div class=" md:hidden flex flex-col gap-2">
+                            <div class=" px-5 font-medium text-sm text-left text-gray-800 dark:text-gray-200">
+                                {{ user.name }}</div>
+                            <div class=" px-5 text-sm text-gray-500">{{ user.email }}</div>
+                        </div>
+                        <a class="flex items-center py-2 px-5 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                            href="/user/profile">
+                            <User class="w-[18px] me-2" />
+                            <span>My Account</span>
+                        </a>
+                        <hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700" />
+                        <form method="POST" action="/logout" x-data>
+                            <!-- @csrf -->
+                            <button type="submit"
+                                class="flex items-center py-2 px-5 text-sm w-full text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                href="/logout">
+                                <LogOut class="w-[18px] me-2" />
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
                 <a v-else class="px-2 py-1" href="/app/login">Login</a>
             </div>
         </div>
