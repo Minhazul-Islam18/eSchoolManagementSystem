@@ -1,10 +1,10 @@
-import { unref, withCtx, createVNode, useSSRContext, computed, reactive, watch, mergeProps, createTextVNode, createSSRApp, h } from "vue";
+import { unref, withCtx, createVNode, useSSRContext, computed, reactive, createTextVNode, watch, mergeProps, createSSRApp, h } from "vue";
 import { ssrRenderComponent, ssrRenderStyle, ssrRenderAttr, ssrRenderList, ssrInterpolate, ssrIncludeBooleanAttr, ssrRenderAttrs, ssrRenderSlot } from "vue/server-renderer";
 import { Head, usePage, Link, createInertiaApp } from "@inertiajs/vue3";
 import createServer from "@inertiajs/vue3/server";
 import { renderToString } from "@vue/server-renderer";
 import "@flasher/flasher";
-import { XCircle } from "lucide-vue-next";
+import { XCircle, ChevronDown, User, LogOut } from "lucide-vue-next";
 const _sfc_main$6 = {
   __name: "Contact",
   __ssrInlineRender: true,
@@ -193,6 +193,8 @@ const _sfc_main$3 = {
     message: String
   },
   setup(__props) {
+    const page = usePage();
+    console.log(page.props.is_subscription_active);
     const form = reactive({
       amount: null,
       id: null
@@ -234,7 +236,7 @@ const _sfc_main$3 = {
       }, _parent));
       _push(`<section class="min-h-screen bg-gradient-to-tr from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}"><div class="container py-12 mx-auto"><h2 class="text-3xl uppercase mb-4 pb-2 border-b border-emerald-500 text-center font-extrabold">Our Pricings </h2><div class="relative z-10 overflow-hidden rounded-sm border border-stroke bg-white p-11 shadow-default dark:border-strokedark dark:bg-boxdark"><div class="w-full overflow-x-auto"><table class="table-auto w-full"><thead><tr><th class="w-1/4 min-w-[200px] px-5"></th><!--[-->`);
       ssrRenderList(props.pricings, (pricing) => {
-        _push(`<th class="w-1/4 min-w-[200px] px-5"><form><div class="mb-10 text-left"><span class="mb-3.5 block text-xl font-bold text-black dark:text-white">${ssrInterpolate(pricing.name)}</span><h4 class="mb-4"><span class="text-[28px] font-bold text-black dark:text-white lg:text-[32px]"><sup class="font-xs">৳</sup> ${ssrInterpolate(pricing.price ?? 0)}</span><sub class="font-xs">/ Month</sub></h4><p class="mb-6 text-base font-medium">${ssrInterpolate(pricing.additional_features)}</p><button style="${ssrRenderStyle(props.school !== null && props.school.package_id == null ? null : { display: "none" })}"${ssrIncludeBooleanAttr(form.processing) ? " disabled" : ""} class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90" type="submit">${ssrInterpolate(pricing.price > 0 ? "Purchase Now" : "Free")}</button></div></form></th>`);
+        _push(`<th class="w-1/4 min-w-[200px] px-5"><form><div class="mb-10 text-left"><span class="mb-3.5 block text-xl font-bold text-black dark:text-white">${ssrInterpolate(pricing.name)}</span><h4 class="mb-4"><span class="text-[28px] font-bold text-black dark:text-white lg:text-[32px]"><sup class="font-xs">৳</sup> ${ssrInterpolate(pricing.price ?? 0)}</span><sub class="font-xs">/ Month</sub></h4><p class="mb-6 text-base font-medium">${ssrInterpolate(pricing.additional_features)}</p><button style="${ssrRenderStyle(props.school !== null && props.school.package_id == null ? null : { display: "none" })}"${ssrIncludeBooleanAttr(form.processing) ? " disabled" : ""} class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90" type="submit">${ssrInterpolate(pricing.price > 0 ? "Purchase Now" : "Free")}</button><button style="${ssrRenderStyle(unref(page).props.is_subscription_active == false ? null : { display: "none" })}"${ssrIncludeBooleanAttr(form.processing) ? " disabled" : ""} class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90" type="submit">${ssrInterpolate(pricing.price > 0 ? "Update Now" : "Free")}</button></div></form></th>`);
       });
       _push(`<!--]--></tr></thead><tbody><tr><td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark border-l"><h5 class="font-medium text-black dark:text-white">Key Features</h5></td><!--[-->`);
       ssrRenderList(props.pricings, (pricing) => {
@@ -297,7 +299,23 @@ const _sfc_main$2 = {
         }),
         _: 1
       }, _parent));
-      _push(`<section class="h-screen bg-gradient-to-tr from-[#b6b6b6] via-[#b6b6b6] via-40% to-[#b6b6b6]" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}"><div class="container py-12 mx-auto h-full"><div class="flex flex-col sm:flex-row h-full"><div class="w-[60%] flex flex-col justify-center items-start gap-y-[14px] sm:gap-y-[20px]"><h2 class="text-3xl font-extrabold uppercase">You&#39;re locked</h2><h5 class="text-1xl font-extrabold capitalize">Please update your subscription to continue...</h5></div><div class="w-[40%] bg-center bg-no-repeat bg-cover" style="${ssrRenderStyle({ backgroundImage: `url('${props.image}')` })}"></div></div></div></section><!--]-->`);
+      _push(`<section class="h-screen bg-gradient-to-tr from-[#b6b6b6] via-[#b6b6b6] via-40% to-[#b6b6b6]" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}"><div class="container py-12 mx-auto h-full"><div class="flex flex-col sm:flex-row h-full"><div class="w-[60%] flex flex-col justify-center items-start gap-y-[14px] sm:gap-y-[20px]"><h2 class="text-3xl font-extrabold uppercase">You&#39;re locked</h2><h5 class="text-1xl font-extrabold capitalize">Please update your subscription to continue...</h5>`);
+      _push(ssrRenderComponent(unref(Link), {
+        href: "/pricings",
+        class: "px-7 py-4 bg-sky-500 rounded backdrop:blur-3xl"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Update now`);
+          } else {
+            return [
+              createTextVNode("Update now")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div><div class="w-[40%] bg-center bg-no-repeat bg-cover" style="${ssrRenderStyle({ backgroundImage: `url('${props.image}')` })}"></div></div></div></section><!--]-->`);
     };
   }
 };
@@ -362,7 +380,9 @@ const _sfc_main = {
     const page = usePage();
     const logo = computed(() => page.props.logo);
     const is_authenticated = computed(() => page.props.is_authenticated);
-    console.log(logo);
+    const user = computed(() => page.props.user);
+    const user_profile_photo = computed(() => page.props.user_profile_photo);
+    console.log(page.props.user);
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<main${ssrRenderAttrs(_attrs)}><nav class="hidden lg:flex bg-sky-500/50 backdrop-blur-2xl border-sky-500 border-b p-4 fixed w-full top-0 z-50"><div class="container mx-auto flex justify-between items-center"><div><a href="/"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[115px]" alt=""></a></div><div class="flex gap-2 flex-wrap items-end justify-end">`);
       _push(ssrRenderComponent(unref(Link), {
@@ -415,6 +435,23 @@ const _sfc_main = {
       } else {
         _push(`<a class="px-2 py-1" href="/app/login">Login</a>`);
       }
+      if (is_authenticated.value && user.value) {
+        _push(`<div class="relative">`);
+        if (user_profile_photo.value) {
+          _push(`<button id="dropdown-button" data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="gap-x-2 nav-link flex items-center"><img class="h-10 w-10 rounded-full object-cover"${ssrRenderAttr("src", user.value.profile_photo_path ?? user.value.profile_photo_url)}${ssrRenderAttr("alt", user.value.name)}><div class="md:flex flex-col hidden"><div class="font-medium text-base text-left text-gray-800 dark:text-gray-200">${ssrInterpolate(user.value.name)}</div><div class="font-medium text-sm text-gray-500">${ssrInterpolate(user.value.email)}</div></div>`);
+          _push(ssrRenderComponent(unref(ChevronDown), { class: "w-[18px]" }, null, _parent));
+          _push(`</button>`);
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`<div id="dropdown-menu" class="hidden absolute z-50 mt-2 bg-white border border-gray-300 rounded-md shadow-lg"><h6 class="py-2 px-5 text-md">Welcome !</h6><div class="md:hidden flex flex-col gap-2"><div class="px-5 font-medium text-sm text-left text-gray-800 dark:text-gray-200">${ssrInterpolate(user.value.name)}</div><div class="px-5 text-sm text-gray-500">${ssrInterpolate(user.value.email)}</div></div><a class="flex items-center py-2 px-5 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="/user/profile">`);
+        _push(ssrRenderComponent(unref(User), { class: "w-[18px] me-2" }, null, _parent));
+        _push(`<span>My Account</span></a><hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700"><form method="POST" action="/logout" x-data><button type="submit" class="flex items-center py-2 px-5 text-sm w-full text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="/logout">`);
+        _push(ssrRenderComponent(unref(LogOut), { class: "w-[18px] me-2" }, null, _parent));
+        _push(`<span>Logout</span></button></form></div></div>`);
+      } else {
+        _push(`<!---->`);
+      }
       _push(`</div></div></nav><nav class="lg:hidden bg-blue-500 p-4"><div class="container mx-auto"><div class="flex justify-between items-center"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[60px]" alt=""><button id="mobile-menu-button" class="text-white focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div></div></nav><div id="mobile-menu" class="hidden bg-sky-500/50 backdrop-blur-2xl"><button class="close-button text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><div class="flex flex-col items-center mt-4 space-y-4"><img${ssrRenderAttr("src", "/storage/" + logo.value)} class="w-[150px] mw-[100%] mx-auto" alt="">`);
       _push(ssrRenderComponent(unref(Link), {
         class: ["text-white px-2 py-1", { "bg-emerald-500 rounded": _ctx.$page.url === "/" }],
@@ -461,21 +498,28 @@ const _sfc_main = {
         }),
         _: 1
       }, _parent));
-      _push(ssrRenderComponent(unref(Link), {
-        class: "px-2 py-1 text-white",
-        href: "/app/login"
-      }, {
-        default: withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`Login`);
-          } else {
-            return [
-              createTextVNode("Login")
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
+      if (is_authenticated.value) {
+        _push(`<a class="px-2 py-1" href="/users-redirection">Dashboard</a>`);
+      } else {
+        _push(`<!---->`);
+      }
+      if (is_authenticated.value && user.value) {
+        _push(`<div class="relative">`);
+        if (user_profile_photo.value) {
+          _push(`<button id="mobile-dropdown-button" data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="gap-x-2 nav-link flex items-center"><img class="h-10 w-10 rounded-full object-cover"${ssrRenderAttr("src", user.value.profile_photo_path ?? user.value.profile_photo_url)}${ssrRenderAttr("alt", user.value.name)}><div class="md:flex flex-col hidden"><div class="font-medium text-base text-left text-gray-800 dark:text-gray-200">${ssrInterpolate(user.value.name)}</div><div class="font-medium text-sm text-gray-500">${ssrInterpolate(user.value.email)}</div></div>`);
+          _push(ssrRenderComponent(unref(ChevronDown), { class: "w-[18px]" }, null, _parent));
+          _push(`</button>`);
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`<div id="mobile-dropdown-menu" class="hidden absolute z-50 mt-2 bg-white border border-gray-300 rounded-md shadow-lg"><h6 class="py-2 px-5 text-md">Welcome !</h6><div class="md:hidden flex flex-col gap-2"><div class="px-5 font-medium text-sm text-left text-gray-800 dark:text-gray-200">${ssrInterpolate(user.value.name)}</div><div class="px-5 text-sm text-gray-500">${ssrInterpolate(user.value.email)}</div></div><a class="flex items-center py-2 px-5 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="/user/profile">`);
+        _push(ssrRenderComponent(unref(User), { class: "w-[18px] me-2" }, null, _parent));
+        _push(`<span>My Account</span></a><hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700"><form method="POST" action="/logout" x-data><button type="submit" class="flex items-center py-2 px-5 text-sm w-full text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="/logout">`);
+        _push(ssrRenderComponent(unref(LogOut), { class: "w-[18px] me-2" }, null, _parent));
+        _push(`<span>Logout</span></button></form></div></div>`);
+      } else {
+        _push(`<a class="px-2 py-1" href="/app/login">Login</a>`);
+      }
       _push(`</div></div><article class="mt-[65px]">`);
       _push(ssrRenderComponent(_sfc_main$1, null, null, _parent));
       ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
