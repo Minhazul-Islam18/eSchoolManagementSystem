@@ -7,12 +7,14 @@
                     <h6 class="text-md font-bold">{{ school()->institute_address }}</h6>
                 </div>
                 <div class="w-1/4 flex justify-end items-top">
-                    <img class="w-52" src="/storage/{{ $preview['student_image'] }}" alt="">
+                    <img class="w-52"
+                        src="{{ isset($preview['student_image']) ? '/storage/' . $preview['student_image'] : 'https://t4.ftcdn.net/jpg/04/99/10/95/360_F_499109530_TYARz61rzvBgJbzRnCzNqGXyBZGWYD7c.jpg' }}"
+                        alt="">
                 </div>
             </div>
             <table class="table-auto w-full border border-dark rounded my-4">
                 <tbody>
-                    <tr class="border-b hover:bg-gray-50 border-dark border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark border-dark">
                         <td class="p-4 border-dark border-r">
                             শ্রেণিঃ
                             {{ $preview['class_name'] ?? '' }}
@@ -34,7 +36,7 @@
                             লিঙ্গঃ {{ $preview['gender'] ?? '' }}
                         </td>
                     </tr>
-                    <tr class="border-b border-dark hover:bg-gray-50">
+                    <tr class="border-b border-dark dark:hover:bg-gray-700 hover:bg-gray-50">
                         <td class="p-4 border-dark border-r">
                             শিক্ষার্থীর নাম (বাংলা)
                         </td>
@@ -48,7 +50,7 @@
                             শিক্ষার্থীর জন্ম নিবন্ধন নং
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             {{ $preview['name_bn'] }}
                         </td>
@@ -62,7 +64,7 @@
                             {{ $preview['birth_certificate_no'] }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             {{ 'পিতার নাম (বাংলা)' }}
                         </td>
@@ -76,7 +78,7 @@
                             {{ 'পিতার জন্ম নিবন্ধন নং' }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             {{ $preview['fathers_name_bn'] }}
                         </td>
@@ -90,7 +92,7 @@
                             {{ $preview['fathers_bc_no'] }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             {{ 'মাতার নাম (বাংলা)' }}
                         </td>
@@ -104,7 +106,7 @@
                             {{ 'মাতার জন্ম নিবন্ধন নং' }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             {{ $preview['mothers_name_bn'] }}
                         </td>
@@ -118,7 +120,7 @@
                             {{ $preview['mothers_bc_no'] }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             পিতা/মাতা জীবিত না থাকলে অভিভাবকের নাম (বাংলা)
                         </td>
@@ -132,7 +134,7 @@
                             অভিভাবকের সাথে শিক্ষার্থীর সম্পর্ক
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             {{ $preview['gurdian_in_absence_of_parent_bn'] }}
                         </td>
@@ -146,7 +148,7 @@
                             {{ $preview['relation_with_gurdian'] }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             অভিভাবকের পেশা
                         </td>
@@ -154,7 +156,7 @@
                             {{ $preview['gurdians_occupation'] }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             অভিভাবকের মাসিক আয়
                         </td>
@@ -162,7 +164,7 @@
                             {{ $preview['gurdians_monthly_income'] }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             মোবাইল নাম্বার
                         </td>
@@ -170,7 +172,7 @@
                             {{ $preview['mobile_number'] }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r" colspan="2">
                             শিক্ষার্থীর ধরন
                         </td>
@@ -178,14 +180,14 @@
                             শিক্ষার্থীর কোটা
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r" colspan="2">
                             {{ $preview['student_category'] ?? '' }}
                         </td>
                         <td class="p-4" colspan="2">
                             {{ $preview['student_quota'] ?? '' }}
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r" colspan="2">
                             পূর্বে অধ্যায়নরত স্কুল এর নাম
                         </td>
@@ -193,7 +195,7 @@
                             পূর্বে অধ্যায়নরত শ্রেণি
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r" colspan="2">
                             {{ $preview['previous_institute'] }}
                         </td>
@@ -201,7 +203,7 @@
                             {{ $preview['previous_study_class'] }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             কোন ভাই/বোন অত্র প্রতিষ্ঠানে অধ্যয়নরত কি না
                         </td>
@@ -215,7 +217,7 @@
                             অধ্যয়নরত ভাই/বোনের রোল
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             {{ $preview['have_siblings_studying'] ? 'হ্যাঁ' : 'না' }}
                         </td>
@@ -229,11 +231,12 @@
                             {{ $preview['roll_of_siblings_studying'] }}
                         </td>
                     </tr>
-                    <tr class="border-b hover:bg-gray-50 border-dark">
+                    <tr class="border-b dark:hover:bg-gray-700 hover:bg-gray-50 border-dark">
                         <td class="p-4 border-dark border-r">
                             ঠিকানা
                         </td>
                         <td class="p-4" colspan="3">
+
                             বিভাগঃ- {{ $preview['division'] }},
                             জেলাঃ- {{ $preview['district'] }},
                             উপজেলাঃ- {{ $preview['upazila'] }},
