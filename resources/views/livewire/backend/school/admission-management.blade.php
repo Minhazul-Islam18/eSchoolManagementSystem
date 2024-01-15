@@ -916,7 +916,7 @@
                                 <td>
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <img width="100px"
-                                            src="{{ isset($item->student_image) ? '/storage/' . $item->student_image : 'https://static.vecteezy.com/system/resources/previews/020/911/740/original/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png' }}"
+                                            src="{{ isset($item->student_image) ? '/storage/' . $item->student_image : 'https://t4.ftcdn.net/jpg/04/99/10/95/360_F_499109530_TYARz61rzvBgJbzRnCzNqGXyBZGWYD7c.jpg' }}"
                                             alt="">
                                         <div>
                                             {{ 'নাম: ' . $item->name_bn }}</br>
