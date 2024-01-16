@@ -19,9 +19,7 @@
 </head>
 
 <body class="">
-    {{-- <div id="app"> --}}
     @inertia
-    {{-- </div> --}}
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
