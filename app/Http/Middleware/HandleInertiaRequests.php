@@ -39,6 +39,8 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'logo' => setting('logo'),
+            'csrfToken' => csrf_token(),
+            'logoutMethod' => 'PUT',
             'is_authenticated' => auth()->check(),
             'user' => auth()->user() ?? [],
             'user_profile_photo' => Jetstream::managesProfilePhotos(),
