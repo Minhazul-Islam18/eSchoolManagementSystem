@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
-import { Link, usePage } from '@inertiajs/vue3'
+import { Link, usePage, router } from '@inertiajs/vue3';
+// import { route } from './Ziggy';
 import flasher from "@flasher/flasher";
 import { User, ChevronDown, LogOut } from 'lucide-vue-next';
 import FlashMessage from "./Components/FlashMessage.vue";
@@ -11,6 +12,10 @@ const is_authenticated = computed(() => page.props.is_authenticated)
 const user = computed(() => page.props.user)
 const user_profile_photo = computed(() => page.props.user_profile_photo)
 console.log(page.props.user);
+
+const logout = () => {
+    router.post('app/logout');
+};
 </script>
 
 <style>
@@ -113,12 +118,11 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <span>My Account</span>
                             </a>
                             <hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700" />
-                            <form method="POST" action="/logout" x-data>
-                                <!-- @csrf -->
+                            <form @submit.prevent="logout">
+                                <input type="hidden" name="_token" :value="$page.props.csrfToken" />
                                 <button type="submit"
-                                    class="flex items-center py-2 px-5 text-sm w-full text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                    href="/logout">
-                                    <LogOut class="w-[18px] me-2" />
+                                    class="flex items-center py-2 px-5 text-sm w-full text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                                    <LogOut class="w-4 h-4 me-2" />
                                     <span>Logout</span>
                                 </button>
                             </form>
