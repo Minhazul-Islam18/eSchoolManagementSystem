@@ -63,7 +63,7 @@ const props = defineProps({
                     <table class="table-auto w-full">
                         <thead>
                             <tr>
-                                <th class="w-1/4 min-w-[200px] px-5"></th>
+                                <th class="w-1/4 min-w-[200px] px-5 hidden sm:block"></th>
 
                                 <th class="w-1/4 min-w-[200px] px-5" v-for="pricing in  props.pricings " :key="pricing.id">
                                     <form
@@ -85,12 +85,18 @@ const props = defineProps({
                                                 {{ pricing.price > 0 ? 'Purchase Now' :
                                                     'Free' }}</button>
 
-                                            <button v-show="page.props.is_subscription_active == false"
-                                                :disabled="form.processing"
+                                            <button :disabled="form.processing"
+                                                v-if="page.props.is_subscription_active != 'not_authenticated'"
                                                 class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90"
                                                 type="submit">
-                                                {{ pricing.price > 0 ? 'Update Now' :
-                                                    'Free' }}</button>
+                                                <span
+                                                    v-if="page.props.is_subscription_active === true || page.props.is_subscription_active === false">
+                                                    Update Now
+                                                </span>
+                                                <span v-else-if="pricing.price > 0">
+                                                    Free
+                                                </span>
+                                            </button>
                                         </div>
 
                                     </form>
@@ -99,7 +105,8 @@ const props = defineProps({
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark border-l">
+                                <td
+                                    class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark border-l hidden sm:block">
                                     <h5 class="font-medium text-black dark:text-white">Key Features</h5>
                                 </td>
                                 <td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark"
