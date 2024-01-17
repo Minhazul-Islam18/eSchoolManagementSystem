@@ -111,7 +111,7 @@ Route::get('/school-login', function () {
 
 Route::get('/users-redirection', function () {
     if (auth()->user()->role->slug == 'admin' || auth()->user()->role->slug == 'super_admin') {
-        return redirect()->route('app.index');
+        return redirect()->route('app.dashboard');
     } elseif (auth()->user()->role->slug == 'school' || auth()->user()->role->slug == "demo_school") {
         return redirect()->route('school.index');
     } elseif (auth()->user()->role->slug == 'student') {

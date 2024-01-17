@@ -31,7 +31,7 @@ class ClassManagement extends Component
     public function store()
     {
         Gate::authorize('school.classes.create');
-        // $this->validate(['class_name' => 'required|unique:school_classes,class_name']);
+        $this->validate(['class_name' => 'required']);
         school()->classes()->create([
             'class_name' => $this->class_name,
         ]);

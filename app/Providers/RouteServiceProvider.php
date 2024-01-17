@@ -39,6 +39,7 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware(['web', FrontendLayoutMiddleware::class])
                 ->group(base_path('routes/web.php'));
+
             Route::middleware(['web', 'auth:sanctum', AdminLayoutMiddleware::class])
                 ->prefix('app')
                 ->name('app.')
