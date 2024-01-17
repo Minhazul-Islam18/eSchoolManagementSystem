@@ -81,6 +81,30 @@
                         <span class="menu-text"> {{ __('Student Summary') }} </span>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Section Wise Collection Report') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Class Wise Collection Report') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Section Wise Due List') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Class Wise Due List') }} </span>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="menu-item">
@@ -127,8 +151,8 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('school.generate-student-id-card') }}" data-fc-type="collapse" class="menu-link"
-                        data-fc-parent="child-accordion">
+                    <a href="{{ route('school.generate-student-id-card') }}" data-fc-type="collapse"
+                        class="menu-link" data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Student ID card generate - (Working)') }} </span>
                     </a>
                 </li>
