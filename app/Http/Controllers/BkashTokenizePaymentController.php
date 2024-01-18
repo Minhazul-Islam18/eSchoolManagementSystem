@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\BkashTransection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Karim007\LaravelBkashTokenize\Facade\BkashRefundTokenize;
 use Karim007\LaravelBkashTokenize\Facade\BkashPaymentTokenize;
@@ -22,7 +25,6 @@ class BkashTokenizePaymentController extends Controller
 
 
         if (auth()->user()->hasRole('school') || auth()->user()->hasRole('demo_school')) {
-            // dd(auth()->user()->role);
             if (session()->has('invoice_amount')) {
                 session()->forget('invoice_amount');
             }
@@ -32,13 +34,11 @@ class BkashTokenizePaymentController extends Controller
             Inertia::share('bkashSandox', config('bkash.sandbox'));
             return view('bkashT::bkash-payment');
         } else {
-            dd(auth()->user()->role);
             return Redirect::route('/')->with('message', 'Something went wrong.');
         }
     }
     public function createPayment(Request $request)
     {
-        // dd(session()->get('package_id'));
         $inv = uniqid();
         $request['intent'] = 'sale';
         $request['mode'] = '0011'; //0011 for checkout
@@ -51,10 +51,7 @@ class BkashTokenizePaymentController extends Controller
         $request_data_json = json_encode($request->all());
 
         $response =  BkashPaymentTokenize::cPayment($request_data_json);
-        //$response =  BkashPaymentTokenize::cPayment($request_data_json,1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
 
-        //store paymentID and your account number for matching in callback request
-        dd($response); //if you are using sandbox and not submit info to bkash use it for 1 response
         BkashTransection::create([
             'logo' => $response['orgLogo'] ?? '',
             'name' => $response['orgName'] ?? '',
@@ -65,7 +62,6 @@ class BkashTokenizePaymentController extends Controller
             'amount' => $response['amount'],
             'create_time' => $response['paymentCreateTime'],
         ]);
-        // dd(isset($response['bkashURL']));
         if (isset($response['bkashURL'])) return redirect()->away($response['bkashURL']);
         // else return redirect()->back()->with('error-alert2', $response['statusMessage']);
         else return redirect()->back()->with('message', $response['statusMessage']);
@@ -73,27 +69,58 @@ class BkashTokenizePaymentController extends Controller
 
     public function callBack(Request $request)
     {
-        //callback request params
-        // paymentID=your_payment_id&status=success&apiVersion=1.2.0-beta
-        //using paymentID find the account number for sending params
-
         if ($request->status == 'success') {
             $response = BkashPaymentTokenize::executePayment($request->paymentID);
-            dd($response);
-            //$response = BkashPaymentTokenize::executePayment($request->paymentID, 1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
+
             if (!$response) { //if executePayment payment not found call queryPayment
                 $response = BkashPaymentTokenize::queryPayment($request->paymentID);
-                //$response = BkashPaymentTokenize::queryPayment($request->paymentID,1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
             }
 
-            if (isset($response['statusCode']) && $response['statusCode'] == "0000" && $response['transactionStatus'] == "Completed") {
-                /*
-                 * for refund need to store
-                 * paymentID and trxID
-                 * */
+            if ($response['transactionStatus'] == "Completed") {
+                $tr = BkashTransection::where('payment_id', $response['paymentID'])->first();
+                $user = Auth::user();
+                DB::transaction(function () use ($user, $tr, $response) {
+                    if ($user->hasRole('demo_school')) {
+                        $user->role()->dissociate();
+                        // Associate the user with the 'demo_school' role
+                        $SchoolRole = Role::where(
+                            'slug',
+                            'school'
+                        )->firstOrFail();
+                        if ($SchoolRole) {
+                            $user->role()->associate($SchoolRole);
+                            $user->save();
+                        }
+                    }
+                    school()->update(['package_id' => session()->get('package_id')]);
+                    $s = $user->subscription;
+                    // Update user subscription
+                    if ($s === null) {
+                        $user->subscription()->create([
+                            'package_id' => session()->get('package_id'),
+                            'will_expire' => now()->addMonth(12),
+                        ]);
+                    } else {
+                        $user->subscription()->update([
+                            'package_id' => session()->get('package_id'),
+                            'will_expire' => now()->addMonth(12),
+                        ]);
+                    }
+
+                    // Update transection info
+                    $tr->update([
+                        'payment_id' => $response['paymentID'],
+                        'transaction_status' => $response['transactionStatus'],
+                        'customer_msisdn' => $response['customerMsisdn'],
+                        'trx_id' => $response['trxID'],
+                        'transaction_reference' => $response['payerReference'] ?? null,
+                    ]);
+                }, 5);
                 return BkashPaymentTokenize::success('Thank you for your payment', $response['trxID']);
+            } else {
+                $tr = BkashTransection::where('payment_id', $response['paymentID'])->first();
+                $tr->delete();
             }
-            return BkashPaymentTokenize::failure($response['statusMessage']);
         } else if ($request->status == 'cancel') {
             return BkashPaymentTokenize::cancel('Your payment is canceled');
         } else {
