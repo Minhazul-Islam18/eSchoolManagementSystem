@@ -234,11 +234,25 @@ const _sfc_main$3 = {
         }),
         _: 1
       }, _parent));
-      _push(`<section class="min-h-screen bg-gradient-to-tr from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}"><div class="container py-12 mx-auto"><h2 class="text-3xl uppercase mb-4 pb-2 border-b border-emerald-500 text-center font-extrabold">Our Pricings </h2><div class="relative z-10 overflow-hidden rounded-sm border border-stroke bg-white p-11 shadow-default dark:border-strokedark dark:bg-boxdark"><div class="w-full overflow-x-auto"><table class="table-auto w-full"><thead><tr><th class="w-1/4 min-w-[200px] px-5"></th><!--[-->`);
+      _push(`<section class="min-h-screen bg-gradient-to-tr from-[#b9ecfd] via-[#def5fd] via-40% to-[#f9fafc]" style="${ssrRenderStyle({ "font-family": "'Jost', sans-serif" })}"><div class="container py-12 mx-auto"><h2 class="text-3xl uppercase mb-4 pb-2 border-b border-emerald-500 text-center font-extrabold">Our Pricings </h2><div class="relative z-10 overflow-hidden rounded-sm border border-stroke bg-white p-11 shadow-default dark:border-strokedark dark:bg-boxdark"><div class="w-full overflow-x-auto"><table class="table-auto w-full"><thead><tr><th class="w-1/4 min-w-[200px] px-5 hidden sm:block"></th><!--[-->`);
       ssrRenderList(props.pricings, (pricing) => {
-        _push(`<th class="w-1/4 min-w-[200px] px-5"><form><div class="mb-10 text-left"><span class="mb-3.5 block text-xl font-bold text-black dark:text-white">${ssrInterpolate(pricing.name)}</span><h4 class="mb-4"><span class="text-[28px] font-bold text-black dark:text-white lg:text-[32px]"><sup class="font-xs">৳</sup> ${ssrInterpolate(pricing.price ?? 0)}</span><sub class="font-xs">/ Month</sub></h4><p class="mb-6 text-base font-medium">${ssrInterpolate(pricing.additional_features)}</p><button style="${ssrRenderStyle(props.school !== null && props.school.package_id == null ? null : { display: "none" })}"${ssrIncludeBooleanAttr(form.processing) ? " disabled" : ""} class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90" type="submit">${ssrInterpolate(pricing.price > 0 ? "Purchase Now" : "Free")}</button><button style="${ssrRenderStyle(unref(page).props.is_subscription_active == false ? null : { display: "none" })}"${ssrIncludeBooleanAttr(form.processing) ? " disabled" : ""} class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90" type="submit">${ssrInterpolate(pricing.price > 0 ? "Update Now" : "Free")}</button></div></form></th>`);
+        _push(`<th class="w-1/4 min-w-[200px] px-5"><form><div class="mb-10 text-left"><span class="mb-3.5 block text-xl font-bold text-black dark:text-white">${ssrInterpolate(pricing.name)}</span><h4 class="mb-4"><span class="text-[28px] font-bold text-black dark:text-white lg:text-[32px]"><sup class="font-xs">৳</sup> ${ssrInterpolate(pricing.price ?? 0)}</span><sub class="font-xs">/ Month</sub></h4><p class="mb-6 text-base font-medium">${ssrInterpolate(pricing.additional_features)}</p><button style="${ssrRenderStyle(props.school !== null && props.school.package_id == null ? null : { display: "none" })}"${ssrIncludeBooleanAttr(form.processing) ? " disabled" : ""} class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90" type="submit">${ssrInterpolate(pricing.price > 0 ? "Purchase Now" : "Free")}</button>`);
+        if (unref(page).props.is_subscription_active != "not_authenticated") {
+          _push(`<button${ssrIncludeBooleanAttr(form.processing) ? " disabled" : ""} class="block w-full rounded-md bg-primary p-3 text-center font-medium text-white transition hover:bg-opacity-90" type="submit">`);
+          if (unref(page).props.is_subscription_active === true || unref(page).props.is_subscription_active === false) {
+            _push(`<span> Update Now </span>`);
+          } else if (pricing.price > 0) {
+            _push(`<span> Free </span>`);
+          } else {
+            _push(`<!---->`);
+          }
+          _push(`</button>`);
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`</div></form></th>`);
       });
-      _push(`<!--]--></tr></thead><tbody><tr><td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark border-l"><h5 class="font-medium text-black dark:text-white">Key Features</h5></td><!--[-->`);
+      _push(`<!--]--></tr></thead><tbody><tr><td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark border-l hidden sm:block"><h5 class="font-medium text-black dark:text-white">Key Features</h5></td><!--[-->`);
       ssrRenderList(props.pricings, (pricing) => {
         _push(`<td class="border-t border-r border-stroke py-5 px-7 dark:border-strokedark"><h5 class="font-medium text-black dark:text-white">Key Features</h5></td>`);
       });
@@ -446,8 +460,8 @@ const _sfc_main = {
         }
         _push(`<div id="dropdown-menu" class="hidden absolute z-50 mt-2 bg-white border border-gray-300 rounded-md shadow-lg"><h6 class="py-2 px-5 text-md">Welcome !</h6><div class="md:hidden flex flex-col gap-2"><div class="px-5 font-medium text-sm text-left text-gray-800 dark:text-gray-200">${ssrInterpolate(user.value.name)}</div><div class="px-5 text-sm text-gray-500">${ssrInterpolate(user.value.email)}</div></div><a class="flex items-center py-2 px-5 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="/user/profile">`);
         _push(ssrRenderComponent(unref(User), { class: "w-[18px] me-2" }, null, _parent));
-        _push(`<span>My Account</span></a><hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700"><form method="POST" action="/logout" x-data><button type="submit" class="flex items-center py-2 px-5 text-sm w-full text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="/logout">`);
-        _push(ssrRenderComponent(unref(LogOut), { class: "w-[18px] me-2" }, null, _parent));
+        _push(`<span>My Account</span></a><hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700"><form><input type="hidden" name="_token"${ssrRenderAttr("value", _ctx.$page.props.csrfToken)}><button type="submit" class="flex items-center py-2 px-5 text-sm w-full text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">`);
+        _push(ssrRenderComponent(unref(LogOut), { class: "w-4 h-4 me-2" }, null, _parent));
         _push(`<span>Logout</span></button></form></div></div>`);
       } else {
         _push(`<!---->`);
@@ -520,7 +534,7 @@ const _sfc_main = {
       } else {
         _push(`<a class="px-2 py-1" href="/app/login">Login</a>`);
       }
-      _push(`</div></div><article class="mt-[65px]">`);
+      _push(`</div></div><article class="mt-0 sm:mt-[65px]">`);
       _push(ssrRenderComponent(_sfc_main$1, null, null, _parent));
       ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
       _push(`</article><footer class="py-6 px-6 bg-gradient-to-tr from-slate-800 to-slate-600" style="${ssrRenderStyle({ "position": "sticky", "width": "100%", "bottom": "0", "left": "0", "right": "0", "z-index": "-1" })}"><div class="flex flex-wrap"><div class="w-full flex justify-center"><p class="text-white">আরসিটি ইএমএস ২০২৩ | আরসিটি সেবার একটি পণ্য | সর্বসত্ব সংরক্ষিত</p></div></div></footer></main>`);

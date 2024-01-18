@@ -4,7 +4,7 @@
     "src": "public/frontend/hero_1.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-5753f18a.css",
+    "file": "assets/app-c90799f0.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -16,7 +16,7 @@
     "css": [
       "assets/app-505cc20a.css"
     ],
-    "file": "assets/app-0e95b80b.js",
+    "file": "assets/app-4d6d9e09.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }

@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         </div>
 
-        <article class="mt-[65px]">
+        <article class="mt-0 sm:mt-[65px]">
             <FlashMessage></FlashMessage>
             <slot></slot>
         </article>
