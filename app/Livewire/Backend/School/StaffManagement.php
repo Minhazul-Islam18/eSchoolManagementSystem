@@ -107,6 +107,8 @@ class StaffManagement extends Component
             Storage::disk('public')->delete($schoolStaff->image);
         }
         $schoolStaff->delete();
+
+        $this->alert('success', 'Deleted successfully');
     }
     public function update()
     {
