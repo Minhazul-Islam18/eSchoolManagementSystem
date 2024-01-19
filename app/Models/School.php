@@ -183,4 +183,14 @@ class School extends Model
         $maxStudents = school()->package->allowed_students;
         return $this->students()->count() < $maxStudents;
     }
+
+    /**
+     * Get all of the studentIdCards for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function studentIdCards(): HasMany
+    {
+        return $this->hasMany(StudentIdCard::class, 'school_id');
+    }
 }

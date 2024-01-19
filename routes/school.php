@@ -26,7 +26,9 @@ use App\Livewire\Backend\School\NoticeManagement;
 use App\Livewire\Backend\School\StaffAttendanceManagement;
 use App\Livewire\Backend\School\StudentAttendanceManagement;
 use App\Livewire\Backend\School\StudentCollectionManagement;
+use App\Livewire\Backend\School\StudentIdCardCreateEditForm;
 use App\Livewire\Backend\School\StudentIdCardManagement;
+use App\Livewire\Backend\School\StudentIdCardSettingsManagement;
 
 Route::middleware(['checkRole:school,demo_school', 'checkSubscription', 'checkActivatedSchool'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('index');
@@ -55,4 +57,7 @@ Route::middleware(['checkRole:school,demo_school', 'checkSubscription', 'checkAc
     Route::get('/collections', StudentCollectionManagement::class)->name('collections');
     Route::get('/collection-report', CollectionReportManagement::class)->name('collection-report');
     Route::get('/auto-generate/student-id-card', StudentIdCardManagement::class)->name('generate-student-id-card');
+    Route::get('/student-id-cards', StudentIdCardSettingsManagement::class)->name('student-id-cards');
+    Route::get('/student-id-card/create', StudentIdCardCreateEditForm::class)->name('student-id-card.create');
+    Route::get('/student-id-card/{id}/edit', StudentIdCardCreateEditForm::class)->name('student-id-card.edit');
 });

@@ -14,7 +14,7 @@
             </header>
 
             <div class="flex flex-wrap items-start">
-                <div class="w-full sm:w-5/12 bg-gray-300 dark:bg-slate-800 py-5 px-3 rounded-md">
+                <div class="w-full sm:w-4/12 bg-gray-300 dark:bg-slate-800 py-5 px-3 rounded-md">
                     <form wire:submit='generate' class="flex flex-col gap-3">
                         <h2 class="text-center border-b border-gray-400 dark:border-slate-900 pb-3 pt-2 text-lg">
                             Generate Student ID Card</h2>
@@ -128,11 +128,409 @@
                         </div> --}}
                     </form>
                 </div>
-                <div class="w-2/12"></div>
-                <div class="w-5/12 bg-gray-300 dark:bg-slate-800 py-5 px-3 rounded-md">
-                    <h2 class="mb-2 pb-2 pt-1 text-2xl text-center border-b border-gray-400 dark:border-slate-900">
-                        Preview</h2>
-                    <table style="background-color: #dae9fc; padding: .8rem 1rem; border-radius: .5rem; width: 100%">
+                <div class="w-8/12">
+                    <div class=" ml-5 bg-gray-300 dark:bg-slate-800 py-5 px-3 rounded-md">
+                        <h2 class="mb-2 pb-2 pt-1 text-2xl text-center border-b border-gray-400 dark:border-slate-900">
+                            Preview</h2>
+
+                        <div class="preview_box_wrapper ">
+                            <div class="preview_box print-view overflow-auto">
+                                <div id="printContent">
+                                    <style>
+                                        .id_card_front {
+                                            width: 250px;
+                                            min-width: 250px;
+                                            height: 387px;
+                                            min-height: 387px;
+                                            position: relative;
+                                            border-radius: 8px;
+                                            background: #FFF;
+                                            box-shadow: 0px 4px 11px 0px rgba(0, 0, 0, 0.15);
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: flex-end;
+                                            width: 250px;
+                                            min-width: 250px;
+                                            min-height: 387px;
+                                            height: 387px;
+                                            overflow: hidden;
+                                        }
+
+                                        .shape_img_top {
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            width: 100%;
+                                            height: 100%;
+                                            border-radius: 8px;
+                                            min-height: 387px !important;
+                                        }
+
+                                        .shape_img_top img {
+                                            border-radius: 8px;
+                                            height: 100%;
+                                            width: 100%;
+                                            object-fit: cover;
+                                            object-position: top;
+                                        }
+
+                                        .id_card_front_inner h3 {
+                                            color: #003249;
+                                            font-family: Lexend;
+                                            font-size: 21.323px;
+                                            font-style: normal;
+                                            font-weight: 600;
+                                            line-height: normal;
+                                            margin-bottom: 8px;
+                                        }
+
+                                        .id_card_front_inner .class_name {
+                                            color: #003249;
+                                            font-family: Lexend;
+                                            font-size: 12.794px;
+                                            font-style: normal;
+                                            font-weight: 300;
+                                            line-height: normal;
+                                            text-align: center;
+                                            display: block;
+                                            margin-bottom: 12px;
+                                        }
+
+                                        .student_info p {
+                                            color: #003249;
+                                            font-family: Lexend;
+                                            font-size: 9.946px;
+                                            font-style: normal;
+                                            font-weight: 300;
+                                            line-height: normal;
+                                            margin-bottom: 4px;
+                                        }
+
+                                        .id_card_profile_img {
+                                            width: 98.315px;
+                                            height: 98.315px;
+                                            transform: rotate(45deg);
+                                            flex-shrink: 0;
+                                            box-shadow: 0px 0px 4.569228172302246px rgba(0, 0, 0, 0.25);
+                                            background: #fff;
+                                            margin: 0 auto;
+                                            position: relative;
+                                            top: -20px;
+                                            margin-bottom: 7px;
+                                        }
+
+                                        .id_card_profile_img img {
+                                            width: calc(100% + 10px);
+                                            height: calc(100% + 10px);
+                                            transform: rotate(-45deg);
+                                            clip-path: polygon(50% -3%, 107% 50%, 50% 100%, -7% 50%);
+                                            position: relative;
+                                            top: -5px;
+                                            /* right: 5px; */
+                                        }
+
+                                        .id_card_front_info {
+                                            position: relative;
+                                            z-index: 12;
+                                            height: 100%;
+                                            /* padding-top: 100px; */
+                                            height: 387px;
+                                            top: 95px;
+                                            padding-top: 0;
+                                            width: 250px !important;
+                                            min-width: 250px !important;
+                                        }
+
+                                        .signature_image {
+                                            max-width: 73px;
+                                            margin: 0 auto;
+                                            margin-top: 15px;
+                                        }
+
+                                        .signature_image img {
+                                            max-width: 100%;
+                                            height: 30px;
+                                            object-fit: cover;
+                                        }
+
+                                        .id_card_back {
+                                            width: 250px;
+                                            min-width: 250px;
+                                            height: 387px;
+                                            position: relative;
+                                            border-radius: 8px;
+                                            background: #FFF;
+                                            box-shadow: 0px 4px 11px 0px rgba(0, 0, 0, 0.15);
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: flex-start;
+                                            overflow: hidden;
+                                        }
+
+                                        .id_card_back .shape_img_top {
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            width: 100%;
+                                            height: 100%;
+                                            border-radius: 8px;
+                                        }
+
+                                        .id_card_back .shape_img_top img {
+                                            border-radius: 8px;
+                                            height: 100%;
+                                            width: 100%;
+                                            object-fit: cover;
+                                            object-position: bottom;
+                                        }
+
+                                        .id_card_back {
+                                            padding: 38px 29px;
+                                            text-align: center;
+                                        }
+
+                                        .id_card_back_info {
+                                            position: relative;
+                                            z-index: 12;
+                                        }
+
+                                        .id_card_back .id_card_back_info p {
+                                            color: #003249;
+                                            text-align: center;
+                                            font-family: Lexend;
+                                            font-size: 10.403px;
+                                            font-style: normal;
+                                            font-weight: 300;
+                                            line-height: normal;
+                                        }
+
+                                        .id_card_back .id_card_back_info h5 {
+                                            color: #003249;
+                                            font-family: Lexend;
+                                            font-size: 10.403px;
+                                            font-style: normal;
+                                            font-weight: 500;
+                                            line-height: normal;
+                                            margin: 18px 0 25px 0;
+                                        }
+
+                                        .id_card_back .id_card_back_info .qr_code {
+                                            width: 57.786px;
+                                            height: 57.709px;
+                                            margin: 0 auto;
+                                        }
+
+                                        .id_card_back .id_card_back_info .qr_code img {
+                                            max-width: 100%;
+                                        }
+
+                                        .id_card_back_logo_img {
+                                            position: absolute;
+                                            left: 20px;
+                                            bottom: 45px;
+                                            z-index: 15;
+                                            text-align: left;
+                                        }
+
+                                        .id_card_back_logo_img img {
+                                            max-width: 100px;
+                                            width: 100%;
+                                            object-fit: cover;
+                                        }
+
+                                        .gap_12 {
+                                            grid-gap: 12px;
+                                        }
+
+                                        .gray_card {}
+
+                                        .gray_card .card-header h3 {
+                                            color: #1A1D1F;
+                                            font-family: Lexend;
+                                            font-size: 18px;
+                                            font-style: normal;
+                                            font-weight: 600;
+                                            line-height: 30px;
+                                        }
+
+                                        .gray_card .card-body {
+                                            background: #F2F2F2;
+                                            border-radius: 0;
+                                        }
+
+                                        .generated_card_wrapper {
+                                            display: grid;
+                                            grid-template-columns: repeat(4, minmax(0, 1fr));
+                                            grid-gap: 24px;
+                                        }
+
+                                        @media (max-width: 767.98px) {
+                                            .preview_box_wrapper {
+                                                margin-top: 20px;
+                                            }
+                                        }
+
+                                        @media (min-width: 320px) and (max-width: 575.98px) {
+                                            .generated_card_wrapper {
+                                                grid-template-columns: repeat(1, minmax(0, 1fr));
+                                            }
+                                        }
+
+                                        @media (min-width: 576px) and (max-width: 767.98px) {
+                                            .generated_card_wrapper {
+                                                grid-template-columns: repeat(2, minmax(0, 1fr));
+                                            }
+                                        }
+
+                                        @media (min-width: 768px) and (max-width: 991.98px) {
+                                            .generated_card_wrapper {
+                                                grid-template-columns: repeat(2, minmax(0, 1fr));
+                                            }
+                                        }
+
+                                        @media (min-width: 992px) and (max-width: 1199.98px) {
+                                            .generated_card_wrapper {
+                                                grid-template-columns: repeat(3, minmax(0, 1fr));
+                                            }
+                                        }
+
+                                        .card_generated_img img {
+                                            max-width: 100%;
+                                            object-fit: cover;
+                                        }
+
+                                        .ot-btn-cancel {
+                                            border-radius: 4px;
+                                            background: rgba(4, 82, 204, 0.10);
+                                            font-size: 13px;
+                                            font-weight: 500;
+                                        }
+
+                                        .grid_cards_view {
+                                            display: grid;
+                                            width: 100%;
+                                            grid-template-columns: repeat(auto-fill, minmax(396px, 1fr));
+                                            grid-gap: 10px;
+                                        }
+
+                                        #printContent {
+                                            width: 100%;
+                                        }
+
+                                        .preview_box_inner {
+                                            display: flex;
+                                            flex-wrap: wrap;
+                                            grid-gap: 10px;
+                                        }
+
+                                        .id_card_front {
+                                            width: 250px;
+                                            height: 387px;
+                                        }
+
+                                        /* .student_info, .id_card_front_inner{
+                                        position: relative;
+                                        left: 60px;
+                                        padding: 0 !important;
+                                    } */
+                                        .id_card_front_info {
+                                            position: relative;
+                                            z-index: 12;
+                                            height: 100%;
+                                            /* padding-top: 100px; */
+                                            height: 387px;
+                                            top: 95px;
+                                            padding-top: 0;
+                                            width: 160px !important;
+                                            min-width: 160px !important;
+                                        }
+
+                                        .id_card_back .shape_img_top img {
+                                            border-radius: 8px;
+                                            height: 100%;
+                                            width: 100%;
+                                            object-fit: cover;
+                                            object-position: bottom;
+                                            width: 250px;
+                                            height: 387px;
+                                        }
+
+                                        .id_card_back {
+                                            height: 387px;
+                                            width: 250px;
+                                            max-width: 250px;
+                                            padding: 0;
+                                            min-width: 250px !important;
+                                        }
+
+                                        @media print {
+                                            .grid_cards_view .preview_box_inner {
+                                                display: flex;
+                                                flex-direction: row;
+                                                align-items: center;
+                                                justify-content: center;
+                                                height: 100%;
+                                                padding: 10px;
+                                            }
+                                        }
+                                    </style>
+                                    <div class="grid_cards_view">
+                                        <div class="preview_box_inner ">
+
+                                            <div class="id_card_front">
+                                                <div class="shape_img_top">
+                                                    <img src="https://school.onesttech.com/backend/uploads/card-images/card-top-shape.png"
+                                                        alt="">
+                                                </div>
+                                                <div class="id_card_front_info">
+                                                    <div class="id_card_front_inner">
+                                                        <div class="id_card_profile_img">
+
+                                                            <img src="{{ isset($card['student']->student_image) ? config('app.url') . '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
+                                                                alt="">
+                                                        </div>
+                                                        <h3 class="text-center">
+                                                            {{ $card['student']->name_en ?? 'xxxxxxxxxxx' }}</h3>
+                                                        <span
+                                                            class="class_name">{{ $card['student']->school_class->class_name ?? 'xxxxxx' }}</span>
+                                                    </div>
+                                                    <div class="student_info">
+                                                        <p>Admission No:
+                                                            {{ $card['student']->admission_id ?? 'xxxxxxxxxxx' }}</p>
+                                                        <p>Roll No: {{ $card['student']->roll ?? 'xxxxxxxxxxx' }}</p>
+                                                        <p>Date of birth:
+                                                            {{ isset($card['student']->dob) ? \carbon\carbon::parse($card['student']->dob)->toDateString() : 'xx-xx-xxxx' }}
+                                                        </p>
+                                                        <p>Blood Group: O- </p>
+                                                        <div class="signature_image ">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="id_card_back">
+                                                <div class="id_card_back_info">
+                                                    <p>gdsdgsgdsgdsg</p>
+                                                    <h5>EXPIRED: 01/26/2024</h5>
+                                                    <div class="qr_code">
+                                                    </div>
+                                                </div>
+                                                <div class="id_card_back_logo_img">
+                                                    <img width="50%" src="https://i.ibb.co/9sk20NX/pngwing-com.png"
+                                                        alt="#">
+                                                </div>
+                                                <div class="shape_img_top">
+                                                    <img src="https://school.onesttech.com/backend/uploads/card-images/card-bottom-shape.png"
+                                                        alt="#">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <table style="background-color: #dae9fc; padding: .8rem 1rem; border-radius: .5rem; width: 100%">
                         <tbody>
                             <tr style="display: flex; flex-direction: row;">
                                 <td
@@ -185,166 +583,43 @@
                             </tr>
 
                         </tbody>
-                    </table>
-                    {{-- <div class="rounded-md flex bg-cover py-5 px-3 bg-no-repeat bg-center"
-                        style="background-image: url('{{ isset($photo) ? $photo->temporaryUrl() : 'https://img.freepik.com/free-photo/background_53876-32170.jpg?size=626&ext=jpg&ga=GA1.1.2116175301.1700870400&semt=ais' }}')"
-                        id="profile-card" wire:loading.class="opacity-50" wire:target='setIDcard'>
-                        <div class="w-1/3 flex flex-col items-center">
-
-                        </div>
-                        <div class="w-2/3">
-                             <h2 class=" font-bold text-2xl uppercase text-center mb-0 text-blue-600">
-                                {{ school()->institute_name }}
-                            </h2>
-                            <p class="text-center text-black text-xs mb-2">
-                                {{ school()->institute_address }}
-                            </p>
-                            <div class="text-black flex flex-wrap gap-2 justify-center mb-1 border-b border-blue-600">
-                                <span class=" font-medium">Phone: {{ school()->mobile_no }}</span>
-                                <span class=" font-medium">Web: {{ school()->web_address }}</span>
-                            </div>
-                            <div class="py-2 flex-col text-slate-900 gap-2">
-                                <div class="flex gap-1">
-                                    <span class=" font-medium">Name:</span>
-                                    <span>{{ $card['student']->name_en ?? 'xxxxxxxxxxx' }}</span>
-                                </div>
-                                <div class="flex gap-1">
-                                    <span class=" font-medium">Class:</span>
-                                    <span>{{ $card['student']->school_class->class_name ?? 'xxxxxx' }}</span>
-                                </div>
-                                <div class="flex gap-1">
-                                    <span class=" font-medium">DOB:</span>
-                                    <span>{{ isset($card['student']->dob) ? \carbon\carbon::parse($card['student']->dob)->toDateString() : 'xx-xx-xxxx' }}</span>
-                                </div>
-                                <div class="flex gap-1">
-                                    <span class=" font-medium">Address:</span>
-                                    <span>
-                                        {{ !empty($card['student'])
-                                            ? $card['student']->village . ', ' . $student_upazila_name . ', ' . $student_district_name
-                                            : 'xxx,xxxxxxx,xxxx,xxxxxxxxx' }}</span>
-                                </div>
-                                <div class="flex gap-1">
-                                    <span class=" font-medium">Phone:</span>
-                                    <span>{{ $card['student']->mobile_number ?? '0123456789' }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
+                    </table> --}}
                     <div class="justify-end gap-3 flex flex-wrap">
-                        <button
-                            class="bg-emerald-500 transition-all duration-300 mt-3 hover:bg-emerald-700 rounded-md py-2 px-4">
-                            Save
-                        </button>
-                        <button wire:click='loadPdf'
+                        <div class="download_print_btns">
+                            <button class="my-4 px-6 py-4 rounded bg-sky-500 flex gap-2"
+                                onclick="printDiv('printContent')">
+                                Print Now
+                                <span><i data-lucide="printer"></i></span>
+                            </button>
+                        </div>
+                        {{-- <button wire:click='loadPdf'
                             class="bg-yellow-400 transition-all duration-300 mt-3 hover:bg-yellow-500/90 rounded-md py-2 px-4">
                             Download
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
             </div>
-            {{-- <div wire:ignore>
-                <table id="example" class="display" style="width: 100%">
-                    <thead class="bg-blue-500 border-none">
-                        <tr>
-                            <th class="text-white">ID</th>
-                            <th class="text-white">Class</th>
-                            <th class="text-white">Section/Group</th>
-                            <th class="text-white">Category</th>
-                            <th class="text-white">Fee name</th>
-                            <th class="text-white">Amount</th>
-                            <th class="text-white text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($fees as $key => $item)
-                            <tr wire:key='{{ $item->id }}' class="border-b">
-                                <td>{{ $key + 1 }}</td>
-                                <td>
-                                    {{ $item->class->class_name }}
-                                </td>
-                                <td>
-                                    {{ $item->group?->group_name ?? $item->section?->section_name }}
-                                </td>
-                                <td>
-                                    {{ $item->category->category_name }}
-                                </td>
-                                <td>
-                                    {{ $item->fee_name }}
-                                </td>
-                                <td>
-                                    {{ $item->amount }}
-                                </td>
-                                <td class="p-3 al flex justify-end items-center gap-1.5 flex-wrap">
-                                    <span
-                                        class="px-2 py-1 rounded-sm bg-yellow-300 cursor-pointer flex w-max align-center justify-center"
-                                        wire:click='edit({{ $item->id }})' @click="openCEmodal = true"
-                                        data-modal-target="CEmodal" data-modal-toggle="CEmodal">
-                                        <i data-lucide="pen-square" class="w-4 me-1"></i> Edit
-                                    </span>
-                                    <button
-                                        class="px-2 py-1 rounded-sm bg-red-500 cursor-pointer flex w-max align-center justify-center"
-                                        wire:confirm="Are you sure?" wire:click="destroy({{ $item->id }})"><i
-                                            data-lucide="trash-2" class="w-4 me-1"></i>
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot class="bg-blue-500">
-                        <tr>
-                            <th class="text-white">ID</th>
-                            <th class="text-white">Class</th>
-                            <th class="text-white">Section/Group</th>
-                            <th class="text-white">Category</th>
-                            <th class="text-white">Fee name</th>
-                            <th class="text-white">Amount</th>
-                            <th class="text-white text-right">Actions</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div> --}}
-
         </div>
     </main>
 </div>
 
 @push('page-script')
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.tailwindcss.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script>
-        new DataTable('#example', {
-            responsive: true,
-            retrieve: true,
-            paging: true
-        });
-        $('#example_filter label').addClass('flex justify-end items-center');
-        $('#example_paginate div').addClass('flex justify-end items-center');
-        $('.dtr-data').addClass('flex flex-wrap gap-2');
-        Livewire.directive('confirm', ({
-            el,
-            directive,
-            component,
-            cleanup
-        }) => {
-            let content = directive.expression
+        function onclick(event) {
+            printDiv('printContent')
+        }
 
-            let onClick = e => {
-                if (!confirm(content)) {
-                    e.preventDefault()
-                    e.stopImmediatePropagation()
-                }
-            }
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
 
-            el.addEventListener('click', onClick, {
-                capture: true
-            })
+            document.body.innerHTML = printContents;
 
-            cleanup(() => {
-                el.removeEventListener('click', onClick)
-            })
-        })
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+
         //close modal on save data
         Livewire.on('closeModal', (value) => {
             console.log(value);
