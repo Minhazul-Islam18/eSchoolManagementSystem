@@ -5,6 +5,7 @@ namespace App\Livewire\Backend\School;
 use Livewire\Component;
 use App\Models\StudentIdCard;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -21,7 +22,7 @@ class StudentIdCardSettingsManagement extends Component
     public $id_card_backside_description;
     public $editable_card;
 
-
+    #[Title('Student ID cards')]
     public function edit(StudentIdCard $studentIdCard)
     {
         abort_action($studentIdCard->school->user_id);

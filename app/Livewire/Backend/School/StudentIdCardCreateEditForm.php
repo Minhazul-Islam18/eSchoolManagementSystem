@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Backend\School;
 
-use App\Models\StudentIdCard;
-use Illuminate\Http\Request;
 use Livewire\Component;
+use Illuminate\Http\Request;
+use App\Models\StudentIdCard;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -21,6 +22,10 @@ class StudentIdCardCreateEditForm extends Component
     public $id_card_backside_description;
     public $editable_card;
     public $trixId;
+    public $title;
+
+    // #[Title('$this->title')]
+
     public function create(Request $request)
     {
         $validated = $this->validate([
@@ -124,9 +129,10 @@ class StudentIdCardCreateEditForm extends Component
         $this->id_card_title = $this->editable_card?->title;
         $this->id_card_expire_date = $this->editable_card?->expire_date;
         $this->trixId = 'trix-' . uniqid();
+        $this->title = isset($this->editable_card) ? 'Edit' : 'Create' . ' ID Card';
     }
     public function render()
     {
-        return view('livewire.backend.school.student-id-card-create-edit-form');
+        return view('livewire.backend.school.student-id-card-create-edit-form')->title($this->title);
     }
 }
