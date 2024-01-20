@@ -14,7 +14,7 @@
             </header>
 
             <div class="flex flex-wrap items-start">
-                <div class="w-full sm:w-4/12 bg-gray-300 dark:bg-slate-800 py-5 px-3 rounded-md">
+                <div class="w-full sm:w-4/12 bg-slate-200 dark:bg-slate-800 py-5 px-3 rounded-md">
                     <form wire:submit='generate' class="flex flex-col gap-3">
                         <h2 class="text-center border-b border-gray-400 dark:border-slate-900 pb-3 pt-2 text-lg">
                             Generate Student ID Card</h2>
@@ -67,6 +67,23 @@
                                 @enderror
                             </div>
                         @endif
+
+                        <div>
+                            <label for="" class="form-label">ID Card</label>
+                            <select name="" wire:model.blur='id_card_id' class="form-select rounded" required
+                                id="" wire:change=''>
+                                <option value="">Select ID Card</option>
+                                @forelse ($this->IdCards as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ $item->id == $this->id_card_id ? 'selected' : '' }}>
+                                        {{ $item->title }}</option>
+                                @empty
+                                    <option value="" disabled>No ID card found
+                                    </option>
+                                @endforelse
+                            </select>
+                        </div>
+
                         <div>
                             <label for="" class="form-label">Students</label>
                             <select name="" wire:model.blur='student_id' class="form-select rounded"
@@ -82,54 +99,10 @@
                                 @endforelse
                             </select>
                         </div>
-                        {{-- <div>
-                            <div x-data="{ uploading: false, progress: 0 }" x-on:livewire-upload-start="uploading = true"
-                                x-on:livewire-upload-finish="uploading = false"
-                                x-on:livewire-upload-error="uploading = false"
-                                x-on:livewire-upload-progress="progress = $event.detail.progress">
-                                <!-- File Input -->
-                                <div class="flex items-center justify-center w-full">
-                                    <label for="dropzone-file"
-                                        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 20 16">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2"
-                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                            </svg>
-                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
-                                                    class="font-semibold">Click to upload</span> or drag and drop</p>
-                                            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF
-                                                (MAX.
-                                                800x400px)</p>
-                                        </div>
-                                        <input id="dropzone-file" wire:model.blur='photo' type="file"
-                                            class="hidden" />
-                                    </label>
-                                </div>
-
-                                <!-- Progress Bar -->
-                                <div x-show="uploading">
-                                    <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                                        :style="{ width: progress + '%' }">
-                                        <span x-text="progress"></span>%
-                                    </div>
-
-                                </div>
-                                @if ($photo)
-                                    <img src="{{ $photo->temporaryUrl() }}" width="150px" class="rounded-md mt-3">
-                                @endif
-                            </div>
-                        </div> --}}
-                        {{-- <div class="text-end">
-                            <button type="submit" class="px-3 py-2 rounded-md bg-emerald-500 mt-3">Generate</button>
-                        </div> --}}
                     </form>
                 </div>
                 <div class="w-8/12">
-                    <div class=" ml-5 bg-gray-300 dark:bg-slate-800 py-5 px-3 rounded-md">
+                    <div class=" ml-5 bg-slate-200 dark:bg-slate-800 py-5 px-3 rounded-md">
                         <h2 class="mb-2 pb-2 pt-1 text-2xl text-center border-b border-gray-400 dark:border-slate-900">
                             Preview</h2>
 
@@ -177,7 +150,7 @@
                                         .id_card_front_inner h3 {
                                             color: #003249;
                                             font-family: Lexend;
-                                            font-size: 21.323px;
+                                            font-size: 15.323px;
                                             font-style: normal;
                                             font-weight: 600;
                                             line-height: normal;
@@ -294,7 +267,7 @@
                                             z-index: 12;
                                         }
 
-                                        .id_card_back .id_card_back_info p {
+                                        .id_card_back .id_card_back_info #back-txt {
                                             color: #003249;
                                             text-align: center;
                                             font-family: Lexend;
@@ -459,7 +432,7 @@
                                             height: 387px;
                                             width: 250px;
                                             max-width: 250px;
-                                            padding: 0;
+                                            /* padding: 0; */
                                             min-width: 250px !important;
                                         }
 
@@ -479,7 +452,7 @@
 
                                             <div class="id_card_front">
                                                 <div class="shape_img_top">
-                                                    <img src="https://school.onesttech.com/backend/uploads/card-images/card-top-shape.png"
+                                                    <img src="{{ isset($this->card['template']->frontside_background_image) ? '/storage/' . $this->card['template']->frontside_background_image : 'https://school.onesttech.com/backend/uploads/card-images/card-top-shape.png' }}"
                                                         alt="">
                                                 </div>
                                                 <div class="id_card_front_info">
@@ -490,19 +463,21 @@
                                                                 alt="">
                                                         </div>
                                                         <h3 class="text-center">
-                                                            {{ $card['student']->name_en ?? 'xxxxxxxxxxx' }}</h3>
+                                                            {{ $card['student']->name_en ?? '' }}</h3>
                                                         <span
                                                             class="class_name">{{ $card['student']->school_class->class_name ?? 'xxxxxx' }}</span>
                                                     </div>
                                                     <div class="student_info">
                                                         <p>Admission No:
-                                                            {{ $card['student']->admission_id ?? 'xxxxxxxxxxx' }}</p>
-                                                        <p>Roll No: {{ $card['student']->roll ?? 'xxxxxxxxxxx' }}</p>
+                                                            {{ $card['student']->admission_id ?? '' }}</p>
+                                                        <p>Roll No: {{ $card['student']->roll ?? '' }}</p>
                                                         <p>Date of birth:
-                                                            {{ isset($card['student']->dob) ? \carbon\carbon::parse($card['student']->dob)->toDateString() : 'xx-xx-xxxx' }}
+                                                            {{ isset($card['student']->dob) ? \carbon\carbon::parse($card['student']->dob)->toDateString() : '' }}
                                                         </p>
-                                                        <p>Blood Group: O- </p>
+                                                        <p>Phone: {{ $card['student']->mobile_number ?? '' }} </p>
                                                         <div class="signature_image ">
+                                                            <img src="{{ isset($this->card['template']->signature) ? '/storage/' . $this->card['template']->signature : 'https://school.onesttech.com/backend/uploads/card-images/signature.png' }}"
+                                                                alt="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -510,17 +485,26 @@
 
                                             <div class="id_card_back">
                                                 <div class="id_card_back_info">
-                                                    <p>gdsdgsgdsgdsg</p>
-                                                    <h5>EXPIRED: 01/26/2024</h5>
+                                                    <div id="back-txt">
+                                                        {!! isset($this->card['template']->backside_description) ? $this->card['template']->backside_description : '' !!}
+                                                    </div>
+                                                    <h5>EXPIRED:
+                                                        {{ isset($this->card['template']->expire_date) ? $this->card['template']->expire_date : '' }}
+                                                    </h5>
+                                                    <div class="qr_code">
+                                                        <img src="{{ isset($this->card['template']->qr_code) ? '/storage/' . $this->card['template']->qr_code : 'https://school.onesttech.com/backend/uploads/card-images/qr_code.png' }}"
+                                                            alt="">
+                                                    </div>
                                                     <div class="qr_code">
                                                     </div>
                                                 </div>
                                                 <div class="id_card_back_logo_img">
-                                                    <img width="50%" src="https://i.ibb.co/9sk20NX/pngwing-com.png"
+                                                    <img width="50%"
+                                                        src="{{ '/storage/' . school()->institute_logo }}"
                                                         alt="#">
                                                 </div>
                                                 <div class="shape_img_top">
-                                                    <img src="https://school.onesttech.com/backend/uploads/card-images/card-bottom-shape.png"
+                                                    <img src="{{ isset($this->card['template']->qr_code) ? '/storage/' . $this->card['template']->backside_background_image : 'https://school.onesttech.com/backend/uploads/card-images/card-bottom-shape.png' }}"
                                                         alt="#">
                                                 </div>
                                             </div>
@@ -603,6 +587,12 @@
     </main>
 </div>
 
+@push('page-style')
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+@endpush
 @push('page-script')
     <script>
         function onclick(event) {

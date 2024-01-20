@@ -151,9 +151,15 @@
                     </a>
                 </li>
                 <li class="menu-item">
+                    <a href="{{ route('school.student-id-cards') }}" data-fc-type="collapse" class="menu-link"
+                        data-fc-parent="child-accordion">
+                        <span class="menu-text"> {{ __('Student ID cards') }} </span>
+                    </a>
+                </li>
+                <li class="menu-item">
                     <a href="{{ route('school.generate-student-id-card') }}" data-fc-type="collapse"
                         class="menu-link" data-fc-parent="child-accordion">
-                        <span class="menu-text"> {{ __('Student ID card generate - (Working)') }} </span>
+                        <span class="menu-text"> {{ __('Student ID card generate') }} </span>
                     </a>
                 </li>
             </ul>

@@ -8,11 +8,13 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SchoolClassSection;
+use App\Models\StudentIdCard;
 use Illuminate\Support\Facades\URL;
 use Devfaysal\BangladeshGeocode\Models\Union;
 use Devfaysal\BangladeshGeocode\Models\Upazila;
 use Devfaysal\BangladeshGeocode\Models\District;
 use Devfaysal\BangladeshGeocode\Models\Division;
+use Livewire\Attributes\Computed;
 
 class StudentIdCardManagement extends Component
 {
@@ -21,6 +23,7 @@ class StudentIdCardManagement extends Component
     public $class_id;
     public $section_id;
     public $group_id;
+    public $id_card_id;
     public $student_id;
     public $editable_item;
     public $classes;
@@ -37,10 +40,17 @@ class StudentIdCardManagement extends Component
         'section' => [],
         'group' => [],
         'student' => [],
+        'template' => [],
     ];
 
 
     #[Title('Generate student ID card')]
+
+    #[Computed()]
+    public function IdCards()
+    {
+        return StudentIdCard::where('school_id', school()->id)->get();
+    }
 
     public function loadPdf()
     {
@@ -95,9 +105,12 @@ class StudentIdCardManagement extends Component
 
     public function setIDcard()
     {
+        $this->card['template'] = $this->IdCards()->firstWhere('id', $this->id_card_id);
         while (
-            $this->student_id !== "" && isset($this->class_id) && (isset($this->section_id) || isset($this->group_id))
+            $this->student_id !== "" && isset($this->class_id) && isset($this->id_card_id) && (isset($this->section_id) || isset($this->group_id))
         ) {
+            // $this->card['template'] = $this->IdCards()->firstWhere('id', $this->id_card_id);
+            // dd($this->card['template']);
             $this->card['class'] = $this->classes->firstWhere('id', $this->class_id);
             $this->card['section'] = $this->sections ? $this->sections->firstWhere('id', $this->section_id) : null;
             $this->card['group'] = $this->groups ? $this->groups->firstWhere('id', $this->group_id) : null;
