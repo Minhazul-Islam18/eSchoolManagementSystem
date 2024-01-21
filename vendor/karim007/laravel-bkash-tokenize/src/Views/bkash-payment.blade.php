@@ -10,13 +10,21 @@
 </head>
 
 <body class="flex items-center justify-center h-screen">
-    <div class="w-[400px] rounded bg-slate-100 dark:bg-slate-600 flex flex-col">
+    <div class="w-[400px] rounded bg-slate-100 dark:bg-[#86d2f4] flex flex-col">
         <h3 class="text-2xl text-center font-bold border-b py-3 px-2 dark:text-white">{{ config('app.name') }}</h3>
-        <div class="content py-6">
-            <h4 class=" text-lg dark:text-white text-center">
-                Transection amount: {{ session()->get('invoice_amount') }}
-            </h4>
-        </div>
+        <ul class="content py-6 px-5">
+            <li class=" text-lg dark:text-white flex items-center justify-between">
+                <span>Transection amount:</span> {{ session()->get('invoice_amount_subtotal') }}
+            </li>
+
+            <li class=" text-lg dark:text-white flex items-center justify-between">
+                <span>Processing fee:</span> {{ session()->get('processing_fee') }}
+            </li>
+
+            <li class=" text-lg dark:text-white flex items-center justify-between">
+                <span>Total:</span> {{ session()->get('invoice_amount_total') }}
+            </li>
+        </ul>
         <div class=" flex justify-center items-center pt-2 border-t pb-5 gap-2">
             <span class="dark:text-white">Pay with:</span>
             <button class="px-8 py-1 border border-pink-500 rounded bg-white">
