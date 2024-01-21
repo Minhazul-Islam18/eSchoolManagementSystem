@@ -16,20 +16,32 @@ class BkashTokenizePaymentController extends Controller
 {
     private $package_id;
     private $amount;
+    private $upd;
     public function index(Request $request)
     {
         session()->put('package_id', intval($request->id));
-        session()->put('amount', intval($request->amount));
+        // session()->put('amount', intval($request->amount));
         $this->package_id = $request->id;
-        $this->amount = $request->amount;
+        // $this->amount = $request->amount;
 
 
         if (auth()->user()->hasRole('school') || auth()->user()->hasRole('demo_school')) {
-            if (session()->has('invoice_amount')) {
-                session()->forget('invoice_amount');
+            if (session()->has('invoice_amount_subtotal')) {
+                session()->forget('invoice_amount_subtotal');
             }
-            session()->put('invoice_amount', intval($request->amount) * 12);
-            $this->amount = session()->get('invoice_amount');
+
+            if (session()->has('invoice_amount_total')) {
+                session()->forget('invoice_amount_total');
+            }
+
+            if (session()->has('processing_fee')) {
+                session()->forget('processing_fee');
+            }
+
+            session()->put('invoice_amount_subtotal', intval($request->amount) * 12);
+            session()->put('processing_fee', session()->get('invoice_amount_subtotal') / 1000 * 20);
+            session()->put('invoice_amount_total', session()->get('invoice_amount_subtotal') + session()->get('processing_fee'));
+            $this->amount = session()->get('invoice_amount_total');
 
             Inertia::share('bkashSandox', config('bkash.sandbox'));
             return view('bkashT::bkash-payment');
@@ -44,7 +56,7 @@ class BkashTokenizePaymentController extends Controller
         $request['mode'] = '0011'; //0011 for checkout
         $request['payerReference'] = $inv;
         $request['currency'] = 'BDT';
-        $request['amount'] = session()->get('amount') * 12;
+        $request['amount'] = session()->get('invoice_amount_total');
         $request['merchantInvoiceNumber'] = $inv;
         $request['callbackURL'] = config("bkash.callbackURL");
 
@@ -56,6 +68,7 @@ class BkashTokenizePaymentController extends Controller
             'logo' => $response['orgLogo'] ?? '',
             'name' => $response['orgName'] ?? '',
             'payment_id' => $response['paymentID'],
+            'package_id' => session()->get('package_id'),
             'currency' => $response['currency'],
             'transaction_status' => $response['transactionStatus'],
             'merchant_invoice_number' => $response['merchantInvoiceNumber'],
@@ -76,7 +89,7 @@ class BkashTokenizePaymentController extends Controller
                 $response = BkashPaymentTokenize::queryPayment($request->paymentID);
             }
 
-            if ($response['transactionStatus'] == "Completed") {
+            if (isset($response['transactionStatus']) && $response['transactionStatus'] == "Completed") {
                 $tr = BkashTransection::where('payment_id', $response['paymentID'])->first();
                 $user = Auth::user();
                 DB::transaction(function () use ($user, $tr, $response) {
@@ -115,8 +128,11 @@ class BkashTokenizePaymentController extends Controller
                         'trx_id' => $response['trxID'],
                         'transaction_reference' => $response['payerReference'] ?? null,
                     ]);
+                    $this->upd =  $tr;
                 }, 5);
-                return BkashPaymentTokenize::success('Thank you for your payment', $response['trxID']);
+                return view('bkashTransectionRecept', ['upd' => $this->upd]);
+
+                // return BkashPaymentTokenize::success('Thank you for your payment', $response['trxID']);
             } else {
                 $tr = BkashTransection::where('payment_id', $response['paymentID'])->first();
                 $tr->delete();
