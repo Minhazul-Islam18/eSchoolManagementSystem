@@ -1,8 +1,8 @@
 <div>
     <main>
         <div class="container py-5">
-            <header class="mb-4" wire:ignore>
-                <div class="flex justify-center sm:justify-start items-center">
+            <header class="mb-4 flex flex-row  flex-wrap" wire:ignore>
+                <div class="w-1/2 flex justify-start items-center">
                     <span class="shadow-md px-2 py-2 bg-emerald-500 rounded mr-2">
                         <svg class="w-6 dark:fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <title>id-card</title>
@@ -10,6 +10,14 @@
                                 d="M4 4C2.89 4 2 4.89 2 6V18C2 19.11 2.89 20 4 20H20C21.11 20 22 19.11 22 18V6C22 4.89 21.11 4 20 4H4M4 6H20V10H4V6M4 12H8V14H4V12M10 12H20V14H10V12M4 16H14V18H4V16M16 16H20V18H16V16Z" />
                         </svg>
                     </span>
+                </div>
+
+                <div class="w-1/2 flex justify-end items-center gap-3">
+                    <a href="{{ route('school.student-id-card.create') }}"
+                        class="bg-green-500 bg-opacity-25 border border-green-500 rounded flex items-center px-4 py-2 shahow-md hover:bg-opacity-100 transition fade gap-2">
+                        <i data-lucide="plus-circle" class="w-4"></i>
+                        Create template
+                    </a>
                 </div>
             </header>
 
@@ -69,10 +77,10 @@
                         @endif
 
                         <div>
-                            <label for="" class="form-label">ID Card</label>
+                            <label for="" class="form-label">ID Card template</label>
                             <select name="" wire:model.blur='id_card_id' class="form-select rounded" required
                                 id="" wire:change=''>
-                                <option value="">Select ID Card</option>
+                                <option value="">Select template</option>
                                 @forelse ($this->IdCards as $item)
                                     <option value="{{ $item->id }}"
                                         {{ $item->id == $this->id_card_id ? 'selected' : '' }}>
@@ -104,7 +112,7 @@
                 <div class="w-8/12">
                     <div class=" ml-5 bg-slate-200 dark:bg-slate-800 py-5 px-3 rounded-md">
                         <h2 class="mb-2 pb-2 pt-1 text-2xl text-center border-b border-gray-400 dark:border-slate-900">
-                            Preview</h2>
+                            ID Card Preview</h2>
 
                         <div class="preview_box_wrapper ">
                             <div class="preview_box print-view overflow-auto">
@@ -299,15 +307,15 @@
 
                                         .id_card_back_logo_img {
                                             position: absolute;
-                                            left: 20px;
-                                            bottom: 45px;
+                                            /* left: 20px; */
+                                            bottom: 20px;
                                             z-index: 15;
                                             text-align: left;
                                         }
 
                                         .id_card_back_logo_img img {
                                             max-width: 100px;
-                                            width: 100%;
+                                            /* width: 100%; */
                                             object-fit: cover;
                                         }
 
@@ -498,10 +506,35 @@
                                                     <div class="qr_code">
                                                     </div>
                                                 </div>
-                                                <div class="id_card_back_logo_img">
-                                                    <img width="50%"
-                                                        src="{{ '/storage/' . school()->institute_logo }}"
-                                                        alt="#">
+                                                <div class="id_card_back_logo_img w-full">
+                                                    <div class="bg-white rounded px-3 py-2 w-[calc(100%-4%)] mx-auto">
+                                                        <img width="55px"
+                                                            class="rounded-full border-4 border-slate-300 mx-auto"
+                                                            src="{{ '/storage/' . school()->institute_logo }}"
+                                                            alt="#">
+                                                        <div class=" flex flex-col gap-[.05rem]">
+                                                            <h2 class="text-md text-black text-center">
+                                                                {{ school()->institute_name }}</h2>
+                                                            <p
+                                                                class=" text-[10px] font-bold text-center text-slate-900">
+                                                                {{ school()->institute_address }}</p>
+                                                            <div class="flex flex-row gap-1 w-full">
+                                                                <span
+                                                                    class="text-[10px] justify-center items-center flex flex-row gap-1 basis-6/12">
+                                                                    <i class="w-[10px]" data-lucide="smartphone"></i>
+                                                                    {{ school()->mobile_no }}
+                                                                </span>
+                                                                <span
+                                                                    class="text-[10px] justify-center items-center flex flex-row gap-1 basis-6/12">
+                                                                    <i class="w-[10px]" data-lucide="mail"></i>
+                                                                    {{ school()->web_address }}
+                                                                </span>
+                                                            </div>
+                                                            <span class="text-slate-900 text-center text-[10px]">
+                                                                {{ config('app.url') }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="shape_img_top">
                                                     <img src="{{ isset($this->card['template']->qr_code) ? '/storage/' . $this->card['template']->backside_background_image : 'https://school.onesttech.com/backend/uploads/card-images/card-bottom-shape.png' }}"

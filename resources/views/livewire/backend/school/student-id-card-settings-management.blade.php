@@ -10,7 +10,7 @@
                 <a href="{{ route('school.student-id-card.create') }}"
                     class="bg-green-500 bg-opacity-25 border border-green-500 rounded flex items-center px-4 py-2 shahow-md hover:bg-opacity-100 transition fade gap-2">
                     <i data-lucide="plus-circle" class="w-4"></i>
-                    Add
+                    Create template
                 </a>
             </div>
         </header>

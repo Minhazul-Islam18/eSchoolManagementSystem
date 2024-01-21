@@ -2,7 +2,7 @@
             <main class="container py-6">
                 <div class="flex items-center justify-between space-x-4">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        {{ $this->editable_card ? 'Edit' : 'Create' }} ID Card
+                        {{ $this->editable_card ? 'Edit' : 'Create' }} ID Card Template
                     </h3>
                 </div>
                 <div class="py-2">
@@ -13,7 +13,7 @@
                             <div class=" space-y-6 h-full">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="">
-                                        <x-input label="Title" wire:model.blur='id_card_title' type="text"
+                                        <x-input label="Template name" wire:model.blur='id_card_title' type="text"
                                             value="{{ $this->editable_card?->title }}" />
                                     </div>
 
@@ -34,7 +34,7 @@
                                     </div>
 
                                     <div class="">
-                                        <label for="" class="form-label">Signature</label>
+                                        <label for="" class="form-label">Head teacher signature</label>
                                         <input wire:model.blur='id_card_signature' type="file"
                                             class="form-input rounded">
                                     </div>
