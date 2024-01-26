@@ -150,12 +150,12 @@
                         <span class="menu-text"> {{ __('Group Wise Students List') }} </span>
                     </a>
                 </li>
-                <li class="menu-item">
+                {{-- <li class="menu-item">
                     <a href="{{ route('school.student-id-cards') }}" data-fc-type="collapse" class="menu-link"
                         data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Student ID cards') }} </span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="menu-item">
                     <a href="{{ route('school.generate-student-id-card') }}" data-fc-type="collapse"
                         class="menu-link" data-fc-parent="child-accordion">
@@ -166,7 +166,7 @@
         </li>
         <li class="menu-item">
             <span class="flex gap-1 mt-3">
-                <i data-lucide="booeck"></i>
+                {{-- <i data-lucide="booeck"></i> --}}
                 Attendances
                 <i class="mdi mdi-chevron-down"></i>
             </span>
@@ -200,7 +200,7 @@
         </li>
         <li class="menu-item">
             <span class="flex gap-1 mt-3">
-                <i data-lucide="booeck"></i>
+                {{-- <i data-lucide="booeck"></i> --}}
                 Results
                 <i class="mdi mdi-chevron-down"></i>
             </span>
@@ -363,30 +363,30 @@
                         <i class="mdi mdi-chevron-right"></i>
                     </span>
                     <ul class="sub-menu hidden" style="left: -150%;">
-                        <li class="menu-item">
+                        {{-- <li class="menu-item">
                             <a href="{{ route('school.monthly-fees') }}" class="menu-link">
                                 <span class="menu-text"> {{ __('Monthly fees') }} </span>
                             </a>
-                        </li>
-                        <li class="menu-item">
+                        </li> --}}
+                        {{-- <li class="menu-item">
                             <a class="menu-link" href="{{ route('school.all-fees') }}">
                                 <span class="menu-text"> {{ __('All Fees') }} </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="menu-item">
-                            <a href="{{ route('under-development') }}" class="menu-link"
+                            <a href="{{ route('school.admission-fees') }}" class="menu-link"
                                 data-fc-parent="child-accordion">
                                 <span class="menu-text"> {{ __('Class Wise Admission Fees') }} </span>
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="{{ route('under-development') }}" class="menu-link"
+                            <a href="{{ route('school.monthly-fees') }}" class="menu-link"
                                 data-fc-parent="child-accordion">
                                 <span class="menu-text"> {{ __('Class Wise Monthly Fees') }} </span>
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="{{ route('under-development') }}" class="menu-link"
+                            <a href="{{ route('school.all-fees') }}" class="menu-link"
                                 data-fc-parent="child-accordion">
                                 <span class="menu-text"> {{ __('All Additional Fees') }} </span>
                             </a>

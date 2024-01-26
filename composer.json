@@ -20,7 +20,7 @@
         "karim007/laravel-bkash-tokenize": "^2.2",
         "laravel/framework": "^10.10",
         "laravel/jetstream": "^4.0",
-        "laravel/sanctum": "^3.2",
+        "laravel/sanctum": "^3.3",
         "laravel/socialite": "^5.9",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.3.3",
