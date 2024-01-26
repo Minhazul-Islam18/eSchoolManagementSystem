@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button @click="openCEmodal = false"
+                        <button @click="openCEmodal = false" x-on:click="step = 1"
                             class="text-gray-600 dark:text-white focus:outline-none hover:text-gray-700 dark:hover:text-gray-300">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -198,7 +198,14 @@
                                                 @enderror
                                             </div>
                                         @endif
-
+                                        <div class="">
+                                            <label for="" class="form-label">রোল নং</label>
+                                            <input type="text" wire:model.blur="roll" id=""
+                                                placeholder="রোল নং" class="form-input rounded">
+                                            @error('roll')
+                                                <span class="text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
+                                        </div>
                                         <div class="">
                                             <label for="" class="form-label">লিঙ্গ</label>
                                             <select wire:model.blur='gender' class="form-select rounded"
@@ -867,6 +874,40 @@
                 </div>
             </div>
         </div>
+
+        <x-modal.card title="Enter Admission fee for this class" blur wire:model.defer="blurModal" name="blurModal">
+            <form wire:submit="saveAdmissionFee">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <span class=" font-semibold text-sm text-red-500">
+                        <span class=" font-extrabold text-sm text-red-500">
+                            Note:
+                        </span>
+                        <p>If you left it empty, then this student will be without fee.</p>
+                    </span>
+                    <div class="">
+                        <label for="" class="form-label">Amount</label>
+                        <input wire:model.blur='fee_amount' type="number" {{-- value="{{ isset($this->editable_item->monthly_fee) ? $this->editable_item->monthly_fee->amount : null }}" --}}
+                            class="form-input rounded placeholder:text-gray-300" placeholder="Enter amount"
+                            id="">
+                        @error('amount')
+                            <span class="text-sm text-red-500">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <x-slot name="footer">
+                    <div class="flex justify-end gap-x-4">
+                        <div class="flex">
+                            <x-button flat label="Cancel" x-on:click="close" />
+                            <x-button primary label="Save" wire:click='saveAdmissionFee'
+                                wire:loading.attr="disabled" wire:target='saveAdmissionFee' />
+                        </div>
+                    </div>
+                </x-slot>
+            </form>
+        </x-modal.card>
+
+
         <div class="container py-5">
             <header class="flex items-center flex-wrap mb-4" wire:ignore>
                 <div class="w-1/2 flex justify-start items-center flex-wrap">
@@ -977,39 +1018,15 @@
         $('#example_filter label').addClass('flex justify-end items-center');
         $('#example_paginate div').addClass('flex justify-end items-center');
         $('.dtr-data').addClass('flex flex-wrap gap-2');
-        Livewire.directive('confirm', ({
-            el,
-            directive,
-            component,
-            cleanup
-        }) => {
-            let content = directive.expression
 
-            let onClick = e => {
-                if (!confirm(content)) {
-                    e.preventDefault()
-                    e.stopImmediatePropagation()
-                }
-            }
-
-            el.addEventListener('click', onClick, {
-                capture: true
-            })
-
-            cleanup(() => {
-                el.removeEventListener('click', onClick)
-            })
-        })
         //close modal on save data
-        // Livewire.on('closeModal', (value) => {
-        //     console.log(value);
-        //     var modalBackdrop = document.querySelector('[modal-backdrop]');
-        //     document.querySelector('body').style.overflow = 'auto';
-        //     modalBackdrop.style.display = 'none';
-        //     if (value === false) {
-        //         window.Alpine.data('openCEmodal', false);
-        //     }
+        // Livewire.on('openAdmissionfeeModal', (value) => {
+        //     console.log('blurModal');
+        //     $openModal('blurModal')
         // });
+        Livewire.on('post-created', () => {
+            $openModal('blurModal')
+        });
 
         Livewire.on('reload', (value) => {
             location.reload();

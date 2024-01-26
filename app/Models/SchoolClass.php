@@ -105,4 +105,14 @@ class SchoolClass extends Model
     {
         return $this->hasOne(SchoolMonthlyFee::class, 'class_id');
     }
+
+    /**
+     * Get the admission_fee associated with the SchoolClass
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function admission_fee(): HasOne
+    {
+        return $this->hasOne(ClassWiseAdmissionFee::class, 'class_id');
+    }
 }

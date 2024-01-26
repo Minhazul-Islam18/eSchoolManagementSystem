@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\School;
 use App\Models\classGroup;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -65,5 +66,12 @@ class Student extends Model
     public function payments()
     {
         return $this->hasMany(StudentPayment::class);
+    }
+
+    public function admissionFees()
+    {
+        return $this->belongsToMany(ClassWiseAdmissionFee::class, 'class_wise_admission_fee_student', 'student_id', 'admission_fee_id')
+            ->withPivot('due_amount', 'paid_amount', 'status')
+            ->withTimestamps();
     }
 }

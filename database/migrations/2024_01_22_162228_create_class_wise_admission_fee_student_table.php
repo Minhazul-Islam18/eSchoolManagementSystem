@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('school_fee_student', function (Blueprint $table) {
+        Schema::create('class_wise_admission_fee_student', function (Blueprint $table) {
             $table->id();
             $table->foreignId('school_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('student_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('school_fee_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('admission_fee_id')->nullable()->constrained('class_wise_admission_fees')->cascadeOnDelete();
             $table->integer('due_amount')->nullable();
+            $table->integer('paid_amount')->nullable();
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('school_fee_student');
+        Schema::dropIfExists('class_wise_admission_fee_student');
     }
 };

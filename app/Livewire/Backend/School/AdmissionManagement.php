@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Backend\School;
 
+use App\Models\ClassWiseAdmissionFee;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Student;
@@ -31,6 +32,7 @@ class AdmissionManagement extends Component
     #[Title('Admission management')]
 
     public
+        $student,
         $student_image,
         $name_bn,
         $name_en,
@@ -87,6 +89,7 @@ class AdmissionManagement extends Component
         $upazilas = [],
         $unions = [],
         $section_id,
+        $blurModal = false,
         $openCEmodal = false,
         $checkImageDimension = true,
         $editable_item,
@@ -94,6 +97,7 @@ class AdmissionManagement extends Component
         $section,
         $group,
         $student_quota,
+        $fee_amount = 0,
         $student_category;
     #[On('image-dimensions-valid')]
     public function imageDimensionsValid()
@@ -210,7 +214,11 @@ class AdmissionManagement extends Component
             if (null != $this->student_image) {
                 $this->student_image = $this->student_image->storeAs(auth()->user()->id . '/students', $this->student_image->hashName(), 'public');
             }
-            Student::create([
+            if (isset($this->group_id)) {
+                $this->section_id = null;
+            }
+            // dd($this->section_id, $this->group_id);
+            $this->student =  Student::create([
                 'user_id' => $u->id,
                 'student_id' => $u->student_id,
                 'school_id' => school()->id,
@@ -261,8 +269,38 @@ class AdmissionManagement extends Component
                 'gurdians_monthly_income' => $this->gurdians_monthly_income,
                 'gurdians_occupation' => $this->gurdians_occupation,
             ]);
+            if (isset($this->student->school_class->admission_fee) && $this->student->school_class->admission_fee->amount !== null) {
+                $this->saveAdmissionFeeForStudent();
+            } else {
+                $this->dispatch('post-created');
+            }
             $this->alert('success', 'Student admission created');
-            // $this->resetFields();
+            $this->resetFields();
+        }
+    }
+
+    public function saveAdmissionFee()
+    {
+        $this->validate(['fee_amount' => 'required']);
+        $admissionFee = ClassWiseAdmissionFee::create([
+            'amount' => $this->fee_amount,
+            'class_id' => $this->student->school_class->id,
+        ]);
+        dd($admissionFee);
+        // Associate the AdmissionFee with the SchoolClass
+        $this->student->school_class->admission_fee()->create(['amount' => $this->fee_amount]);
+        $this->alert('success', 'Admission fee created');
+    }
+
+    public function saveAdmissionFeeForStudent()
+    {
+        dd($this->student->school_class->admission_fee);
+        if (isset($this->student->school_class->admission_fee) && $this->student->school_class->admission_fee->amount !== null) {
+            $pivotData = [
+                'school_id' => school()->id,
+                'due_amount' => $this->student->school_class->admission_fee->amount, // assuming the amount is stored in the admission_fee relationship
+            ];
+            $this->student->admissionFees()->save($this->student->school_class->admission_fee, $pivotData);
         }
     }
 
@@ -324,7 +362,7 @@ class AdmissionManagement extends Component
         $this->upazilas = [];
         $this->unions = [];
         $this->section_id = null;
-        $this->openCEmodal = false;
+        // $this->openCEmodal = false;
         $this->checkImageDimension = true;
         $this->editable_item = null;
         $this->student_quota = null;
