@@ -74,4 +74,11 @@ class Student extends Model
             ->withPivot('due_amount', 'paid_amount', 'status')
             ->withTimestamps();
     }
+
+    public function monthlyFees()
+    {
+        return $this->belongsToMany(SchoolMonthlyFee::class, 'school_monthly_fee_student', 'student_id', 'fee_id')
+            ->withPivot('due_amount', 'paid_amount', 'status', 'month')
+            ->withTimestamps();
+    }
 }

@@ -110,7 +110,7 @@
                                 {{ $item->monthly_fee->amount ?? 'Not set' }}
                             </td>
                             <td>
-                                {{ \Carbon\Carbon::parse($item->updated_at)->toFormattedDateString() }}
+                                {{ isset($item->monthly_fee->updated_at) ? \Carbon\Carbon::parse($item->monthly_fee->updated_at)->toFormattedDateString() : '' }}
                             </td>
                             <td class="p-3 al flex justify-end items-center gap-1.5 flex-wrap">
                                 <button wire:click='edit({{ $item->id }})' @click="openCEmodal = true"

@@ -17,13 +17,13 @@ class MonthlyFeeManagement extends Component
 
     public function edit(SchoolClass $schoolClass)
     {
-        abort_action($schoolClass->school->user_id);
+        isset($schoolClass->monthly_fee) ? abort_action($schoolClass->school->user_id) : '';
         $this->editable_item = $schoolClass;
     }
 
     public function update()
     {
-        abort_action($this->editable_item->school->user_id);
+        isset($this->editable_item->monthly_fee) ? abort_action($this->editable_item->school->user_id) : '';
         if ($this->editable_item && $this->editable_item->monthly_fee) {
             $this->editable_item->monthly_fee->update([
                 'amount' => $this->amount,

@@ -193,4 +193,14 @@ class School extends Model
     {
         return $this->hasMany(StudentIdCard::class, 'school_id');
     }
+
+    /**
+     * Get all of the admissionFees for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function admissionFees(): HasMany
+    {
+        return $this->hasMany(ClassWiseAdmissionFee::class, 'school_id');
+    }
 }
