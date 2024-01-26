@@ -45,9 +45,6 @@
                 @endif
 
                 <x-button type="submit" positive label="{{ __('Log in') }}" />
-                {{-- <x-button class="ml-4">
-                    {{ __('Log in') }}
-                </x-button> --}}
             </div>
             <div class="border-t border-t-gray-200 py-2 text-center">New here? <a href="{{ route('register') }}"
                     class=" text-sm font-extrabold underline">Register</a> here.</div>
@@ -76,9 +73,9 @@
                 </button>
             </a>
         </div>
-        <div class="flex justify-center gap-3">
+        {{-- <div class="flex justify-center gap-3" x-show="{{ false }}">
             <a href="/admin-login" class="px-3 py-2 border-1 rounded shadow-md bg-emerald-500">Super admin</a>
             <a href="/school-login" class="px-3 py-2 border-1 rounded shadow-md bg-yellow-300">School</a>
-        </div>
+        </div> --}}
     </x-authentication-card>
 </x-guest-layout>
