@@ -4,17 +4,18 @@ namespace App\Livewire\Backend\School;
 
 // use PDF;
 use Livewire\Component;
+use Livewire\Attributes\On;
+use App\Models\StudentIdCard;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Livewire\Attributes\Computed;
 use App\Models\SchoolClassSection;
-use App\Models\StudentIdCard;
 use Illuminate\Support\Facades\URL;
 use Devfaysal\BangladeshGeocode\Models\Union;
 use Devfaysal\BangladeshGeocode\Models\Upazila;
 use Devfaysal\BangladeshGeocode\Models\District;
 use Devfaysal\BangladeshGeocode\Models\Division;
-use Livewire\Attributes\Computed;
 
 class StudentIdCardManagement extends Component
 {
@@ -68,6 +69,7 @@ class StudentIdCardManagement extends Component
         // $pdf =  PDF::loadView('livewire.back''end.school.id-card-preview', ['card' => $this->card]);
         // return $pdf->stream('document.pdf');
     }
+    #[On('get-sections')]
     public function getSection()
     {
         if ($this->editable_item == null) {
@@ -102,7 +104,7 @@ class StudentIdCardManagement extends Component
             $this->students = $this->groups->firstWhere('id', $this->group_id)->students;
         }
     }
-
+    #[On('set-id-card')]
     public function setIDcard()
     {
         $this->card['template'] = $this->IdCards()->firstWhere('id', $this->id_card_id);

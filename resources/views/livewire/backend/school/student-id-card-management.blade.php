@@ -27,14 +27,9 @@
                         <h2 class="text-center border-b border-gray-400 dark:border-slate-900 pb-3 pt-2 text-lg">
                             Generate Student ID Card</h2>
                         <div>
-                            <label for="" class="form-label">Class</label>
-                            <select name="" wire:model.blur='class_id' class="form-select rounded" id=""
-                                wire:change='getSection'>
-                                <option value="">Select class</option>
-                                @foreach ($classes as $item)
-                                    <option value="{{ $item->id }}">{{ $item->class_name }}</option>
-                                @endforeach
-                            </select>
+                            <x-select label="Search for class" wire:model.defer="class_id" placeholder="Select class"
+                                x-on:selected="$wire.dispatch('get-sections')" :async-data="route('api.classes')"
+                                option-label="class_name" option-value="id" />
                         </div>
                         @if ($this->groups != null)
                             <div class="">
@@ -93,23 +88,13 @@
                         </div>
 
                         <div>
-                            <label for="" class="form-label">Students</label>
-                            <select name="" wire:model.blur='student_id' class="form-select rounded"
-                                id="" wire:change='setIDcard'>
-                                <option value="">Select student</option>
-                                @forelse ($students as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ $item->id == $this->section_id ? 'selected' : '' }}>
-                                        {{ $item->name_en . ' ID- ' . $item->student_id }}</option>
-                                @empty
-                                    <option value="" disabled>No student found
-                                    </option>
-                                @endforelse
-                            </select>
+                            <x-select label="Search for students " wire:model.defer="student_id"
+                                x-on:selected="$wire.dispatch('set-id-card')" placeholder="Select student"
+                                :async-data="route('api.students')" option-label="name_en" option-value="id" />
                         </div>
                     </form>
                 </div>
-                <div class="w-8/12">
+                <div class=" w-full sm:w-8/12">
                     <div class=" ml-5 bg-slate-200 dark:bg-slate-800 py-5 px-3 rounded-md">
                         <h2 class="mb-2 pb-2 pt-1 text-2xl text-center border-b border-gray-400 dark:border-slate-900">
                             ID Card Preview</h2>
@@ -190,7 +175,7 @@
                                         .id_card_profile_img {
                                             width: 98.315px;
                                             height: 98.315px;
-                                            transform: rotate(45deg);
+                                            /* transform: rotate(45deg); */
                                             flex-shrink: 0;
                                             box-shadow: 0px 0px 4.569228172302246px rgba(0, 0, 0, 0.25);
                                             background: #fff;
@@ -198,15 +183,19 @@
                                             position: relative;
                                             top: -20px;
                                             margin-bottom: 7px;
+                                            overflow: hidden;
+                                            padding: 6px;
+                                            border-radius: .3rem;
                                         }
 
                                         .id_card_profile_img img {
-                                            width: calc(100% + 10px);
+                                            /* width: calc(100% + 10px);
                                             height: calc(100% + 10px);
                                             transform: rotate(-45deg);
-                                            clip-path: polygon(50% -3%, 107% 50%, 50% 100%, -7% 50%);
+                                            clip-path: polygon(50% -3%, 107% 50%, 50% 100%, -7% 50%); */
                                             position: relative;
-                                            top: -5px;
+                                            border-radius: .3rem;
+                                            /* top: -5px; */
                                             /* right: 5px; */
                                         }
 
@@ -547,60 +536,7 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <table style="background-color: #dae9fc; padding: .8rem 1rem; border-radius: .5rem; width: 100%">
-                        <tbody>
-                            <tr style="display: flex; flex-direction: row;">
-                                <td
-                                    style="width:33%; display: flex; flex-direction: column; align-items:center; justify-content:space-around">
-                                    <img class=" rounded-full mb-2 w-[70px]"
-                                        src="{{ isset(school()->institute_logo) ? '/storage/' . school()->institute_logo : 'https://placehold.co/80x80/png' }}"
-                                        alt="">
-                                    <img class="relative block px-3 w-[100px]"
-                                        src="{{ isset($card['student']->student_image) ? config('app.url') . '/storage/' . $card['student']->student_image : 'https://placehold.co/100x100/png' }}"
-                                        alt="">
-                                </td>
-                                <td style="width:66%">
-                                    <h2 class=" font-bold text-2xl uppercase text-center mb-0 text-blue-600">
-                                        {{ school()->institute_name }}
-                                    </h2>
-                                    <p class="text-center text-black text-xs mb-2">
-                                        {{ school()->institute_address }}
-                                    </p>
-                                    <div
-                                        class="text-black flex flex-wrap gap-2 justify-center mb-1 border-b border-blue-600">
-                                        <span class=" font-medium">Phone: {{ school()->mobile_no }}</span>
-                                        <span class=" font-medium">Web: {{ school()->web_address }}</span>
-                                    </div>
-                                    <div class="py-2 flex-col text-slate-900 gap-2">
-                                        <div class="flex gap-1">
-                                            <span class=" font-medium">Name:</span>
-                                            <span>{{ $card['student']->name_en ?? 'xxxxxxxxxxx' }}</span>
-                                        </div>
-                                        <div class="flex gap-1">
-                                            <span class=" font-medium">Class:</span>
-                                            <span>{{ $card['student']->school_class->class_name ?? 'xxxxxx' }}</span>
-                                        </div>
-                                        <div class="flex gap-1">
-                                            <span class=" font-medium">DOB:</span>
-                                            <span>{{ isset($card['student']->dob) ? \carbon\carbon::parse($card['student']->dob)->toDateString() : 'xx-xx-xxxx' }}</span>
-                                        </div>
-                                        <div class="flex gap-1">
-                                            <span class=" font-medium">Address:</span>
-                                            <span>
-                                                {{ !empty($card['student'])
-                                                    ? $card['student']->village . ', ' . $student_upazila_name . ', ' . $student_district_name
-                                                    : 'xxx,xxxxxxx,xxxx,xxxxxxxxx' }}</span>
-                                        </div>
-                                        <div class="flex gap-1">
-                                            <span class=" font-medium">Phone:</span>
-                                            <span>{{ $card['student']->mobile_number ?? '0123456789' }}</span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
 
-                        </tbody>
-                    </table> --}}
                     <div class="justify-end gap-3 flex flex-wrap">
                         <div class="download_print_btns">
                             <button class="my-4 px-6 py-4 rounded bg-sky-500 flex gap-2"
