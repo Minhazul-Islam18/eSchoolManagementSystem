@@ -38,14 +38,14 @@ class AddMonthlyFees extends Command
                 $students = $class->students;
 
                 foreach ($students as $student) {
-                    if (isset($student->school_class->admission_fee, $class->monthly_fee)) {
+                    if (isset($student->school_class->monthly_fee, $class->monthly_fee)) {
                         // Add the monthly fee for each student
                         $pivotData = ([
-                            'school_id' => 1,
+                            'school_id' => $class->school_id,
                             'due_amount' => $class->monthly_fee->amount ?? '',
                             'month' => now()->format('F'),
                         ]);
-                        $student->monthlyFees()->save($student->school_class->admission_fee, $pivotData);
+                        $student->monthlyFees()->save($student->school_class->monthly_fee, $pivotData);
                     }
                 }
             }
