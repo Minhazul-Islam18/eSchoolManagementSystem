@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Backend\School;
 
-use App\Models\ClassWiseAdmissionFee;
+use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Student;
 use Livewire\Component;
+use Carbon\CarbonPeriod;
 use App\Models\SchoolClass;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
@@ -20,6 +21,7 @@ use Livewire\Attributes\Validate;
 use App\Models\SchoolClassSection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
+use App\Models\ClassWiseAdmissionFee;
 use Devfaysal\BangladeshGeocode\Models\Union;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Devfaysal\BangladeshGeocode\Models\Upazila;
@@ -217,7 +219,7 @@ class AdmissionManagement extends Component
             if (isset($this->group_id)) {
                 $this->section_id = null;
             }
-            // dd($this->section_id, $this->group_id);
+
             $this->student =  Student::create([
                 'user_id' => $u->id,
                 'student_id' => $u->student_id,
@@ -269,13 +271,38 @@ class AdmissionManagement extends Component
                 'gurdians_monthly_income' => $this->gurdians_monthly_income,
                 'gurdians_occupation' => $this->gurdians_occupation,
             ]);
+
             if (isset($this->student->school_class->admission_fee) && $this->student->school_class->admission_fee->amount !== null) {
                 $this->saveAdmissionFeeForStudent();
+                $this->generateMonthlyFees($this->student);
             } else {
                 $this->dispatch('post-created');
             }
+
             $this->alert('success', 'Student admission created');
             $this->resetFields();
+        }
+    }
+
+    protected function generateMonthlyFees(Student $student)
+    {
+        // Get the class or other relevant information for the student
+        $class = $student->school_class;
+
+        // Use the student's creation date as the starting point
+        $startDate = Carbon::parse($student->created_at)->startOfYear();
+
+        // Generate fees for each month starting from $startDate
+        $months = collect(CarbonPeriod::create($startDate, '1 month', now()->endOfMonth()));
+
+        foreach ($months as $month) {
+            // Add the monthly fee for each student
+            $pivotData = ([
+                'school_id' => school()->id,
+                'due_amount' => $class->monthly_fee->amount ?? '',
+                'month' => now()->format('F'),
+            ]);
+            $student->monthlyFees()->save($student->school_class->monthly_fee, $pivotData);
         }
     }
 
@@ -286,7 +313,7 @@ class AdmissionManagement extends Component
             'amount' => $this->fee_amount,
             'class_id' => $this->student->school_class->id,
         ]);
-        dd($admissionFee);
+        // dd($admissionFee);
         // Associate the AdmissionFee with the SchoolClass
         $this->student->school_class->admission_fee()->create(['amount' => $this->fee_amount]);
         $this->alert('success', 'Admission fee created');
@@ -294,7 +321,7 @@ class AdmissionManagement extends Component
 
     public function saveAdmissionFeeForStudent()
     {
-        dd($this->student->school_class->admission_fee);
+        // dd($this->student->school_class->admission_fee);
         if (isset($this->student->school_class->admission_fee) && $this->student->school_class->admission_fee->amount !== null) {
             $pivotData = [
                 'school_id' => school()->id,
