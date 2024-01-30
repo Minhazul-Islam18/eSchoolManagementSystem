@@ -182,7 +182,6 @@
                         });
                     @endphp
                         @if ($admissionFeeDue->isNotEmpty())
-                            @dd($admissionFeeDue)
                             <span
                                 class="font-sm font-black text-sky-500 pb-1 border-b block">{{ __('Admission Fees') }}</span>
                             @foreach ($admissionFeeDue as $index => $item)
@@ -246,11 +245,6 @@
                     @endif
 
 
-
-
-
-                    {{-- @dd($editable_student->fees) --}}
-
                     @php
                     $additionalDueFees = []; @endphp
                     @if (!empty($editable_student)) @php
@@ -288,26 +282,8 @@
                         @endif
                     @endif
 
-                    {{-- @if (!empty($editable_student->fees))
-                        <span
-                            class="font-sm font-black text-sky-500 pb-1 border-b block">{{ __('Additional Fees') }}</span>
-                        @foreach ($editable_student->fees as $index => $item)
-                            <div class="border px-3 border-black relative mt-3 pb-3 pt-5">
-                                <span class="absolute top-[-12px] left-2 bg-white text-black"
-                                    style="top: -12px;padding: 0 14px;border: 1px solid #000;">
-                                    {{ $item->name }}
-                                </span>
-                                <x-input class="" label="Name" placeholder="Enter amount"
-                                    corner-hint="Ex: 250"
-                                    wire:model.defer="additional_fees.{{ $index }}.amount" />
-
-                                <x-select label="Select Status" placeholder="Select status" :options="['Paid', 'Unpaid']"
-                                    wire:model.defer="additional_fees.{{ $index }}.status" />
-                            </div>
-                        @endforeach
-                    @endif --}}
-
-                    <x-button positive label="Save" type="submit" />
+                    <x-button positive label="Save" type="submit" wire:loading.attribute='disabled'
+                        wire:target='updateFeeStatus' />
                 </form>
             </x-card>
 

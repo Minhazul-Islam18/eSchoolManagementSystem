@@ -11,10 +11,11 @@ use Livewire\Attributes\Computed;
 use App\Models\SchoolClassSection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class StudentFeeCollectionManagement extends Component
 {
-    use WithPagination;
+    use WithPagination, LivewireAlert;
     public $feeSheat = false;
     public $class_id;
     public $feeModal;
