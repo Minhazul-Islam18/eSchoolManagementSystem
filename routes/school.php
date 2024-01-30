@@ -27,6 +27,7 @@ use App\Livewire\Backend\School\NoticeManagement;
 use App\Livewire\Backend\School\StaffAttendanceManagement;
 use App\Livewire\Backend\School\StudentAttendanceManagement;
 use App\Livewire\Backend\School\StudentCollectionManagement;
+use App\Livewire\Backend\School\StudentFeeCollectionManagement;
 use App\Livewire\Backend\School\StudentIdCardCreateEditForm;
 use App\Livewire\Backend\School\StudentIdCardManagement;
 use App\Livewire\Backend\School\StudentIdCardSettingsManagement;
@@ -48,6 +49,7 @@ Route::middleware(['checkRole:school,demo_school', 'checkSubscription', 'checkAc
     Route::get('/fee-categories', FeeCategoryManagement::class)->name('fee-categories');
     Route::get('/all-fees', ExamFeeManagement::class)->name('all-fees');
     Route::get('/fee-collection', FeeCollectionManagement::class)->name('fee-collection');
+    Route::get('/collect-fees', StudentFeeCollectionManagement::class)->name('collect-fees');
     Route::get('/exam-results', ExamResultManagement::class)->name('exam-results');
     Route::get('/admissions', AdmissionManagement::class)->name('admissions');
     Route::get('/grading', GradingManagement::class)->name('grading');

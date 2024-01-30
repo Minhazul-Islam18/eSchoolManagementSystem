@@ -50,7 +50,7 @@ class Student extends Model
      */
     public function fees(): BelongsToMany
     {
-        return $this->belongsToMany(SchoolFee::class)->withPivot(['due_amount', 'status']);
+        return $this->belongsToMany(SchoolFee::class)->withPivot(['id', 'due_amount', 'paid_amount', 'status']);
     }
 
     /**
@@ -71,14 +71,20 @@ class Student extends Model
     public function admissionFees()
     {
         return $this->belongsToMany(ClassWiseAdmissionFee::class, 'class_wise_admission_fee_student', 'student_id', 'admission_fee_id')
-            ->withPivot('due_amount', 'paid_amount', 'status')
+            ->withPivot('id', 'due_amount', 'paid_amount', 'status')
             ->withTimestamps();
     }
 
     public function monthlyFees()
     {
         return $this->belongsToMany(SchoolMonthlyFee::class, 'school_monthly_fee_student', 'student_id', 'fee_id')
-            ->withPivot('due_amount', 'paid_amount', 'status', 'month')
+            ->withPivot('id', 'due_amount', 'paid_amount', 'status', 'month')
             ->withTimestamps();
+    }
+
+
+    public function scopeSearch($query, $value)
+    {
+        $query->where('name_en', 'like', "%{$value}%")->orWhere('roll', 'like', "%{$value}%");
     }
 }

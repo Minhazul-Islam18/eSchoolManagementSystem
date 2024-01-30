@@ -33,14 +33,14 @@ class SchoolMonthlyFee extends Model
     public function admission_fee_students()
     {
         return $this->belongsToMany(Student::class, 'class_wise_admission_fee_student', 'admission_fee_id', 'student_id')
-            ->withPivot('due_amount', 'paid_amount', 'status')
+            ->withPivot('id', 'due_amount', 'paid_amount', 'status')
             ->withTimestamps();
     }
 
     public function monthly_fee_students()
     {
         return $this->belongsToMany(SchoolMonthlyFee::class, 'school_monthly_fee_student', 'fee_id', 'student_id')
-            ->withPivot('due_amount', 'paid_amount', 'status', 'month')
+            ->withPivot('id', 'due_amount', 'paid_amount', 'status', 'month')
             ->withTimestamps();
     }
 }
