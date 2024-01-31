@@ -8,6 +8,11 @@
                     </span>
                 </div>
                 <div class="w-1/2 flex justify-end items-center gap-3">
+                    <a href="{{ route('school.fee-categories') }}"
+                        class="bg-yellow-400 bg-opacity-25 border border-yellow-500 rounded flex items-center px-4 py-2 shahow-md hover:bg-opacity-100 transition fade gap-2">
+                        <i data-lucide="plus-circle" class="w-4"></i>
+                        Create category
+                    </a>
                     <button @click="openCEmodal = true" data-modal-target="CEmodal" data-modal-toggle="CEmodal"
                         class="bg-green-500 bg-opacity-25 border border-green-500 rounded flex items-center px-4 py-2 shahow-md hover:bg-opacity-100 transition fade gap-2">
                         <i data-lucide="plus-circle" class="w-4"></i>

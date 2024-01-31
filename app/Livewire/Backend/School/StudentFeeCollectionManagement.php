@@ -47,11 +47,11 @@ class StudentFeeCollectionManagement extends Component
     public function collectFees($id)
     {
         $this->editable_student = collect(json_decode($this->students)->data)->where('id', $id)->first();
-        // dd($this->editable_student);
     }
 
     public function updateFeeStatus()
     {
+        Gate::authorize('school.fee-collection.update');
         if ($this->monthly_fees) {
             foreach ($this->monthly_fees as $key => $fee) {
                 $record =   DB::table('school_monthly_fee_student')->find($key);
@@ -157,13 +157,11 @@ class StudentFeeCollectionManagement extends Component
                 ->paginate($this->perPage)->toArray();
 
             $this->feeSheat = true;
-            // dd($this->students);
         } elseif (null != $this->class_id && $this->group_id) {
             $this->students = school()->classes()->findOrFail($this->class_id)->groups()->findOrFail($this->group_id)->students()
                 ->with(['admissionFees', 'fees', 'monthlyFees'])
                 ->paginate($this->perPage)->toArray();
             $this->feeSheat = true;
-            // dd($this->students);
         }
     }
 
@@ -195,19 +193,6 @@ class StudentFeeCollectionManagement extends Component
         return view(
             'livewire.backend.school.student-fee-collection-management',
             ['stds' => $stds]
-        );
-
-
-        // return view(
-        //     'livewire.users-table',
-        //     [
-        //         'users' => User::search($this->search)
-        //             ->when($this->admin !== '', function ($query) {
-        //                 $query->where('is_admin', $this->admin);
-        //             })
-        //             ->orderBy($this->sortBy, $this->sortDir)
-        //             ->paginate($this->perPage)
-        //     ]
-        // );
+        )->title('Student fee collection mangement');
     }
 }

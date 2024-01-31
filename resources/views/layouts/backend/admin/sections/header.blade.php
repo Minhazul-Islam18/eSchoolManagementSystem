@@ -21,14 +21,14 @@
              </div>
          </div>
 
-         <div class="md:flex hidden items-center relative">
+         {{-- <div class="md:flex hidden items-center relative">
              <div class="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
                  <i class="mdi mdi-magnify text-base opacity-60 -z-10"></i>
              </div>
              <input type="search"
                  class="form-input pe-8 ps-4 rounded-full bg-gray-500/10 border-transparent focus:border-transparent placeholder:opacity-60"
                  placeholder="Search..." />
-         </div>
+         </div> --}}
 
          <!-- Light/Dark Toggle Button -->
          <div class="flex">

@@ -51,7 +51,7 @@ class ClassSectionSubjectManagement extends Component
         Gate::authorize('school.subjects.create');
         $this->validate([
             'class_id' => 'required',
-            'subject_name' => 'required|min:1|max:50|unique:school_class_subjects'
+            'subject_name' => 'required|min:1|max:50'
         ]);
         SchoolClassSubject::create([
             'school_class_id' => $this->class_id,
@@ -82,7 +82,7 @@ class ClassSectionSubjectManagement extends Component
         Gate::authorize('school.subjects.update');
         $this->validate([
             'class_id' => 'required',
-            'subject_name' => 'required|min:1|max:50|unique:school_class_subjects,subject_name,' . $this->editable_item->id,
+            'subject_name' => 'required|min:1|max:50',
         ]);
         $e = SchoolClassSubject::findBySchool($this->editable_item->id);
         $e->update([
