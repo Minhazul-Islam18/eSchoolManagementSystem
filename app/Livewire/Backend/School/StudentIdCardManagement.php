@@ -111,18 +111,15 @@ class StudentIdCardManagement extends Component
         while (
             $this->student_id !== "" && isset($this->class_id) && isset($this->id_card_id) && (isset($this->section_id) || isset($this->group_id))
         ) {
-            // $this->card['template'] = $this->IdCards()->firstWhere('id', $this->id_card_id);
-            // dd($this->card['template']);
             $this->card['class'] = $this->classes->firstWhere('id', $this->class_id);
             $this->card['section'] = $this->sections ? $this->sections->firstWhere('id', $this->section_id) : null;
             $this->card['group'] = $this->groups ? $this->groups->firstWhere('id', $this->group_id) : null;
-            $this->card['student'] = $this->students->firstWhere('id', $this->student_id);
-            $this->student_division_name = Division::findOrFail($this->card['student']->division)->name;
-            $this->student_district_name = District::findOrFail($this->card['student']->zilla)->name;
-            $this->student_upazila_name = Upazila::findOrFail($this->card['student']->upazilla_or_thana)->name;
-            $this->student_union_name = Union::findOrFail($this->card['student']->union)->name;
+            $this->card['student'] = $this->students->firstWhere('id', $this->student_id) ?? '';
+            $this->student_division_name = isset($this->card['student']) ? Division::find($this->card['student']->division)->name : '';
+            $this->student_district_name = isset($this->card['student']) ? District::find($this->card['student']->zilla)->name : '';
+            $this->student_upazila_name = isset($this->card['student']) ? Upazila::find($this->card['student']->upazilla_or_thana)->name : '';
+            $this->student_union_name = isset($this->card['student']) ? Union::find($this->card['student']->union)->name : '';
 
-            // dd($this->card['student']);
             break;
         };
     }

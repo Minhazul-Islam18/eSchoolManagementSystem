@@ -34,8 +34,8 @@ class StudentIdCardCreateEditForm extends Component
             'id_card_frontside_background_image' => 'required',
             'id_card_backside_background_image' => 'required',
             'id_card_signature' => 'required',
-            'id_card_qr_code' => 'required',
-            'id_card_backside_description' => 'required',
+            // 'id_card_qr_code' => 'required',
+            'id_card_backside_description' => 'required|max:150',
         ]);
 
         $this->store($validated);
@@ -63,8 +63,8 @@ class StudentIdCardCreateEditForm extends Component
             'expire_date' => $validated['id_card_expire_date'],
             'frontside_background_image' => $this->id_card_frontside_background_image,
             'backside_background_image' => $this->id_card_backside_background_image,
-            'signature' => $this->id_card_signature,
-            'qr_code' => $this->id_card_qr_code,
+            'signature' => $this->id_card_signature ?? '',
+            'qr_code' => $this->id_card_qr_code ?? '',
             'backside_description' => $validated['id_card_backside_description'],
         ]);
 

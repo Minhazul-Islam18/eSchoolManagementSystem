@@ -281,7 +281,7 @@
                                             font-style: normal;
                                             font-weight: 500;
                                             line-height: normal;
-                                            margin: 18px 0 25px 0;
+                                            margin: 18px 0 10px 0;
                                         }
 
                                         .id_card_back .id_card_back_info .qr_code {
