@@ -52,7 +52,7 @@
             </span>
             <ul class="sub-menu hidden">
                 <li class="menu-item">
-                    <a href="{{ route('school.staffs-attendance') }}" data-fc-type="collapse" class="menu-link"
+                    <a href="{{ route('school.collect-fees') }}" data-fc-type="collapse" class="menu-link"
                         data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Collection') }} </span>
                     </a>
