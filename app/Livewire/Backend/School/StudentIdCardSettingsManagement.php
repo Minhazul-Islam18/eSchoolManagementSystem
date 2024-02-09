@@ -53,6 +53,7 @@ class StudentIdCardSettingsManagement extends Component
 
         $this->alert('success', 'Deleted successfully');
     }
+
     public function render()
     {
         $idCards = StudentIdCard::where('school_id', school()->id)->get();

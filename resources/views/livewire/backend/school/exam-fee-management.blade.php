@@ -258,29 +258,7 @@
         $('#example_filter label').addClass('flex justify-end items-center');
         $('#example_paginate div').addClass('flex justify-end items-center');
         $('.dtr-data').addClass('flex flex-wrap gap-2');
-        Livewire.directive('confirm', ({
-            el,
-            directive,
-            component,
-            cleanup
-        }) => {
-            let content = directive.expression
 
-            let onClick = e => {
-                if (!confirm(content)) {
-                    e.preventDefault()
-                    e.stopImmediatePropagation()
-                }
-            }
-
-            el.addEventListener('click', onClick, {
-                capture: true
-            })
-
-            cleanup(() => {
-                el.removeEventListener('click', onClick)
-            })
-        })
         //close modal on save data
         Livewire.on('closeModal', (value) => {
             console.log(value);

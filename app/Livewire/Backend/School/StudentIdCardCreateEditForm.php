@@ -129,7 +129,7 @@ class StudentIdCardCreateEditForm extends Component
         $this->id_card_title = $this->editable_card?->title;
         $this->id_card_expire_date = $this->editable_card?->expire_date;
         $this->trixId = 'trix-' . uniqid();
-        $this->title = isset($this->editable_card) ? 'Edit' : 'Create' . ' ID Card';
+        $this->title = isset($this->editable_card) ? 'Edit' : 'Create' . ' ID Card template';
     }
     public function render()
     {
