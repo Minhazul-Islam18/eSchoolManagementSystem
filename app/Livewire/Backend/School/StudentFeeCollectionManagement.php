@@ -193,6 +193,6 @@ class StudentFeeCollectionManagement extends Component
         return view(
             'livewire.backend.school.student-fee-collection-management',
             ['stds' => $stds]
-        )->title('Student fee collection mangement');
+        )->title('Student fee collection management');
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Student;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use App\Models\SchoolClassSection;
+use App\Models\StudentPayment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -29,12 +30,22 @@ class FeeCollectionManagement extends Component
     public $amount;
     public $status;
     public $student_id;
+    public $payable_amount;
 
     #[Computed()]
     public function classes()
     {
         return school()->classes;
     }
+
+    public function setStudentData($studentId)
+    {
+        $this->student_id = $studentId;
+        $fee = Student::find($studentId)->fees()->find($this->fee_id);
+        $this->payable_amount = isset($fee->pivot) && $fee->pivot->paid_amount < 0 ? $fee->pivot->due_amount : $fee->pivot->due_amount - $fee->pivot->paid_amount;
+        // dd($this->payable_amount);
+    }
+
     public function getCollectionSheet()
     {
         if (isset($this->section_id) || isset($this->group_id)) {
@@ -143,11 +154,21 @@ class FeeCollectionManagement extends Component
             'status' => 'required|in:Paid,Unpaid'
         ]);
 
-        $student = school()->students()->findOrFail($this->student_id);
-        $student->fees()->updateExistingPivot($this->fee_id, [
-            'due_amount' => $this->amount == 0 && $this->status == 'Paid' ? 0 : $student->fees()->findOrFail($this->fee_id)->amount - $this->amount,
-            'status' => $this->status,
-        ]);
+        DB::transaction(function () {
+            $student = school()->students()->find($this->student_id);
+            $student->fees()->updateExistingPivot($this->fee_id, [
+                'due_amount' => $this->amount == 0 && $this->status == 'Paid' ? 0 : $student->fees()->find($this->fee_id)->amount - $this->amount,
+                'status' => $this->status,
+            ]);
+
+            StudentPayment::create([
+                'school_id' => school()->id,
+                'student_id' => $this->student_id,
+                'fee_id' => $this->fee_id,
+                'amount' => $this->amount,
+            ]);
+        }, 5);
+
         $this->dispatch('close-modal');
         $this->alert('success', 'Updated');
     }
@@ -157,6 +178,6 @@ class FeeCollectionManagement extends Component
     }
     public function render()
     {
-        return view('livewire.backend.school.fee-collection-management');
+        return view('livewire.backend.school.fee-collection-management')->title('Student fee collection');
     }
 }

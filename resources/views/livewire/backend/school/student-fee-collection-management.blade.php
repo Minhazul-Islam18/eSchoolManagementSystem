@@ -163,7 +163,6 @@
                 @else
                     <h5 class=" text-orange-400 text-xl font-extrabold">{{ 'Please select dropdown steps!' }}</h5>
                 @endif
-
             </div>
         </div>
 

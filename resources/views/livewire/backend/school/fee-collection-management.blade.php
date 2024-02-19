@@ -138,13 +138,13 @@
                                         </thead>
                                         <tbody>
                                             @forelse ($students as $item)
-                                                {{-- @dd($item) --}}
                                                 <tr>
                                                     <td>
                                                         {{ $item->id }}
                                                         <sub>{{ $item->student_id }}</sub>
                                                     </td>
-                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                    <td
+                                                        class="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 dark:text-white text-sm">
                                                         <div class="flex">
                                                             <div class="flex-shrink-0 w-10 h-10">
                                                                 <img class="w-full h-full rounded-full"
@@ -152,10 +152,13 @@
                                                                     alt="" />
                                                             </div>
                                                             <div class="ml-3">
-                                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                                <p
+                                                                    class="text-gray-900 dark:text-white whitespace-no-wrap">
                                                                     Name: {{ __($item->name_bn) }}
                                                                 </p>
-                                                                <p class="text-gray-600 whitespace-no-wrap">Roll:
+                                                                <p
+                                                                    class="text-gray-600 whitespace-no-wrap dark:text-white">
+                                                                    Roll:
                                                                     {{ __($item->roll) }}</p>
                                                             </div>
                                                         </div>
@@ -164,7 +167,7 @@
                                                         @foreach ($item->fees as $fee)
                                                             @if ($fee->pivot->status == 'Unpaid')
                                                                 <span
-                                                                    class="px-2 py-1 rounded bg-green-400/40 text-black">{{ __('Unpaid') }}</span>
+                                                                    class="px-2 py-1 rounded bg-green-400/40 dark:bg-green-500 text-black">{{ __('Unpaid') }}</span>
                                                             @else
                                                                 <span
                                                                     class="px-2 py-1 rounded bg-red-400/40 text-black">{{ __('Paid') }}</span>
@@ -172,10 +175,11 @@
                                                         @endforeach
                                                     </td>
                                                     <td
-                                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                                                        class="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-right">
                                                         <x-button label="Edit"
-                                                            wire:click="$set('student_id', {{ $item->id }})"
-                                                            x-on:click="$openModal('edit-modal')" primary />
+                                                            wire:click='setStudentData({{ $item->id }})'
+                                                            {{-- wire:click="$set('student_id', {{ $item->id }})" --}} x-on:click="$openModal('edit-modal')"
+                                                            primary />
                                                     </td>
                                                 </tr>
                                             @empty
@@ -200,10 +204,10 @@
         <x-modal name="edit-modal" blur>
 
             <x-card title="Edit">
-                <form wire:submit='updateFeeStatus()' class=" flex py-2 gap-y-3 flex-col">
+                <form wire:submit='updateFeeStatus' class=" flex py-2 gap-y-3 flex-col">
                     <x-errors title="We found {errors} validation error(s)" />
-                    <x-input label="Name" placeholder="Enter amount" corner-hint="Ex: 250"
-                        wire:model.blur='amount' />
+                    <x-input label="Name" placeholder="Enter amount"
+                        corner-hint="Payable amount: {{ $payable_amount }}" wire:model.blur='amount' />
 
                     <x-select label="Select Status" placeholder="Select status" :options="['Paid', 'Unpaid']"
                         wire:model.defer="status" />
