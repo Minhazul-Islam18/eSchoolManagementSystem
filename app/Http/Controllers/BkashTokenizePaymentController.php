@@ -64,20 +64,24 @@ class BkashTokenizePaymentController extends Controller
 
         $response =  BkashPaymentTokenize::cPayment($request_data_json);
 
-        BkashTransection::create([
-            'logo' => $response['orgLogo'] ?? '',
-            'name' => $response['orgName'] ?? '',
-            'payment_id' => $response['paymentID'],
-            'package_id' => session()->get('package_id'),
-            'currency' => $response['currency'],
-            'transaction_status' => $response['transactionStatus'],
-            'merchant_invoice_number' => $response['merchantInvoiceNumber'],
-            'amount' => $response['amount'],
-            'create_time' => $response['paymentCreateTime'],
-        ]);
-        if (isset($response['bkashURL'])) return redirect()->away($response['bkashURL']);
-        // else return redirect()->back()->with('error-alert2', $response['statusMessage']);
-        else return redirect()->back()->with('message', $response['statusMessage']);
+        if ($response['statusCode'] !== '2006') {
+            BkashTransection::create([
+                'logo' => $response['orgLogo'] ?? '',
+                'name' => $response['orgName'] ?? '',
+                'payment_id' => $response['paymentID'],
+                'package_id' => session()->get('package_id'),
+                'currency' => $response['currency'],
+                'transaction_status' => $response['transactionStatus'],
+                'merchant_invoice_number' => $response['merchantInvoiceNumber'],
+                'amount' => $response['amount'],
+                'create_time' => $response['paymentCreateTime'],
+            ]);
+            if (isset($response['bkashURL'])) return redirect()->away($response['bkashURL']);
+            // else return redirect()->back()->with('error-alert2', $response['statusMessage']);
+            else return redirect()->back()->with('message', $response['statusMessage']);
+        } else {
+            return redirect()->back()->with('message', $response['statusMessage']);
+        }
     }
 
     public function callBack(Request $request)

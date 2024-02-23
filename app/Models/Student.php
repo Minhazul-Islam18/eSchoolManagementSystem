@@ -87,4 +87,9 @@ class Student extends Model
     {
         $query->where('name_en', 'like', "%{$value}%")->orWhere('roll', 'like', "%{$value}%");
     }
+
+    public function attendances()
+    {
+        return $this->hasMany(StudentAttendance::class);
+    }
 }

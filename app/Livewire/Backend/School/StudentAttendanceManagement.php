@@ -84,7 +84,7 @@ class StudentAttendanceManagement extends Component
 
             // If no record exists, create a new one
             if (!$existingRecord) {
-                StudentAttendance::create([
+                StudentAttendance::updateOrCreate([
                     'school_id' => school()->id,
                     'student_id' => $staffId,
                     'date' => $this->attendance_date,

@@ -76,5 +76,6 @@ class Kernel extends HttpKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('fees:add-monthly')->monthlyOn(1, '00:00');
+        $schedule->command('app:mark-attendance-daily')->daily();
     }
 }

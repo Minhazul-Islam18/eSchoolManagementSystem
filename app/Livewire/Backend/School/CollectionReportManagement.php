@@ -57,25 +57,17 @@ class CollectionReportManagement extends Component
         }
     }
 
-    // public function getFees()
-    // {
-    //     if (null != $this->class_id && $this->section_id) {
-    //         $this->fees = school()->classes()->findOrFail($this->class_id)->classSections()->findOrFail($this->section_id)->fees;
-    //     } elseif (null != $this->class_id && $this->group_id) {
-    //         $this->fees = school()->classes()->findOrFail($this->class_id)->groups()->findOrFail($this->group_id)->fees;
-    //     }
-    // }
 
     public function getCollectionReport()
     {
         $paginatedData = [];
         // Number of items per page
         $perPage = 5; // Change this as needed
-        $row = $this->section_id ? 'school_class_section_id' : 'class_group_id';
+        $column = $this->section_id ? 'school_class_section_id' : 'class_group_id';
         // Fetch the paginated data
-        $paginatedData = StudentPayment::whereHas('student', function ($query) use ($row) {
+        $paginatedData = StudentPayment::whereHas('student', function ($query) use ($column) {
             $query->where('school_class_id', $this->class_id)
-                ->where($row, $this->section_id ?? $this->group_id);
+                ->where($column, $this->section_id ?? $this->group_id);
         })
             ->whereBetween('created_at', [$this->fromDate, $this->toDate])
             ->with([
@@ -112,7 +104,6 @@ class CollectionReportManagement extends Component
             ])
             ->get();
 
-        // dd($paginatedData);
         return view('livewire.backend.school.collection-report-management', ['paginatedData' => $paginatedData])
             ->title('Collection report generate');
     }

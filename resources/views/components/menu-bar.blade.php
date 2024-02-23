@@ -26,10 +26,7 @@
                                 @endif
                             </a>
                             @if (!$item->childs->isEmpty())
-                                <x-MenuBarDropdown :items="$item
-                                    ->childs()
-                                    ->orderBy('order', 'ASC')
-                                    ->get()" />
+                                <x-MenuBarDropdown :items="$item->childs()->orderBy('order', 'ASC')->get()" />
                             @endif
                         </li>
                     @endforeach
@@ -58,7 +55,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('school.students-attendance') }}" data-fc-type="collapse" class="menu-link"
+                    <a href="{{ route('school.collection-report') }}" data-fc-type="collapse" class="menu-link"
                         data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Collection Report') }} </span>
                     </a>
@@ -191,7 +188,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                    <a href="{{ route('school.attendance-report') }}" data-fc-type="collapse" class="menu-link"
                         data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Students Attendance Report') }} </span>
                     </a>
