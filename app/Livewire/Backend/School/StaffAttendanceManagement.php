@@ -24,7 +24,7 @@ class StaffAttendanceManagement extends Component
     #[Computed()]
     public function staffs()
     {
-        return school()->staffs;
+        return school()->staffs()->where('status', 1)->get();
     }
     public function getAttendanceSheet()
     {
@@ -48,16 +48,19 @@ class StaffAttendanceManagement extends Component
                 ->first();
 
             // If no record exists, create a new one
-            if (!$existingRecord) {
+            if (!$existingRecord)
+
                 StaffAttendance::create([
                     'school_id' => school()->id,
                     'staff_id' => $staffId,
                     'date' => $this->attendance_date,
+                    'is_present' => true
                 ]);
 
-                // $this->alert('success', 'Attendance added.');
-            } else {
-                // $this->alert('warning', 'Attendance already added.');
+            else {
+                $existingRecord->update([
+                    'is_present' => true
+                ]);
             }
         }
         $this->alert('success', 'Attendance added.');

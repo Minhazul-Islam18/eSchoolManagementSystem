@@ -182,7 +182,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                    <a href="{{ route('staffs-attendance-report') }}" data-fc-type="collapse" class="menu-link"
                         data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Staff Attendance Report') }} </span>
                     </a>

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\classGroup;
 use App\Models\SchoolClassSection;
+use App\Models\SchoolStaff;
 use Mpdf\Tag\Section;
 use Illuminate\Console\Command;
 
@@ -55,5 +56,16 @@ class MarkAttendanceDaily extends Command
         }
 
         $this->info('Daily attendance marked for all sections & groups.');
+
+        $staffs = SchoolStaff::where('status', '!=', 0)->get();
+
+        foreach ($staffs as $staff) {
+            $staff->attendances()->create([
+                'school_id' => $staff->school_id,
+                'date' => now()->toDateString(),
+                'is_present' => false,
+            ]);
+        }
+        $this->info('Daily attendance marked for all staffs.');
     }
 }

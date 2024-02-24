@@ -23,15 +23,13 @@ class AttendanceReportManagement extends Component
     public $students = [];
     public $payments;
     public $student_id;
-    public $fromDate;
-    public $toDate;
-    public $attendanceReport;
+    public $selectedMonth;
+    public $attendanceDays;
 
     #[On('set-month')]
-    public function setMonth($fromDate, $toDate)
+    public function setMonth($selectedMonth)
     {
-        $this->fromDate = $fromDate;
-        $this->toDate = $toDate;
+        $this->selectedMonth = $selectedMonth;
     }
 
     #[Computed()]
@@ -63,49 +61,24 @@ class AttendanceReportManagement extends Component
     public function render()
     {
         $r = [];
-        $attendanceRecords = [];
-        if ($this->fromDate && $this->toDate) {
+        if ($this->selectedMonth) {
+            $year = date('Y');
             // Parse the start and end dates using Carbon
-            $startDate = Carbon::parse($this->fromDate)->startOfMonth();
-            $endDate = Carbon::parse($this->toDate)->endOfMonth();
-
-            // Fetch attendance records for the selected date range
-            $attendanceRecords = StudentAttendance::whereBetween('date', [$startDate, $endDate])
-                ->orderBy('date')
-                ->get();
-
-            // Initialize an array to hold attendance data for each day of the month
-            $attendanceByDay = [];
-
-            // Loop through each day of the month
-            $currentDate = clone $startDate;
-            while ($currentDate <= $endDate) {
-                $dayNumber = $currentDate->format('j');
-
-                // Check if attendance data exists for the current date for all students
-                $attendancesForDate = $attendanceRecords->filter(function ($attendance) use ($currentDate) {
-                    return Carbon::parse($attendance['date'])->isSameDay($currentDate);
-                });
-
-                // Populate the attendance data for the current day for all students
-                $attendanceByDay[$dayNumber] = $attendancesForDate->toArray();
-
-                // Move to the next day
-                $currentDate->addDay();
-            }
+            $startDate = Carbon::create($year, $this->selectedMonth, 1)->startOfMonth();
+            $endDate = Carbon::create($year, $this->selectedMonth, 1)->endOfMonth();
 
             // Assign the attendance data to each student's "attendances" array
-            $this->attendanceReport = $attendanceByDay;
+            $this->attendanceDays = range(1, Carbon::now()->month($this->selectedMonth)->daysInMonth);
+
             $column = $this->section_id ? 'school_class_section_id' : 'class_group_id';
             $r = Student::where('school_class_id', $this->class_id)
                 ->where($column, $this->section_id ?? $this->group_id)
                 ->with(['attendances' => function ($query) use ($startDate, $endDate) {
                     $query->whereBetween('date', [$startDate, $endDate])->orderBy('date');
                 }])->get();
-            // dd($r, $this->attendanceReport);
         }
 
 
-        return view('livewire.backend.school.attendance-report-management', ['r' => $r])->title('Attendance report generate');
+        return view('livewire.backend.school.attendance-report-management', ['r' => $r])->title('Student attendance report generate');
     }
 }
