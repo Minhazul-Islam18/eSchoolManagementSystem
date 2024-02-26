@@ -32,8 +32,7 @@
                         <div class="">
                             <label for="group_id" class="form-label">Groups</label>
                             <select wire:model.blur='group_id' class="form-select rounded"
-                                wire:loading.class='opacity-50 blur-sm' wire:target='getSection' {{-- wire:change='getStudents' --}}
-                                id="group_id">
+                                wire:loading.class='opacity-50 blur-sm' wire:target='getSection' id="group_id">
                                 <option value="">Select group</option>
                                 @forelse ($this->groups as $item)
                                     <option value="{{ $item->id }}"
@@ -143,7 +142,7 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <x-dropdown>
-                                                <x-dropdown.header label="Aections">
+                                                <x-dropdown.header label="Actions">
                                                     <x-dropdown.item icon="plus-circle" label="Collect"
                                                         onclick="$openModal('feeModal')"
                                                         wire:click='collectFees({{ $item->id }})' />
@@ -186,7 +185,6 @@
                             @foreach ($admissionFeeDue as $index => $item)
                                 <div class="border px-3 border-black relative mt-3 pb-3 pt-5"
                                     wire:key='{{ $index }}'>
-
                                     <x-inputs.number class="mb-2" label="Fee amount" placeholder="Enter amount"
                                         corner-hint="Due: {{ $item->pivot->due_amount }}"
                                         wire:model.defer="admission_fees.{{ $item->pivot->id }}.amount" />
@@ -258,13 +256,8 @@
                             @foreach ($additionalDueFees as $index => $item)
                                 <div class="border px-3 border-black relative mt-3 pb-3 pt-5"
                                     wire:key='{{ $index }}'>
-                                    {{-- <span class="absolute top-[-12px] left-2 bg-white text-black"
-                                        style="top: -12px; padding: 0 14px; border: 1px solid #000;">
-                                        {{ $item->pivot->month }}
-                                    </span> --}}
-
-                                    <x-inputs.number class="mb-2" label="Name" placeholder="Enter amount"
-                                        corner-hint="Due: {{ $item->pivot->due_amount }}"
+                                    <x-inputs.number class="mb-2" label="Name: {{ $item->fee_name }}"
+                                        placeholder="Enter amount" corner-hint="Due: {{ $item->pivot->due_amount }}"
                                         wire:model.defer="additional_fees.{{ $item->pivot->id }}.amount" />
 
                                     <x-native-select label="Select Status" :options="[
@@ -390,10 +383,6 @@
         document.addEventListener('livewire:init', function() {
             Livewire.on('student', event => {
                 console.log(event);
-                // alert(event[0].ids);
-                // Livewire.dispatch('present-getting-ids', {
-                //     ids: event[0].ids
-                // })
             });
 
             Livewire.on('close-modal', event => {

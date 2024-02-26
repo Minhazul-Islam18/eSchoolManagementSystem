@@ -21,6 +21,11 @@ class StudentPayment extends Model
         return $this->belongsTo(SchoolFee::class);
     }
 
+    public function school()
+    {
+        return $this->belongsTo(School::class);
+    }
+
     public function studentClass(): HasOneThrough
     {
         return $this->hasOneThrough(SchoolClass::class, Student::class, 'id', 'id', 'student_id', 'school_class_id');
@@ -34,5 +39,10 @@ class StudentPayment extends Model
     public function studentClassGroup(): HasOneThrough
     {
         return $this->hasOneThrough(classGroup::class, Student::class, 'id', 'id', 'student_id', 'class_group_id');
+    }
+
+    public function scopeSearch($query, $value)
+    {
+        $query->where('payment_id', 'like', "%{$value}%");
     }
 }

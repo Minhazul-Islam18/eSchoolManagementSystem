@@ -2,14 +2,15 @@
 
 namespace App\Livewire\Backend\School;
 
-use App\Livewire\FeeCollectionSheatTable;
 use App\Models\Student;
 use Livewire\Component;
+use Illuminate\Support\Str;
+use App\Models\StudentPayment;
 use Livewire\Attributes\Computed;
 use App\Models\SchoolClassSection;
-use App\Models\StudentPayment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use App\Livewire\FeeCollectionSheatTable;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class FeeCollectionManagement extends Component
@@ -162,6 +163,7 @@ class FeeCollectionManagement extends Component
             ]);
 
             StudentPayment::create([
+                'payment_id' => Str::random(6),
                 'school_id' => school()->id,
                 'student_id' => $this->student_id,
                 'fee_id' => $this->fee_id,
@@ -170,7 +172,7 @@ class FeeCollectionManagement extends Component
         }, 5);
 
         $this->dispatch('close-modal');
-        $this->alert('success', 'Updated');
+        $this->alert('success', 'Updated successfully');
     }
     public function mount()
     {

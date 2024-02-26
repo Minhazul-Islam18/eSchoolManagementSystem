@@ -61,7 +61,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('school.students-attendance') }}" data-fc-type="collapse" class="menu-link"
+                    <a href="{{ route('school.update-collection') }}" data-fc-type="collapse" class="menu-link"
                         data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Collection Update') }} </span>
                     </a>
@@ -182,8 +182,8 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('staffs-attendance-report') }}" data-fc-type="collapse" class="menu-link"
-                        data-fc-parent="child-accordion">
+                    <a href="{{ route('school.staffs-attendance-report') }}" data-fc-type="collapse"
+                        class="menu-link" data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Staff Attendance Report') }} </span>
                     </a>
                 </li>
