@@ -65,7 +65,7 @@ class CollectionUpdateManagement extends Component
 
     public function render()
     {
-        $collections = StudentPayment::with(['student', 'fee'])->paginate($this->perPage);
+        $collections = StudentPayment::with(['student', 'fee'])->search($this->search)->paginate($this->perPage);
         return view('livewire.backend.school.collection-update-management', ['collections' => $collections])->title('Update collection');
     }
 }

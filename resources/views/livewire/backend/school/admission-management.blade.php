@@ -946,9 +946,9 @@
                                             {{ 'শ্রেণী: ' . $item->school_class->class_name }},<br />
                                             @php
                                                 if ($item->school_class_section !== null) {
-                                                    echo $result = 'শাখা:' . $item->school_class_section->section_name;
+                                                    echo $result = 'শাখা:' . $item->school_class_section?->section_name;
                                                 } else {
-                                                    echo $result = 'গ্রুপ: ' . $item->class_group->group_name;
+                                                    echo $result = 'গ্রুপ: ' . $item->class_group?->group_name;
                                                 }
                                             @endphp
                                         </div>

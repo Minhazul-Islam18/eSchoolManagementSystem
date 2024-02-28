@@ -51,7 +51,7 @@
             {{ 'Print' }}
             <i class="text-sm" data-lucide="printer"></i>
         </button>
-        <div class=" border-dashed border-4 rounded-lg py-8 px-4 mt-4 border-orange-400" id="reportTable">
+        <div class="" id="reportTable">
             @if (!empty($records))
                 <div class=" print:border-b print:border-slate-200"
                     style="padding-top: 2rem;

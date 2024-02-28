@@ -14,7 +14,7 @@
                     <div class="flex sm:justify-between flex-col sm:flex-row mb-3">
                         <div>
                             <x-input type="text" wire:model.live.debounce.300ms="search" icon="search"
-                                placeholder="Search" hint="Search using Name or Roll"></x-input>
+                                placeholder="Search" hint="Search using Payment ID"></x-input>
                         </div>
 
                         <div>
@@ -69,13 +69,12 @@
                                         {{ isset($item->student->class_group) ? $item->student->class_group->group_name : '' }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        <x-dropdown>
-                                            <x-dropdown.header label="Actions">
-                                                <x-dropdown.item icon="pencil-alt" label="Edit"
-                                                    onclick="$openModal('feeModal')"
-                                                    wire:click='editTransection({{ $item->id }})' />
-                                            </x-dropdown.header>
-                                        </x-dropdown>
+                                        <span onclick="$openModal('feeModal')"
+                                            wire:click='editTransection({{ $item->id }})'
+                                            class="flex items-center gap-1 px-2 py-1 hover:bg-gray-100 rounded transition-all duration-100 cursor-pointer justify-center w-[70px]">
+                                            <i class="w-[16px]" wire:ignore data-lucide="square-pen"></i>
+                                            {{ __('Edit') }}
+                                        </span>
                                     </td>
                                 </tr>
                             @empty
