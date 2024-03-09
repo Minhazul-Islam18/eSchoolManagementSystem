@@ -12,6 +12,7 @@ use App\Livewire\Backend\School\GradingManagement;
 use App\Livewire\Backend\School\GeneralInformation;
 use App\Livewire\Backend\School\AdmissionManagement;
 use App\Livewire\Backend\School\AdmissionFormPreview;
+use App\Livewire\Backend\School\AdmitCardManagement;
 use App\Livewire\Backend\School\ClassGroupManagement;
 use App\Livewire\Backend\School\ExamResultManagement;
 use App\Livewire\Backend\School\MonthlyFeeManagement;
@@ -34,6 +35,7 @@ use App\Livewire\Backend\School\StudentFeeCollectionManagement;
 use App\Livewire\Backend\School\ClasswiseAdmissionFeeManagement;
 use App\Livewire\Backend\School\StudentIdCardSettingsManagement;
 use App\Livewire\Backend\School\StaffsAttendanceReportManagement;
+use App\Livewire\Backend\School\StudentSummaryManagement;
 
 Route::middleware(['checkRole:school,demo_school', 'checkSubscription', 'checkActivatedSchool'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('index');
@@ -70,4 +72,6 @@ Route::middleware(['checkRole:school,demo_school', 'checkSubscription', 'checkAc
     Route::get('/student-id-cards', StudentIdCardSettingsManagement::class)->name('student-id-cards');
     Route::get('/student-id-card/create', StudentIdCardCreateEditForm::class)->name('student-id-card.create');
     Route::get('/student-id-card/{id}/edit', StudentIdCardCreateEditForm::class)->name('student-id-card.edit');
+    Route::get('/generate-admit-card', AdmitCardManagement::class)->name('generate-admit-card');
+    Route::get('/student-summary', StudentSummaryManagement::class)->name('student-summary');
 });

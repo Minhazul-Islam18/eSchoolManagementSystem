@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         if ($searchValue !== null) {
             $result =  Student::where('school_id', school()->id)
                 ->where('name_en', 'like', '%' . $searchValue . '%')
-                ->orWhare('roll', 'like', '%' . $searchValue . '%')
+                ->orWhere('roll', 'like', '%' . $searchValue . '%')
                 ->get();
         } else {
             $result =  Student::allStudents();
@@ -50,4 +50,25 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         return $result;
     })->name('api.students');
+
+    Route::get('get-students', function (Request $request) {
+        $students = [];
+        if ($request->search === null && $request->class_id !== null && $request->section_id !== null || $request->group_id !== null) {
+            $row = isset($request->section_id) ? 'school_class_section_id' : 'class_group_id';
+            $students =  Student::where('school_id', school()->id)
+                ->where('school_class_id', $request->class_id)
+                ->where($row, $request->section_id ?? $request->group_id)
+                ->get();
+        } else if ($request->search !== null && $request->class_id !== null && $request->section_id !== null || $request->group_id !== null) {
+            $row = isset($request->section_id) ? 'school_class_section_id' : 'class_group_id';
+            $students =  Student::where('school_id', school()->id)
+                ->where('school_class_id', $request->class_id)
+                ->where($row, $request->section_id ?? $request->group_id)
+                ->where('name_en', 'like', '%' . $request->search . '%')
+                ->orWhere('roll', 'like', '%' . $request->search . '%')
+                ->get();
+        }
+
+        return $students;
+    })->name('api.students-by-class-section');
 });

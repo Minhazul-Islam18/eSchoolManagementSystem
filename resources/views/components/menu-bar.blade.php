@@ -73,7 +73,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('school.students-attendance') }}" data-fc-type="collapse" class="menu-link"
+                    <a href="{{ route('school.student-summary') }}" data-fc-type="collapse" class="menu-link"
                         data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Student Summary') }} </span>
                     </a>

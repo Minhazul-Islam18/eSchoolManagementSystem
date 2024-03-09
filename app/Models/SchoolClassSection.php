@@ -106,4 +106,14 @@ class SchoolClassSection extends Model
     {
         return $this->hasMany(SchoolFee::class);
     }
+
+    /**
+     * Get all of the exams for the classGroup
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function exams(): HasMany
+    {
+        return $this->hasMany(SchoolExam::class, 'school_class_section_id');
+    }
 }

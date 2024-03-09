@@ -203,4 +203,14 @@ class School extends Model
     {
         return $this->hasMany(ClassWiseAdmissionFee::class, 'school_id');
     }
+
+    /**
+     * Get all of the exams for the classGroup
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function exams(): HasMany
+    {
+        return $this->hasMany(SchoolExam::class, 'school_id');
+    }
 }

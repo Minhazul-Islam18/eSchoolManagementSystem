@@ -85,7 +85,7 @@
         <button type="button" id="print" wire:ignore
             class="px-6 py-2 text-white font-sm text-sm rounded bg-sky-600 flex gap-3 mt-3 mb-4 items-center">
             {{ 'Print' }}
-            <i class="text-sm" data-lucide="printer"></i>
+            <i class="text-sm" data-lucide="printer" wire:ignore></i>
         </button>
         <div class="py-8 px-4 mt-4" id="reportTable">
             @if (!empty($paginatedData))
