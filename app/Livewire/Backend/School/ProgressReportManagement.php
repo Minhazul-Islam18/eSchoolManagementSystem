@@ -2,15 +2,14 @@
 
 namespace App\Livewire\Backend\School;
 
-use App\Models\classGroup;
-use App\Models\SchoolClass;
+use App\Models\Student;
 use Livewire\Component;
+use App\Models\SchoolClass;
 use Livewire\Attributes\Computed;
 use App\Models\SchoolClassSection;
-use App\Models\Student;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-class StudentSummaryManagement extends Component
+class ProgressReportManagement extends Component
 {
     use LivewireAlert;
     public $class_id;
@@ -63,30 +62,31 @@ class StudentSummaryManagement extends Component
 
     public function getStudentSummary()
     {
-        $this->validate([
-            'class_id' => 'required',
-            'student_id' => 'required'
-        ]);
+        // $this->validate([
+        //     'class_id' => 'required',
+        //     'student_id' => 'required'
+        // ]);
 
-        if (isset($this->class_id, $this->student_id) && isset($this->section_id) || isset($this->group_id)) {
-            if (isset($this->class_id, $this->student_id)) {
-                $this->student = Student::with(['fees', 'admissionFees', 'monthlyFees'])->findOrFail($this->student_id);
+        // if (isset($this->class_id, $this->student_id) && isset($this->section_id) || isset($this->group_id)) {
+        //     if (isset($this->class_id, $this->student_id)) {
+        //         $this->student = Student::with(['fees', 'admissionFees', 'monthlyFees'])->findOrFail($this->student_id);
 
-                if ($this->class_id) {
-                    $this->class = SchoolClass::findBySchool($this->class_id);
-                }
-                if (isset($this->section_id)) {
-                    $this->section = SchoolClassSection::where('school_class_id', $this->class_id)
-                        ->where('id', $this->section_id)
-                        ->firstOrFail();
-                } elseif (isset($this->group_id)) {
-                    $this->group = classGroup::findOrFail($this->group_id);
-                }
-            }
-        }
+        //         if ($this->class_id) {
+        //             $this->class = SchoolClass::findBySchool($this->class_id);
+        //         }
+        //         if (isset($this->section_id)) {
+        //             $this->section = SchoolClassSection::where('school_class_id', $this->class_id)
+        //                 ->where('id', $this->section_id)
+        //                 ->firstOrFail();
+        //         } elseif (isset($this->group_id)) {
+        //             $this->group = classGroup::findOrFail($this->group_id);
+        //         }
+        //     }
+        // }
     }
+
     public function render()
     {
-        return view('livewire.backend.school.student-summary-management');
+        return view('livewire.backend.school.progress-report-management');
     }
 }

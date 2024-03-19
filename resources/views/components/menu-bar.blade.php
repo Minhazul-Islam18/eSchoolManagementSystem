@@ -209,7 +209,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('under-development') }}" data-fc-type="collapse" class="menu-link"
+                    <a href="{{ route('school.exam-results') }}" data-fc-type="collapse" class="menu-link"
                         data-fc-parent="child-accordion">
                         <span class="menu-text"> {{ __('Mark Entry') }} </span>
                     </a>

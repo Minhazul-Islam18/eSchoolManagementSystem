@@ -154,6 +154,16 @@ class ExamResultManagement extends Component
         if ($e == null) {
             throw new Exception('This total number doesn\'t have any rule, Please set rule for this.', 203);
         }
+
+        if ($totalNumber >= $e->starts_at && $totalNumber <= $e->ends_at) {
+            $point = $e->point;
+            // Calculate extra fraction based on the range
+            $extra_fraction = ($totalNumber - $e->starts_at + 1) / 100 * 10;
+            $point += $extra_fraction;
+
+            // dd($point, $extra_fraction, $totalNumber, ($totalNumber - $e->starts_at) / 100 * 10);
+        }
+
         SchoolExamResult::create([
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
@@ -166,6 +176,7 @@ class ExamResultManagement extends Component
             'practical' => $this->practical,
             'total' => $totalNumber,
             'grade' => $e->grade,
+            'point' => $point,
             'school_id' => school()->id
         ]);
         $this->resetFields();
@@ -214,6 +225,14 @@ class ExamResultManagement extends Component
         if ($e == null) {
             throw new Exception('This total number doesn\'t have any rule, Please set rule for this.', 203);
         }
+
+        if ($totalNumber >= $e->starts_at && $totalNumber <= $e->ends_at) {
+            $point = $e->point;
+            // Calculate extra fraction based on the range
+            $extra_fraction = ($totalNumber - $e->starts_at + 1) / 100 * 10;
+            $point += $extra_fraction;
+        }
+
         $this->editable_item->update([
             'school_class_id' => $this->class_id,
             'school_class_section_id' => $this->section_id,
@@ -226,6 +245,7 @@ class ExamResultManagement extends Component
             'practical' => $this->practical,
             'total' => $totalNumber,
             'grade' => $e->grade,
+            'point' => $point,
         ]);
         $this->dispatch('closeModal');
         $this->alert('success', 'Exam result updated');

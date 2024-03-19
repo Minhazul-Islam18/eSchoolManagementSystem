@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('grading_rules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('grade_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('point');
+            $table->decimal('point', 8, 2);
             $table->string('grade');
             $table->string('starts_at');
             $table->string('ends_at');

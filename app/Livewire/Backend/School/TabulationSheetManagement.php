@@ -2,23 +2,21 @@
 
 namespace App\Livewire\Backend\School;
 
-use App\Models\classGroup;
-use App\Models\SchoolClass;
+use App\Models\Student;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use App\Models\SchoolClassSection;
-use App\Models\Student;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-class StudentSummaryManagement extends Component
+class TabulationSheetManagement extends Component
 {
     use LivewireAlert;
     public $class_id;
     public $section_id;
     public $student_id;
-    public $student;
     public $exam_id;
     public $group_id;
+    public $student = [];
     public $sections = [];
     public $groups = [];
     public $exams = [];
@@ -33,6 +31,17 @@ class StudentSummaryManagement extends Component
     {
         return school()->classes;
     }
+
+    #[Computed()]
+    public function subjects()
+    {
+        return isset($this->section_id)
+            ? (school()->classes()->find($this->class_id)?->classSections()->find($this->section_id)?->subjects)
+            : (isset($this->group_id)
+                ? (school()->classes()->find($this->class_id)?->groups()->find($this->group_id)?->subjects)
+                : []);
+    }
+
     public function getSection()
     {
         if (null != $this->class_id) {
@@ -55,38 +64,40 @@ class StudentSummaryManagement extends Component
 
     public function getExams()
     {
+        $this->subjects();
         if (null != $this->class_id && $this->section_id != null || $this->group_id != null) {
             $rowSelect = $this->section_id != null ? 'school_class_section_id' : 'group_id';
             $this->exams = school()->exams()->where('school_class_id', $this->class_id)->where($rowSelect, $this->section_id ?? $this->group_id)->get();
         }
     }
 
-    public function getStudentSummary()
+    public function getTabulationSheet()
     {
-        $this->validate([
-            'class_id' => 'required',
-            'student_id' => 'required'
-        ]);
+        // $this->validate([
+        //     'class_id' => 'required',
+        //     'exam_id' => 'required'
+        // ]);
 
-        if (isset($this->class_id, $this->student_id) && isset($this->section_id) || isset($this->group_id)) {
-            if (isset($this->class_id, $this->student_id)) {
-                $this->student = Student::with(['fees', 'admissionFees', 'monthlyFees'])->findOrFail($this->student_id);
+        if (isset($this->class_id) && isset($this->section_id) || isset($this->group_id)) {
+            if (isset($this->class_id)) {
+                $this->student = Student::with(['school_exam_results'])->get();
 
-                if ($this->class_id) {
-                    $this->class = SchoolClass::findBySchool($this->class_id);
-                }
-                if (isset($this->section_id)) {
-                    $this->section = SchoolClassSection::where('school_class_id', $this->class_id)
-                        ->where('id', $this->section_id)
-                        ->firstOrFail();
-                } elseif (isset($this->group_id)) {
-                    $this->group = classGroup::findOrFail($this->group_id);
-                }
+                // dd($this->student[1]->school_exam_results);
+                // if ($this->class_id) {
+                //     $this->class = SchoolClass::findBySchool($this->class_id);
+                // }
+                // if (isset($this->section_id)) {
+                //     $this->section = SchoolClassSection::where('school_class_id', $this->class_id)
+                //         ->where('id', $this->section_id)
+                //         ->firstOrFail();
+                // } elseif (isset($this->group_id)) {
+                //     $this->group = classGroup::findOrFail($this->group_id);
+                // }
             }
         }
     }
     public function render()
     {
-        return view('livewire.backend.school.student-summary-management');
+        return view('livewire.backend.school.tabulation-sheet-management');
     }
 }
