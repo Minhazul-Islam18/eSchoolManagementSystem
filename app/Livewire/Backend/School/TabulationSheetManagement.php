@@ -73,27 +73,18 @@ class TabulationSheetManagement extends Component
 
     public function getTabulationSheet()
     {
-        // $this->validate([
-        //     'class_id' => 'required',
-        //     'exam_id' => 'required'
-        // ]);
+        $this->validate([
+            'class_id' => 'required',
+            'exam_id' => 'required'
+        ]);
 
         if (isset($this->class_id) && isset($this->section_id) || isset($this->group_id)) {
-            if (isset($this->class_id)) {
-                $this->student = Student::with(['school_exam_results'])->get();
-
-                // dd($this->student[1]->school_exam_results);
-                // if ($this->class_id) {
-                //     $this->class = SchoolClass::findBySchool($this->class_id);
-                // }
-                // if (isset($this->section_id)) {
-                //     $this->section = SchoolClassSection::where('school_class_id', $this->class_id)
-                //         ->where('id', $this->section_id)
-                //         ->firstOrFail();
-                // } elseif (isset($this->group_id)) {
-                //     $this->group = classGroup::findOrFail($this->group_id);
-                // }
-            }
+            $rowSelect = $this->section_id != null ? 'school_class_section_id' : 'class_group_id';
+            $this->student = Student::with(['school_exam_results'])
+                ->where('school_id', school()->id)
+                ->where('school_class_id', $this->class_id)
+                ->where($rowSelect, $this->section_id ?? $this->group_id)
+                ->get();
         }
     }
     public function render()

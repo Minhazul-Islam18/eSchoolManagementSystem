@@ -10,7 +10,7 @@
             </header>
             <div class="mb-3 sm:mb-4">
                 <h4 class="text-2xl mt-4 mb-2">Filter</h4>
-                <form wire:submit='getTabulationSheet' class="flex gap-4 justify-start items-end">
+                <form wire:submit='getTabulationSheet' class="flex gap-4 justify-start items-center">
                     <div class="">
                         <label for="" class="form-label">Class</label>
                         <select wire:model.blur='class_id' class="form-select rounded" wire:change='getSection'
